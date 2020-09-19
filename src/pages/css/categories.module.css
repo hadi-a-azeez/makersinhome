@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+}
+.btn {
+  padding: 20px 0px;
+  border-radius: 4px;
+  background: black;
+  color: white;
+  font-weight: 600;
+  border: black;
+  width: 81%;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.card {
+  width: 81%;
+  height: 90px;
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 0.1rem;
+  border-color: black;
+  position: relative;
+  margin: 10px;
+}
+.heading_bold {
+  font-weight: 600;
+  font-size: 28px;
+  margin-top: 10px;
+  margin-left: 8%;
+}
+.heading_small {
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 8%;
+}

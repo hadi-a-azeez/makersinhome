@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  height: calc(100vh - 70px);
+}
+.input_field {
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+.btn {
+  padding: 18px 0px;
+  border-radius: 4px;
+  background: #00b140;
+  color: white;
+  font-weight: 600;
+  border: none;
+  width: 86%;
+  margin-top: auto;
+  margin-bottom: 70px;
+}
+.heading_bold {
+  font-weight: 600;
+  font-size: 20px;
+  text-align: left;
+}
+.heading_bold_small {
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.align_left_container {
+  margin-top: 20px;
+  width: 80%;
+  height: 20px;
+  margin-left: 6%;
+  margin-bottom: 30px;
+}
