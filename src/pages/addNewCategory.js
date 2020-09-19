@@ -13,7 +13,7 @@ const AddNewCategory = () => {
           id="parentcategory"
           className={styles.dropdown}
         >
-          <option value="" disabled selected hidden>
+          <option value="" disabled defaultValue hidden>
             parent category
           </option>
           <option value="volvo">Cake</option>

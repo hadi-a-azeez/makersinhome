@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./css/dashboard.module.css";
+import { Link } from "react-router-dom";
+
 const Dashboard = () => {
   return (
     <>
@@ -11,7 +13,17 @@ const Dashboard = () => {
             <h1 className={styles.store_card_address}>Koduvally, calicut</h1>
           </div>
         </div>
-        <button className={styles.btn}>ADD PRODUCT</button>
+        <button className={styles.btn}>
+          <Link
+            to="/add_product"
+            style={{
+              color: `white`,
+              textDecoration: `none`,
+            }}
+          >
+            ADD PRODUCTS
+          </Link>
+        </button>
         <div className={styles.heading_block}>
           <h1 className={styles.heading_bold}>Dashboard</h1>
         </div>

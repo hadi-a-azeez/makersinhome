@@ -6,22 +6,22 @@
   margin-top: 20px;
 }
 .input_field {
-  padding: 10px;
+  padding: 12px;
   background: #fff;
-  border-color: black;
-  border-width: 0.1rem;
+  border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 20px;
-  width: 75%;
+  width: 80%;
 }
 .btn {
-  padding: 20px 0px;
+  padding: 18px 0px;
   border-radius: 4px;
-  background: black;
+  background: #00b140;
   color: white;
   font-weight: 600;
   border: black;
-  width: 81%;
+  width: 86%;
+  margin-bottom: 70px;
 }
 .heading_bold {
   font-weight: 600;
@@ -31,15 +31,15 @@
 .align_left_container {
   margin-top: 40px;
   width: 80%;
-  margin-left: 10%;
+  margin-left: 6%;
   margin-bottom: 10px;
 }
 .dropdown {
-  width: 81%;
+  width: 86%;
   padding: 10px;
   background: #fff;
-  border-color: black;
-  border-width: 0.1rem;
+  border: 1px solid #ccc;
+  color: gray;
   border-radius: 4px;
   margin-bottom: 20px;
 }

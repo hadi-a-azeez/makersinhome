@@ -11,8 +11,7 @@
   background-color: white;
   height: 80px;
   border-radius: 4px;
-  border-style: solid;
-  border-width: 0.1rem;
+  border: 1px solid #ccc;
   margin-top: 20px;
 }
 .store_card_content {
@@ -23,7 +22,7 @@
   margin-top: 5px;
   margin-bottom: 0.5em;
   border-width: 1px;
-  color: black;
+  color: #ccc;
   width: 95%;
 }
 .store_card_address {
@@ -36,38 +35,16 @@
   font-weight: 600;
 }
 .btn {
-  padding: 20px 0px;
+  padding: 18px 0px;
   border-radius: 4px;
-  background: black;
+  background: #00b140;
   color: white;
   font-weight: 600;
   border: black;
   width: 98%;
   margin-top: 10px;
 }
-.btn_outline {
-  padding: 20px 0px;
-  border-radius: 4px;
-  background: white;
-  color: black;
-  font-weight: 600;
-  border-style: solid;
-  border-width: 0.1rem;
-  border-color: black;
-  width: 98%;
-  margin-top: 10px;
-}
-.btn:hover {
-  background-color: white;
-  color: black;
-  border-style: solid;
-  border-width: 0.1rem;
-  border-color: black;
-}
-.btn_outline:hover {
-  background-color: black;
-  color: white;
-}
+
 .heading_block {
   width: 100%;
   align-items: flex-start;
@@ -90,8 +67,7 @@
   background-color: white;
   height: 80px;
   border-radius: 4px;
-  border-style: solid;
-  border-width: 0.1rem;
+  border: 1px solid #ccc;
 }
 .card_content {
   display: flex;
