@@ -1,10 +1,21 @@
 import React from "react";
 import styles from "./css/products.module.css";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   return (
     <div className={styles.container}>
-      <button className={styles.btn}>ADD PRODUCTS</button>
+      <button className={styles.btn}>
+        <Link
+          to="/add_product"
+          style={{
+            color: `white`,
+            textDecoration: `none`,
+          }}
+        >
+          ADD PRODUCTS
+        </Link>
+      </button>
       {/* card one */}
       <div className={styles.card}>
         <div className={styles.image_block}>
