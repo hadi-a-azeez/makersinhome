@@ -63,6 +63,8 @@ const BottomNavigationMenu = () => {
               label="Account"
               icon={<PersonIcon />}
               className={classes.element}
+              component={Link}
+              to="/signin"
             />
           </BottomNavigation>
         </nav>
