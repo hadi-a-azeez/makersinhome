@@ -25,9 +25,7 @@ const AddNewProduct = () => {
         <FilePond
           files={files}
           onupdatefiles={(fileItems) => {
-            if (fileItems.length === 0) {
-              onRequestClear();
-            }
+           
 
             setFiles(fileItems.map((fileItem) => fileItem.file));
           }}
