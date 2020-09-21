@@ -27,7 +27,7 @@ const AddNewProduct = () => {
           onupdatefiles={setFiles}
           allowMultiple={true}
           maxFiles={3}
-          name="files"
+          name="product_image"
           imagePreviewHeight={100}
           server="https://albananuae.com/seller/products/uploadimage"
           labelIdle="Upload image"
