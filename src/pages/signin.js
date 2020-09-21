@@ -15,7 +15,7 @@ const SignIn = () => {
         password: loginPassword,
       },
 
-      url: "https://shopwhats-backend.herokuapp.com/login",
+      url: "https://albananuae.com/seller/login",
     }).then(function (response) {
       console.log(response);
       if (response.data.message.login === true) {
