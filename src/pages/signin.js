@@ -18,7 +18,7 @@ const SignIn = () => {
       url: "https://albananuae.com/seller/login",
     }).then(function (response) {
       console.log(response);
-      if (response.data.message.login === true) {
+      if (response.login === true) {
         console.log("need to be redirected");
         history.push("/dashboard");
       }
