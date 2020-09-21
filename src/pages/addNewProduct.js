@@ -24,7 +24,13 @@ const AddNewProduct = () => {
       <div className={styles.image_uploader_wraper}>
         <FilePond
           files={files}
-          onupdatefiles={setFiles}
+          onupdatefiles={(fileItems) => {
+            if (fileItems.length === 0) {
+              onRequestClear();
+            }
+
+            setFiles(fileItems.map((fileItem) => fileItem.file));
+          }}
           allowMultiple={true}
           maxFiles={3}
           name="product_image"
