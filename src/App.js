@@ -24,6 +24,7 @@ function App() {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/add_category" component={AddNewCategory} />
           <Route path="/categories" component={Categories} />
+          <Route path="/signin" component={SignIn} />
         </Switch>
       </Router>
     );
@@ -32,7 +33,6 @@ function App() {
     <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
-        <Route path="/signin" component={SignIn} />
         <Route component={AuthenticatedRoutes} />
       </Switch>
     </Router>
