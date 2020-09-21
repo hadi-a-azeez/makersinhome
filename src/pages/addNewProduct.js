@@ -29,7 +29,7 @@ const AddNewProduct = () => {
           maxFiles={3}
           name="files"
           imagePreviewHeight={100}
-          server="https://shopwhats-backend.herokuapp.com/seller/products/uploadimage"
+          server="https://albananuae.com/seller/products/uploadimage"
           labelIdle="Upload image"
         />
       </div>
