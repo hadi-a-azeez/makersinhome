@@ -1,0 +1,34 @@
+{productsData.data.data.product_name &&
+          productsData.data.data.map((item, index) => (
+            <div className={styles.card} key={index}>
+              <div className={styles.image_block}>
+                <div className={styles.thumbnail}>
+                  <img
+                    src="https://media.thieve.co/products%2ForFARmD6aOq92uEuwmVb.jpg?fm=jpg&dpr=1&q=70&w=354&h=354"
+                    alt="image"
+                    className={styles.thumbnail_image}
+                  />
+                </div>
+              </div>
+              <div className={styles.product_details}>
+                <h1 className={styles.heading_bold_product}>
+                  {item.product_name}
+                </h1>
+                <h1 className={styles.heading_normal}>2000 Rs</h1>
+                <div className={styles.stock_block}>
+                  <h1 className={styles.heading_bold}>In stock</h1>
+                  <div className={styles.toggle}>
+                    <Switch
+                      onChange={handleChange}
+                      checked={checked}
+                      uncheckedIcon={false}
+                      checkedIcon={false}
+                      onColor="#00b140"
+                      width={32}
+                      height={17}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
