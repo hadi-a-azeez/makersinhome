@@ -37,7 +37,7 @@ const Categories = () => {
           categoriesArray.map((item, index) => (
             <div className={styles.card} key={index}>
               <h1 className={styles.heading_bold}>{item.cat_name}</h1>
-              <h1 className={styles.heading_small}>{handleCount(item.id)}</h1>
+              <h1 className={styles.heading_small}>3 products</h1>
             </div>
           ))}
 

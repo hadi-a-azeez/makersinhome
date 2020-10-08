@@ -9,17 +9,17 @@ import axios from "axios";
 const Products = () => {
   const [isLogin, setIsLogin] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
+  const [stock, setStock] = useState(1);
   let history = useHistory();
 
-  const handleChange = (id) => {
-    /* const productFlipApi = `https://fliqapp.xyz/api/seller/products/stock/${id}`;
+  const handleChange = (a, b, id) => {
+    let Id = parseInt(id);
+    const productFlipApi = `https://fliqapp.xyz/api/seller/products/stock/${Id}`;
     try {
-      axios
+      const api = axios
         .put(
           productFlipApi,
-          {
-            id: id,
-          },
+          {},
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -28,10 +28,11 @@ const Products = () => {
         )
         .then((response) => {
           console.log(response);
+          setStock(stock + 1);
         });
     } catch (error) {
       return error;
-    } */
+    }
   };
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const Products = () => {
     getProductsData();
     const token = localStorage.getItem("token");
     console.log(token);
-  }, []);
+  }, [stock]);
 
   let inStock = "In stock";
   let outOfStock = "Out of stock";
@@ -73,14 +74,16 @@ const Products = () => {
                 <h1 className={styles.heading_bold_product}>
                   {item.product_name}
                 </h1>
-                <h1 className={styles.heading_normal}>{item.product_price}</h1>
+                <h1
+                  className={styles.heading_normal}
+                >{`₹${item.product_price}`}</h1>
                 <div className={styles.stock_block}>
                   <h1 className={styles.heading_bold}>
                     {item.product_stock ? inStock : outOfStock}
                   </h1>
                   <div className={styles.toggle}>
                     <Switch
-                      /* id={item.id} */
+                      id={String(item.id)}
                       onChange={handleChange}
                       checked={item.product_stock ? true : false}
                       uncheckedIcon={false}
