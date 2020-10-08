@@ -14,13 +14,14 @@ const SignIn = () => {
         phone: loginUsername,
         password: loginPassword,
       },
-
-      url: "https://shopwhats-backend.herokuapp.com/login",
+      url: "https://fliqapp.xyz/api/seller/login",
     }).then(function (response) {
       console.log(response);
-      if (response.data.message.login === true) {
+      if (response.data.token) {
         console.log("need to be redirected");
         history.push("/dashboard");
+        localStorage.removeItem("token");
+        localStorage.setItem("token", response.data.token);
       }
     });
   };

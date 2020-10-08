@@ -3,10 +3,10 @@ import styles from "./bottomNavigation.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import HomeIcon from "@material-ui/icons/HomeRounded";
-import LayersIcon from "@material-ui/icons/LayersRounded";
-import DashboardIcon from "@material-ui/icons/DashboardRounded";
-import PersonIcon from "@material-ui/icons/PersonRounded";
+import HomeIcon from "@material-ui/icons/HomeOutlined";
+import LayersIcon from "@material-ui/icons/LayersOutlined";
+import DashboardIcon from "@material-ui/icons/DashboardOutlined";
+import PersonIcon from "@material-ui/icons/PersonOutlined";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     width: "100%",
     padding: 3,
     margin: "100%",
-    color: "#616161",
+    color: "#767676",
     "&$selected": {
       color: "red",
     },
@@ -64,7 +64,7 @@ const BottomNavigationMenu = () => {
               icon={<PersonIcon />}
               className={classes.element}
               component={Link}
-              to="/signin"
+              to="/account"
             />
           </BottomNavigation>
         </nav>

@@ -10,6 +10,7 @@ import Dashboard from "./pages/dashboard";
 import BottomNavigationMenu from "./components/bottomNavigation";
 import AddNewCategory from "./pages/addNewCategory";
 import Categories from "./pages/categories";
+import Account from "./pages/account";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/add_category" component={AddNewCategory} />
           <Route path="/categories" component={Categories} />
+          <Route path="/account" component={Account} />
         </Switch>
       </Router>
     );
@@ -32,7 +34,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
-        <Route path="/signin" component={SignIn} />
+        <Route exact path="/" component={SignIn} />
         <Route component={AuthenticatedRoutes} />
       </Switch>
     </Router>

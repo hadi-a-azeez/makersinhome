@@ -6,7 +6,7 @@
   margin-left: 5%;
   margin-right: 5%;
 }
-.card_store_info {
+/* .card_store_info {
   width: 97%;
   background-color: white;
   height: 80px;
@@ -33,7 +33,7 @@
 .store_card_heading {
   font-size: 16px;
   font-weight: 600;
-}
+} */
 .btn {
   padding: 18px 0px;
   border-radius: 4px;
@@ -82,7 +82,7 @@
   text-transform: uppercase;
 }
 .card_data_bold {
-  font-size: 24px;
-  font-weight: 600px;
+  font-size: 26px;
+  font-weight: 400px;
   margin-top: 5px;
 }

@@ -6,13 +6,6 @@ const Dashboard = () => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.card_store_info}>
-          <div className={styles.store_card_content}>
-            <h1 className={styles.store_card_heading}>Naz shop</h1>
-            <hr className={styles.line} />
-            <h1 className={styles.store_card_address}>Koduvally, calicut</h1>
-          </div>
-        </div>
         <button className={styles.btn}>
           <Link
             to="/add_product"

@@ -16,20 +16,17 @@ const AddNewProduct = () => {
 
   return (
     <>
-      <div className={styles.align_left_container}>
-        <h1 className={styles.heading_bold}>Add new product</h1>
-        {/* <h1 className={styles.heading_bold_small}>Images</h1> */}
-      </div>
-
       <div className={styles.image_uploader_wraper}>
         <FilePond
           files={files}
-          onupdatefiles={setFiles}
+          onupdatefiles={(fileItems) => {
+            setFiles(fileItems.map((fileItem) => fileItem.file));
+          }}
           allowMultiple={true}
           maxFiles={3}
-          name="files"
+          name="product_image"
           imagePreviewHeight={100}
-          server="https://shopwhats-backend.herokuapp.com/seller/products/uploadimage"
+          server="https://albananuae.com/seller/products/uploadimage"
           labelIdle="Upload image"
         />
       </div>
@@ -69,6 +66,9 @@ const AddNewProduct = () => {
           rows="4"
         />
         <button className={styles.btn}>Add product</button>
+        <div className={styles.header}>
+          <h1 className={styles.heading_normal}>Add new product</h1>
+        </div>
       </div>
     </>
   );
