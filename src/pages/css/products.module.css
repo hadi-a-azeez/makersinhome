@@ -39,6 +39,8 @@
   border: none;
   width: 86%;
   margin-bottom: 60px;
+  text-align: center;
+  text-decoration: none;
   /*  margin-top: 20px;
   margin-bottom: 10px; */
 }
@@ -93,4 +95,17 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+.link {
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+.loaderwraper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

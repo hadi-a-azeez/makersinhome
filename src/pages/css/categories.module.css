@@ -29,6 +29,8 @@
   border: black;
   width: 86%;
   margin-bottom: 60px;
+  text-align: center;
+  text-decoration: none;
 }
 .card {
   width: 86%;
@@ -61,4 +63,17 @@
 }
 .blank_two {
   margin-top: 60px;
+}
+.loaderwraper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.link {
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  color: black;
 }

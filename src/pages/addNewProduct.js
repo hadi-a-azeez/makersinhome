@@ -1,71 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./css/addNewProduct.module.css";
-import "./css/filepond.css";
-import { FilePond, File, registerPlugin } from "react-filepond";
-// Import FilePond styles
-import "filepond/dist/filepond.min.css";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-// Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+import { fetchCategoriesApi } from "../api";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const AddNewProduct = () => {
-  const [files, setFiles] = useState([]);
+  const history = useHistory();
+  const [productName, setProductName] = useState("");
+  const [originalPrice, setOriginalPrice] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [categoriesArray, setCategoriesArray] = useState([]);
+  const [isLogin, setIsLogin] = useState([]);
+  const [id, setId] = useState("");
+
+  useEffect(() => {
+    const getCategoriesData = async () => {
+      const Data = await fetchCategoriesApi();
+      setIsLogin(Data.data.login);
+      setCategoriesArray(Data.data.data);
+      console.log(Data);
+    };
+    getCategoriesData();
+  }, []);
+
+  const handleCategoryClick = (id) => {
+    setCategory(id);
+    console.log(id);
+  };
+
+  const handleNextClick = async () => {
+    const postApi = "https://fliqapp.xyz/api/seller/products";
+
+    try {
+      const post = await axios
+        .post(
+          postApi,
+          {
+            product_name: productName,
+            product_desc: description,
+            product_price: originalPrice,
+            product_cat: category,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((response) => {
+          const id = response.data.data.product_id;
+          history.push(`/add_image/${id}`);
+          console.log(id);
+          console.log(response);
+        });
+    } catch (error) {
+      return error;
+    }
+
+    console.log("clicked");
+  };
 
   return (
     <>
-      <div className={styles.image_uploader_wraper}>
-        <FilePond
-          files={files}
-          onupdatefiles={(fileItems) => {
-            setFiles(fileItems.map((fileItem) => fileItem.file));
-          }}
-          allowMultiple={true}
-          maxFiles={3}
-          name="product_image"
-          imagePreviewHeight={100}
-          server="https://albananuae.com/seller/products/uploadimage"
-          labelIdle="Upload image"
-        />
-      </div>
       <div className={styles.container}>
+        <div className={styles.blank}></div>
         <input
           type="text"
           className={styles.input_field}
-          placeholder="Product name"
+          placeholder="Product name*"
+          onChange={(e) => setProductName(e.target.value)}
         />
         <input
           type="text"
           className={styles.input_field}
-          placeholder="original price"
+          placeholder="original price*"
+          onChange={(e) => setOriginalPrice(e.target.value)}
         />
         <input
           type="text"
           className={styles.input_field}
           placeholder="new price"
+          onChange={(e) => setNewPrice(e.target.value)}
         />
         <select
           name="parent category"
           id="parentcategory"
           className={styles.dropdown}
+          defaultValue={"DEFAULT"}
+          onChange={(e) => handleCategoryClick(e.target.value)}
         >
-          <option disabled defaultValue hidden>
-            product category
+          <option value="DEFAULT" disabled>
+            select category
           </option>
-          <option>Cake</option>
-          <option>Deserts</option>
-          <option>Bag</option>
-          <option>Craft</option>
+          {isLogin &&
+            categoriesArray.map((item, index) => (
+              <option value={item.id} key={index}>
+                {item.cat_name}
+              </option>
+            ))}
         </select>
         <textarea
           type="textarea"
           className={styles.input_field}
           placeholder="Description"
           rows="4"
+          onChange={(e) => setDescription(e.target.value)}
         />
-        <button className={styles.btn}>Add product</button>
+        <button className={styles.btn} onClick={handleNextClick}>
+          Next
+        </button>
+
         <div className={styles.header}>
           <h1 className={styles.heading_normal}>Add new product</h1>
         </div>

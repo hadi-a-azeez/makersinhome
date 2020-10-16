@@ -3,33 +3,39 @@ import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Switch from "react-switch";
-import { fetchProductsApi } from "../api";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const Products = () => {
+const ProductsCategory = (props) => {
   const [isLogin, setIsLogin] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [stock, setStock] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const id = props.match.params.id;
   let history = useHistory();
 
   useEffect(() => {
     const getProductsData = async () => {
       setIsLoading(true);
-      const productsData = await fetchProductsApi();
-      setIsLogin(productsData.data.login);
-      setProductsArray(productsData.data.data);
-      setIsLoading(false);
-      console.log(productsData.data);
-      if (productsData.data.login === false) {
-        history.push("/");
-      }
+      const productsApi = `https://fliqapp.xyz/api/seller/products/catogories/${id}`;
+      await axios
+        .get(productsApi, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          setIsLogin(response.data.login);
+          setProductsArray(response.data.data);
+          setIsLoading(false);
+          console.log(productsArray);
+          if (response.data.login === false) {
+            history.push("/");
+          }
+        });
     };
     getProductsData();
-    const token = localStorage.getItem("token");
-    console.log(token);
   }, [stock]);
 
   //in stock,out of stock update
@@ -57,7 +63,7 @@ const Products = () => {
     }
   };
 
-  //product click hanle
+  //product click handle
   const handleButtonClick = (productId) => {
     console.log(productId);
   };
@@ -143,4 +149,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductsCategory;

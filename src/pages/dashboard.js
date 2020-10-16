@@ -6,17 +6,9 @@ const Dashboard = () => {
   return (
     <>
       <div className={styles.container}>
-        <button className={styles.btn}>
-          <Link
-            to="/add_product"
-            style={{
-              color: `white`,
-              textDecoration: `none`,
-            }}
-          >
-            ADD PRODUCTS
-          </Link>
-        </button>
+        <Link to="/add_product" className={styles.btn}>
+          ADD PRODUCTS
+        </Link>
         <div className={styles.heading_block}>
           <h1 className={styles.heading_bold}>Dashboard</h1>
         </div>

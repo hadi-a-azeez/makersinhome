@@ -11,6 +11,8 @@ import BottomNavigationMenu from "./components/bottomNavigation";
 import AddNewCategory from "./pages/addNewCategory";
 import Categories from "./pages/categories";
 import Account from "./pages/account";
+import AddImage from "./pages/addImage";
+import ProductsCategory from "./pages/productsCategory";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -19,9 +21,11 @@ function App() {
         <BottomNavigationMenu />
         <Switch>
           <Route path="/add_product" component={AddNewProduct} />
+          <Route path="/add_image/:id" component={AddImage} />
           <Route path="/store_info" component={StoreInfo} />
           <Route path="/products" component={Products} />
-          <Route path="/product_detailed" component={ProductDetailed} />
+          <Route path="/product_detailed/:id" component={ProductDetailed} />
+          <Route path="/products_category/:id" component={ProductsCategory} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/add_category" component={AddNewCategory} />
           <Route path="/categories" component={Categories} />

@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import styles from "./css/signup.module.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const SignIn = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   let history = useHistory();
   const signIn = () => {
+    setIsLoading(true);
     axios({
       method: "post",
       data: {
@@ -16,6 +21,7 @@ const SignIn = () => {
       },
       url: "https://fliqapp.xyz/api/seller/login",
     }).then(function (response) {
+      setIsLoading(false);
       console.log(response);
       if (response.data.token) {
         console.log("need to be redirected");
@@ -44,7 +50,19 @@ const SignIn = () => {
           onChange={(e) => setLoginPassword(e.target.value)}
         />
         <button className={styles.btn} onClick={signIn}>
-          Sign in
+          Sign in{" "}
+          {isLoading && (
+            <div className={styles.loader}>
+              <Loader
+                type="Oval"
+                color="white"
+                height={18}
+                width={18}
+                visible={isLoading}
+                style={{ marginLeft: 2 }}
+              />
+            </div>
+          )}
         </button>
       </div>
     </div>
