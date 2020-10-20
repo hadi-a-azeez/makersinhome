@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./css/account.module.css";
+import {Link} from "react-router-dom";
 
 const Account = () => {
   return (
@@ -15,9 +16,9 @@ const Account = () => {
               />
             </div>
           </div>
-          <div className={styles.product_details}>
-            <h1 className={styles.heading_bold_product}>Product name</h1>
-            <h1 className={styles.heading_normal}>2000 Rs</h1>
+          <div className={styles.account_details}>
+            <h1 className={styles.heading_bold_account}>Naz shop</h1>
+            <Link to="/edit_account" className={styles.link}>Edit business details</Link>
           </div>
         </div>
         <div className={styles.header}>

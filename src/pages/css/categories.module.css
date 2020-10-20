@@ -36,18 +36,19 @@
   width: 86%;
   height: 90px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 0.1rem solid #ccc;
   position: relative;
   margin: 10px;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 .heading_bold {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 28px;
   margin-top: 10px;
   margin-left: 8%;
 }
 .heading_small {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 16px;
   margin-top: 5px;
   margin-left: 8%;

@@ -6,7 +6,7 @@
 }
 .card {
   width: 86%;
-  height: 120px;
+  height: auto;
   border-radius: 4px;
   position: relative;
   margin: 10px;
@@ -31,16 +31,16 @@
   width: 100%;
   height: auto;
 }
-.product_details {
+.account_details {
   display: flex;
   flex-direction: column;
   margin-left: 3px;
   justify-content: center;
 }
-.heading_bold_product {
+.heading_bold_account {
   font-weight: 600;
-  font-size: 16px;
-  margin-top: 10%;
+  font-size: 18px;
+  margin-top: 5%;
 }
 
 .header {
@@ -59,4 +59,12 @@
   font-size: 16px;
   text-align: left;
   margin-top: 5px;
+}
+.link {
+  font-weight: 500;
+  font-size: 16px;
+  text-align: left;
+  margin-top: 5px;
+  text-decoration: none;
+  color: blue;
 }

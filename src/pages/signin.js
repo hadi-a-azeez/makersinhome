@@ -50,8 +50,7 @@ const SignIn = () => {
           onChange={(e) => setLoginPassword(e.target.value)}
         />
         <button className={styles.btn} onClick={signIn}>
-          Sign in{" "}
-          {isLoading && (
+          {isLoading ? (
             <div className={styles.loader}>
               <Loader
                 type="Oval"
@@ -59,10 +58,10 @@ const SignIn = () => {
                 height={18}
                 width={18}
                 visible={isLoading}
-                style={{ marginLeft: 2 }}
               />
             </div>
-          )}
+          ) : 
+          <div>Sign in</div>}
         </button>
       </div>
     </div>

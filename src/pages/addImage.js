@@ -30,7 +30,17 @@ const AddImage = (props) => {
           maxFiles={3}
           name="product_image"
           imagePreviewHeight={100}
-          server={`https://fliqapp.xyz/api/seller/products/imageupload/${id}`}
+          server=
+            {
+                {
+                    url: `https://fliqapp.xyz/api/seller/products/imageupload/${id}`,
+                    process: {
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem("token")}`
+                        },
+                    }
+                }
+            }
           labelIdle="Upload image"
         />
       </div>

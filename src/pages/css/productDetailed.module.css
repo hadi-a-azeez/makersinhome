@@ -24,6 +24,18 @@
   text-align: center;
   text-decoration: none;
 }
+.delete_btn {
+  padding: 8px 0px;
+  border-radius: 4px;
+  background: white;
+  color: #d72030;
+  font-weight: 600;
+  border: black;
+  width: 86%;
+  margin-bottom: 5px;
+  text-align: center;
+  text-decoration: none;
+}
 .heading_bold {
   font-weight: 600;
   font-size: 20px;

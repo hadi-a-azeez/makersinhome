@@ -17,13 +17,14 @@
 }
 .card {
   width: 86%;
-  height: 120px;
-  border: 1px solid #ccc;
+  height: auto;
+  border: 0.1rem solid rgba(150, 170, 180, 0.5);
   border-radius: 4px;
   position: relative;
   margin: 10px;
   display: flex;
   flex-direction: row;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 .btn {
   position: fixed;
@@ -45,9 +46,11 @@
   margin-bottom: 10px; */
 }
 .image_block {
+  margin-top: 7px;
   width: 40%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .thumbnail {
   position: relative;
@@ -59,21 +62,32 @@
 .thumbnail_image {
   width: 100%;
   height: auto;
+  border-radius: 4px;
 }
 .product_details {
   display: flex;
   flex-direction: column;
   margin-left: 8px;
+  width: 100%;
 }
 .heading_bold_product {
-  font-weight: 400;
-  font-size: 13px;
-  margin-top: 10%;
+  font-weight: 300;
+  font-size: 18px;
+  margin-top: 5%;
 }
-.heading_bold {
-  font-weight: 600;
+.heading_instock {
+  font-weight: 400;
   font-size: 12px;
-  margin-top: 10%;
+  margin-top: 5%;
+  width: 100%;
+  color: #00b140;
+}
+.heading_outstock {
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 5%;
+  width: 100%;
+  color: red;
 }
 .heading_normal {
   font-weight: 500;
@@ -88,13 +102,19 @@
   margin-top: 60px;
 }
 .toggle {
-  margin-left: 15%;
-  margin-top: 10%;
+  /* margin-left: 15%; */
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin-right: 5%;
+  margin-top: 5%;
 }
 .stock_block {
   display: flex;
   flex-direction: row;
   width: 100%;
+  margin-bottom: 5%;
 }
 .link {
   width: 100%;

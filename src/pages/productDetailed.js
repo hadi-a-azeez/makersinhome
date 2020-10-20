@@ -11,6 +11,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { useHistory } from "react-router-dom";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -24,6 +25,7 @@ const ProductDetailed = (props) => {
   const [productName, setProductName] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
   const [description, setDescription] = useState("");
+  let history = useHistory();
   const id = props.match.params.id;
   const handleChange = (checked) => {
     setChecked(checked);
@@ -42,9 +44,35 @@ const ProductDetailed = (props) => {
         setIsLoading(false);
         setIsLogin(response.data.login);
         setProductsArray(response.data.data);
+        setFiles(response.data.data[0].images);
         console.log(response);
       });
   }, []);
+
+  const handleDelete = ()=>{
+    console.log("delete");
+    const productDeleteApi = `https://fliqapp.xyz/api/seller/products/${id}`;
+    setIsLoading(true);
+    try {
+      const api = axios
+        .delete(
+          productDeleteApi,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((response) => {
+          setIsLoading(false);
+          history.push('/products');
+          console.log(response);
+
+        });
+    } catch (error) {
+      return error;
+    }
+  }
 
   return (
     <>
@@ -118,6 +146,7 @@ const ProductDetailed = (props) => {
                   </div>
                 </label>
               </div>
+              <button className={styles.delete_btn} onClick={handleDelete}>Delete this product</button>
               <button className={styles.btn}>Update product</button>
             </div>
           ))}

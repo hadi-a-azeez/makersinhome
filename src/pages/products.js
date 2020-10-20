@@ -62,9 +62,6 @@ const Products = () => {
     console.log(productId);
   };
 
-  let inStock = "In stock";
-  let outOfStock = "Out of stock";
-
   return (
     <>
       <div className={styles.container}>
@@ -109,9 +106,8 @@ const Products = () => {
                     className={styles.heading_normal}
                   >{`₹${item.product_price}`}</h1>
                   <div className={styles.stock_block}>
-                    <h1 className={styles.heading_bold}>
-                      {item.product_stock ? inStock : outOfStock}
-                    </h1>
+                  {item.product_stock ? <h1 className={styles.heading_instock}>In stock</h1> : 
+                  <h1 className={styles.heading_outstock}>Out of stock</h1>}
                     <div className={styles.toggle}>
                       <Switch
                         id={String(item.id)}

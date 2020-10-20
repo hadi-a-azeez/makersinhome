@@ -13,6 +13,7 @@ import Categories from "./pages/categories";
 import Account from "./pages/account";
 import AddImage from "./pages/addImage";
 import ProductsCategory from "./pages/productsCategory";
+import EditAccount from "./pages/editAccount";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/add_category" component={AddNewCategory} />
           <Route path="/categories" component={Categories} />
           <Route path="/account" component={Account} />
+          <Route path="/edit_account" component={EditAccount} />
         </Switch>
       </Router>
     );
