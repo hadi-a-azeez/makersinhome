@@ -63,6 +63,26 @@ const Store = () => {
                 </div>    
             </div>
             {/* product item ends here */}
+            {/* product item starts here */}
+            <div className={styles.product_item}>
+                <img src="https://media.thieve.co/products%2F44Qbo6o94pLq4kSQOqz4.jpg?fm=jpg&dpr=1&q=70&w=354&h=354" alt="img"
+                className={styles.product_image} />
+                <div className={styles.product_details}>
+                    <h1 className={styles.product_name}>Pearl Clamshell</h1>
+                    <h1 className={styles.product_price}>Rs 299</h1>
+                </div>    
+            </div>
+            {/* product item ends here */}
+            {/* product item starts here */}
+            <div className={styles.product_item}>
+                <img src="https://media.thieve.co/products%2FMQOIJBKhSoCsNuJl6H70.jpg?fm=jpg&dpr=1&q=70&w=354&h=354" alt="img"
+                className={styles.product_image} />
+                <div className={styles.product_details}>
+                    <h1 className={styles.product_name}>Wood Handled Cutlery Set</h1>
+                    <h1 className={styles.product_price}>Rs 299</h1>
+                </div>    
+            </div>
+            {/* product item ends here */}
         </div>
     </div> 
     );
