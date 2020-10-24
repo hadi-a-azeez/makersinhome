@@ -14,6 +14,7 @@ import Account from "./pages/account";
 import AddImage from "./pages/addImage";
 import ProductsCategory from "./pages/productsCategory";
 import EditAccount from "./pages/editAccount";
+import Store from "./pages/front/store";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -36,11 +37,21 @@ function App() {
       </Router>
     );
   };
+  const FrontRoutes = () => {
+    return (
+      <Router>
+        <Switch>
+          <Route path="/" component={Store} />
+        </Switch>
+      </Router>
+    );
+  };
   return (
     <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/siginin" component={SignIn} />
+        <Route component={FrontRoutes} />
         <Route component={AuthenticatedRoutes} />
       </Switch>
     </Router>

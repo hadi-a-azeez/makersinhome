@@ -44,7 +44,11 @@ const ProductDetailed = (props) => {
         setIsLoading(false);
         setIsLogin(response.data.login);
         setProductsArray(response.data.data);
-        setFiles(`https://fliqapp.xyz/api/product-images/${response.data.data[0].images}`);
+        const image = response.data.data[0].images;
+        const images = image.split(',');
+        setFiles(images.map((item)=>
+          `https://fliqapp.xyz/api/product-images/${item}`
+        ))
         console.log(response);
       });
   }, []);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useHistory,Redirect } from "react-router-dom";
 import Switch from "react-switch";
 import { fetchProductsApi } from "../api";
 import axios from "axios";
@@ -25,6 +25,7 @@ const Products = () => {
       console.log(productsData.data);
       if (productsData.data.login === false) {
         history.push("/");
+        /* return <Redirect to="/" /> */
       }
     };
     getProductsData();

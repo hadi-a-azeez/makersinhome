@@ -7,15 +7,18 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import {useHistory} from "react-router-dom";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const AddImage = (props) => {
+  let history = useHistory();
   const [files, setFiles] = useState([]);
   const id = props.match.params.id;
   const handleClick = () => {
     console.log(id);
+    history.push('/products');
   };
 
   return (
