@@ -25,12 +25,12 @@
 }
 .store_name {
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 }
 .store_location {
   color: white;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 400;
   margin-top: 5px;
 }
@@ -41,8 +41,8 @@
   justify-content: center;
 }
 .search {
-  width: 65%;
-  padding: 12px;
+  width: 72%;
+  padding: 20px 14px;
   background: #fff;
   border: 0px solid #ccc;
   border-radius: 20px 0px 0px 20px;
@@ -51,7 +51,7 @@
 .search_icon {
   float: left;
   width: 10%;
-  padding: 10px 20px;
+  padding: 18px 10px;
   background: #fff;
   border-radius: 0px 20px 20px 0px;
 }
@@ -69,7 +69,7 @@
 }
 .category_item {
   background-color: white;
-  padding: 5px 20px;
+  padding: 10px 20px;
   color: black;
   border-radius: 20px;
   font-size: 14px;
@@ -78,7 +78,7 @@
 }
 .category_item_selected {
   background-color: black;
-  padding: 5px 20px;
+  padding: 10px 20px;
   color: white;
   border-radius: 20px;
   font-size: 14px;
