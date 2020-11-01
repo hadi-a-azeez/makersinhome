@@ -25,16 +25,15 @@ const Products = () => {
       console.log(productsData.data);
       if (productsData.data.login === false) {
         history.push("/");
-        /* return <Redirect to="/" /> */
       }
     };
     getProductsData();
     const token = localStorage.getItem("token");
-    console.log(token);
+    console.log(token);  
   }, [stock]);
-
+ 
   //in stock,out of stock update
-  const handleChange = (a, b, id) => {
+  function handleChange(a, b, id) {
     let Id = parseInt(id);
     const productFlipApi = `https://fliqapp.xyz/api/seller/products/stock/${Id}`;
     setIsLoading(true);
@@ -56,7 +55,7 @@ const Products = () => {
     } catch (error) {
       return error;
     }
-  };
+  }
 
   //product click hanle
   const handleButtonClick = (productId) => {

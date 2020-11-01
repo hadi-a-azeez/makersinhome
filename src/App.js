@@ -15,6 +15,7 @@ import AddImage from "./pages/addImage";
 import ProductsCategory from "./pages/productsCategory";
 import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
+import ProductDetail from "./pages/front/productDetail";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -37,22 +38,23 @@ function App() {
       </Router>
     );
   };
-  const FrontRoutes = () => {
+  /* const FrontRoutes = () => {
     return (
       <Router>
         <Switch>
-          <Route path="/" component={Store} />
+          <Route exact path="/" component={Store} />   
         </Switch>
       </Router>
     );
-  };
+  }; */
   return (
     <Router>
       <Switch>
+        <Route exact path="/" component={Store} /> 
+        <Route path="/product_detail" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/siginin" component={SignIn} />
-        <Route component={FrontRoutes} />
-        <Route component={AuthenticatedRoutes} />
+        <Route exact path="/signin" component={SignIn} />
+        <Route component={AuthenticatedRoutes} />      
       </Switch>
     </Router>
   );

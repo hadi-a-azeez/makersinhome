@@ -1,9 +1,16 @@
 import React from 'react';
 import styles from "./css/store.module.css"
 import SearchIcon from '@material-ui/icons/Search';
-import { Icon } from '@material-ui/core';
+import {withRouter} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const Store = () => {
+    let history = useHistory();
+
+    const handleClick = ()=>{
+        history.push('/product_detail')
+    }
+
     return ( 
     <div className={styles.container}>
         <div className={styles.store_card}>
@@ -24,7 +31,7 @@ const Store = () => {
         </div>
         <div className={styles.products}>
             {/* product item starts here */}
-            <div className={styles.product_item}>
+            <div className={styles.product_item} onClick={handleClick}>
                 <img src="https://media.thieve.co/products%2F44Qbo6o94pLq4kSQOqz4.jpg?fm=jpg&dpr=1&q=70&w=354&h=354" alt="img"
                 className={styles.product_image} />
                 <div className={styles.product_details}>
@@ -88,4 +95,4 @@ const Store = () => {
     );
 }
  
-export default Store;
+export default withRouter(Store);

@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  /* background-color: #f7f7f7; */
+  height: 100%;
+}
+.image_slider {
+  width: 90%;
+  margin-top: 10px;
+  border-radius: 30px;
+}
+.product_details {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+}
+.product_name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f1f1f;
+  margin-top: 15px;
+  margin-left: 7%;
+}
+.product_price {
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 7px;
+  margin-left: 7%;
+  color: #00b140;
+}
+.desc_heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f1f1f;
+  margin-top: 7px;
+  margin-left: 7%;
+}
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 7px;
+  margin-left: 7%;
+  margin-right: 2%;
+  color: gray;
+  line-height: 1.5;
+}
+.btn_whatsapp {
+  padding: 16px 0px;
+  border-radius: 4px;
+  background: #00b140;
+  color: white;
+  font-weight: 600;
+  border: none;
+  font-size: 17px;
+  width: 86%;
+  margin-top: 7px;
+}
+.btn_favourites {
+  padding: 16px 0px;
+  border-radius: 4px;
+  background: white;
+  color: black;
+  font-weight: 600;
+  border: 1px solid black;
+  font-size: 17px;
+  width: 86%;
+  margin-top: 7px;
+  margin-bottom: 20px;
+}
