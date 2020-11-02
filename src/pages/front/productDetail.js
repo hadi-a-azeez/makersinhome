@@ -2,6 +2,8 @@ import React,{useState} from "react"
 import styles from "./css/productDetail.module.css"
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import WhatsappLogo from '../../assets/logo-whatsapp.svg';
+import FavouritesIcon from '../../assets/heart-outline.svg';
 
 const ProductDetail = () => {
 
@@ -28,8 +30,8 @@ const ProductDetail = () => {
             <h1 className={styles.desc_heading}>Description</h1>
             <h1 className={styles.description}>generates awesome professional/creative profile pics from any photo. It uses background removal AI, beautifies yout photo and generates dozens of profile pic </h1>
         </div>
-        <button className={styles.btn_whatsapp}>Buy on whatsapp</button>
-        <button className={styles.btn_favourites}>Add to favourites</button>
+        <button className={styles.btn_whatsapp}><img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />Buy on whatsapp</button>
+        <button className={styles.btn_favourites}><img src={FavouritesIcon} alt="w" className={styles.favouritesicon} />Add to favourites</button>
     </div> );
 }
  

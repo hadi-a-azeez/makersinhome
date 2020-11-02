@@ -69,7 +69,7 @@ const Categories = () => {
           ADD CATEGORIES
         </Link>
         <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Categories</h1>
+          Categories
         </div>
         <div className={styles.blank}></div>
       </div>
