@@ -31,7 +31,7 @@ function App() {
           <Route path="/products_category/:id" component={ProductsCategory} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/add_category" component={AddNewCategory} />
-          <Route path="/categories" component={Categories} />
+          <Route path="/" component={Categories} />
           <Route path="/account" component={Account} />
           <Route path="/edit_account" component={EditAccount} />
         </Switch>
@@ -53,7 +53,7 @@ function App() {
         <Route exact path="/store" component={Store} /> 
         <Route path="/product_detail" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/signin" component={SignIn} />
         <Route component={AuthenticatedRoutes} />      
       </Switch>
     </Router>
