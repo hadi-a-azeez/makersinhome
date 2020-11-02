@@ -13,7 +13,23 @@ const SignIn = () => {
   let history = useHistory();
   const signIn = () => {
     setIsLoading(true);
-    axios({
+    var data = JSON.stringify({"phone":"7012148953","password":"silverstar"});
+    var config = {
+      method: 'post',
+      url: 'https://fliqapp.xyz/api/seller/login',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    /* axios({
       method: "post",
       headers:{
         'content-type' : 'application/json',
@@ -32,7 +48,7 @@ const SignIn = () => {
         localStorage.removeItem("token");
         localStorage.setItem("token", response.data.token);
       }
-    });
+    }); */
   };
   return (
     <div className={styles.container}>
