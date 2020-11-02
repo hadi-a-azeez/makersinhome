@@ -15,6 +15,9 @@ const SignIn = () => {
     setIsLoading(true);
     axios({
       method: "post",
+      headers:{
+        'content-type' : 'application/json',
+      },
       data: {
         phone: loginUsername,
         password: loginPassword,
