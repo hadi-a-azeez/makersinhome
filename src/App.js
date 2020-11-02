@@ -50,10 +50,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Store} /> 
+        <Route exact path="/store" component={Store} /> 
         <Route path="/product_detail" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/" component={SignIn} />
         <Route component={AuthenticatedRoutes} />      
       </Switch>
     </Router>
