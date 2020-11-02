@@ -4,6 +4,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios"
 import { useHistory } from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 const EditAccount = () => {
     const [storeName,setStoreName] = useState("");
@@ -46,6 +47,7 @@ const EditAccount = () => {
 
     return ( 
     <div className={styles.container}>
+      <LabelHeader label={"Edit business details"} />
       {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -98,9 +100,7 @@ const EditAccount = () => {
          <button className={styles.btn} onClick={handleClick}>
           save
         </button>
-        <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Edit business details</h1>
-        </div>
+        
     </div> );
 }
  

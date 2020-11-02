@@ -16,6 +16,7 @@ import ProductsCategory from "./pages/productsCategory";
 import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
 import ProductDetail from "./pages/front/productDetail";
+import Home from "./pages/front/home";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -50,10 +51,11 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/" component={Home} /> 
         <Route exact path="/store" component={Store} /> 
         <Route path="/product_detail" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/signin" component={SignIn} />
         <Route component={AuthenticatedRoutes} />      
       </Switch>
     </Router>

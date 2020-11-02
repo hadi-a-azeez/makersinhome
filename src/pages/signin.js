@@ -13,14 +13,17 @@ const SignIn = () => {
   let history = useHistory();
   const signIn = () => {
     setIsLoading(true);
-    var data = JSON.stringify({"phone":"7012148953","password":"silverstar"});
+    /* var data = JSON.stringify({"phone":"7012148953","password":"silverstar"});
     var config = {
       method: 'post',
       url: 'https://fliqapp.xyz/api/seller/login',
       headers: { 
         'Content-Type': 'application/json'
       },
-      data : data
+      data: {
+        phone: loginUsername,
+        password: loginPassword,
+      },
     };
     axios(config)
     .then(function (response) {
@@ -28,8 +31,8 @@ const SignIn = () => {
     })
     .catch(function (error) {
       console.log(error);
-    });
-    /* axios({
+    }); */
+    axios({
       method: "post",
       headers:{
         'Content-Type': 'application/json',
@@ -48,7 +51,7 @@ const SignIn = () => {
         localStorage.removeItem("token");
         localStorage.setItem("token", response.data.token);
       }
-    }); */
+    });
   };
   return (
     <div className={styles.container}>

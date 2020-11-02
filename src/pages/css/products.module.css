@@ -18,13 +18,13 @@
 .card {
   width: 90%;
   height: auto;
-  border: 0rem solid rgba(150, 170, 180, 0.5);
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   position: relative;
   margin: 10px;
   display: flex;
   flex-direction: row;
-  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+  /*  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5); */
 }
 .btn {
   position: fixed;

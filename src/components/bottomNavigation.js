@@ -19,17 +19,18 @@ const useStyles = makeStyles({
   },
   element: {
     width: "100%",
-    padding: 3,
+    padding: 0,
     margin: "100%",
     color: "#767676",
     "&$selected": {
-      color: "red",
+      
     },
   },
 });
 const BottomNavigationMenu = () => {
   const classes = useStyles();
   const [value, setValue] = useState("");
+
   return (
     <>
       <div className={styles.container}>
@@ -38,8 +39,9 @@ const BottomNavigationMenu = () => {
             showLabels
             className={classes.root}
             value={value}
-            onChange={(event, newValue) => {
-              setValue(event);
+            onChange={(event, value) => {
+              setValue(value);
+              console.log(value)
             }}
           >
             <BottomNavigationAction

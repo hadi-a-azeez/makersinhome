@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./css/dashboard.module.css";
 import { Link } from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 const Dashboard = () => {
   return (
     <>
       <div className={styles.container}>
+      <LabelHeader label={"Dashboard"} />
         <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS
         </Link>
@@ -40,6 +42,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        
       </div>
     </>
   );

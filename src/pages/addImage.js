@@ -8,6 +8,7 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import {useHistory} from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -48,12 +49,11 @@ const AddImage = (props) => {
         />
       </div>
       <div className={styles.container}>
+      <LabelHeader label={"Add new product"} />
         <button className={styles.btn} onClick={handleClick}>
           Add product
         </button>
-        <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Add new product</h1>
-        </div>
+        
       </div>
     </>
   );

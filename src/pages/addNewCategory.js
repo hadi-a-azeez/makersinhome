@@ -3,6 +3,7 @@ import styles from "./css/addNewCategory.module.css";
 import { fetchParentCategoriesApi } from "../api";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 const AddNewCategory = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -60,6 +61,7 @@ const AddNewCategory = () => {
         <h1 className={styles.heading_bold}>Add new category</h1>
       </div> */}
       <div className={styles.container}>
+      <LabelHeader label={"Add new category"} />
         <div className={styles.blank_two}></div>
         <select
           name="parent category"
@@ -87,9 +89,7 @@ const AddNewCategory = () => {
         <button className={styles.btn} onClick={handleSubmit}>
           ADD CATEGORY
         </button>
-        <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Add category</h1>
-        </div>
+        
         <div className={styles.blank}></div>
       </div>
     </>

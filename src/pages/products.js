@@ -7,6 +7,7 @@ import { fetchProductsApi } from "../api";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import LabelHeader from "../components/labelHeader";
 
 const Products = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -65,6 +66,7 @@ const Products = () => {
   return (
     <>
       <div className={styles.container}>
+      <LabelHeader label={"Products"} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -130,9 +132,7 @@ const Products = () => {
         <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS
         </Link>
-        <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Products</h1>
-        </div>
+        
         <div className={styles.blank}></div>
       </div>
     </>

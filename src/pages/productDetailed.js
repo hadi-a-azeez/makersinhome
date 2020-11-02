@@ -12,6 +12,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
@@ -155,9 +156,7 @@ const ProductDetailed = (props) => {
             </div>
           ))}
       </div>
-      <div className={styles.header}>
-        <h1 className={styles.heading_normal}>Update product</h1>
-      </div>
+      <LabelHeader label={"Update product"} />
     </>
   );
 };

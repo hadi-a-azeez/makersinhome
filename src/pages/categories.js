@@ -5,6 +5,7 @@ import { fetchCategoriesApi } from "../api";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import LabelHeader from "../components/labelHeader";
 
 const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -37,6 +38,7 @@ const Categories = () => {
   return (
     <>
       <div className={styles.container}>
+      <LabelHeader label={"Categories"} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -68,9 +70,7 @@ const Categories = () => {
         <Link to="/add_category" className={styles.btn}>
           ADD CATEGORIES
         </Link>
-        <div className={styles.header}>
-          Categories
-        </div>
+        
         <div className={styles.blank}></div>
       </div>
     </>

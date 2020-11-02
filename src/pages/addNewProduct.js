@@ -3,6 +3,7 @@ import styles from "./css/addNewProduct.module.css";
 import { fetchCategoriesApi } from "../api";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import LabelHeader from "../components/labelHeader";
 
 const AddNewProduct = () => {
   const history = useHistory();
@@ -14,6 +15,7 @@ const AddNewProduct = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLogin, setIsLogin] = useState([]);
   const [id, setId] = useState("");
+  
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -65,6 +67,7 @@ const AddNewProduct = () => {
   return (
     <>
       <div className={styles.container}>
+      <LabelHeader label={"Add new product"} />
         <div className={styles.blank}></div>
         <input
           type="text"
@@ -112,9 +115,7 @@ const AddNewProduct = () => {
           Next
         </button>
 
-        <div className={styles.header}>
-          <h1 className={styles.heading_normal}>Add new product</h1>
-        </div>
+        
       </div>
     </>
   );
