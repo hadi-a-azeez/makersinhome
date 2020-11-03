@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./css/account.module.css";
+import theme from "./css/theme/theme.module.css";
 import {Link} from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 
 const Account = () => {
+
   return (
     <>
       <div className={styles.container}>
@@ -21,6 +23,7 @@ const Account = () => {
           <div className={styles.account_details}>
             <h1 className={styles.heading_bold_account}>Naz shop</h1>
             <Link to="/edit_account" className={styles.link}>Edit business details</Link>
+            
           </div>
         </div>
         

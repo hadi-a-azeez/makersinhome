@@ -6,34 +6,6 @@
   margin-left: 5%;
   margin-right: 5%;
 }
-/* .card_store_info {
-  width: 97%;
-  background-color: white;
-  height: 80px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 20px;
-}
-.store_card_content {
-  margin-left: 5%;
-  margin-top: 10px;
-}
-.line {
-  margin-top: 5px;
-  margin-bottom: 0.5em;
-  border-width: 1px;
-  color: #ccc;
-  width: 95%;
-}
-.store_card_address {
-  font-size: 13px;
-  font-weight: 500;
-  color: gray;
-}
-.store_card_heading {
-  font-size: 16px;
-  font-weight: 600;
-} */
 .btn {
   padding: 18px 0px;
   border-radius: 4px;
@@ -94,6 +66,50 @@
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(103%)
     contrast(103%);
   margin-bottom: 5px;
+}
+.cardPlain {
+  margin-top: 20px;
+  width: 89%;
+  border-radius: 4px;
+  height: auto;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  padding: 10px 10px;
+}
+.cardPlainHeading {
+  font-size: 15px;
+  font-weight: 500;
+  margin-left: 6px;
+  color: rgba(0, 0, 0, 0.9);
+}
+.cardPlainSubHeading {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+  margin-left: 6px;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 1.5;
+}
+.btn_whatsapp {
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: #00b140;
+  color: white;
+  font-weight: 500;
+  border: none;
+  font-size: 14px;
+  width: auto;
+  margin-top: 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.whatsappicon {
+  filter: invert(99%) sepia(19%) saturate(0%) hue-rotate(355deg)
+    brightness(112%) contrast(100%);
+  width: 16px;
+  height: auto;
+  margin-right: 2px;
 }
 .green {
   background-color: #00a65a;

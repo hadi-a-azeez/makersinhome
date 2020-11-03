@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./css/signup.module.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -10,28 +10,13 @@ const SignIn = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+ /*  useEffect(() => {
+    localStorage.getItem('token') && history.replace('/dashboard')
+  }, []); */
+
   let history = useHistory();
   const signIn = () => {
     setIsLoading(true);
-    /* var data = JSON.stringify({"phone":"7012148953","password":"silverstar"});
-    var config = {
-      method: 'post',
-      url: 'https://fliqapp.xyz/api/seller/login',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      data: {
-        phone: loginUsername,
-        password: loginPassword,
-      },
-    };
-    axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    }); */
     axios({
       method: "post",
       headers:{
@@ -48,8 +33,10 @@ const SignIn = () => {
       if (response.data.token) {
         console.log("need to be redirected");
         history.push("/dashboard");
+        localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("isLogin", true);
       }
     });
   };

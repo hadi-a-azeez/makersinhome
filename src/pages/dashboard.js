@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./css/dashboard.module.css";
-import { Link } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import VisibleIcon from "../assets/eye.svg";
 import MessagesIcon from "../assets/chatbubble-ellipses.svg";
 import ProductsIcon from "../assets/layersFilled.svg";
 import CategoriesIcon from "../assets/gridFilled.svg";
+import WhatsappLogo from "../assets/logo-whatsapp.svg";
 
 const Dashboard = () => {
   return (
@@ -50,7 +50,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        
+        <div className={styles.cardPlain}>
+          <h1 className={styles.cardPlainHeading}>Share link on Social Media</h1>
+          <h1 className={styles.cardPlainSubHeading}>Your customers can visit your online store and see your products
+          from this link</h1>
+          <button className={styles.btn_whatsapp}><img src={WhatsappLogo} alt="w" 
+          className={styles.whatsappicon} />Share</button>
+        </div>
       </div>
     </>
   );
