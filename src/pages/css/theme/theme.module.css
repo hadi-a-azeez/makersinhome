@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+}
+.btnPrimary {
+  padding: 18px 0px;
+  border-radius: 4px;
+  background: #00b140;
+  color: white;
+  font-weight: 600;
+  border: black;
+  width: 86%;
+  text-align: center;
+  text-decoration: none;
+}
+.btnFixedBottom {
+  position: fixed;
+  bottom: 0;
+  left: 1;
+  right: 1;
+  z-index: 1000;
+  margin-bottom: 10vh; /* margin for bottom navigation */
+}
+.inputField {
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80%;
+}
+.dropdown {
+  width: 86%;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #ccc;
+  color: gray;
+  border-radius: 4px;
+}
