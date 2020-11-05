@@ -8,6 +8,7 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
+import Placeholder from "../assets/placeholder.png";
 
 const Products = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -29,8 +30,7 @@ const Products = () => {
       }
     };
     getProductsData();
-    const token = localStorage.getItem("token");
-    console.log(token);  
+     
   }, [stock]);
  
   //in stock,out of stock update
@@ -94,7 +94,7 @@ const Products = () => {
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     <img
-                      src="https://media.thieve.co/products%2ForFARmD6aOq92uEuwmVb.jpg?fm=jpg&dpr=1&q=70&w=354&h=354"
+                      src={Placeholder}
                       alt="image"
                       className={styles.thumbnail_image}
                     />

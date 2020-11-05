@@ -32,7 +32,8 @@ const ProductDetail = () => {
         </div>
         <button className={styles.btn_whatsapp}><img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />Buy on whatsapp</button>
         <button className={styles.btn_favourites}><img src={FavouritesIcon} alt="w" className={styles.favouritesicon} />Add to favourites</button>
-    </div> );
+    </div> 
+    );
 }
  
 export default ProductDetail;

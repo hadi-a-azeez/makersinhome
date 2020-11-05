@@ -17,7 +17,7 @@
   font-weight: 600;
   border: black;
   width: 86%;
-  margin-bottom: 10vh;
+  margin-bottom: 70px;
   text-align: center;
   text-decoration: none;
 }
@@ -28,7 +28,7 @@
   border: 0rem solid #ccc;
   position: relative;
   margin: 10px;
-  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .heading_bold {
   font-weight: 500;
@@ -49,7 +49,7 @@
   margin-top: 5px;
 }
 .blank {
-  margin-top: 110px;
+  margin-top: 130px;
 }
 .blank_two {
   margin-top: 60px;
