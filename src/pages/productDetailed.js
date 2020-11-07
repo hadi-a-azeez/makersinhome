@@ -46,8 +46,8 @@ const ProductDetailed = (props) => {
         setIsLogin(response.data.login);
         setProductsArray(response.data.data);
         const image = response.data.data[0].images;
-        if(image != null){ //to check if there is atleast one image
-          if(image.length>1){ //if there is only one image no need to split
+        if(image !== null){ //to check if there is atleast one image
+          if(image.indexOf(',')>-1){ //if there is only one image no need to split
             const images = image.split(',');
             setFiles(images.map((item)=>
             `https://fliqapp.xyz/api/product-images/${item}`

@@ -22,18 +22,20 @@ const Categories = () => {
       console.log(Data);
     };
     getCategoriesData();
+
   }, []);
 
-  const handleCount = (id) => {
+  /* const HandleCount = async (id) => {
     console.log(id);
-    /* const postApi = `https://fliqapp.xyz/api/seller/products/catogories/no/${id}`;
-    let count = axios.get(postApi, {
+    const postApi = `https://fliqapp.xyz/api/seller/products/catogories/no/${id}`;
+    let count =await axios.get(postApi, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    console.log(count); */
-  };
+    console.log(count);
+    return count;
+  }; */
 
   return (
     <>
@@ -62,7 +64,7 @@ const Categories = () => {
             >
               <div className={styles.card}>
                 <h1 className={styles.heading_bold}>{item.cat_name}</h1>
-                <h1 className={styles.heading_small}>3 products</h1>
+                <h1 className={styles.heading_normal}>3 products</h1>
               </div>
             </Link>
           ))}

@@ -58,10 +58,32 @@ const Products = () => {
     }
   }
 
-  //product click hanle
-  const handleButtonClick = (productId) => {
-    console.log(productId);
-  };
+  const ImagePreview = (images) => {
+    let image = images.image ;
+    if( image == null ){
+
+      return (
+        <img src={Placeholder} alt="image"
+          className={styles.thumbnail_image} />
+      )
+    }
+    else{
+      if(image.indexOf(',')>-1){
+        var imagesArray = image.split(',');
+        return (
+          <img src={`https://fliqapp.xyz/api/product-images/${imagesArray[0]}`} alt="image"
+            className={styles.thumbnail_image} />
+        )
+      }
+      else{
+        return (
+          <img src={`https://fliqapp.xyz/api/product-images/${image}`} alt="image"
+            className={styles.thumbnail_image} />
+        )
+      }
+    }
+  }
+
 
   return (
     <>
@@ -93,11 +115,12 @@ const Products = () => {
               <div className={styles.card}>
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
-                    <img
+                    <ImagePreview image={item.images} />
+                    {/* <img
                       src={Placeholder}
                       alt="image"
                       className={styles.thumbnail_image}
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className={styles.product_details}>
