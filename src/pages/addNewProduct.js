@@ -5,7 +5,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 
-const AddNewProduct = () => {
+const AddNewProduct = (props) => {
   const history = useHistory();
   const [productName, setProductName] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
@@ -15,7 +15,7 @@ const AddNewProduct = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLogin, setIsLogin] = useState([]);
   const [id, setId] = useState("");
-  
+  const defaultCatogory = props.match.params.catogory;
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -67,7 +67,7 @@ const AddNewProduct = () => {
   return (
     <>
       <div className={styles.container}>
-      <LabelHeader label={"Add new product"} />
+        <LabelHeader label={"Add new product"} />
         <div className={styles.blank}></div>
         <input
           type="text"
@@ -91,7 +91,7 @@ const AddNewProduct = () => {
           name="parent category"
           id="parentcategory"
           className={styles.dropdown}
-          defaultValue={"DEFAULT"}
+          value={defaultCatogory ? defaultCatogory : "DEFAULT"}
           onChange={(e) => handleCategoryClick(e.target.value)}
         >
           <option value="DEFAULT" disabled>
@@ -114,8 +114,6 @@ const AddNewProduct = () => {
         <button className={styles.btn} onClick={handleNextClick}>
           Next
         </button>
-
-        
       </div>
     </>
   );

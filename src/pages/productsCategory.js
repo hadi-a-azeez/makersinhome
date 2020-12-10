@@ -75,7 +75,7 @@ const ProductsCategory = (props) => {
   return (
     <>
       <div className={styles.container}>
-      <LabelHeader label={"Products"} />
+        <LabelHeader label={"Products"} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -117,8 +117,11 @@ const ProductsCategory = (props) => {
                     className={styles.heading_normal}
                   >{`₹${item.product_price}`}</h1>
                   <div className={styles.stock_block}>
-                  {item.product_stock ? <h1 className={styles.heading_instock}>In stock</h1> : 
-                  <h1 className={styles.heading_outstock}>Out of stock</h1>}
+                    {item.product_stock ? (
+                      <h1 className={styles.heading_instock}>In stock</h1>
+                    ) : (
+                      <h1 className={styles.heading_outstock}>Out of stock</h1>
+                    )}
                     <div className={styles.toggle}>
                       <Switch
                         id={String(item.id)}
@@ -138,10 +141,10 @@ const ProductsCategory = (props) => {
           ))}
         {/* card one ends here */}
 
-        <Link to="/add_product" className={styles.btn}>
+        <Link to={`/add_product/${id}`} className={styles.btn}>
           ADD PRODUCTS
         </Link>
-        
+
         <div className={styles.blank}></div>
       </div>
     </>
