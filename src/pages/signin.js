@@ -10,7 +10,7 @@ const SignIn = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
- /*  useEffect(() => {
+  /*  useEffect(() => {
     localStorage.getItem('token') && history.replace('/dashboard')
   }, []); */
 
@@ -19,8 +19,8 @@ const SignIn = () => {
     setIsLoading(true);
     axios({
       method: "post",
-      headers:{
-        'Content-Type': 'application/json',
+      headers: {
+        "Content-Type": "application/json",
       },
       data: {
         phone: loginUsername,
@@ -31,7 +31,6 @@ const SignIn = () => {
       setIsLoading(false);
       console.log(response);
       if (response.data.token) {
-        console.log("need to be redirected");
         history.push("/dashboard");
         localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
@@ -69,8 +68,9 @@ const SignIn = () => {
                 visible={isLoading}
               />
             </div>
-          ) : 
-          <div>Sign in</div>}
+          ) : (
+            <div>Sign in</div>
+          )}
         </button>
       </div>
     </div>

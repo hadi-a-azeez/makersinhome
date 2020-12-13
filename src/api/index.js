@@ -1,7 +1,8 @@
 import axios from "axios";
+import { apiRoot } from "../config";
 
 /* all products of loggined user */
-const productsApi = "https://fliqapp.xyz/api/seller/products";
+const productsApi = `${apiRoot}/seller/products`;
 export const fetchProductsApi = async () => {
   try {
     const ProductsData = await axios.get(productsApi, {

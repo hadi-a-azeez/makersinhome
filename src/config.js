@@ -1,1 +1,1 @@
-export const apiRoot = "https://fliqapp.xyz/api/";
+export const apiRoot = "https://fliqapp.xyz/api";

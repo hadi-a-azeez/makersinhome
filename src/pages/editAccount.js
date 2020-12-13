@@ -15,6 +15,7 @@ const EditAccount = () => {
   let history = useHistory();
 
   useEffect(() => {
+    console.log("nice");
     const getStoreDetails = async () => {
       setIsLoading(true);
       const productsApi = `https://fliqapp.xyz/api/seller/store`;

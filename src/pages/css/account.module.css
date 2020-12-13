@@ -1,8 +1,16 @@
 .container {
   display: flex;
   /* justify-content: center; */
-  align-items: center;
+
   flex-direction: column;
+}
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+}
+.menuRow {
+  padding: 10px;
+  margin-left: 20px;
 }
 .card {
   width: 86%;
