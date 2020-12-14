@@ -8,19 +8,27 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
-import { getProductAPI } from "../api/sellerProductAPI";
+import { getProductAPI, updateProductAPI } from "../api/sellerProductAPI";
 
 const ProductDetailed = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [isLogin, setIsLogin] = useState([]);
-  const [checked, setChecked] = useState(true);
-  const [productImages, setProductImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   let history = useHistory();
   const id = props.match.params.id;
-  const handleChange = (checked) => {
-    setChecked(checked);
+  const updateProductStock = () => {
+    //update product stock state manually
+    let toStock = !product.product_stock;
+    console.log(product);
+    setProduct({ ...product, product_stock: toStock ? 1 : 0 });
+    console.log(product);
+  };
+
+  //update product on server on submit
+  const updateProductFull = async () => {
+    const response = await updateProductAPI(product);
+    history.push("/products");
   };
 
   useEffect(() => {
@@ -28,27 +36,9 @@ const ProductDetailed = (props) => {
       setIsLoading(true);
       const productDetails = await getProductAPI(id);
       setIsLoading(false);
+      console.log(productDetails.data.data[0]);
       setProduct(productDetails.data.data[0]);
       const image = productDetails.data.data[0].images;
-
-      // if (image !== null) {
-      //   //to check if there is atleast one image
-      //   if (image.indexOf(",") > -1) {
-      //     //if there is only one image no need to split
-      //     const images = image.split(",");
-      //     setFiles(
-      //       images.map(
-      //         (item) => `https://fliqapp.xyz/api/product-images/${item}`
-      //       )
-      //     );
-      //   } else {
-      //     setFiles(
-      //       image.map(
-      //         (item) => `https://fliqapp.xyz/api/product-images/${item}`
-      //       )
-      //     );
-      //   }
-      // }
     };
     productLoad();
   }, []);
@@ -119,6 +109,7 @@ const ProductDetailed = (props) => {
 
             <input
               type="text"
+              name="product_name"
               className={styles.input_field}
               placeholder="Product name"
               defaultValue={product.product_name}
@@ -126,13 +117,23 @@ const ProductDetailed = (props) => {
             />
             <input
               type="text"
+              name="product_price"
               className={styles.input_field}
               placeholder="Price"
               defaultValue={product.product_price}
               onChange={updateProduct}
             />
+            <input
+              type="text"
+              name="product_sale_price"
+              className={styles.input_field}
+              placeholder="Price"
+              defaultValue={product.product_sale_price}
+              onChange={updateProduct}
+            />
             <textarea
               type="textarea"
+              name="product_desc"
               className={styles.input_field}
               placeholder="Description"
               defaultValue={product.product_desc}
@@ -144,8 +145,9 @@ const ProductDetailed = (props) => {
               <label>
                 <div className={styles.toggle}>
                   <Switch
-                    onChange={handleChange}
+                    name="product_stock"
                     checked={product.product_stock ? true : false}
+                    onChange={updateProductStock}
                     uncheckedIcon={false}
                     checkedIcon={false}
                     onColor="#00b140"
@@ -158,12 +160,7 @@ const ProductDetailed = (props) => {
             <button className={styles.delete_btn} onClick={handleDelete}>
               Delete this product
             </button>
-            <button
-              className={styles.btn}
-              onClick={() => {
-                console.log(product.images);
-              }}
-            >
+            <button className={styles.btn} onClick={updateProductFull}>
               Update product
             </button>
           </div>
