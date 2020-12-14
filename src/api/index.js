@@ -16,8 +16,6 @@ export const fetchProductsApi = async () => {
   }
 };
 
-/* all categories of loggined user */
-
 /* get all parent categories */
 const parentCategoriesApi = "https://fliqapp.xyz/api/seller/catogories/parent";
 export const fetchParentCategoriesApi = async () => {

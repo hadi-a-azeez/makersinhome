@@ -16,6 +16,7 @@ export const addProductAPI = async (product) => {
     return error;
   }
 };
+//update a product details
 export const updateProductAPI = async (product) => {
   try {
     const response = await axios.put(`${apiRoot}/seller/products`, product, {
@@ -28,6 +29,20 @@ export const updateProductAPI = async (product) => {
   } catch (error) {
     console.log(error);
     return error;
+  }
+};
+
+//get count of all product and categories of current user
+export const getCountAPI = async (id) => {
+  try {
+    const response = await axios.get(`${apiRoot}/seller/products/count`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 };
 
