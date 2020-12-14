@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./css/addNewProduct.module.css";
-import { fetchCategoriesApi } from "../api";
+import { getCategoriesAPI } from "../api/sellerCategoryAPI";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
@@ -19,7 +19,7 @@ const AddNewProduct = (props) => {
 
   useEffect(() => {
     const getCategoriesData = async () => {
-      const Data = await fetchCategoriesApi();
+      const Data = await getCategoriesAPI();
       setIsLogin(Data.data.login);
       setCategoriesArray(Data.data.data);
       console.log(Data);

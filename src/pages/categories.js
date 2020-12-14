@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./css/categories.module.css";
-import { fetchCategoriesApi } from "../api";
+import { getCategoriesAPI } from "../api/sellerCategoryAPI";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -15,14 +15,13 @@ const Categories = () => {
   useEffect(() => {
     const getCategoriesData = async () => {
       setIsLoading(true);
-      const Data = await fetchCategoriesApi();
+      const Data = await getCategoriesAPI();
       setIsLogin(Data.data.login);
       setCategoriesArray(Data.data.data);
       setIsLoading(false);
       console.log(Data);
     };
     getCategoriesData();
-
   }, []);
 
   /* const HandleCount = async (id) => {
@@ -40,7 +39,7 @@ const Categories = () => {
   return (
     <>
       <div className={styles.container}>
-      <LabelHeader label={"Categories"} />
+        <LabelHeader label={"Categories"} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -64,7 +63,9 @@ const Categories = () => {
             >
               <div className={styles.card}>
                 <h1 className={styles.heading_bold}>{item.cat_name}</h1>
-                <h1 className={styles.heading_normal}>3 products</h1>
+                <h1 className={styles.heading_normal}>
+                  {item.product_count < 1 ? "No" : item.product_count} Products
+                </h1>
               </div>
             </Link>
           ))}
@@ -72,7 +73,7 @@ const Categories = () => {
         <Link to="/add_category" className={styles.btn}>
           ADD CATEGORIES
         </Link>
-        
+
         <div className={styles.blank}></div>
       </div>
     </>

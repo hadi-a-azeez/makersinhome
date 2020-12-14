@@ -17,19 +17,6 @@ export const fetchProductsApi = async () => {
 };
 
 /* all categories of loggined user */
-const categoriesApi = "https://fliqapp.xyz/api/seller/catogories/";
-export const fetchCategoriesApi = async () => {
-  try {
-    const categoriesData = await axios.get(categoriesApi, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    return categoriesData;
-  } catch (error) {
-    return error;
-  }
-};
 
 /* get all parent categories */
 const parentCategoriesApi = "https://fliqapp.xyz/api/seller/catogories/parent";
