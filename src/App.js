@@ -33,7 +33,10 @@ function App() {
         <Route path="/store_info" component={StoreInfo} />
         <Route path="/products" component={Products} />
         <Route path="/product_detailed/:id" component={ProductDetailed} />
-        <Route path="/products_category/:id" component={ProductsCategory} />
+        <Route
+          path="/products_category/:cat_name/:id"
+          component={ProductsCategory}
+        />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/add_category" component={AddNewCategory} />
         <Route path="/categories" component={Categories} />

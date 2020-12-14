@@ -57,7 +57,7 @@ const Categories = () => {
         {isLogin &&
           categoriesArray.map((item, index) => (
             <Link
-              to={`/products_category/${item.id}`}
+              to={`/products_category/${item.cat_name}/${item.id}`}
               key={index}
               className={styles.link}
             >

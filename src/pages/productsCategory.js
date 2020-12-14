@@ -14,6 +14,7 @@ const ProductsCategory = (props) => {
   const [stock, setStock] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const id = props.match.params.id;
+  const cat_name = props.match.params.cat_name;
   let history = useHistory();
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const ProductsCategory = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={"Products"} />
+        <LabelHeader label={cat_name} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
