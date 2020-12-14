@@ -6,7 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
-import { updateStoreAPI } from "../api/accountStoreAPI";
+import { updateStoreAPI } from "../api/sellerStoreAPI";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -65,20 +65,13 @@ const EditAccount = () => {
         </div>
       </div>
       <h1 className={styles.link}>Update store image</h1>
+
       <input
         type="text"
         className={styles.input_field}
         placeholder="Store name*"
         name="account_store"
         defaultValue={storeInfo.account_store}
-        onChange={updateStoreInfo}
-      />
-      <input
-        type="text"
-        className={styles.input_field}
-        placeholder="Store link*"
-        name="account_store_link"
-        defaultValue={storeInfo.account_store_link}
         onChange={updateStoreInfo}
       />
       <input

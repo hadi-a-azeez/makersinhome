@@ -31,11 +31,11 @@ const SignIn = () => {
       setIsLoading(false);
       console.log(response);
       if (response.data.token) {
-        history.push("/dashboard");
         localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("isLogin", true);
+        history.push("/dashboard");
       }
     });
   };

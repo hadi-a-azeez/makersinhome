@@ -12,6 +12,15 @@
   margin-bottom: 20px;
   width: 80%;
 }
+.productImages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.productImages img {
+  margin: 10px;
+  width: 100px;
+  border: 1px solid red;
+}
 .btn {
   padding: 18px 0px;
   border-radius: 4px;
@@ -57,11 +66,7 @@
   width: 81%;
   margin-bottom: 10px;
 }
-.image_uploader_wraper {
-  width: 86%;
-  margin-left: 0%;
-  margin-top: 60px;
-}
+
 .dropdown {
   width: 86%;
   padding: 12px;

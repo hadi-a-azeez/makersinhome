@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
-import { useHistory,Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Switch from "react-switch";
 import { fetchProductsApi } from "../api";
 import axios from "axios";
@@ -19,7 +19,6 @@ const Products = () => {
 
   useEffect(() => {
     const getProductsData = async () => {
-      setIsLoading(true);
       const productsData = await fetchProductsApi();
       setIsLogin(productsData.data.login);
       setProductsArray(productsData.data.data);
@@ -30,14 +29,13 @@ const Products = () => {
       }
     };
     getProductsData();
-     
   }, [stock]);
- 
+
   //in stock,out of stock update
   function handleChange(a, b, id) {
     let Id = parseInt(id);
     const productFlipApi = `https://fliqapp.xyz/api/seller/products/stock/${Id}`;
-    setIsLoading(true);
+
     try {
       const api = axios
         .put(
@@ -59,36 +57,37 @@ const Products = () => {
   }
 
   const ImagePreview = (images) => {
-    let image = images.image ;
-    if( image == null ){
-
+    let image = images.image;
+    if (image == null) {
       return (
-        <img src={Placeholder} alt="image"
-          className={styles.thumbnail_image} />
-      )
-    }
-    else{
-      if(image.indexOf(',')>-1){
-        var imagesArray = image.split(',');
+        <img src={Placeholder} alt="image" className={styles.thumbnail_image} />
+      );
+    } else {
+      if (image.indexOf(",") > -1) {
+        var imagesArray = image.split(",");
         return (
-          <img src={`https://fliqapp.xyz/api/product-images/${imagesArray[0]}`} alt="image"
-            className={styles.thumbnail_image} />
-        )
-      }
-      else{
+          <img
+            src={`https://fliqapp.xyz/api/product-images/${imagesArray[0]}`}
+            alt="image"
+            className={styles.thumbnail_image}
+          />
+        );
+      } else {
         return (
-          <img src={`https://fliqapp.xyz/api/product-images/${image}`} alt="image"
-            className={styles.thumbnail_image} />
-        )
+          <img
+            src={`https://fliqapp.xyz/api/product-images/${image}`}
+            alt="image"
+            className={styles.thumbnail_image}
+          />
+        );
       }
     }
-  }
-
+  };
 
   return (
     <>
       <div className={styles.container}>
-      <LabelHeader label={"Products"} />
+        <LabelHeader label={"Products"} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -131,15 +130,16 @@ const Products = () => {
                     className={styles.heading_normal}
                   >{`₹${item.product_price}`}</h1>
                   <div className={styles.stock_block}>
-                  {item.product_stock ? <h1 className={styles.heading_instock}>In stock</h1> : 
-                  <h1 className={styles.heading_outstock}>Out of stock</h1>}
+                    {item.product_stock ? (
+                      <h1 className={styles.heading_instock}>In stock</h1>
+                    ) : (
+                      <h1 className={styles.heading_outstock}>Out of stock</h1>
+                    )}
                     <div className={styles.toggle}>
                       <Switch
                         id={String(item.id)}
                         onChange={handleChange}
                         checked={item.product_stock ? true : false}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
                         onColor="#00b140"
                         width={32}
                         height={17}
@@ -155,7 +155,7 @@ const Products = () => {
         <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS
         </Link>
-        
+
         <div className={styles.blank}></div>
       </div>
     </>
