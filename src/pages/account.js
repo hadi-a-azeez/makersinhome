@@ -11,6 +11,7 @@ const Account = () => {
     localStorage.removeItem("token");
     history.push("./");
   };
+
   return (
     <>
       <div className={styles.container}>

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./css/editAccount.module.css";
 import Loader from "react-loader-spinner";
+import imageCompression from "browser-image-compression";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
+import { apiRoot } from "../config";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +16,33 @@ const EditAccount = () => {
   const [storeInfo, setStoreInfo, updateStoreInfo] = useForm([]);
   let history = useHistory();
 
+  const compressImage = async (event) => {
+    //compresses image to below 1MB
+
+    const img = await imageToServer(event.target.files[0]);
+    console.log(img);
+  };
+  const imageToServer = async (image) => {
+    try {
+      const response = await axios.post(
+        `${apiRoot}/seller/store/profile-upload`,
+        image,
+        {
+          headers: {
+            "Content-Type": Image.type,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
   useEffect(() => {
-    console.log("nice");
     const getStoreDetails = async () => {
       setIsLoading(true);
       const productsApi = `https://fliqapp.xyz/api/seller/store`;
@@ -58,12 +85,18 @@ const EditAccount = () => {
       <div className={styles.image_block}>
         <div className={styles.thumbnail}>
           <img
-            src="https://media.thieve.co/products%2ForFARmD6aOq92uEuwmVb.jpg?fm=jpg&dpr=1&q=70&w=354&h=354"
+            src={`https://fliqapp.xyz/api/profile-images/${storeInfo.account_store_image}`}
             alt="image"
             className={styles.thumbnail_image}
           />
         </div>
       </div>
+      <input
+        type="file"
+        accept="image/*"
+        id="file-upload"
+        onChange={(event) => compressImage(event)}
+      />
       <h1 className={styles.link}>Update store image</h1>
 
       <input
