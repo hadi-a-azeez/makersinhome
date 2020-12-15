@@ -9,6 +9,7 @@ import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
 import { apiRoot } from "../config";
+import TextField from '@material-ui/core/TextField';
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -98,29 +99,32 @@ const EditAccount = () => {
         onChange={(event) => compressImage(event)}
       />
       <h1 className={styles.link}>Update store image</h1>
-
-      <input
-        type="text"
-        className={styles.input_field}
-        placeholder="Store name*"
+      <TextField
+        label="Store name*" 
+        variant="outlined"
+        InputLabelProps={{shrink: true}}
+        style={{width: `90%`,}}
+        id="outlined-basic"
         name="account_store"
-        defaultValue={storeInfo.account_store}
+        value={storeInfo.account_store}
         onChange={updateStoreInfo}
       />
-      <input
-        type="text"
-        className={styles.input_field}
-        placeholder="Phone number*"
+      <TextField
+        label="Phone number*"
+        variant="outlined"
+        InputLabelProps={{shrink: true}}
+        style={{width: `90%`,marginTop:20}}
         name="account_whatsapp"
-        defaultValue={storeInfo.account_whatsapp}
+        value={storeInfo.account_whatsapp}
         onChange={updateStoreInfo}
       />
-      <input
-        type="text"
-        className={styles.input_field}
-        placeholder="Address*"
+      <TextField
+        label="Address*"
+        variant="outlined"
+        InputLabelProps={{shrink: true}}
+        style={{width: `90%`,marginTop:20,marginBottom: 20}}
         name="account_store_address"
-        defaultValue={storeInfo.account_store_address}
+        value={storeInfo.account_store_address}
         onChange={updateStoreInfo}
       />
       <button className={styles.btn} onClick={handleClick}>
