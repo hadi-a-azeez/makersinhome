@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./css/editAccount.module.css";
 import Loader from "react-loader-spinner";
 import imageCompression from "browser-image-compression";
@@ -9,33 +9,62 @@ import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
 import { apiRoot } from "../config";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
+import ImageUpload from "../components/ImageUpload";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState([]);
+  const [isImageEdited, setImageEdited] = useState(false);
+  const [compressedImagesState, setCompreseesdImagesState] = useState([]);
   const [storeInfo, setStoreInfo, updateStoreInfo] = useForm([]);
   let history = useHistory();
 
   const compressImage = async (event) => {
+    setIsLoading(true);
     //compresses image to below 1MB
-
-    const img = await imageToServer(event.target.files[0]);
-    console.log(img);
+    let imagesFromInput = event.target.files;
+    let imagesCompressed = [];
+    console.log(event.target.files[0]);
+    const options = {
+      maxSizeMB: 0.6,
+      maxWidthOrHeight: 1080,
+      useWebWorker: true,
+    };
+    try {
+      for (let i = 0; i < imagesFromInput.length; i++) {
+        const compressedFile = await imageCompression(
+          imagesFromInput[i],
+          options
+        );
+        imagesCompressed.push(compressedFile);
+      }
+      setCompreseesdImagesState(imagesCompressed);
+      setImageEdited(true);
+      setIsLoading(false);
+      // setProductImageConverted(URL.createObjectURL(compressedFile));
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
   };
-  const imageToServer = async (image) => {
+  const imageToServer = async (imagesLocal) => {
+    let formData = new FormData();
+    imagesLocal.map((image) => {
+      formData.append("account_store_image", image);
+    });
+
     try {
       const response = await axios.post(
         `${apiRoot}/seller/store/profile-upload`,
-        image,
+        formData,
         {
           headers: {
-            "Content-Type": Image.type,
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      console.log(response);
       return response;
     } catch (error) {
       console.log(error);
@@ -54,6 +83,7 @@ const EditAccount = () => {
       });
       setIsLogin(response.data.login);
       setStoreInfo(response.data.data[0]);
+
       setIsLoading(false);
       if (response.data.login === false) {
         history.push("/");
@@ -62,8 +92,11 @@ const EditAccount = () => {
     getStoreDetails();
   }, []);
 
-  const handleClick = () => {
-    updateStoreAPI(storeInfo);
+  const updateStore = async () => {
+    setIsLoading(true);
+    await updateStoreAPI(storeInfo);
+    await imageToServer(compressedImagesState);
+    setIsLoading(false);
   };
 
   return (
@@ -86,12 +119,17 @@ const EditAccount = () => {
       <div className={styles.image_block}>
         <div className={styles.thumbnail}>
           <img
-            src={`https://fliqapp.xyz/api/profile-images/${storeInfo.account_store_image}`}
+            src={
+              isImageEdited
+                ? URL.createObjectURL(compressedImagesState[0])
+                : `https://fliqapp.xyz/api/profile-images/${storeInfo.account_store_image}`
+            }
             alt="image"
             className={styles.thumbnail_image}
           />
         </div>
       </div>
+
       <input
         type="file"
         accept="image/*"
@@ -100,10 +138,10 @@ const EditAccount = () => {
       />
       <h1 className={styles.link}>Update store image</h1>
       <TextField
-        label="Store name*" 
+        label="Store name*"
         variant="outlined"
-        InputLabelProps={{shrink: true}}
-        style={{width: `90%`,}}
+        InputLabelProps={{ shrink: true }}
+        style={{ width: `90%` }}
         id="outlined-basic"
         name="account_store"
         value={storeInfo.account_store}
@@ -112,8 +150,8 @@ const EditAccount = () => {
       <TextField
         label="Phone number*"
         variant="outlined"
-        InputLabelProps={{shrink: true}}
-        style={{width: `90%`,marginTop:20}}
+        InputLabelProps={{ shrink: true }}
+        style={{ width: `90%`, marginTop: 20 }}
         name="account_whatsapp"
         value={storeInfo.account_whatsapp}
         onChange={updateStoreInfo}
@@ -121,13 +159,13 @@ const EditAccount = () => {
       <TextField
         label="Address*"
         variant="outlined"
-        InputLabelProps={{shrink: true}}
-        style={{width: `90%`,marginTop:20,marginBottom: 20}}
+        InputLabelProps={{ shrink: true }}
+        style={{ width: `90%`, marginTop: 20, marginBottom: 20 }}
         name="account_store_address"
         value={storeInfo.account_store_address}
         onChange={updateStoreInfo}
       />
-      <button className={styles.btn} onClick={handleClick}>
+      <button className={styles.btn} onClick={updateStore}>
         Update Store Info
       </button>
     </div>
