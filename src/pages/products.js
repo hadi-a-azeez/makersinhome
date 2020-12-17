@@ -9,6 +9,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
+import { Box, StatNumber, Stat } from "@chakra-ui/react";
 
 const Products = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -101,7 +102,6 @@ const Products = () => {
         ) : (
           <div></div>
         )}
-        <div className={styles.blank_two}></div>
         {/* card one */}
         {isLogin &&
           !isLoading &&
@@ -111,7 +111,15 @@ const Products = () => {
               key={index}
               className={styles.link}
             >
-              <div className={styles.card}>
+              <Box
+                w="90%"
+                h="auto"
+                d="flex"
+                dir="row"
+                mt="10px"
+                borderWidth="1px"
+                borderRadius="lg"
+              >
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     <ImagePreview image={item.images} />
@@ -126,9 +134,13 @@ const Products = () => {
                   <h1 className={styles.heading_bold_product}>
                     {item.product_name}
                   </h1>
-                  <h1
-                    className={styles.heading_normal}
-                  >{`₹${item.product_price}`}</h1>
+                  <Stat>
+                    <StatNumber
+                      mt="2px"
+                      fontSize="18px"
+                      fontWeight="500"
+                    >{`₹${item.product_price}`}</StatNumber>
+                  </Stat>
                   <div className={styles.stock_block}>
                     {item.product_stock ? (
                       <h1 className={styles.heading_instock}>In stock</h1>
@@ -147,7 +159,7 @@ const Products = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Box>
             </Link>
           ))}
         {/* card one ends here */}
@@ -155,7 +167,6 @@ const Products = () => {
         <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS
         </Link>
-
         <div className={styles.blank}></div>
       </div>
     </>

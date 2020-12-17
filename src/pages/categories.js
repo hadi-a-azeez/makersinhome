@@ -6,6 +6,7 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
+import { Box } from "@chakra-ui/react";
 
 const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -53,7 +54,6 @@ const Categories = () => {
         ) : (
           <div></div>
         )}
-        <div className={styles.blank_two}></div>
         {isLogin &&
           categoriesArray.map((item, index) => (
             <Link
@@ -61,12 +61,18 @@ const Categories = () => {
               key={index}
               className={styles.link}
             >
-              <div className={styles.card}>
+              <Box
+                w="90%"
+                h="auto"
+                mt="10px"
+                borderWidth="1px"
+                borderRadius="lg"
+              >
                 <h1 className={styles.heading_bold}>{item.cat_name}</h1>
                 <h1 className={styles.heading_normal}>
                   {item.product_count < 1 ? "No" : item.product_count} Products
                 </h1>
-              </div>
+              </Box>
             </Link>
           ))}
 

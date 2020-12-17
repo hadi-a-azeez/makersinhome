@@ -31,7 +31,7 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .heading_bold {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 28px;
   margin-top: 10px;
   margin-left: 8%;
@@ -43,10 +43,12 @@
   margin-left: 8%;
 }
 .heading_normal {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 16px;
   text-align: left;
-  margin-top: 5px;
+  margin-top: 0px;
+  margin-left: 8%;
+  margin-bottom: 5px;
 }
 .blank {
   margin-top: 130px;
