@@ -3,6 +3,8 @@
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+  background-color: #f1f1f1;
+  min-height: 100vh;
 }
 .header {
   position: fixed;
@@ -18,7 +20,7 @@
 .card {
   width: 90%;
   height: auto;
-
+  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 4px;
   position: relative;

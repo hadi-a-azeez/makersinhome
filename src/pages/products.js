@@ -117,6 +117,7 @@ const Products = () => {
                 d="flex"
                 dir="row"
                 mt="10px"
+                backgroundColor="white"
                 borderWidth="1px"
                 borderRadius="lg"
               >
