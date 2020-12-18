@@ -29,19 +29,21 @@ const AddNewProduct = (props) => {
     if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
   }, []);
 
+  const deleteCompressedImage = (imageToDelete) => {
+    setCompressedImages((prevImages) =>
+      prevImages.filter((image) => image.name !== imageToDelete.name)
+    );
+  };
   const addProduct = async () => {
-    console.log("started");
     const response = await addProductAPI(product);
     const id = response.data.data.product_id;
-    console.log(compressedImages);
     const responseImageUpload = await imageToServer(compressedImages, id);
-    console.log(responseImageUpload);
+    //add delay to model Completed product adding
+    history.push("/products");
   };
   const compressImage = async (event) => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
-    let imagesCompressed = [];
-    console.log(event.target.files[0]);
     const options = {
       maxSizeMB: 0.6,
       maxWidthOrHeight: 1080,
@@ -91,7 +93,11 @@ const AddNewProduct = (props) => {
         <div className={styles.blank}></div>
         {compressedImages &&
           compressedImages.map((image) => (
-            <img width="80px" src={URL.createObjectURL(image)} />
+            <img
+              width="80px"
+              src={URL.createObjectURL(image)}
+              onClick={() => deleteCompressedImage(image)}
+            />
           ))}
         <input
           type="file"

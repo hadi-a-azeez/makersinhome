@@ -10,7 +10,6 @@ import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
 import { apiRoot } from "../config";
 import TextField from "@material-ui/core/TextField";
-import ImageUpload from "../components/ImageUpload";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
