@@ -96,13 +96,15 @@ const Products = () => {
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     {/* images are returned with image name and id with it seperated by : */}
-                    <img
-                      src={`https://fliqapp.xyz/api/product-images/${
-                        item.images.split(",")[0].split(":")[0]
-                      }`}
-                      alt="image"
-                      className={styles.thumbnail_image}
-                    />
+                    {item.images && (
+                      <img
+                        src={`https://fliqapp.xyz/api/product-images/${
+                          item.images.split(",")[0].split(":")[0]
+                        }`}
+                        alt="image"
+                        className={styles.thumbnail_image}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className={styles.product_details}>
