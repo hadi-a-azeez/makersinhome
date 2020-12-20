@@ -31,6 +31,26 @@ export const updateProductAPI = async (product) => {
     return error;
   }
 };
+//Delete Product Images
+export const deleteProductImagesAPI = async (images, pid) => {
+  let imagesArr = { images_delete: images };
+  try {
+    const response = await axios.post(
+      `${apiRoot}/seller/products/imageDelete/${pid}`,
+      imagesArr,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 
 //get count of all product and categories of current user
 export const getCountAPI = async (id) => {

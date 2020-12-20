@@ -57,34 +57,6 @@ const Products = () => {
     }
   }
 
-  const ImagePreview = (images) => {
-    let image = images.image;
-    if (image == null) {
-      return (
-        <img src={Placeholder} alt="image" className={styles.thumbnail_image} />
-      );
-    } else {
-      if (image.indexOf(",") > -1) {
-        var imagesArray = image.split(",");
-        return (
-          <img
-            src={`https://fliqapp.xyz/api/product-images/${imagesArray[0]}`}
-            alt="image"
-            className={styles.thumbnail_image}
-          />
-        );
-      } else {
-        return (
-          <img
-            src={`https://fliqapp.xyz/api/product-images/${image}`}
-            alt="image"
-            className={styles.thumbnail_image}
-          />
-        );
-      }
-    }
-  };
-
   return (
     <>
       <div className={styles.container}>
@@ -123,12 +95,14 @@ const Products = () => {
               >
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
-                    <ImagePreview image={item.images} />
-                    {/* <img
-                      src={Placeholder}
+                    {/* images are returned with image name and id with it seperated by : */}
+                    <img
+                      src={`https://fliqapp.xyz/api/product-images/${
+                        item.images.split(",")[0].split(":")[0]
+                      }`}
                       alt="image"
                       className={styles.thumbnail_image}
-                    /> */}
+                    />
                   </div>
                 </div>
                 <div className={styles.product_details}>

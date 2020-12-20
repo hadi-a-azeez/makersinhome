@@ -7,7 +7,12 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
-import { getProductAPI, updateProductAPI } from "../api/sellerProductAPI";
+import imageCompression from "browser-image-compression";
+import {
+  getProductAPI,
+  updateProductAPI,
+  deleteProductImagesAPI,
+} from "../api/sellerProductAPI";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -26,6 +31,8 @@ import {
 
 const ProductDetailed = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
+  const [productImagesLocal, setProductImagesLocal] = useState([]);
+  const [serverImagesToDelete, setServerImagesToDelete] = useState([]);
   const [isLogin, setIsLogin] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
@@ -34,36 +41,12 @@ const ProductDetailed = (props) => {
   const toast = useToast();
 
   let history = useHistory();
-  const id = props.match.params.id;
-
-  const updateProductStock = () => {
-    //update product stock state manually
-    let toStock = !product.product_stock;
-    console.log(product);
-    setProduct({ ...product, product_stock: toStock ? 1 : 0 });
-    console.log(product);
-  };
-
-  //update product on server on submit
-  const updateProductFull = async () => {
-    setIsBtnLoading(true);
-    const response = await updateProductAPI(product);
-    setIsBtnLoading(false);
-    toast({
-      title: "Product updated.",
-      description: "Product updated successfully.",
-      status: "success",
-      duration: 6000,
-      isClosable: true,
-      position: "top",
-    });
-    /* history.push("/products"); */
-  };
+  const productId = props.match.params.id;
 
   useEffect(() => {
     const productLoad = async () => {
       setIsLoading(true);
-      const productDetails = await getProductAPI(id);
+      const productDetails = await getProductAPI(productId);
       setIsLoading(false);
       console.log(productDetails.data.data[0]);
       setProduct(productDetails.data.data[0]);
@@ -71,21 +54,105 @@ const ProductDetailed = (props) => {
     };
     productLoad();
   }, []);
-  const ProductImages = () => {
-    if (product) return <p>Loading....</p>;
-    let image = product.images;
-    // if (image !== null && image != "undefined" && image != "") {
-    image.split(",").map((img, index) => {
-      return (
-        <img
-          src={`https://fliqapp.xyz/api/product-images/${img}`}
-          key={index}
-        />
-      );
+  //update product on server on submit
+  const updateProductFull = async () => {
+    setIsBtnLoading(true);
+    //check if new images are added to product if upload it to server
+    if (productImagesLocal.length > 0) {
+      const responseImage = await imageToServer(productImagesLocal, productId);
+    }
+    if (serverImagesToDelete.length > 0) {
+      await deleteProductImagesAPI(serverImagesToDelete, productId);
+    }
+    const responseAPI = await updateProductAPI(product);
+    setIsBtnLoading(false);
+    toast({
+      title: "Product updated.",
+      description: "Product updated successfully.",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "bottom",
     });
+
+    /* history.push("/products"); */
   };
+  const updateProductStock = () => {
+    //update product stock state manually
+    let toStock = !product.product_stock;
+    setProduct({ ...product, product_stock: toStock ? 1 : 0 });
+  };
+
+  //delete newly added images from state
+  const deleteLocalImages = (imageToDelete) => {
+    setProductImagesLocal((prevImages) =>
+      prevImages.filter((image) => image.name !== imageToDelete.name)
+    );
+  };
+  //add images to be deleted from server to array
+  const deleteServerImages = (imageToDelete) => {
+    console.log(product.images);
+    let img = product.images;
+    let imagesDeleted = img
+      .split(",")
+      .filter((image) => image !== imageToDelete)
+      .join(",");
+    console.log(imagesDeleted);
+    setProduct({ ...product, images: imagesDeleted });
+    setServerImagesToDelete([
+      ...serverImagesToDelete,
+      parseInt(imageToDelete.split(":")[1]),
+    ]);
+  };
+
+  //delete images which are deleted in state from server
+
+  const compressImage = async (event) => {
+    //compresses image to below 1MB
+    let imagesFromInput = event.target.files;
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1080,
+      useWebWorker: true,
+    };
+    try {
+      for (let i = 0; i < imagesFromInput.length; i++) {
+        const compressedFile = await imageCompression(
+          imagesFromInput[i],
+          options
+        );
+        setProductImagesLocal((oldArray) => [...oldArray, compressedFile]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //upload newly adde image to server
+  const imageToServer = async (imagesLocal, productId) => {
+    let formData = new FormData();
+    imagesLocal.map((image) => {
+      formData.append("product_image", image);
+    });
+    try {
+      const response = await axios.post(
+        `https://fliqapp.xyz/api/seller/products/imageupload/${productId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+
   const handleDelete = () => {
-    const productDeleteApi = `https://fliqapp.xyz/api/seller/products/${id}`;
+    const productDeleteApi = `https://fliqapp.xyz/api/seller/products/${productId}`;
 
     try {
       const api = axios
@@ -125,16 +192,37 @@ const ProductDetailed = (props) => {
         {isLogin && !isLoading && (
           <div className={styles.container}>
             <div className={styles.productImages}>
+              {/* images are returned with image name and id with it seperated by : */}
               {product.images &&
-                product.images.split(",").map((img, index) => {
+                product.images.split(",").map((image, index) => {
                   return (
                     <img
-                      src={`https://fliqapp.xyz/api/product-images/${img}`}
+                      src={`https://fliqapp.xyz/api/product-images/${
+                        image.split(":")[0]
+                      }`}
                       key={index}
+                      onClick={() => deleteServerImages(image)}
+                    />
+                  );
+                })}
+              {productImagesLocal &&
+                productImagesLocal.map((image, index) => {
+                  return (
+                    <img
+                      src={URL.createObjectURL(image)}
+                      key={index}
+                      onClick={() => deleteLocalImages(image)}
                     />
                   );
                 })}
             </div>
+            <input
+              type="file"
+              accept="image/*"
+              id="file-upload"
+              onChange={(event) => compressImage(event)}
+              multiple
+            />
             <FormControl id="product_name" isRequired w="90%">
               <FormLabel>Product Name</FormLabel>
               <Input

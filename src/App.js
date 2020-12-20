@@ -10,7 +10,7 @@ import SignIn from "./pages/signin";
 import AddNewProduct from "./pages/addNewProduct";
 import StoreInfo from "./pages/storeInfo";
 import Products from "./pages/products";
-import ProductDetailed from "./pages/productDetailed";
+import ProductDetailed from "./pages/productEdit";
 import Dashboard from "./pages/dashboard";
 import BottomNavigationMenu from "./components/bottomNavigation";
 import AddNewCategory from "./pages/addNewCategory";
