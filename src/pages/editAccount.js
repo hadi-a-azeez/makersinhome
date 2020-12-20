@@ -147,7 +147,7 @@ const EditAccount = () => {
         onChange={updateStoreInfo}
       />
       <TextField
-        label="Phone number*"
+        label="Whatsapp number*"
         variant="outlined"
         InputLabelProps={{ shrink: true }}
         style={{ width: `90%`, marginTop: 20 }}
