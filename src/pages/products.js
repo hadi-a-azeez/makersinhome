@@ -3,7 +3,7 @@ import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Switch from "react-switch";
-import { fetchProductsApi } from "../api";
+import { getProductsApi } from "../api/sellerProductAPI";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -11,7 +11,9 @@ import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
 import { Box, StatNumber, Stat } from "@chakra-ui/react";
 
-const Products = () => {
+const Products = (props) => {
+  const productsCat = props.match.params.cat;
+  const productsCatName = props.match.params.catname;
   const [isLogin, setIsLogin] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
   const [stock, setStock] = useState(1);
@@ -20,7 +22,7 @@ const Products = () => {
 
   useEffect(() => {
     const getProductsData = async () => {
-      const productsData = await fetchProductsApi();
+      const productsData = await getProductsApi(productsCat);
       setIsLogin(productsData.data.login);
       setProductsArray(productsData.data.data);
       setIsLoading(false);
@@ -60,7 +62,7 @@ const Products = () => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={"Products"} />
+        <LabelHeader label={productsCatName} />
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -141,7 +143,10 @@ const Products = () => {
           ))}
         {/* card one ends here */}
 
-        <Link to="/add_product" className={styles.btn}>
+        <Link
+          to={`/add_product/${productsCat != "all" ? productsCat : ""}`}
+          className={styles.btn}
+        >
           ADD PRODUCTS
         </Link>
         <div className={styles.blank}></div>

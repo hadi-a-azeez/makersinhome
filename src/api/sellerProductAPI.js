@@ -1,6 +1,25 @@
 import axios from "axios";
 import { apiRoot } from "../config";
 
+/* get product specific by catogory or all */
+export const getProductsApi = async (catogory) => {
+  let apiLink = `${apiRoot}/seller/products`;
+  if (catogory != "all") {
+    apiLink = `https://fliqapp.xyz/api/seller/products/catogories/${catogory}`;
+  }
+  try {
+    console.log(apiLink);
+    const ProductsData = await axios.get(apiLink, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return ProductsData;
+  } catch (error) {
+    return error;
+  }
+};
+
 //add new product to store
 export const addProductAPI = async (product) => {
   try {

@@ -72,7 +72,7 @@ const BottomNavigationMenu = () => {
                 )
               }
               component={Link}
-              to="/products"
+              to="/products/All Products/all"
               value="products"
             />
             <BottomNavigationAction

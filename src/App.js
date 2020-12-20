@@ -31,7 +31,7 @@ function App() {
         <Route path="/add_product/:catogory?" component={AddNewProduct} />
         <Route path="/add_image/:id" component={AddImage} />
         <Route path="/store_info" component={StoreInfo} />
-        <Route path="/products" component={Products} />
+        <Route path="/products/:catname/:cat" component={Products} />
         <Route path="/product_detailed/:id" component={ProductDetailed} />
         <Route
           path="/products_category/:cat_name/:id"

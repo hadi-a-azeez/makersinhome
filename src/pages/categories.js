@@ -24,19 +24,6 @@ const Categories = () => {
     };
     getCategoriesData();
   }, []);
-
-  /* const HandleCount = async (id) => {
-    console.log(id);
-    const postApi = `https://fliqapp.xyz/api/seller/products/catogories/no/${id}`;
-    let count =await axios.get(postApi, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    console.log(count);
-    return count;
-  }; */
-
   return (
     <>
       <div className={styles.container}>
@@ -57,7 +44,7 @@ const Categories = () => {
         {isLogin &&
           categoriesArray.map((item, index) => (
             <Link
-              to={`/products_category/${item.cat_name}/${item.id}`}
+              to={`/products/${item.cat_name}/${item.id}`}
               key={index}
               className={styles.link}
             >
