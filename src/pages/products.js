@@ -3,12 +3,12 @@ import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Switch from "react-switch";
-import { getProductsApi } from "../api/sellerProductAPI";
-import axios from "axios";
+import { getProductsApi, updateProductStock } from "../api/sellerProductAPI";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
+
 import { Box, StatNumber, Stat } from "@chakra-ui/react";
 
 const Products = (props) => {
@@ -35,29 +35,12 @@ const Products = (props) => {
   }, [stock]);
 
   //in stock,out of stock update
-  function handleChange(a, b, id) {
-    let Id = parseInt(id);
-    const productFlipApi = `https://fliqapp.xyz/api/seller/products/stock/${Id}`;
-
-    try {
-      const api = axios
-        .put(
-          productFlipApi,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-          setStock(stock + 1);
-        });
-    } catch (error) {
-      return error;
-    }
-  }
+  const flipProductStock = async (a, b, id) => {
+    let productId = parseInt(id);
+    let response = await updateProductStock(productId);
+    console.log(response);
+    setStock(stock + 1);
+  };
 
   return (
     <>
@@ -129,7 +112,7 @@ const Products = (props) => {
                     <div className={styles.toggle}>
                       <Switch
                         id={String(item.id)}
-                        onChange={handleChange}
+                        onChange={flipProductStock}
                         checked={item.product_stock ? true : false}
                         onColor="#00b140"
                         width={32}

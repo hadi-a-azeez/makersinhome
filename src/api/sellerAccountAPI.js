@@ -1,6 +1,7 @@
 import axios from "axios";
 import { apiRoot } from "../config";
 
+//get all info of loginned users
 export const getUserInfo = async () => {
   try {
     const response = await axios.get(`${apiRoot}/seller/store/user`, {

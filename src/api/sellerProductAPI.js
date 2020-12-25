@@ -99,3 +99,34 @@ export const getProductAPI = async (id) => {
     console.log(error);
   }
 };
+
+//delete product of a user
+export const deleteProductAPI = async (productId) => {
+  try {
+    const api = await axios.delete(`${apiRoot}/seller/products/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+//flip product stock status
+export const updateProductStock = async (productId) => {
+  try {
+    const response = await axios.put(
+      `${apiRoot}/seller/products/stock/${productId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

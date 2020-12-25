@@ -12,6 +12,7 @@ import {
   getProductAPI,
   updateProductAPI,
   deleteProductImagesAPI,
+  deleteProductAPI,
 } from "../api/sellerProductAPI";
 import {
   AlertDialog,
@@ -151,24 +152,10 @@ const ProductDetailed = (props) => {
     }
   };
 
-  const handleDelete = () => {
-    const productDeleteApi = `https://fliqapp.xyz/api/seller/products/${productId}`;
-
-    try {
-      const api = axios
-        .delete(productDeleteApi, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          setIsLoading(false);
-          history.push("/products");
-          console.log(response);
-        });
-    } catch (error) {
-      return error;
-    }
+  const handleDelete = async () => {
+    await deleteProductAPI(productId);
+    setIsLoading(false);
+    history.push("/products/All%20Products/all");
   };
 
   return (
