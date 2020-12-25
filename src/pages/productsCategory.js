@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Switch from "react-switch";
 import axios from "axios";
+import { getCategoryProducts } from "../api/sellerProductAPI";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
@@ -13,29 +14,21 @@ const ProductsCategory = (props) => {
   const [productsArray, setProductsArray] = useState([]);
   const [stock, setStock] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const id = props.match.params.id;
+  const catogoryId = props.match.params.id;
   const cat_name = props.match.params.cat_name;
   let history = useHistory();
 
   useEffect(() => {
     const getProductsData = async () => {
       setIsLoading(true);
-      const productsApi = `https://fliqapp.xyz/api/seller/products/catogories/${id}`;
-      await axios
-        .get(productsApi, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          setIsLogin(response.data.login);
-          setProductsArray(response.data.data);
-          setIsLoading(false);
-          console.log(productsArray);
-          if (response.data.login === false) {
-            history.push("/");
-          }
-        });
+      let response = await getCategoryProducts(catogoryId);
+      setIsLogin(response.data.login);
+      setProductsArray(response.data.data);
+      setIsLoading(false);
+      console.log(productsArray);
+      if (response.data.login === false) {
+        history.push("/");
+      }
     };
     getProductsData();
   }, [stock]);
@@ -142,7 +135,7 @@ const ProductsCategory = (props) => {
           ))}
         {/* card one ends here */}
 
-        <Link to={`/add_product/${id}`} className={styles.btn}>
+        <Link to={`/add_product/${catogoryId}`} className={styles.btn}>
           ADD PRODUCTS
         </Link>
 

@@ -113,6 +113,19 @@ export const deleteProductAPI = async (productId) => {
   }
 };
 
+//get all products of a specif category
+export const getCategoryProducts = async (id) => {
+  let response = await axios.get(
+    `${apiRoot}/seller/products/catogories/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return response;
+};
+
 //flip product stock status
 export const updateProductStock = async (productId) => {
   try {
