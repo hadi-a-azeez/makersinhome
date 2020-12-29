@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { productImagesRoot } from "../config";
 import Switch from "react-switch";
 import { getProductsApi, updateProductStock } from "../api/sellerProductAPI";
 import Loader from "react-loader-spinner";
@@ -32,7 +33,7 @@ const Products = (props) => {
       }
     };
     getProductsData();
-  }, [stock]);
+  }, [productsCat]);
 
   //in stock,out of stock update
   const flipProductStock = async (a, b, id) => {
@@ -83,7 +84,7 @@ const Products = (props) => {
                     {/* images are returned with image name and id with it seperated by : */}
                     {item.images && (
                       <img
-                        src={`https://fliqapp.xyz/api/product-images/${
+                        src={`${productImagesRoot}/${
                           item.images.split(",")[0].split(":")[0]
                         }`}
                         alt="image"

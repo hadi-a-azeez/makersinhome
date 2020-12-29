@@ -1,7 +1,23 @@
 import axios from "axios";
 import { apiRoot } from "../config";
 
-//get all info of loginned users
+//sign in user
+export const signinUserAPI = async (loginUsername, loginPassword) => {
+  const response = await axios({
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      phone: loginUsername,
+      password: loginPassword,
+    },
+    url: "http://localhost:5000/api/seller/login",
+  });
+  return response;
+};
+
+//get all info of loginned user
 export const getUserInfo = async () => {
   try {
     const response = await axios.get(`${apiRoot}/seller/store/user`, {

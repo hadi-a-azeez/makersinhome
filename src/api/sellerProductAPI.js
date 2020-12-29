@@ -143,3 +143,28 @@ export const updateProductStock = async (productId) => {
     return error;
   }
 };
+
+//upload product images to server
+
+export const uploadProductImageAPI = async (imagesLocal, productId) => {
+  let formData = new FormData();
+  imagesLocal.map((image) => {
+    formData.append("product_image", image);
+  });
+  try {
+    const response = await axios.post(
+      `${apiRoot}/seller/products/imageupload/${productId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

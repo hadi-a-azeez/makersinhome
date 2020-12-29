@@ -3,11 +3,11 @@ import styles from "./css/addNewProduct.module.css";
 import { getCategoriesAPI } from "../api/sellerCategoryAPI";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
-import axios from "axios";
 import imageCompression from "browser-image-compression";
-import { apiRoot } from "../config";
 import { useForm } from "../components/useForm";
-import { addProductAPI } from "../api/sellerProductAPI";
+import { Switch } from "@chakra-ui/react";
+
+import { addProductAPI, uploadProductImageAPI } from "../api/sellerProductAPI";
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -20,15 +20,18 @@ const AddNewProduct = (props) => {
   useEffect(() => {
     //get catogories of the current user to display on product category section
     const getCategoriesData = async () => {
-      const Data = await getCategoriesAPI();
-      setIsLogin(Data.data.login);
-      setCategoriesArray(Data.data.data);
+      const response = await getCategoriesAPI();
+      setIsLogin(response.data.login);
+      setCategoriesArray(response.data.data);
     };
     getCategoriesData();
     //adding default category to state
     if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
   }, []);
 
+  useEffect(() => {
+    console.log(compressedImages);
+  }, [compressedImages]);
   const deleteCompressedImage = (imageToDelete) => {
     setCompressedImages((prevImages) =>
       prevImages.filter((image) => image.name !== imageToDelete.name)
@@ -37,9 +40,18 @@ const AddNewProduct = (props) => {
   const addProduct = async () => {
     const response = await addProductAPI(product);
     const id = response.data.data.product_id;
-    const responseImageUpload = await imageToServer(compressedImages, id);
+    //upload image to server if any
+    if (compressedImages.length > 0) {
+      const responseImageUpload = await uploadProductImageAPI(
+        compressedImages,
+        id
+      );
+    }
     //add delay to model Completed product adding
-    history.push("/products");
+    history.push("/products/All%20Products/all");
+  };
+  const handleIsOnSale = () => {
+    setProduct({ ...product, product_is_sale: !product.product_is_sale });
   };
   const compressImage = async (event) => {
     //compresses image to below 1MB
@@ -61,28 +73,6 @@ const AddNewProduct = (props) => {
       // setProductImageConverted(URL.createObjectURL(compressedFile));
     } catch (error) {
       console.log(error);
-    }
-  };
-  const imageToServer = async (imagesLocal, productId) => {
-    let formData = new FormData();
-    imagesLocal.map((image) => {
-      formData.append("product_image", image);
-    });
-    try {
-      const response = await axios.post(
-        `https://fliqapp.xyz/api/seller/products/imageupload/${productId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-      return error;
     }
   };
 
@@ -122,14 +112,21 @@ const AddNewProduct = (props) => {
           placeholder="original price*"
           onChange={updateProduct}
         />
-        <input
-          type="text"
-          name="product_sale_price"
-          defaultValue={product.product_sale_price}
-          className={styles.input_field}
-          placeholder="new price"
-          onChange={updateProduct}
+        <Switch
+          onChange={handleIsOnSale}
+          size="md"
+          isChecked={product.product_is_sale}
         />
+        {product.product_is_sale && (
+          <input
+            type="text"
+            name="product_sale_price"
+            defaultValue={product.product_sale_price}
+            className={styles.input_field}
+            placeholder="new price"
+            onChange={updateProduct}
+          />
+        )}
         <select
           name="parent category"
           name="product_cat"

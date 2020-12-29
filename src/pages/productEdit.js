@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./css/productDetailed.module.css";
-/* import Switch from "react-switch"; */
-import axios from "axios";
+import { productImagesRoot } from "../config";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
@@ -13,6 +12,7 @@ import {
   updateProductAPI,
   deleteProductImagesAPI,
   deleteProductAPI,
+  uploadProductImageAPI,
 } from "../api/sellerProductAPI";
 import {
   AlertDialog,
@@ -55,12 +55,22 @@ const ProductDetailed = (props) => {
     };
     productLoad();
   }, []);
+
+  //flip is on product in state on switch click
+  const handleIsOnSale = () => {
+    console.log("nnnnice");
+    let onSale = !product.product_is_sale;
+    setProduct({ ...product, product_is_sale: onSale ? 1 : 0 });
+  };
   //update product on server on submit
   const updateProductFull = async () => {
     setIsBtnLoading(true);
     //check if new images are added to product if upload it to server
     if (productImagesLocal.length > 0) {
-      const responseImage = await imageToServer(productImagesLocal, productId);
+      const responseImage = await uploadProductImageAPI(
+        productImagesLocal,
+        productId
+      );
     }
     if (serverImagesToDelete.length > 0) {
       await deleteProductImagesAPI(serverImagesToDelete, productId);
@@ -128,29 +138,6 @@ const ProductDetailed = (props) => {
       console.log(error);
     }
   };
-  //upload newly adde image to server
-  const imageToServer = async (imagesLocal, productId) => {
-    let formData = new FormData();
-    imagesLocal.map((image) => {
-      formData.append("product_image", image);
-    });
-    try {
-      const response = await axios.post(
-        `https://fliqapp.xyz/api/seller/products/imageupload/${productId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
 
   const handleDelete = async () => {
     await deleteProductAPI(productId);
@@ -184,9 +171,7 @@ const ProductDetailed = (props) => {
                 product.images.split(",").map((image, index) => {
                   return (
                     <img
-                      src={`https://fliqapp.xyz/api/product-images/${
-                        image.split(":")[0]
-                      }`}
+                      src={`${productImagesRoot}/${image.split(":")[0]}`}
                       key={index}
                       onClick={() => deleteServerImages(image)}
                     />
@@ -232,17 +217,26 @@ const ProductDetailed = (props) => {
                 size="lg"
               />
             </FormControl>
-            <FormControl id="product_sale_price" w="90%" mt="4px">
-              <FormLabel>Sale Price</FormLabel>
-              <Input
-                type="text"
-                name="product_sale_price"
-                placeholder="Price"
-                defaultValue={product.product_sale_price}
-                onChange={updateProduct}
-                size="lg"
-              />
-            </FormControl>
+            <Switch
+              onChange={() => {
+                handleIsOnSale();
+              }}
+              size="md"
+              isChecked={product.product_is_sale ? true : false}
+            />
+            {product.product_is_sale && (
+              <FormControl id="product_sale_price" w="90%" mt="4px">
+                <FormLabel>Sale Price</FormLabel>
+                <Input
+                  type="text"
+                  name="product_sale_price"
+                  placeholder="Price"
+                  defaultValue={product.product_sale_price}
+                  onChange={updateProduct}
+                  size="lg"
+                />
+              </FormControl>
+            )}
             <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Description</FormLabel>
               <Textarea
@@ -254,23 +248,7 @@ const ProductDetailed = (props) => {
                 onChange={updateProduct}
               />
             </FormControl>
-            {/* <div className={styles.toggle_block}>
-              <h1 className={styles.heading_toggle}>Stock</h1>
-              <label>
-                <div className={styles.toggle}>
-                  <Switch
-                    name="product_stock"
-                    checked={product.product_stock ? true : false}
-                    onChange={updateProductStock}
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                    onColor="#00b140"
-                    width={46}
-                    height={24}
-                  />
-                </div>
-              </label>
-            </div> */}
+
             <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Stock</FormLabel>
               <Switch

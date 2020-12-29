@@ -7,7 +7,7 @@ import LabelHeader from "../components/labelHeader";
 const Account = () => {
   let history = useHistory();
   const logOut = () => {
-    localStorage.removeItem("isLogin");
+    localStorage.removeItem("loginExpiry");
     localStorage.removeItem("token");
     history.push("./");
   };
