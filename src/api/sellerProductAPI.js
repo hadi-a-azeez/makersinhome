@@ -149,7 +149,7 @@ export const updateProductStock = async (productId) => {
 export const uploadProductImageAPI = async (imagesLocal, productId) => {
   let formData = new FormData();
   imagesLocal.map((image) => {
-    formData.append("product_image", image);
+    formData.append("product_image", image.image);
   });
   try {
     const response = await axios.post(

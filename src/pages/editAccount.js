@@ -3,21 +3,21 @@ import styles from "./css/editAccount.module.css";
 import Loader from "react-loader-spinner";
 import imageCompression from "browser-image-compression";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
-import { apiRoot } from "../config";
 import TextField from "@material-ui/core/TextField";
+import {
+  getStoreInfoAPI,
+  uploadProfileImageAPI,
+} from "../api/sellerAccountAPI";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState([]);
   const [isImageEdited, setImageEdited] = useState(false);
   const [compressedImagesState, setCompreseesdImagesState] = useState([]);
   const [storeInfo, setStoreInfo, updateStoreInfo] = useForm([]);
-  let history = useHistory();
+  const [isFormError, setIsFormError] = useState(false);
 
   const compressImage = async (event) => {
     setIsLoading(true);
@@ -47,54 +47,29 @@ const EditAccount = () => {
       console.log(error);
     }
   };
-  const imageToServer = async (imagesLocal) => {
-    let formData = new FormData();
-    imagesLocal.map((image) => {
-      formData.append("account_store_image", image);
-    });
-
-    try {
-      const response = await axios.post(
-        `${apiRoot}/seller/store/profile-upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-      return error;
+  const validateFields = (formAction) => {
+    if (storeInfo.account_store != "" && storeInfo.account_whatsapp != "") {
+      setIsFormError(false);
+      return formAction();
     }
+    setIsFormError(true);
   };
 
   useEffect(() => {
-    const getStoreDetails = async () => {
+    const getStoreInfo = async () => {
       setIsLoading(true);
-      const productsApi = `https://fliqapp.xyz/api/seller/store`;
-      let response = await axios.get(productsApi, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setIsLogin(response.data.login);
+      let response = await getStoreInfoAPI();
       setStoreInfo(response.data.data[0]);
-
       setIsLoading(false);
-      if (response.data.login === false) {
-        history.push("/");
-      }
     };
-    getStoreDetails();
+    getStoreInfo();
   }, []);
 
   const updateStore = async () => {
     setIsLoading(true);
+    if (isImageEdited) await uploadProfileImageAPI(compressedImagesState);
     await updateStoreAPI(storeInfo);
-    await imageToServer(compressedImagesState);
+
     setIsLoading(false);
   };
 
@@ -164,7 +139,13 @@ const EditAccount = () => {
         value={storeInfo.account_store_address}
         onChange={updateStoreInfo}
       />
-      <button className={styles.btn} onClick={updateStore}>
+      {isFormError && (
+        <h1 style={{ color: "red" }}>Please fill all required details</h1>
+      )}
+      <button
+        className={styles.btn}
+        onClick={() => validateFields(updateStore)}
+      >
         Update Store Info
       </button>
     </div>

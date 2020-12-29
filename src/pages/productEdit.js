@@ -4,9 +4,12 @@ import { productImagesRoot } from "../config";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import imageCompression from "browser-image-compression";
+import { getCategoriesAPI } from "../api/sellerCategoryAPI";
+
 import {
   getProductAPI,
   updateProductAPI,
@@ -34,7 +37,8 @@ const ProductDetailed = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [productImagesLocal, setProductImagesLocal] = useState([]);
   const [serverImagesToDelete, setServerImagesToDelete] = useState([]);
-  const [isLogin, setIsLogin] = useState([]);
+  const [categoriesArray, setCategoriesArray] = useState([]);
+  const [isFormError, setIsFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -49,9 +53,10 @@ const ProductDetailed = (props) => {
       setIsLoading(true);
       const productDetails = await getProductAPI(productId);
       setIsLoading(false);
-      console.log(productDetails.data.data[0]);
       setProduct(productDetails.data.data[0]);
       const image = productDetails.data.data[0].images;
+      const responseCatogory = await getCategoriesAPI();
+      setCategoriesArray(responseCatogory.data.data);
     };
     productLoad();
   }, []);
@@ -62,6 +67,17 @@ const ProductDetailed = (props) => {
     let onSale = !product.product_is_sale;
     setProduct({ ...product, product_is_sale: onSale ? 1 : 0 });
   };
+
+  //validate input values
+  const validateFields = (formAction) => {
+    console.log(product.product_price);
+    if (product.product_price != "" && product.product_name != "") {
+      setIsFormError(false);
+      return formAction();
+    }
+    setIsFormError(true);
+  };
+
   //update product on server on submit
   const updateProductFull = async () => {
     setIsBtnLoading(true);
@@ -97,7 +113,7 @@ const ProductDetailed = (props) => {
   //delete newly added images from state
   const deleteLocalImages = (imageToDelete) => {
     setProductImagesLocal((prevImages) =>
-      prevImages.filter((image) => image.name !== imageToDelete.name)
+      prevImages.filter((image) => image.name !== imageToDelete)
     );
   };
   //add images to be deleted from server to array
@@ -116,8 +132,6 @@ const ProductDetailed = (props) => {
     ]);
   };
 
-  //delete images which are deleted in state from server
-
   const compressImage = async (event) => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
@@ -132,7 +146,11 @@ const ProductDetailed = (props) => {
           imagesFromInput[i],
           options
         );
-        setProductImagesLocal((oldArray) => [...oldArray, compressedFile]);
+        let imageName = uuidv4();
+        setProductImagesLocal((oldArray) => [
+          ...oldArray,
+          { name: imageName, image: compressedFile },
+        ]);
       }
     } catch (error) {
       console.log(error);
@@ -163,7 +181,7 @@ const ProductDetailed = (props) => {
           <div></div>
         )}
 
-        {isLogin && !isLoading && (
+        {!isLoading && (
           <div className={styles.container}>
             <div className={styles.productImages}>
               {/* images are returned with image name and id with it seperated by : */}
@@ -178,12 +196,12 @@ const ProductDetailed = (props) => {
                   );
                 })}
               {productImagesLocal &&
-                productImagesLocal.map((image, index) => {
+                productImagesLocal.map((image) => {
                   return (
                     <img
-                      src={URL.createObjectURL(image)}
-                      key={index}
-                      onClick={() => deleteLocalImages(image)}
+                      src={URL.createObjectURL(image.image)}
+                      key={image.name}
+                      onClick={() => deleteLocalImages(image.name)}
                     />
                   );
                 })}
@@ -193,6 +211,9 @@ const ProductDetailed = (props) => {
               accept="image/*"
               id="file-upload"
               onChange={(event) => compressImage(event)}
+              onClick={(event) => {
+                event.target.value = null;
+              }}
               multiple
             />
             <FormControl id="product_name" isRequired w="90%">
@@ -237,6 +258,23 @@ const ProductDetailed = (props) => {
                 />
               </FormControl>
             )}
+            <select
+              name="parent category"
+              name="product_cat"
+              id="parentcategory"
+              value={product.product_cat == 0 ? "DEFAULT" : product.product_cat}
+              className={styles.dropdown}
+              onChange={updateProduct}
+            >
+              <option value="DEFAULT" disabled>
+                select category
+              </option>
+              {categoriesArray.map((item, index) => (
+                <option value={item.id} key={index}>
+                  {item.cat_name}
+                </option>
+              ))}
+            </select>
             <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Description</FormLabel>
               <Textarea
@@ -259,6 +297,9 @@ const ProductDetailed = (props) => {
                 onChange={updateProductStock}
               />
             </FormControl>
+            {isFormError && (
+              <h1 style={{ color: "red" }}>Please fill all required details</h1>
+            )}
             <Button
               colorScheme="red"
               w="90%"
@@ -299,7 +340,7 @@ const ProductDetailed = (props) => {
               w="90%"
               isLoading={isBtnLoading}
               loadingText="Uploading"
-              onClick={updateProductFull}
+              onClick={() => validateFields(updateProductFull)}
               size="lg"
             >
               Update product

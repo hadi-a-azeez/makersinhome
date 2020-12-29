@@ -28,6 +28,7 @@ const SignIn = () => {
     setIsLoading(true);
 
     let response = await signinUserAPI(loginUsername, loginPassword);
+    console.log(response);
     setIsLoading(false);
     // check if login detials are incorrect
     if (!response.data.status) return setIsLoginError(true);
