@@ -12,7 +12,7 @@ export const signinUserAPI = async (loginUsername, loginPassword) => {
       phone: loginUsername,
       password: loginPassword,
     },
-    url: "http://localhost:5000/api/seller/login",
+    url: `${apiRoot}/seller/login`,
   });
   return response;
 };
