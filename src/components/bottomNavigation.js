@@ -14,7 +14,18 @@ import AccountIconFilled from "../assets/personFilled.svg";
 
 const BottomNavigationMenu = () => {
   const location = useLocation();
-  const [value, setValue] = useState(location.pathname.substring(1));
+  const [value, setValue] = useState(location.pathname.split("/")[1]);
+
+  useEffect(() => {
+    let bottomNavItems = ["dashboard", "categories", "account", "products"];
+    if (!bottomNavItems.some((sel) => sel == location.pathname.split("/")[1])) {
+      console.log("shafi");
+      if (localStorage.getItem("bottomNavLast"))
+        setValue(localStorage.getItem("bottomNavLast"));
+    } else if (location.pathname.split("/")[1] == "products") {
+      if(location.pathname != "/products/All Products/all")setValue("categories")
+    };
+  }, []);
   return (
     <>
       <div className={styles.container}>
@@ -25,6 +36,7 @@ const BottomNavigationMenu = () => {
             value={value}
             onChange={(event, value) => {
               setValue(value);
+              localStorage.setItem("bottomNavLast", value);
             }}
           >
             <BottomNavigationAction

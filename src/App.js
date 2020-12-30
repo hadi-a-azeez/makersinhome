@@ -22,6 +22,7 @@ import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
 import ProductDetail from "./pages/front/productDetail";
 import Home from "./pages/front/home";
+import ApiTest from "./apiTest.js";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -49,8 +50,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/apitest" component={ApiTest} />
         <Route exact path="/home" component={Home} />
-        <Route exact path="/store" component={Store} />
+        <Route exact path="/store/:storelink" component={Store} />
         <Route path="/product_detail" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={SignIn} />

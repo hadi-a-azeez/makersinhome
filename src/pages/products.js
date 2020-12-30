@@ -9,22 +9,18 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
-
 import { Box, StatNumber, Stat } from "@chakra-ui/react";
 
 const Products = (props) => {
   const productsCat = props.match.params.cat;
   const productsCatName = props.match.params.catname;
-  const [isLogin, setIsLogin] = useState([]);
   const [productsArray, setProductsArray] = useState([]);
-  const [stock, setStock] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
 
   useEffect(() => {
     const getProductsData = async () => {
       const productsData = await getProductsApi(productsCat);
-      setIsLogin(productsData.data.login);
       setProductsArray(productsData.data.data);
       setIsLoading(false);
       console.log(productsData.data);
@@ -37,10 +33,15 @@ const Products = (props) => {
 
   //in stock,out of stock update
   const flipProductStock = async (a, b, id) => {
-    let productId = parseInt(id);
-    let response = await updateProductStock(productId);
+    let product = productsArray[id];
+    let newProductsArray = [...productsArray];
+    newProductsArray[id] = {
+      ...newProductsArray[id],
+      product_stock: !newProductsArray[id].product_stock ? 1 : 0,
+    };
+    setProductsArray(newProductsArray);
+    let response = await updateProductStock(parseInt(product.id));
     console.log(response);
-    setStock(stock + 1);
   };
 
   return (
@@ -61,12 +62,11 @@ const Products = (props) => {
           <div></div>
         )}
         {/* card one */}
-        {isLogin &&
-          !isLoading &&
+        {!isLoading &&
           productsArray.map((item, index) => (
             <Link
               to={`/product_detailed/${item.id}`}
-              key={index}
+              key={item.id}
               className={styles.link}
             >
               <Box
@@ -112,7 +112,7 @@ const Products = (props) => {
                     )}
                     <div className={styles.toggle}>
                       <Switch
-                        id={String(item.id)}
+                        id={index.toString()}
                         onChange={flipProductStock}
                         checked={item.product_stock ? true : false}
                         onColor="#00b140"

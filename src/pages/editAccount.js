@@ -118,7 +118,7 @@ const EditAccount = () => {
         style={{ width: `90%` }}
         id="outlined-basic"
         name="account_store"
-        value={storeInfo.account_store}
+        value={storeInfo.account_store || ""}
         onChange={updateStoreInfo}
       />
       <TextField
@@ -127,7 +127,7 @@ const EditAccount = () => {
         InputLabelProps={{ shrink: true }}
         style={{ width: `90%`, marginTop: 20 }}
         name="account_whatsapp"
-        value={storeInfo.account_whatsapp}
+        value={storeInfo.account_whatsapp || ""}
         onChange={updateStoreInfo}
       />
       <TextField
@@ -136,7 +136,7 @@ const EditAccount = () => {
         InputLabelProps={{ shrink: true }}
         style={{ width: `90%`, marginTop: 20, marginBottom: 20 }}
         name="account_store_address"
-        value={storeInfo.account_store_address}
+        value={storeInfo.account_store_address || ""}
         onChange={updateStoreInfo}
       />
       {isFormError && (
