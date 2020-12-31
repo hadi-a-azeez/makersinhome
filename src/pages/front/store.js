@@ -91,34 +91,29 @@ const Store = (props) => {
       </div>
       <div className={styles.products}>
         {/* product item starts here */}
-        {storeProducts &&
-          storeProducts.map((product) => {
-            return (
-              // <Link to={`/product_detail/${product.id}`} key={product.id}>
-              <div
-                className={styles.product_item}
-                onClick={() => history.push(`/product_detail/${product.id}`)}
-                key={product.id}
-              >
-                {product.images && (
-                  <img
-                    src={`${productImagesRoot}/${product.images.split(",")[0]}`}
-                    alt="img"
-                    className={styles.product_image}
-                  />
-                )}
-                <div className={styles.product_details}>
-                  <h1 className={styles.product_name}>
-                    {product.product_name}
-                  </h1>
-                  <h1 className={styles.product_price}>
-                    ₹{product.product_price}
-                  </h1>
-                </div>
+        {storeProducts.map((product) => {
+          return (
+            <div
+              className={styles.product_item}
+              onClick={() => history.push(`/product_detail/${product.id}`)}
+              key={product.id}
+            >
+              {product.images && (
+                <img
+                  src={`${productImagesRoot}/${product.images.split(",")[0]}`}
+                  alt="img"
+                  className={styles.product_image}
+                />
+              )}
+              <div className={styles.product_details}>
+                <h1 className={styles.product_name}>{product.product_name}</h1>
+                <h1 className={styles.product_price}>
+                  ₹{product.product_price}
+                </h1>
               </div>
-              // </Link>
-            );
-          })}
+            </div>
+          );
+        })}
         {/* product item ends here */}
       </div>
     </div>

@@ -11,7 +11,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
   const productId = props.match.params.productId;
-  useEffect((props) => {
+  useEffect(() => {
     const getProduct = async () => {
       const productResponse = await getSingleProductAPI(productId);
       setProductData(productResponse.data.data[0]);
@@ -77,13 +77,8 @@ const ProductDetail = (props) => {
           <h1 className={styles.desc_heading}>Description</h1>
           <h1 className={styles.description}>{productData.product_desc}</h1>
         </div>
-        <button className={styles.btn_whatsapp}>
-          <img
-            src={WhatsappLogo}
-            alt="w"
-            className={styles.whatsappicon}
-            onClick={whatsappBuy}
-          />
+        <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
+          <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
           Buy on whatsapp
         </button>
         <button className={styles.btn_favourites}>
