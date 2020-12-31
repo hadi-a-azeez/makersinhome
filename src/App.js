@@ -53,7 +53,7 @@ function App() {
         <Route exact path="/apitest" component={ApiTest} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/store/:storelink" component={Store} />
-        <Route path="/product_detail" component={ProductDetail} />
+        <Route path="/product_detail/:productId" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={SignIn} />
         <Route component={AuthenticatedRoutes} />

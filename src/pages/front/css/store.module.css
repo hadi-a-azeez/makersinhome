@@ -6,6 +6,13 @@
   background-color: #f7f7f7;
   min-height: 100vh;
 }
+.link {
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  color: black;
+}
 .store_card {
   height: 120px;
   width: 90%;
