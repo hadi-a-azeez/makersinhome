@@ -21,7 +21,7 @@ const ProductDetail = (props) => {
   }, []);
   const whatsappBuy = () => {
     window.location.replace(
-      `https://api.whatsapp.com/send?text=Product%20Name%20%20%3A%20${productData.product_name}%0A%0AI%20want%20this%20item`
+      `https://api.whatsapp.com/send?phone=919496742190&text=I%20want%20to%20know%20about%20this%20product%20%F0%9F%9B%92%0AProduct%20Name%3A%20${productData.product_name}%0AProduct%20Link%20%3A%20${window.location.href}`
     );
   };
   return (
@@ -70,10 +70,15 @@ const ProductDetail = (props) => {
         </Carousel>
         <div className={styles.product_details}>
           <h1 className={styles.product_name}>{productData.product_name}</h1>
-          <h1 className={styles.product_price}>
-            {" "}
-            ₹{productData.product_price}
-          </h1>
+          {productData.product_is_sale == 0 ? (
+            <h1 className={styles.product_price}>
+              ₹{productData.product_price}
+            </h1>
+          ) : (
+            <h1 className={styles.product_price}>
+              ₹{productData.product_price} ₹{productData.product_sale_price}
+            </h1>
+          )}
           <h1 className={styles.desc_heading}>Description</h1>
           <h1 className={styles.description}>{productData.product_desc}</h1>
         </div>
