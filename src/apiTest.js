@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-const ApiTest = () => {
+const ApiTest = (props) => {
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
-    let apiUrl = "https://fliqapp.xyz/api/client/store/categories/all/11";
+    let apiUrl = `http://localhost:5000/api/client/store/analytics/${props.params.id}`;
     const runAPI = async (url) => {
       try {
         let response = await axios.get(url);

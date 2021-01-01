@@ -45,7 +45,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/apitest" component={ApiTest} />
+        <Route exact path="/apitest/:id" component={ApiTest} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/store/:storelink" component={Store} />
         <Route path="/product_detail/:productId" component={ProductDetail} />
