@@ -1,6 +1,7 @@
 import axios from "axios";
 import { apiRoot } from "../config";
 
+// get catogories of  user
 export const getCategoriesAPI = async () => {
   try {
     const categoriesData = await axios.get(`${apiRoot}/seller/catogories/`, {
@@ -11,5 +12,25 @@ export const getCategoriesAPI = async () => {
     return categoriesData;
   } catch (error) {
     return error;
+  }
+};
+
+//add new category
+export const addCatogoriesAPI = async (newCategory, selected) => {
+  try {
+    return await axios.post(
+      `${apiRoot}/seller/catogories/`,
+      {
+        cat_name: newCategory,
+        cat_parent: selected,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error);
   }
 };

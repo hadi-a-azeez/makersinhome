@@ -254,6 +254,7 @@ const AddNewProduct = (props) => {
           loadingText="Uploading"
           onClick={addProduct}
           size="lg"
+          mb="80px"
         >
           Add Product
         </Button>

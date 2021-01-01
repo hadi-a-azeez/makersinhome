@@ -4,9 +4,9 @@ import { fetchParentCategoriesApi } from "../api";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
+import { addCatogoriesAPI } from "../api/sellerCategoryAPI";
 
 const AddNewCategory = () => {
-  const [isLogin, setIsLogin] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [selected, setSelected] = useState([]);
   const [newCategory, setNewCategory] = useState([]);
@@ -15,9 +15,7 @@ const AddNewCategory = () => {
   useEffect(() => {
     const getCategoriesData = async () => {
       const Data = await fetchParentCategoriesApi();
-      setIsLogin(Data.data.login);
       setCategoriesArray(Data.data.data);
-      console.log(Data);
     };
     getCategoriesData();
   }, []);
@@ -27,32 +25,10 @@ const AddNewCategory = () => {
     console.log(id);
   };
 
-  const handleSubmit = () => {
-    const postApi = "https://fliqapp.xyz/api/seller/catogories/";
-    try {
-      const post = axios
-        .post(
-          postApi,
-          {
-            cat_name: newCategory,
-            cat_parent: selected,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((response) => {
-          if (response.data.status_code === 201) {
-            history.push("/categories");
-          }
-          console.log(response);
-        });
-    } catch (error) {
-      return error;
-    }
-    console.log("clicked");
+  const handleSubmit = async () => {
+    const response = await addCatogoriesAPI(newCategory, selected);
+    console.log(response);
+    history.push("/categories");
   };
 
   return (
@@ -61,7 +37,7 @@ const AddNewCategory = () => {
         <h1 className={styles.heading_bold}>Add new category</h1>
       </div> */}
       <div className={styles.container}>
-      <LabelHeader label={"Add new category"} />
+        <LabelHeader label={"Add new category"} />
         <div className={styles.blank_two}></div>
         <select
           name="parent category"
@@ -73,12 +49,11 @@ const AddNewCategory = () => {
           <option value="DEFAULT" disabled>
             parent category
           </option>
-          {isLogin &&
-            categoriesArray.map((item, index) => (
-              <option value={item.id} key={index}>
-                {item.cat_name}
-              </option>
-            ))}
+          {categoriesArray.map((item, index) => (
+            <option value={item.id} key={index}>
+              {item.cat_name}
+            </option>
+          ))}
         </select>
         <input
           type="text"
@@ -89,7 +64,7 @@ const AddNewCategory = () => {
         <button className={styles.btn} onClick={handleSubmit}>
           ADD CATEGORY
         </button>
-        
+
         <div className={styles.blank}></div>
       </div>
     </>
