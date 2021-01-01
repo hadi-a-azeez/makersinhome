@@ -97,9 +97,22 @@ const AddNewProduct = (props) => {
         );
         //generate uuid for images
         let imageName = uuidv4();
+        compressedFile.lastModifiedDate = new Date();
+        const convertedBlobFile = new File(
+          [compressedFile],
+          imagesFromInput[i].name,
+          {
+            type: imagesFromInput[i].type,
+            lastModified: Date.now(),
+          }
+        );
         setCompressedImages((oldArray) => [
           ...oldArray,
-          { name: imageName, image: compressedFile },
+          {
+            name: imageName,
+            image: convertedBlobFile,
+            imageblob: URL.createObjectURL(compressedFile),
+          },
         ]);
       }
     } catch (error) {
@@ -129,7 +142,7 @@ const AddNewProduct = (props) => {
                   boxSize="90px"
                   borderRadius="8px"
                   objectFit="cover"
-                  src={URL.createObjectURL(image.image)}
+                  src={image.imageblob}
                   onClick={() => deleteCompressedImage(image.name)}
                   key={image.name}
                 />
