@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 const ApiTest = (props) => {
   const [apiData, setApiData] = useState([]);
   useEffect(() => {
-    let apiUrl = `http://localhost:5000/api/client/store/analytics/${props.params.id}`;
+    let apiUrl = `http://localhost:5000/api/client/store/analytics/${props.match.params.id}`;
     const runAPI = async (url) => {
       try {
         let response = await axios.get(url);
