@@ -9,6 +9,7 @@ import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import imageCompression from "browser-image-compression";
 import { getCategoriesAPI } from "../api/sellerCategoryAPI";
+import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
 
 import {
   getProductAPI,
@@ -31,6 +32,11 @@ import {
   FormLabel,
   Switch,
   useToast,
+  Select,
+  Stack,
+  Image,
+  IconButton,
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 const ProductDetailed = (props) => {
@@ -78,9 +84,16 @@ const ProductDetailed = (props) => {
     setIsFormError(true);
   };
 
+  const setSalePrice = (value) => {
+    setProduct({
+      ...product,
+      product_sale_price: value + "",
+    });
+  };
   //update product on server on submit
   const updateProductFull = async () => {
     setIsBtnLoading(true);
+
     //check if new images are added to product if upload it to server
     if (productImagesLocal.length > 0) {
       const responseImage = await uploadProductImageAPI(
@@ -88,6 +101,7 @@ const ProductDetailed = (props) => {
         productId
       );
     }
+
     if (serverImagesToDelete.length > 0) {
       await deleteProductImagesAPI(serverImagesToDelete, productId);
     }
@@ -183,29 +197,85 @@ const ProductDetailed = (props) => {
 
         {!isLoading && (
           <div className={styles.container}>
-            <div className={styles.productImages}>
-              {/* images are returned with image name and id with it seperated by : */}
+            <SimpleGrid
+              column={3}
+              w="90%"
+              mt="5"
+              mb="3"
+              columns={3}
+              spacing="7px"
+            >
+              <label htmlFor="file-upload" className={styles.customFileUpload}>
+                <AddIcon w={8} h={8} />
+              </label>
               {product.images &&
                 product.images.split(",").map((image, index) => {
                   return (
-                    <img
-                      src={`${productImagesRoot}/${image.split(":")[0]}`}
+                    <div
                       key={index}
-                      onClick={() => deleteServerImages(image)}
-                    />
+                      style={{
+                        position: "relative",
+                        borderRadius: `8px`,
+                        width: "90px",
+                      }}
+                    >
+                      <Image
+                        boxSize="90px"
+                        borderRadius="8px"
+                        objectFit="cover"
+                        src={`${productImagesRoot}/${image.split(":")[0]}`}
+                        key={index}
+                      />
+                      <IconButton
+                        colorScheme="gray"
+                        borderRadius="100%"
+                        aria-label="Call Segun"
+                        size="sm"
+                        position="absolute"
+                        top="5px"
+                        right="3px"
+                        zIndex="8"
+                        onClick={() => deleteServerImages(image)}
+                        icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                      />
+                    </div>
                   );
                 })}
               {productImagesLocal &&
                 productImagesLocal.map((image) => {
                   return (
-                    <img
-                      src={URL.createObjectURL(image.image)}
+                    <div
                       key={image.name}
-                      onClick={() => deleteLocalImages(image.name)}
-                    />
+                      style={{
+                        position: "relative",
+                        borderRadius: `8px`,
+                      }}
+                    >
+                      <Image
+                        boxSize="90px"
+                        borderRadius="8px"
+                        objectFit="cover"
+                        src={URL.createObjectURL(image.image)}
+                        key={image.name}
+                        onClick={() => deleteLocalImages(image.name)}
+                      />
+                      <IconButton
+                        colorScheme="gray"
+                        borderRadius="100%"
+                        aria-label="Call Segun"
+                        size="sm"
+                        position="absolute"
+                        top="5px"
+                        right="22px"
+                        zIndex="8"
+                        onClick={() => deleteLocalImages(image.name)}
+                        icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                      />
+                    </div>
                   );
                 })}
-            </div>
+            </SimpleGrid>
+
             <input
               type="file"
               accept="image/*"
@@ -222,65 +292,84 @@ const ProductDetailed = (props) => {
                 type="text"
                 name="product_name"
                 placeholder="Product name"
+                variant="filled"
                 defaultValue={product.product_name}
                 onChange={updateProduct}
                 size="lg"
               />
             </FormControl>
-            <FormControl id="product_price" isRequired w="90%" mt="4px">
-              <FormLabel>Product Price</FormLabel>
-              <Input
-                type="text"
-                name="product_price"
-                placeholder="Price"
-                defaultValue={product.product_price}
-                onChange={updateProduct}
+            <FormControl isRequired w="90%" mt="4">
+              <FormLabel>Is Product On Discount</FormLabel>
+              <Switch
+                onChange={() => {
+                  handleIsOnSale();
+                }}
                 size="lg"
+                colorScheme="green"
+                isChecked={product.product_is_sale ? true : false}
               />
             </FormControl>
-            <Switch
-              onChange={() => {
-                handleIsOnSale();
-              }}
-              size="md"
-              isChecked={product.product_is_sale ? true : false}
-            />
-            {product.product_is_sale && (
-              <FormControl id="product_sale_price" w="90%" mt="4px">
-                <FormLabel>Sale Price</FormLabel>
+            <Stack direction="row" w="90%" mt="4">
+              <FormControl id="product_price" isRequired w="100%">
+                <FormLabel>Product Price</FormLabel>
                 <Input
                   type="text"
-                  name="product_sale_price"
+                  name="product_price"
                   placeholder="Price"
-                  defaultValue={product.product_sale_price}
+                  variant="filled"
+                  defaultValue={product.product_price}
                   onChange={updateProduct}
                   size="lg"
+                  w="100%"
                 />
               </FormControl>
-            )}
-            <select
-              name="parent category"
-              name="product_cat"
-              id="parentcategory"
-              value={product.product_cat == 0 ? "DEFAULT" : product.product_cat}
-              className={styles.dropdown}
-              onChange={updateProduct}
-            >
-              <option value="DEFAULT" disabled>
-                select category
-              </option>
-              {categoriesArray.map((item, index) => (
-                <option value={item.id} key={index}>
-                  {item.cat_name}
+
+              {product.product_is_sale && (
+                <FormControl w="100%">
+                  <FormLabel>Sale Price</FormLabel>
+                  <Input
+                    type="text"
+                    name="product_sale_price"
+                    placeholder="Price"
+                    variant="filled"
+                    defaultValue={product.product_sale_price}
+                    onChange={(e) => setSalePrice(e.target.value)}
+                    size="lg"
+                    w="100%"
+                  />
+                </FormControl>
+              )}
+            </Stack>
+            <FormControl w="90%" mt="4" isRequired>
+              <FormLabel>categories</FormLabel>
+              <Select
+                name="parent category"
+                name="product_cat"
+                id="parentcategory"
+                variant="filled"
+                size="lg"
+                value={
+                  product.product_cat == 0 ? "DEFAULT" : product.product_cat
+                }
+                onChange={updateProduct}
+              >
+                <option value="DEFAULT" disabled>
+                  select category
                 </option>
-              ))}
-            </select>
-            <FormControl id="description" w="90%" mt="4px">
+                {categoriesArray.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.cat_name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl id="description" w="90%" mt="4">
               <FormLabel>Description</FormLabel>
               <Textarea
                 type="textarea"
                 name="product_desc"
                 placeholder="Description"
+                variant="filled"
                 defaultValue={product.product_desc}
                 rows="4"
                 onChange={updateProduct}
@@ -301,7 +390,8 @@ const ProductDetailed = (props) => {
               <h1 style={{ color: "red" }}>Please fill all required details</h1>
             )}
             <Button
-              colorScheme="red"
+              colorScheme="white"
+              style={{ color: "red" }}
               w="90%"
               mb="6px"
               size="lg"

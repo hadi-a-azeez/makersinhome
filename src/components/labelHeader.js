@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./labelHeader.module.css";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { IconButton } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
@@ -14,8 +14,10 @@ const LabelHeader = ({ label, isBackButton }) => {
           float="left"
           position="absolute"
           left="20px"
+          colorScheme="white"
+          color="black"
           onClick={() => history.goBack()}
-          icon={<ChevronLeftIcon w={8} h={8} />}
+          icon={<ArrowBackIcon w={8} h={8} />}
         />
       )}
 

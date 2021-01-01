@@ -9,7 +9,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
-import { Box, StatNumber, Stat } from "@chakra-ui/react";
+import { Box, StatNumber, Stat, Button } from "@chakra-ui/react";
 
 const Products = (props) => {
   const productsCat = props.match.params.cat;
@@ -19,6 +19,7 @@ const Products = (props) => {
   let history = useHistory();
 
   useEffect(() => {
+    setIsLoading(true);
     const getProductsData = async () => {
       const productsData = await getProductsApi(productsCat);
       setProductsArray(productsData.data.data);
@@ -48,7 +49,7 @@ const Products = (props) => {
     <>
       <div className={styles.container}>
         <LabelHeader label={productsCatName} />
-        {isLoading ? (
+        {/* {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
               type="Oval"
@@ -60,7 +61,7 @@ const Products = (props) => {
           </div>
         ) : (
           <div></div>
-        )}
+        )} */}
         {/* card one */}
         {!isLoading &&
           productsArray.map((item, index) => (

@@ -8,6 +8,26 @@ import { useForm } from "../components/useForm";
 import { Switch } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import { addProductAPI, uploadProductImageAPI } from "../api/sellerProductAPI";
+import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Input,
+  Textarea,
+  Button,
+  FormControl,
+  FormLabel,
+  useToast,
+  Select,
+  Stack,
+  Image,
+  IconButton,
+  SimpleGrid,
+} from "@chakra-ui/react";
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -16,12 +36,18 @@ const AddNewProduct = (props) => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const defaultCatogory = props.match.params.catogory;
   const [compressedImages, setCompressedImages] = useState([]);
-  useEffect(async () => {
-    //get catogories of the current user to display on product category section
-    const response = await getCategoriesAPI();
-    setCategoriesArray(response.data.data);
-    //adding default category to state
-    if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
+  const toast = useToast();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      //get catogories of the current user to display on product category section
+      const response = await getCategoriesAPI();
+      setCategoriesArray(response.data.data);
+      //adding default category to state
+      if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
+    };
+    fetchCategories();
   }, []);
 
   const deleteCompressedImage = (imageToDelete) => {
@@ -30,6 +56,7 @@ const AddNewProduct = (props) => {
     );
   };
   const addProduct = async () => {
+    setIsBtnLoading(true);
     const response = await addProductAPI(product);
     const id = response.data.data.product_id;
     //upload image to server if any
@@ -39,8 +66,17 @@ const AddNewProduct = (props) => {
         id
       );
     }
+    setIsBtnLoading(false);
+    toast({
+      title: "Product added.",
+      description: "Product added successfully.",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "bottom",
+    });
     //add delay to model Completed product adding
-    history.push("/products/All%20Products/all");
+    setTimeout(() => history.push("/products/All%20Products/all"), 2000);
   };
   const handleIsOnSale = () => {
     setProduct({ ...product, product_is_sale: !product.product_is_sale });
@@ -74,17 +110,44 @@ const AddNewProduct = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={"Add new product"} />
-        <div className={styles.blank}></div>
-        {compressedImages &&
-          compressedImages.map((image) => (
-            <img
-              width="80px"
-              src={URL.createObjectURL(image.image)}
-              onClick={() => deleteCompressedImage(image.name)}
-              key={image.name}
-            />
-          ))}
+        <LabelHeader label={"Add new product"} isBackButton={true} />
+        <SimpleGrid column={3} w="90%" mt="5" mb="3" columns={3} spacing="7px">
+          <label htmlFor="file-upload" className={styles.customFileUpload}>
+            <AddIcon w={8} h={8} />
+          </label>
+          {compressedImages &&
+            compressedImages.map((image) => (
+              <div
+                key={image.name}
+                style={{
+                  position: "relative",
+                  borderRadius: `8px`,
+                  width: "90px",
+                }}
+              >
+                <Image
+                  boxSize="90px"
+                  borderRadius="8px"
+                  objectFit="cover"
+                  src={URL.createObjectURL(image.image)}
+                  onClick={() => deleteCompressedImage(image.name)}
+                  key={image.name}
+                />
+                <IconButton
+                  colorScheme="gray"
+                  borderRadius="100%"
+                  aria-label="Call Segun"
+                  size="sm"
+                  position="absolute"
+                  top="5px"
+                  right="3px"
+                  zIndex="8"
+                  onClick={() => deleteCompressedImage(image.name)}
+                  icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                />
+              </div>
+            ))}
+        </SimpleGrid>
         <input
           type="file"
           accept="image/*"
@@ -95,72 +158,105 @@ const AddNewProduct = (props) => {
           }}
           multiple
         />
-        <input
-          type="text"
-          name="product_name"
-          defaultValue={product.product_name}
-          className={styles.input_field}
-          placeholder="Product name*"
-          onChange={updateProduct}
-        />
-        <input
-          type="text"
-          name="product_price"
-          defaultValue={product.product_price}
-          className={styles.input_field}
-          placeholder="original price*"
-          onChange={updateProduct}
-        />
-        <Switch
-          onChange={handleIsOnSale}
-          size="md"
-          isChecked={product.product_is_sale}
-        />
-        {product.product_is_sale && (
-          <input
+        <FormControl isRequired w="90%">
+          <FormLabel>Product Name</FormLabel>
+          <Input
             type="text"
-            name="product_sale_price"
-            defaultValue={product.product_sale_price}
-            className={styles.input_field}
-            placeholder="new price"
+            name="product_name"
+            defaultValue={product.product_name}
+            variant="filled"
+            size="lg"
+            placeholder="Product name*"
             onChange={updateProduct}
           />
-        )}
-        <select
-          name="parent category"
-          name="product_cat"
-          id="parentcategory"
-          value={
-            product.product_cat
-              ? product.product_cat
-              : defaultCatogory
-              ? defaultCatogory
-              : "DEFAULT"
-          }
-          className={styles.dropdown}
-          onChange={updateProduct}
-        >
-          <option value="DEFAULT" disabled>
-            select category
-          </option>
-          {categoriesArray.map((item, index) => (
-            <option value={item.id} key={index}>
-              {item.cat_name}
+        </FormControl>
+        <FormControl isRequired w="90%" mt="4">
+          <FormLabel>Is Product On Discount</FormLabel>
+          <Switch
+            onChange={handleIsOnSale}
+            size="lg"
+            colorScheme="green"
+            isChecked={product.product_is_sale}
+          />
+        </FormControl>
+
+        <Stack direction="row" w="90%" mt="4">
+          <FormControl isRequired w="100%">
+            <FormLabel>Product price</FormLabel>
+            <Input
+              type="text"
+              name="product_price"
+              defaultValue={product.product_price}
+              variant="filled"
+              size="lg"
+              placeholder="original price*"
+              onChange={updateProduct}
+            />
+          </FormControl>
+          {product.product_is_sale && (
+            <FormControl w="100%">
+              <FormLabel>Sale price</FormLabel>
+              <Input
+                type="text"
+                name="product_sale_price"
+                defaultValue={product.product_sale_price}
+                variant="filled"
+                size="lg"
+                placeholder="sale price"
+                onChange={updateProduct}
+              />
+            </FormControl>
+          )}
+        </Stack>
+        <FormControl isRequired w="90%" mt="4">
+          <FormLabel>Category</FormLabel>
+          <Select
+            name="parent category"
+            name="product_cat"
+            id="parentcategory"
+            value={
+              product.product_cat
+                ? product.product_cat
+                : defaultCatogory
+                ? defaultCatogory
+                : "DEFAULT"
+            }
+            variant="filled"
+            size="lg"
+            onChange={updateProduct}
+          >
+            <option value="DEFAULT" disabled>
+              select category
             </option>
-          ))}
-        </select>
-        <textarea
-          type="textarea"
-          name="product_desc"
-          defaultValue={product.product_desc}
-          className={styles.input_field}
-          placeholder="Description"
-          rows="4"
-          onChange={updateProduct}
-        />
-        <button className={styles.btn} onClick={addProduct}>
-          Next
-        </button>
+            {categoriesArray.map((item, index) => (
+              <option value={item.id} key={index}>
+                {item.cat_name}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl w="90%" mt="4">
+          <FormLabel>Description</FormLabel>
+          <Textarea
+            type="textarea"
+            name="product_desc"
+            defaultValue={product.product_desc}
+            variant="filled"
+            placeholder="Description"
+            rows="4"
+            onChange={updateProduct}
+          />
+        </FormControl>
+        <Button
+          colorScheme="green"
+          w="90%"
+          isLoading={isBtnLoading}
+          loadingText="Uploading"
+          onClick={addProduct}
+          size="lg"
+        >
+          Add Product
+        </Button>
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import CategoriesIcon from "../assets/gridFilled.svg";
 import WhatsappLogo from "../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../api/sellerProductAPI";
 import { getUserInfo } from "../api/sellerAccountAPI";
+import { SimpleGrid } from "@chakra-ui/react";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState([]);
@@ -38,11 +39,8 @@ const Dashboard = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Home"} />
-
-        <div className={styles.heading_block}>
-          <h1 className={styles.heading_bold}>Dashboard</h1>
-        </div>
-        <div className={styles.row}>
+        <h1 className={styles.heading_bold}>Dashboard</h1>
+        <SimpleGrid columns={2} spacing={5} w="90%">
           <div className={`${styles.card} ${styles.green}`}>
             <div className={styles.card_content}>
               <img src={VisibleIcon} alt="home" className={styles.iconFilled} />
@@ -61,8 +59,7 @@ const Dashboard = () => {
               <h1 className={styles.card_data_bold}>78</h1>
             </div>
           </div>
-        </div>
-        <div className={styles.row}>
+
           <div className={`${styles.card} ${styles.yellow}`}>
             <div className={styles.card_content}>
               <img
@@ -87,7 +84,7 @@ const Dashboard = () => {
               <h1 className={styles.card_data_bold}>{countData.cat_count}</h1>
             </div>
           </div>
-        </div>
+        </SimpleGrid>
 
         <div className={styles.cardPlain} onClick={shareToWhatsapp}>
           <h1 className={styles.cardPlainHeading}>

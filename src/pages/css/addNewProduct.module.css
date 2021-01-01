@@ -4,6 +4,21 @@
   align-items: center;
   flex-direction: column;
 }
+.customFileUpload {
+  background-color: white;
+  width: 90px !important;
+  height: 90px;
+  color: #e2e8f0;
+  font-weight: 400;
+  padding: 26px;
+  font-size: 60px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+}
 .input_field {
   padding: 12px;
   background: #fff;
