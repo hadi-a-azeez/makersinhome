@@ -45,7 +45,7 @@ const Dashboard = () => {
             <div className={styles.card_content}>
               <img src={VisibleIcon} alt="home" className={styles.iconFilled} />
               <h1 className={styles.card_heading}>Store visits</h1>
-              <h1 className={styles.card_data_bold}>299</h1>
+              <h1 className={styles.card_data_bold}>{countData.store_views}</h1>
             </div>
           </div>
           <div className={`${styles.card} ${styles.blue}`}>
@@ -56,7 +56,9 @@ const Dashboard = () => {
                 className={styles.iconFilled}
               />
               <h1 className={styles.card_heading}>Messages started</h1>
-              <h1 className={styles.card_data_bold}>78</h1>
+              <h1 className={styles.card_data_bold}>
+                {countData.message_clicks}
+              </h1>
             </div>
           </div>
 
