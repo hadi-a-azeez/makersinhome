@@ -31,7 +31,9 @@ const Store = (props) => {
       );
       setStoreProducts(productsResponse.data.data);
       //update store analytics
-      await updateStoreViews(storeResponse.data.data[0].id);
+      const analyticResponse = await updateStoreViews(
+        storeResponse.data.data[0].id
+      );
     };
     getData();
   }, []);
