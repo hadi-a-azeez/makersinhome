@@ -8,7 +8,7 @@ const ApiTest = (props) => {
     let apiUrl = `${apiRoot}/client/store/analytics/storeviews/${props.match.params.id}`;
     const runAPI = async (url) => {
       try {
-        let response = await axios.get(url);
+        let response = await axios.get(url, { withCredentials: true });
         setApiData(response);
         console.log(apiData);
       } catch (error) {

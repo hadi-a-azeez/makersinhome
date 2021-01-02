@@ -8,11 +8,11 @@ import {
   getStoreCategoriesAPI,
 } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
+import { updateStoreViews } from "../../api/custAnalyticsAPI";
 
 const Store = (props) => {
   let history = useHistory();
   const storeLink = props.match.params.storelink;
-
   const [storeData, setStoreData] = useState({});
   const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
@@ -30,6 +30,8 @@ const Store = (props) => {
         "all"
       );
       setStoreProducts(productsResponse.data.data);
+      //update store analytics
+      await updateStoreViews(storeResponse.data.data[0].id);
     };
     getData();
   }, []);
@@ -41,7 +43,7 @@ const Store = (props) => {
       );
       setStoreProducts(productsResponse.data.data);
     };
-    getSelectedProducts();
+    storeData.id && getSelectedProducts();
   }, [catSelected]);
 
   return (

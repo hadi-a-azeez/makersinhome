@@ -37,6 +37,7 @@ const AddNewProduct = (props) => {
   const defaultCatogory = props.match.params.catogory;
   const [compressedImages, setCompressedImages] = useState([]);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
+  const [isFormError, setIsFormError] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -54,6 +55,18 @@ const AddNewProduct = (props) => {
     setCompressedImages((prevImages) =>
       prevImages.filter((image) => image.name !== imageToDelete)
     );
+  };
+  const validateFields = (formAction) => {
+    if (
+      product.product_price != "" &&
+      product.product_price != undefined &&
+      product.product_name != "" &&
+      product.product_name != undefined
+    ) {
+      setIsFormError(false);
+      return formAction();
+    }
+    setIsFormError(true);
   };
   const addProduct = async () => {
     setIsBtnLoading(true);
@@ -260,12 +273,15 @@ const AddNewProduct = (props) => {
             onChange={updateProduct}
           />
         </FormControl>
+        {isFormError && (
+          <h1 style={{ color: "red" }}>Please fill all required details</h1>
+        )}
         <Button
           colorScheme="green"
           w="90%"
           isLoading={isBtnLoading}
           loadingText="Uploading"
-          onClick={addProduct}
+          onClick={() => validateFields(addProduct)}
           size="lg"
           mb="80px"
         >

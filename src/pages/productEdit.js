@@ -76,7 +76,6 @@ const ProductDetailed = (props) => {
 
   //validate input values
   const validateFields = (formAction) => {
-    console.log(product.product_price);
     if (product.product_price != "" && product.product_name != "") {
       setIsFormError(false);
       return formAction();
