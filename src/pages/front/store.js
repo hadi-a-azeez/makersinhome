@@ -41,7 +41,7 @@ const Store = (props) => {
         storeData.id,
         catSelected
       );
-      setStoreProducts(productsResponse.data.data);
+      productsResponse && setStoreProducts(productsResponse.data.data);
     };
     storeData.id && getSelectedProducts();
   }, [catSelected]);

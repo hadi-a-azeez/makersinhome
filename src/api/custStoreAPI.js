@@ -13,14 +13,10 @@ export const getStoreInfoAPI = async (storeLink) => {
 
 //get store products
 export const getStoreProducts = async (userId, cat) => {
-  try {
-    const response = await axios
-      .get(`${apiRoot}/client/store/products/${userId}/${cat}`)
-      .catch(console.log);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await axios
+    .get(`${apiRoot}/client/store/allproducts/${userId}/${cat}`)
+    .catch((err) => console.log(err));
+  return response;
 };
 
 //get store catogories
