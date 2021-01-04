@@ -34,3 +34,15 @@ export const addCatogoriesAPI = async (newCategory, selected) => {
     console.log(error);
   }
 };
+
+export const deleteCategoryAPI = async (id) => {
+  try {
+    return await axios.delete(`${apiRoot}/seller/catogories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};

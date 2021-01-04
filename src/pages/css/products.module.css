@@ -80,15 +80,15 @@
 }
 .heading_instock {
   font-weight: 400;
-  font-size: 12px;
-  margin-top: 5%;
+  font-size: 15px;
+  margin-top: 4%;
   width: 100%;
   color: #00b140;
 }
 .heading_outstock {
   font-weight: 400;
-  font-size: 12px;
-  margin-top: 5%;
+  font-size: 15px;
+  margin-top: 4%;
   width: 100%;
   color: red;
 }
@@ -99,7 +99,7 @@
   margin-top: 5px;
 }
 .blank {
-  margin-top: 130px;
+  margin-top: 140px;
 }
 .blank_two {
   margin-top: 60px;

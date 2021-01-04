@@ -3,6 +3,8 @@
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+  background-color: #f1f1f1;
+  min-height: 100vh;
 }
 .btn {
   position: fixed;
@@ -51,7 +53,7 @@
   margin-bottom: 5px;
 }
 .blank {
-  margin-top: 130px;
+  margin-top: 160px;
 }
 .blank_two {
   margin-top: 60px;
