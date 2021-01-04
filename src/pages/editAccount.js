@@ -11,6 +11,20 @@ import {
   getStoreInfoAPI,
   uploadProfileImageAPI,
 } from "../api/sellerAccountAPI";
+import {
+  Input,
+  Textarea,
+  Button,
+  FormControl,
+  FormLabel,
+  Box,
+  useToast,
+  Select,
+  Stack,
+  Image,
+  IconButton,
+  SimpleGrid,
+} from "@chakra-ui/react";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +32,10 @@ const EditAccount = () => {
   const [compressedImagesState, setCompreseesdImagesState] = useState([]);
   const [storeInfo, setStoreInfo, updateStoreInfo] = useForm([]);
   const [isFormError, setIsFormError] = useState(false);
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
+  const toast = useToast();
 
   const compressImage = async (event) => {
-    setIsLoading(true);
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     let imagesCompressed = [];
@@ -40,10 +55,9 @@ const EditAccount = () => {
       }
       setCompreseesdImagesState(imagesCompressed);
       setImageEdited(true);
-      setIsLoading(false);
+
       // setProductImageConverted(URL.createObjectURL(compressedFile));
     } catch (error) {
-      setIsLoading(false);
       console.log(error);
     }
   };
@@ -66,16 +80,24 @@ const EditAccount = () => {
   }, []);
 
   const updateStore = async () => {
-    setIsLoading(true);
+    setIsBtnLoading(true);
     if (isImageEdited) await uploadProfileImageAPI(compressedImagesState);
     await updateStoreAPI(storeInfo);
 
-    setIsLoading(false);
+    setIsBtnLoading(false);
+    toast({
+      title: "Store updated.",
+      description: "store details updated successfully.",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "bottom",
+    });
   };
 
   return (
     <div className={styles.container}>
-      <LabelHeader label={"Edit business details"} />
+      <LabelHeader label={"Edit business details"} isBackButton="true" />
       {isLoading ? (
         <div className={styles.loaderwraper}>
           <Loader
@@ -89,7 +111,6 @@ const EditAccount = () => {
       ) : (
         <div></div>
       )}
-      <div className={styles.blank}></div>
       <div className={styles.image_block}>
         <div className={styles.thumbnail}>
           <img
@@ -110,44 +131,53 @@ const EditAccount = () => {
         id="file-upload"
         onChange={(event) => compressImage(event)}
       />
-      <h1 className={styles.link}>Update store image</h1>
-      <TextField
-        label="Store name*"
-        variant="outlined"
-        InputLabelProps={{ shrink: true }}
-        style={{ width: `90%` }}
-        id="outlined-basic"
-        name="account_store"
-        value={storeInfo.account_store || ""}
-        onChange={updateStoreInfo}
-      />
-      <TextField
-        label="Whatsapp number*"
-        variant="outlined"
-        InputLabelProps={{ shrink: true }}
-        style={{ width: `90%`, marginTop: 20 }}
-        name="account_whatsapp"
-        value={storeInfo.account_whatsapp || ""}
-        onChange={updateStoreInfo}
-      />
-      <TextField
-        label="Address*"
-        variant="outlined"
-        InputLabelProps={{ shrink: true }}
-        style={{ width: `90%`, marginTop: 20, marginBottom: 20 }}
-        name="account_store_address"
-        value={storeInfo.account_store_address || ""}
-        onChange={updateStoreInfo}
-      />
+      <label htmlFor="file-upload" className={styles.link}>
+        Update store image
+      </label>
       {isFormError && (
-        <h1 style={{ color: "red" }}>Please fill all required details</h1>
+        <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
+          <h1>Please fill all required details</h1>
+        </Box>
       )}
-      <button
-        className={styles.btn}
+      <FormControl isRequired w="90%" mt="3">
+        <FormLabel>Store name</FormLabel>
+        <Input
+          variant="filled"
+          name="account_store"
+          value={storeInfo.account_store || ""}
+          onChange={updateStoreInfo}
+        />
+      </FormControl>
+      <FormControl isRequired w="90%" mt="4">
+        <FormLabel>Whatsapp Number</FormLabel>
+        <Input
+          variant="filled"
+          name="account_whatsapp"
+          value={storeInfo.account_whatsapp || ""}
+          onChange={updateStoreInfo}
+        />
+      </FormControl>
+      <FormControl w="90%" mt="4">
+        <FormLabel>Address</FormLabel>
+        <Textarea
+          rows="3"
+          variant="filled"
+          name="account_store_address"
+          value={storeInfo.account_store_address || ""}
+          onChange={updateStoreInfo}
+        />
+      </FormControl>
+      <Button
+        isLoading={isBtnLoading}
+        loadingText="Updating"
+        colorScheme="green"
+        size="lg"
+        w="90%"
+        mt="3"
         onClick={() => validateFields(updateStore)}
       >
         Update Store Info
-      </button>
+      </Button>
     </div>
   );
 };

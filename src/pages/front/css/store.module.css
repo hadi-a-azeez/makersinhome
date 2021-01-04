@@ -101,7 +101,7 @@
   flex-wrap: wrap;
 }
 .product_item {
-  width: 45%;
+  width: 100%;
   border-radius: 15px;
   height: auto;
   background-color: white;
@@ -116,6 +116,7 @@
   border-radius: 15px;
   margin-top: 8px;
   background-position: center center;
+  object-fit: cover;
   background-repeat: no-repeat;
   overflow: hidden;
 }

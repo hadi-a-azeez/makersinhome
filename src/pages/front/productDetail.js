@@ -7,14 +7,22 @@ import FavouritesIcon from "../../assets/heart-outline.svg";
 import { getSingleProductAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { IconButton, Skeleton } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { useHistory } from "react-router-dom";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const productId = props.match.params.productId;
+  const history = useHistory();
+
   useEffect(() => {
     const getProduct = async () => {
+      setIsLoading(true);
       const productResponse = await getSingleProductAPI(productId);
       setProductData(productResponse.data.data[0]);
+      setIsLoading(false);
       console.log(productResponse);
     };
     getProduct();
@@ -42,6 +50,7 @@ const ProductDetail = (props) => {
             )}
           </Helmet>
         )}
+        {isLoading && <Skeleton height="300px" width="100%" />}
         <Carousel
           className={styles.image_slider}
           infiniteLoop
@@ -60,7 +69,6 @@ const ProductDetail = (props) => {
                     src={`${productImagesRoot}/${image}`}
                     style={{
                       objectFit: "cover",
-                      borderRadius: 20,
                       height: 300,
                     }}
                   />
@@ -68,20 +76,26 @@ const ProductDetail = (props) => {
               );
             })}
         </Carousel>
-        <div className={styles.product_details}>
-          <h1 className={styles.product_name}>{productData.product_name}</h1>
-          {productData.product_is_sale == 0 ? (
-            <h1 className={styles.product_price}>
-              ₹{productData.product_price}
-            </h1>
-          ) : (
-            <h1 className={styles.product_price}>
-              ₹{productData.product_price} ₹{productData.product_sale_price}
-            </h1>
-          )}
-          <h1 className={styles.desc_heading}>Description</h1>
-          <h1 className={styles.description}>{productData.product_desc}</h1>
-        </div>
+        <IconButton
+          backgroundColor="gray"
+          borderRadius="30px"
+          aria-label="Search database"
+          icon={<ArrowBackIcon color="black" w={5} h={5} />}
+          pos="absolute"
+          top="3"
+          left="3"
+          onClick={() => history.goBack()}
+        />
+
+        <h1 className={styles.product_name}>{productData.product_name}</h1>
+        {productData.product_is_sale == 0 ? (
+          <h1 className={styles.product_price}>₹{productData.product_price}</h1>
+        ) : (
+          <h1 className={styles.product_price}>
+            ₹{productData.product_price} ₹{productData.product_sale_price}
+          </h1>
+        )}
+
         <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
           <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
           Buy on whatsapp
@@ -90,6 +104,24 @@ const ProductDetail = (props) => {
           <img src={FavouritesIcon} alt="w" className={styles.favouritesicon} />
           Add to favourites
         </button>
+        <h1 className={styles.desc_heading}>Description</h1>
+        <h1 className={styles.description}>{productData.product_desc}</h1>
+        <h1 className={styles.desc_heading}>More products on this store</h1>
+        <div className={styles.products_block_s}>
+          {/* product card */}
+          <div className={styles.product_item_s}>
+            <img
+              src="https://images.cbazaar.com/images/white-embroidered-churidar-suit-slssitae1201-u.jpg"
+              alt="imag"
+              className={styles.product_image_s}
+            />
+            <div className={styles.product_details_s}>
+              <h1 className={styles.product_name_s}>Daputta</h1>
+              <h1 className={styles.product_price_s}>₹299</h1>
+            </div>
+          </div>
+          {/* product card ends here */}
+        </div>
       </div>
     </HelmetProvider>
   );

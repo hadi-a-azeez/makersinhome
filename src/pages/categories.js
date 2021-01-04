@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styles from "./css/categories.module.css";
-import { getCategoriesAPI } from "../api/sellerCategoryAPI";
+import { getCategoriesAPI, deleteCategoryAPI } from "../api/sellerCategoryAPI";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -12,13 +12,14 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuIcon,
-  MenuCommand,
-  MenuDivider,
   Button,
+  Skeleton,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
@@ -27,6 +28,9 @@ const Categories = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+  const [isOpen, setIsOpen] = useState(false);
+  const [categoryDeleteId, setCategoryDeleteId] = useState(); //for accessing category id in modal
+  const cancelRef = useRef();
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -39,22 +43,24 @@ const Categories = () => {
     };
     getCategoriesData();
   }, []);
+
+  const handleDeleteClick = async () => {
+    console.log(categoryDeleteId);
+    const result = await deleteCategoryAPI(categoryDeleteId);
+    console.log(result);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className={styles.container}>
         <LabelHeader label={"Categories"} />
-        {isLoading ? (
-          <div className={styles.loaderwraper}>
-            <Loader
-              type="Oval"
-              color="#00b140"
-              height={50}
-              width={50}
-              visible={isLoading}
-            />
-          </div>
-        ) : (
-          <div></div>
+        {isLoading && (
+          <>
+            <Skeleton height="75px" w="90%" mt="3" />
+            <Skeleton height="75px" w="90%" mt="3" />
+            <Skeleton height="75px" w="90%" mt="3" />
+          </>
         )}
         {isLogin &&
           categoriesArray.map((item, index) => (
@@ -63,6 +69,7 @@ const Categories = () => {
               h="auto"
               mt="10px"
               position="relative"
+              backgroundColor="white"
               key={index}
               borderWidth="1px"
               borderRadius="lg"
@@ -89,11 +96,46 @@ const Categories = () => {
                 ></MenuButton>
                 <MenuList>
                   <MenuItem>Edit Category</MenuItem>
-                  <MenuItem color="tomato">Delte Category</MenuItem>
+                  <MenuItem
+                    color="tomato"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOpen(true);
+                      setCategoryDeleteId(item.id);
+                    }}
+                  >
+                    Delte Category
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Box>
           ))}
+        <AlertDialog
+          isOpen={isOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={() => setIsOpen(false)}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent w="90%">
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Delete Category
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure? All products under this category will be deleted.
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
+                  Cancel
+                </Button>
+                <Button colorScheme="red" onClick={handleDeleteClick} ml={3}>
+                  Delete
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
 
         <Link to="/add_category" className={styles.btn}>
           ADD CATEGORIES
