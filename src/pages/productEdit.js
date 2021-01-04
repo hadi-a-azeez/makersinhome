@@ -139,7 +139,7 @@ const ProductDetailed = (props) => {
       .join(",");
     console.log(imagesDeleted);
     setProduct({ ...product, images: imagesDeleted });
-    setServerImagesToDelete([...serverImagesToDelete, parseInt(imageToDelete)]);
+    setServerImagesToDelete([...serverImagesToDelete, imageToDelete]);
   };
 
   const compressImage = async (event) => {
@@ -170,7 +170,7 @@ const ProductDetailed = (props) => {
           ...oldArray,
           {
             name: imageName,
-            image: compressedFile,
+            image: convertedBlobFile,
             imageblob: URL.createObjectURL(compressedFile),
           },
         ]);
