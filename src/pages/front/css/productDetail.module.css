@@ -7,9 +7,10 @@
   height: 100%;
 }
 .image_slider {
-  width: 90%;
-  margin-top: 10px;
-  border-radius: 30px;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 0px !important;
+  position: relative;
 }
 .product_details {
   display: flex;
@@ -22,30 +23,34 @@
   font-weight: 700;
   color: #1f1f1f;
   margin-top: 15px;
-  margin-left: 7%;
+  margin-left: 5%;
+  align-self: flex-start;
 }
 .product_price {
   font-size: 18px;
   font-weight: 400;
   margin-top: 7px;
-  margin-left: 7%;
+  margin-left: 5%;
   color: #00b140;
+  align-self: flex-start;
 }
 .desc_heading {
   font-size: 16px;
   font-weight: 600;
   color: #1f1f1f;
   margin-top: 7px;
-  margin-left: 7%;
+  margin-left: 5%;
+  align-self: flex-start;
 }
 .description {
   font-size: 16px;
   font-weight: 400;
   margin-top: 7px;
-  margin-left: 7%;
+  margin-left: 5%;
   margin-right: 2%;
   color: gray;
   line-height: 1.5;
+  align-self: flex-start;
 }
 .btn_whatsapp {
   padding: 16px 0px;
@@ -55,7 +60,7 @@
   font-weight: 600;
   border: none;
   font-size: 17px;
-  width: 86%;
+  width: 90%;
   margin-top: 7px;
   display: flex;
   flex-direction: row;
@@ -84,11 +89,59 @@
   font-weight: 500;
   border: 1px solid black;
   font-size: 17px;
-  width: 86%;
+  width: 90%;
   margin-top: 7px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.products_block_s {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  overflow: auto;
+  white-space: nowrap;
+}
+.product_item_s {
+  width: 150px;
+  margin-bottom: 8px;
+  margin-left: 5px;
+  border-radius: 15px;
+  height: auto;
+  background-color: rgb(250, 244, 244);
+  margin-top: 10px;
+}
+.product_image_s {
+  width: 90%;
+  height: 150px;
+  border-radius: 15px;
+  margin-top: 8px;
+  background-position: center center;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.product_details_s {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+.product_name_s {
+  font-size: 14px;
+  font-weight: 600;
+  color: #323232;
+  margin-left: 6%;
+  margin-top: 7px;
+}
+.product_price_s {
+  font-size: 13px;
+  font-weight: 500;
+  color: #00b140;
+  margin-left: 6%;
+  margin-top: 3px;
+  margin-bottom: 8px;
 }

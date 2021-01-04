@@ -9,6 +9,13 @@ import {
 } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
+import {
+  SimpleGrid,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
+import { PhoneIcon } from "@chakra-ui/icons";
 
 const Store = (props) => {
   let history = useHistory();
@@ -56,14 +63,22 @@ const Store = (props) => {
           </h1>
         </div>
       )}
-      <div className={styles.search_block}>
-        <input
+      <InputGroup
+        w="90%"
+        mb="3"
+        size="lg"
+        backgroundColor="white"
+        borderRadius="30px"
+      >
+        <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+        <Input
           type="text"
-          className={styles.search}
           placeholder="search in this store"
+          borderRadius="30px"
+          borderColor="white"
         />
-        <SearchIcon fontSize="small" className={styles.search_icon} />
-      </div>
+      </InputGroup>
+
       <div className={styles.categories}>
         <div className={styles.margin_left}></div>
         <div
@@ -91,8 +106,9 @@ const Store = (props) => {
             </div>
           ))}
       </div>
-      <div className={styles.products}>
-        {/* product item starts here */}
+      {/* <div className={styles.products}> */}
+      {/* product item starts here */}
+      <SimpleGrid columns={2} spacing={2} w="95%">
         {storeProducts.map((product) => {
           return (
             <div
@@ -117,7 +133,8 @@ const Store = (props) => {
           );
         })}
         {/* product item ends here */}
-      </div>
+      </SimpleGrid>
+      {/* </div> */}
     </div>
   );
 };
