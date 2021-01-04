@@ -15,7 +15,6 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import { PhoneIcon } from "@chakra-ui/icons";
 
 const Store = (props) => {
   let history = useHistory();

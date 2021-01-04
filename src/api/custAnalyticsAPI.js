@@ -14,3 +14,14 @@ export const updateStoreViews = async (shopid) => {
     console.log(error);
   }
 };
+
+//increment message started today
+export const updateMessagesStarted = async (shopid) => {
+  try {
+    return await axios.get(
+      `${apiRoot}/client/store/analytics/messagecount/${shopid}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -139,10 +139,7 @@ const ProductDetailed = (props) => {
       .join(",");
     console.log(imagesDeleted);
     setProduct({ ...product, images: imagesDeleted });
-    setServerImagesToDelete([
-      ...serverImagesToDelete,
-      parseInt(imageToDelete.split(":")[1]),
-    ]);
+    setServerImagesToDelete([...serverImagesToDelete, parseInt(imageToDelete)]);
   };
 
   const compressImage = async (event) => {
