@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import SearchIcon from "@material-ui/icons/Search";
 import { useHistory, Link, withRouter } from "react-router-dom";
-import {
-  getStoreInfoAPI,
-  getStoreProducts,
-  getStoreCategoriesAPI,
-} from "../../api/custStoreAPI";
+import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import {
@@ -25,20 +21,13 @@ const Store = (props) => {
   const [catSelected, setCatSelected] = useState("all");
   useEffect(() => {
     const getData = async () => {
-      const storeResponse = await getStoreInfoAPI(storeLink);
-      setStoreData(storeResponse.data.data[0]);
-      const categoriesResponse = await getStoreCategoriesAPI(
-        storeResponse.data.data[0].id
-      );
-      setStoreCategories(categoriesResponse.data.data);
-      const productsResponse = await getStoreProducts(
-        storeResponse.data.data[0].id,
-        "all"
-      );
-      setStoreProducts(productsResponse.data.data);
-      //update store analytics
+      const storeResponse = await getStoreDataAll(storeLink);
+      setStoreData(storeResponse.data.data.storeinfo);
+      setStoreProducts(storeResponse.data.data.products);
+      setStoreCategories(storeResponse.data.data.categories);
+      //update store views analytics
       const analyticResponse = await updateStoreViews(
-        storeResponse.data.data[0].id
+        storeResponse.data.data.storeinfo.id
       );
     };
     getData();
