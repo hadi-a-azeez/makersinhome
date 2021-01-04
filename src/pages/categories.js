@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styles from "./css/categories.module.css";
 import { getCategoriesAPI } from "../api/sellerCategoryAPI";
 import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
-import { Box } from "@chakra-ui/react";
+import {
+  Box,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuIcon,
+  MenuCommand,
+  MenuDivider,
+  Button,
+} from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -43,24 +58,41 @@ const Categories = () => {
         )}
         {isLogin &&
           categoriesArray.map((item, index) => (
-            <Link
-              to={`/products/${item.cat_name}/${item.id}`}
+            <Box
+              w="90%"
+              h="auto"
+              mt="10px"
+              position="relative"
               key={index}
-              className={styles.link}
+              borderWidth="1px"
+              borderRadius="lg"
+              onClick={() =>
+                history.push(`/products/${item.cat_name}/${item.id}`)
+              }
             >
-              <Box
-                w="90%"
-                h="auto"
-                mt="10px"
-                borderWidth="1px"
-                borderRadius="lg"
-              >
-                <h1 className={styles.heading_bold}>{item.cat_name}</h1>
-                <h1 className={styles.heading_normal}>
-                  {item.product_count < 1 ? "No" : item.product_count} Products
-                </h1>
-              </Box>
-            </Link>
+              <h1 className={styles.heading_bold}>{item.cat_name}</h1>
+              <h1 className={styles.heading_normal}>
+                {item.product_count < 1 ? "No" : item.product_count} Products
+              </h1>
+              <Menu>
+                <MenuButton
+                  position="absolute"
+                  top="3"
+                  right="3"
+                  bg="white"
+                  as={Button}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("button clicked");
+                  }}
+                  rightIcon={<HamburgerIcon />}
+                ></MenuButton>
+                <MenuList>
+                  <MenuItem>Edit Category</MenuItem>
+                  <MenuItem color="tomato">Delte Category</MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
           ))}
 
         <Link to="/add_category" className={styles.btn}>

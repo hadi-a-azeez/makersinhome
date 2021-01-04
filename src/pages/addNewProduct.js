@@ -10,12 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import { addProductAPI, uploadProductImageAPI } from "../api/sellerProductAPI";
 import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
   Input,
   Textarea,
   Button,
