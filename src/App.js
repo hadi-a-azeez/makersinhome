@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Suspense,lazy} from "react";
 import Signup from "./pages/signup";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignIn from "./pages/signin";
@@ -12,12 +12,11 @@ import AddNewCategory from "./pages/addNewCategory";
 import Categories from "./pages/categories";
 import Account from "./pages/account";
 import AddImage from "./pages/addImage";
-import ProductsCategory from "./pages/productsCategory";
+import ProductsByCategory from "./pages/productsByCategory";
 import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
 import ProductDetail from "./pages/front/productDetail";
 import Home from "./pages/front/home";
-import ApiTest from "./apiTest.js";
 
 function App() {
   const AuthenticatedRoutes = () => {
@@ -27,11 +26,11 @@ function App() {
         <Route path="/add_product/:catogory?" component={AddNewProduct} />
         <Route path="/add_image/:id" component={AddImage} />
         <Route path="/store_info" component={StoreInfo} />
-        <Route path="/products/:catname/:cat" component={Products} />
+        <Route path="/products" component={Products} />
         <Route path="/product_detailed/:id" component={ProductDetailed} />
         <Route
           path="/products_category/:cat_name/:id"
-          component={ProductsCategory}
+          component={ProductsByCategory}
         />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/add_category" component={AddNewCategory} />
@@ -45,7 +44,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/apitest/:id" component={ApiTest} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/store/:storelink" component={Store} />
         <Route path="/product_detail/:productId" component={ProductDetail} />

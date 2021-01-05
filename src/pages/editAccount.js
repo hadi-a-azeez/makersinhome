@@ -7,6 +7,7 @@ import LabelHeader from "../components/labelHeader";
 import { useForm } from "../components/useForm";
 import { updateStoreAPI } from "../api/sellerStoreAPI";
 import TextField from "@material-ui/core/TextField";
+import { profileImagesRoot } from "../config";
 import {
   getStoreInfoAPI,
   uploadProfileImageAPI,
@@ -117,7 +118,7 @@ const EditAccount = () => {
             src={
               isImageEdited
                 ? URL.createObjectURL(compressedImagesState[0])
-                : `https://fliqapp.xyz/api/profile-images/${storeInfo.account_store_image}`
+                : `${profileImagesRoot}/${storeInfo.account_store_image}`
             }
             alt="image"
             className={styles.thumbnail_image}

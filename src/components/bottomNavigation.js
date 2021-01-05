@@ -19,12 +19,9 @@ const BottomNavigationMenu = () => {
   useEffect(() => {
     let bottomNavItems = ["dashboard", "categories", "account", "products"];
     if (!bottomNavItems.some((sel) => sel == location.pathname.split("/")[1])) {
-      console.log("shafi");
       if (localStorage.getItem("bottomNavLast"))
         setValue(localStorage.getItem("bottomNavLast"));
-    } else if (location.pathname.split("/")[1] == "products") {
-      if(location.pathname != "/products/All Products/all")setValue("categories")
-    };
+    } 
   }, []);
   return (
     <>
@@ -84,7 +81,7 @@ const BottomNavigationMenu = () => {
                 )
               }
               component={Link}
-              to="/products/All Products/all"
+              to="/products/"
               value="products"
             />
             <BottomNavigationAction

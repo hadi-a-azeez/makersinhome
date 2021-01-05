@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./css/account.module.css";
 import theme from "./css/theme/theme.module.css";
 import { Link, useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
+import { getStoreInfoAPI } from "../api/sellerAccountAPI";
+import Placeholder from "../assets/placeholder.png";
+import { profileImagesRoot } from "../config";
 
 const Account = () => {
+  const [storeInfo, setStoreInfo] = useState({});
+
   let history = useHistory();
   const logOut = () => {
     localStorage.removeItem("loginExpiry");
@@ -12,6 +17,12 @@ const Account = () => {
     history.push("./");
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await getStoreInfoAPI();
+      setStoreInfo(response.data.data[0]);
+    })();
+  }, []);
   return (
     <>
       <div className={styles.container}>
@@ -20,14 +31,20 @@ const Account = () => {
           <div className={styles.image_block}>
             <div className={styles.thumbnail}>
               <img
-                src="https://media.thieve.co/products%2ForFARmD6aOq92uEuwmVb.jpg?fm=jpg&dpr=1&q=70&w=354&h=354"
+                src={
+                  storeInfo.account_store_image
+                    ? `${profileImagesRoot}/${storeInfo.account_store_image}`
+                    : Placeholder
+                }
                 alt="image"
                 className={styles.thumbnail_image}
               />
             </div>
           </div>
           <div className={styles.account_details}>
-            <h1 className={styles.heading_bold_account}>Naz shop</h1>
+            <h1 className={styles.heading_bold_account}>
+              {storeInfo.account_store}
+            </h1>
             <Link to="/edit_account" className={styles.link}>
               Edit business details
             </Link>

@@ -74,7 +74,7 @@ const Categories = () => {
               borderWidth="1px"
               borderRadius="lg"
               onClick={() =>
-                history.push(`/products/${item.cat_name}/${item.id}`)
+                history.push(`/products_category/${item.cat_name}/${item.id}`)
               }
             >
               <h1 className={styles.heading_bold}>{item.cat_name}</h1>

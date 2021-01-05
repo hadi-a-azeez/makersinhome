@@ -12,6 +12,8 @@ import Placeholder from "../assets/placeholder.png";
 import { Box, StatNumber, Stat, Button, Skeleton } from "@chakra-ui/react";
 
 const Products = (props) => {
+  const productsCat = props.match.params.id;
+  const productsCatName = props.match.params.cat_name;
   const [productsArray, setProductsArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
@@ -19,7 +21,7 @@ const Products = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const getProductsData = async () => {
-      const productsData = await getProductsApi("all");
+      const productsData = await getProductsApi(productsCat);
       setProductsArray(productsData.data.data);
       setIsLoading(false);
       console.log(productsData.data);
@@ -28,7 +30,7 @@ const Products = (props) => {
       }
     };
     getProductsData();
-  }, []);
+  }, [productsCat]);
 
   //in stock,out of stock update
   const flipProductStock = async (a, b, id) => {
@@ -46,7 +48,7 @@ const Products = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label="All Products" />
+        <LabelHeader label={productsCatName} />
         {isLoading && (
           <>
             <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
@@ -120,7 +122,7 @@ const Products = (props) => {
           ))}
         {/* card one ends here */}
 
-        <Link to="/add_product" className={styles.btn}>
+        <Link to={`/add_product/${productsCat}`} className={styles.btn}>
           ADD PRODUCTS
         </Link>
         <div className={styles.blank}></div>

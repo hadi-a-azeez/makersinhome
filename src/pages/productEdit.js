@@ -232,7 +232,7 @@ const ProductDetailed = (props) => {
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={`${productImagesRoot}/${image.split(":")[0]}`}
+                        src={`${productImagesRoot}/min/${image.split(":")[0]}`}
                         key={index}
                       />
                       <IconButton

@@ -1,0 +1,16 @@
+const SignIn =lazy(() =>import( "./pages/signin"))
+const AddNewProduct =lazy(() => import( "./pages/addNewProduct"))
+const StoreInfo =lazy(() => import( "./pages/storeInfo"));
+const Products =lazy(() => import( "./pages/products"));
+const ProductDetailed =lazy(() => import( "./pages/productEdit"));
+const Dashboard =lazy(() => import( "./pages/dashboard"));
+const BottomNavigationMenu =lazy(() => import( "./components/bottomNavigation"));
+const AddNewCategory =lazy(() => import( "./pages/addNewCategory"));
+const Categories =lazy(() => import( "./pages/categories"));
+const Account =lazy(() => import( "./pages/account"));
+const AddImage =lazy(() => import( "./pages/addImage"));
+const ProductsCategory =lazy(() => import( "./pages/productsCategory"));
+const EditAccount =lazy(() => import( "./pages/editAccount"));
+const Store =lazy(() => import( "./pages/front/store"));
+const ProductDetail =lazy(() => import( "./pages/front/productDetail"));
+const Home =lazy(() => import( "./pages/front/home"));
