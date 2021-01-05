@@ -108,7 +108,7 @@ const Store = (props) => {
             >
               {product.images && (
                 <img
-                  src={`${productImagesRoot}/${product.images.split(",")[0]}`}
+                  src={`${productImagesRoot}/min/${product.images.split(",")[0]}`}
                   alt="img"
                   className={styles.product_image}
                 />

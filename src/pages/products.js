@@ -79,7 +79,7 @@ const Products = (props) => {
                     {/* images are returned with image name and id with it seperated by : */}
                     {item.images && (
                       <img
-                        src={`${productImagesRoot}/${
+                        src={`${productImagesRoot}/min/${
                           item.images.split(",")[0].split(":")[0]
                         }`}
                         alt="image"
