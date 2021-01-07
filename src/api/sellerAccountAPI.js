@@ -1,4 +1,5 @@
 import axios from "axios";
+import axios_seller from "./axios-seller";
 import { apiRoot } from "../config";
 
 //sign in user
@@ -20,12 +21,7 @@ export const signinUserAPI = async (loginUsername, loginPassword) => {
 //get all info of loginned user
 export const getUserInfo = async () => {
   try {
-    const response = await axios.get(`${apiRoot}/seller/store/user`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    return response;
+    return await axios_seller.get(`${apiRoot}/seller/store/user`);
   } catch (error) {
     console.log(error);
   }
@@ -34,11 +30,7 @@ export const getUserInfo = async () => {
 //get info about user store
 
 export const getStoreInfoAPI = async () => {
-  let response = await axios.get(`${apiRoot}/seller/store`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+  let response = await axios_seller.get(`${apiRoot}/seller/store`);
   return response;
 };
 
@@ -51,13 +43,12 @@ export const uploadProfileImageAPI = async (imagesLocal) => {
   });
 
   try {
-    const response = await axios.post(
+    const response = await axios_seller.post(
       `${apiRoot}/seller/store/profile-upload`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

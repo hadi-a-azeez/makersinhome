@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./css/addNewCategory.module.css";
-import { fetchParentCategoriesApi } from "../api";
-import axios from "axios";
+
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../components/labelHeader";
-import { addCatogoriesAPI } from "../api/sellerCategoryAPI";
+import {
+  addCatogoriesAPI,
+  getParentCategoriesApi,
+} from "../api/sellerCategoryAPI";
 import {
   Input,
   Button,
@@ -27,7 +29,7 @@ const AddNewCategory = () => {
 
   useEffect(() => {
     const getCategoriesData = async () => {
-      const Data = await fetchParentCategoriesApi();
+      const Data = await getParentCategoriesApi();
       setCategoriesArray(Data.data.data);
     };
     getCategoriesData();
@@ -35,7 +37,6 @@ const AddNewCategory = () => {
 
   const handleCategoryClick = (id) => {
     setSelected(id);
-    console.log(id);
   };
 
   const validation = () => {
@@ -59,7 +60,6 @@ const AddNewCategory = () => {
       setIsLoading(true);
       const response = await addCatogoriesAPI(newCategory, selected);
       setIsLoading(false);
-      console.log(response);
       toast({
         title: "Product added.",
         description: "Product added successfully.",

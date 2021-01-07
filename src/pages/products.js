@@ -22,10 +22,6 @@ const Products = (props) => {
       const productsData = await getProductsApi("all");
       setProductsArray(productsData.data.data);
       setIsLoading(false);
-      console.log(productsData.data);
-      if (productsData.data.login === false) {
-        history.push("/");
-      }
     };
     getProductsData();
   }, []);
@@ -40,7 +36,6 @@ const Products = (props) => {
     };
     setProductsArray(newProductsArray);
     let response = await updateProductStock(parseInt(product.id));
-    console.log(response);
   };
 
   return (

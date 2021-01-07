@@ -1,19 +1,13 @@
-import axios from "axios";
-import { apiRoot } from "../config";
+import axios_seller from "./axios-seller";
 
 /* get product specific by catogory or all */
 export const getProductsApi = async (catogory) => {
-  let apiLink = `${apiRoot}/seller/products`;
+  let apiLink = `/seller/products`;
   if (catogory != "all") {
-    apiLink = `https://fliqapp.xyz/api/seller/products/catogories/${catogory}`;
+    apiLink = `/seller/products/catogories/${catogory}`;
   }
   try {
-    console.log(apiLink);
-    const ProductsData = await axios.get(apiLink, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const ProductsData = await axios_seller.get(apiLink);
     return ProductsData;
   } catch (error) {
     return error;
@@ -23,11 +17,7 @@ export const getProductsApi = async (catogory) => {
 //add new product to store
 export const addProductAPI = async (product) => {
   try {
-    const response = await axios.post(`${apiRoot}/seller/products`, product, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios_seller.post(`/seller/products`, product);
     console.log(response);
     return response;
   } catch (error) {
@@ -38,11 +28,7 @@ export const addProductAPI = async (product) => {
 //update a product details
 export const updateProductAPI = async (product) => {
   try {
-    const response = await axios.put(`${apiRoot}/seller/products`, product, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios_seller.put(`/seller/products`, product);
     console.log(response);
     return response;
   } catch (error) {
@@ -54,14 +40,9 @@ export const updateProductAPI = async (product) => {
 export const deleteProductImagesAPI = async (images, pid) => {
   let imagesArr = { images_delete: images };
   try {
-    const response = await axios.post(
-      `${apiRoot}/seller/products/imageDelete/${pid}`,
-      imagesArr,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+    const response = await axios_seller.post(
+      `/seller/products/imageDelete/${pid}`,
+      imagesArr
     );
     console.log(response);
     return response;
@@ -74,11 +55,7 @@ export const deleteProductImagesAPI = async (images, pid) => {
 //get count of all product and categories of current user
 export const getCountAPI = async (id) => {
   try {
-    const response = await axios.get(`${apiRoot}/seller/products/count`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios_seller.get(`/seller/products/count`);
     return response;
   } catch (error) {
     console.log(error);
@@ -88,11 +65,7 @@ export const getCountAPI = async (id) => {
 //get single product by id
 export const getProductAPI = async (id) => {
   try {
-    const response = await axios.get(`${apiRoot}/seller/products/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios_seller.get(`/seller/products/${id}`);
     console.log(response);
     return response;
   } catch (error) {
@@ -103,11 +76,7 @@ export const getProductAPI = async (id) => {
 //delete product of a user
 export const deleteProductAPI = async (productId) => {
   try {
-    const api = await axios.delete(`${apiRoot}/seller/products/${productId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const api = await axios_seller.delete(`/seller/products/${productId}`);
   } catch (error) {
     return error;
   }
@@ -115,28 +84,14 @@ export const deleteProductAPI = async (productId) => {
 
 //get all products of a specif category
 export const getCategoryProducts = async (id) => {
-  let response = await axios.get(
-    `${apiRoot}/seller/products/catogories/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
-  return response;
+  return await axios_seller.get(`/seller/products/catogories/${id}`);
 };
 
 //flip product stock status
 export const updateProductStock = async (productId) => {
   try {
-    const response = await axios.put(
-      `${apiRoot}/seller/products/stock/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+    const response = await axios_seller.put(
+      `/seller/products/stock/${productId}`
     );
     return response;
   } catch (error) {
@@ -152,13 +107,12 @@ export const uploadProductImageAPI = async (imagesLocal, productId) => {
     formData.append("product_image", image.image);
   });
   try {
-    const response = await axios.post(
-      `${apiRoot}/seller/products/imageupload/${productId}`,
+    const response = await axios_seller.post(
+      `/seller/products/imageupload/${productId}`,
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

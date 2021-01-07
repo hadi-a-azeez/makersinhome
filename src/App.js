@@ -1,4 +1,4 @@
-import React,{Suspense,lazy} from "react";
+import React, { Suspense, lazy } from "react";
 import Signup from "./pages/signup";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignIn from "./pages/signin";
@@ -48,7 +48,7 @@ function App() {
         <Route exact path="/store/:storelink" component={Store} />
         <Route path="/product_detail/:productId" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/login" component={SignIn} />
         <Route component={AuthenticatedRoutes} />
       </Switch>
     </Router>
