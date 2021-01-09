@@ -15,6 +15,7 @@ import AddImage from "./pages/addImage";
 import ProductsByCategory from "./pages/productsByCategory";
 import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
+import StoreFavourates from "./pages/front/storeFavourates";
 import ProductDetail from "./pages/front/productDetail";
 import Home from "./pages/front/home";
 
@@ -46,6 +47,11 @@ function App() {
       <Switch>
         <Route exact path="/home" component={Home} />
         <Route exact path="/store/:storelink" component={Store} />
+        <Route
+          exact
+          path="/store-favourates/:store_id"
+          component={StoreFavourates}
+        />
         <Route path="/product_detail/:productId" component={ProductDetail} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/login" component={SignIn} />

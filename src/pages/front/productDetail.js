@@ -4,7 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import WhatsappLogo from "../../assets/logo-whatsapp.svg";
 import FavouritesIcon from "../../assets/heart-outline.svg";
-import { getSingleProductAPI } from "../../api/custStoreAPI";
+import { getProductDetailAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { IconButton, Skeleton } from "@chakra-ui/react";
@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
+  const [storeData, setStoreData] = useState({});
+  const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
@@ -20,13 +22,42 @@ const ProductDetail = (props) => {
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true);
-      const productResponse = await getSingleProductAPI(productId);
-      setProductData(productResponse.data.data[0]);
+      const productResponse = await getProductDetailAPI(productId);
+      setProductData(productResponse.data.data.product);
+      setStoreData(productResponse.data.data.storeinfo);
+      setSimilarProducts(productResponse.data.data.similarproducts);
       setIsLoading(false);
       console.log(productResponse);
     };
     getProduct();
   }, []);
+
+  //handle add to favourates button click
+  const handleFavourates = (
+    store_id,
+    product_id,
+    product_name,
+    product_image
+  ) => {
+    if (localStorage.getItem("favourates")) {
+      let storedArr = JSON.parse(localStorage.getItem("favourates"));
+      let isContains = storedArr.some(
+        (product) => product.product_id == product_id
+      );
+      if (!isContains) {
+        let favouratesArr = [
+          { store_id, product_id, product_image, product_name },
+          ...storedArr,
+        ];
+        localStorage.setItem("favourates", JSON.stringify(favouratesArr));
+      }
+    } else {
+      localStorage.setItem(
+        "favourates",
+        JSON.stringify([{ store_id, product_id, product_image, product_name }])
+      );
+    }
+  };
   const whatsappBuy = () => {
     window.location.replace(
       `https://api.whatsapp.com/send?phone=919496742190&text=I%20want%20to%20know%20about%20this%20product%20%F0%9F%9B%92%0AProduct%20Name%3A%20${productData.product_name}%0AProduct%20Link%20%3A%20${window.location.href}`
@@ -100,10 +131,26 @@ const ProductDetail = (props) => {
           <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
           Buy on whatsapp
         </button>
-        <button className={styles.btn_favourites}>
-          <img src={FavouritesIcon} alt="w" className={styles.favouritesicon} />
-          Add to favourites
-        </button>
+        {productData.id && (
+          <button
+            className={styles.btn_favourites}
+            onClick={() =>
+              handleFavourates(
+                storeData.id,
+                productData.id,
+                productData.product_name,
+                productData.images.split(",")[0]
+              )
+            }
+          >
+            <img
+              src={FavouritesIcon}
+              alt="w"
+              className={styles.favouritesicon}
+            />
+            Add to favourites
+          </button>
+        )}
         <h1 className={styles.desc_heading}>Description</h1>
         <h1 className={styles.description}>{productData.product_desc}</h1>
         <h1 className={styles.desc_heading}>More products on this store</h1>

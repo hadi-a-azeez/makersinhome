@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Button,
 } from "@chakra-ui/react";
 
 const Store = (props) => {
@@ -19,6 +20,10 @@ const Store = (props) => {
   const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
   const [catSelected, setCatSelected] = useState("all");
+
+  const handleFavouratesClick = (storeId) => {
+    history.push(`/store-favourates/${storeId}`);
+  };
   useEffect(() => {
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
@@ -51,6 +56,9 @@ const Store = (props) => {
           <h1 className={styles.store_location}>
             {storeData.account_store_address}
           </h1>
+          <Button onClick={() => handleFavouratesClick(storeData.id)}>
+            Favourates
+          </Button>
         </div>
       )}
       <InputGroup
@@ -108,7 +116,9 @@ const Store = (props) => {
             >
               {product.images && (
                 <img
-                  src={`${productImagesRoot}/min/${product.images.split(",")[0]}`}
+                  src={`${productImagesRoot}/min/${
+                    product.images.split(",")[0]
+                  }`}
                   alt="img"
                   className={styles.product_image}
                 />

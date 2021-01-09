@@ -55,3 +55,15 @@ export const getSingleProductAPI = async (productId) => {
     console.log(error);
   }
 };
+
+//get all details of product detail page
+export const getProductDetailAPI = async (productId) => {
+  try {
+    const response = await axios.get(
+      `${apiRoot}/client/productdetailedpage/${productId}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
