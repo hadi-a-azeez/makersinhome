@@ -145,6 +145,7 @@ const EditAccount = () => {
         <Input
           variant="filled"
           name="account_store"
+          size="lg"
           value={storeInfo.account_store || ""}
           onChange={updateStoreInfo}
         />
@@ -154,6 +155,7 @@ const EditAccount = () => {
         <Input
           variant="filled"
           name="account_whatsapp"
+          size="lg"
           value={storeInfo.account_whatsapp || ""}
           onChange={updateStoreInfo}
         />

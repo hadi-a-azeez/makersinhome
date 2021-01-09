@@ -6,6 +6,7 @@ import axios from "axios";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
+import Ellipse from "../assets/ellipse_outline.svg";
 import {
   Box,
   Menu,
@@ -92,8 +93,17 @@ const Categories = () => {
                     e.stopPropagation();
                     console.log("button clicked");
                   }}
-                  rightIcon={<HamburgerIcon />}
-                ></MenuButton>
+                >
+                  <img
+                    src={Ellipse}
+                    alt="w"
+                    style={{
+                      width: "22px",
+                      height: "22px",
+                      alignSelf: "center",
+                    }}
+                  />
+                </MenuButton>
                 <MenuList>
                   <MenuItem>Edit Category</MenuItem>
                   <MenuItem
