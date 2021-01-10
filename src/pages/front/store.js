@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
-import SearchIcon from "@material-ui/icons/Search";
+import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, Link, withRouter } from "react-router-dom";
 import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
