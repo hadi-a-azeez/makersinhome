@@ -11,7 +11,6 @@ import BottomNavigationMenu from "./components/bottomNavigation";
 import AddNewCategory from "./pages/addNewCategory";
 import Categories from "./pages/categories";
 import Account from "./pages/account";
-import AddImage from "./pages/addImage";
 import ProductsByCategory from "./pages/productsByCategory";
 import EditAccount from "./pages/editAccount";
 import Store from "./pages/front/store";
@@ -25,7 +24,6 @@ function App() {
       <>
         <BottomNavigationMenu />
         <Route path="/add_product/:catogory?" component={AddNewProduct} />
-        <Route path="/add_image/:id" component={AddImage} />
         <Route path="/store_info" component={StoreInfo} />
         <Route path="/products" component={Products} />
         <Route path="/product_detailed/:id" component={ProductDetailed} />
