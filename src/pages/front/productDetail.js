@@ -10,6 +10,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { IconButton, Skeleton } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
+import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
@@ -58,7 +59,8 @@ const ProductDetail = (props) => {
       );
     }
   };
-  const whatsappBuy = () => {
+  const whatsappBuy = async () => {
+    updateMessagesStarted(storeData.id);
     window.location.replace(
       `https://api.whatsapp.com/send?phone=919496742190&text=I%20want%20to%20know%20about%20this%20product%20%F0%9F%9B%92%0AProduct%20Name%3A%20${productData.product_name}%0AProduct%20Link%20%3A%20${window.location.href}`
     );
