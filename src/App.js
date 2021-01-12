@@ -30,6 +30,7 @@ const BottomNavigationMenu = lazy(() =>
   import("./components/bottomNavigation")
 );
 const AddNewCategory = lazy(() => import("./pages/addNewCategory"));
+const EditCategory = lazy(() => import("./pages/editCategory"));
 const Categories = lazy(() => import("./pages/categories"));
 const Account = lazy(() => import("./pages/account"));
 const ProductsByCategory = lazy(() => import("./pages/productsByCategory"));
@@ -54,6 +55,7 @@ function App() {
         />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/add_category" component={AddNewCategory} />
+        <Route path="/edit_category/:category_id" component={EditCategory} />
         <Route path="/categories" component={Categories} />
         <Route path="/account" component={Account} />
         <Route path="/edit_account" component={EditAccount} />
@@ -75,6 +77,7 @@ function App() {
           <Route path="/product_detail/:productId" component={ProductDetail} />
           <Route path="/signup" component={Signup} />
           <Route exact path="/login" component={SignIn} />
+
           <Route component={AuthenticatedRoutes} />
         </Switch>
       </Suspense>

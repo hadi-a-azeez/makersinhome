@@ -34,6 +34,25 @@ export const addCatogoriesAPI = async (newCategory, selected) => {
   }
 };
 
+//update single category
+export const updateCatogoriesAPI = async (category) => {
+  try {
+    return await axios_seller.put(`/seller/catogories/`, category);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//get a single category
+export const getSingleCategoryAPI = async (categoryId) => {
+  try {
+    return await axios_seller.get(`/seller/catogories/${categoryId}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//delete a category
 export const deleteCategoryAPI = async (id) => {
   try {
     return await axios_seller.delete(`/seller/catogories/${id}`);

@@ -105,7 +105,14 @@ const Categories = () => {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Edit Category</MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      history.push(`/edit_category/${item.id}`);
+                    }}
+                  >
+                    Edit Category
+                  </MenuItem>
                   <MenuItem
                     color="tomato"
                     onClick={(e) => {
