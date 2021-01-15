@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useDisclosure } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, Link, withRouter } from "react-router-dom";
@@ -11,6 +11,13 @@ import {
   InputGroup,
   InputLeftElement,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 
 const Store = (props) => {
@@ -20,6 +27,9 @@ const Store = (props) => {
   const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
   const [catSelected, setCatSelected] = useState("all");
+  const [isOpen, setIsOpen] = useState(false);
+  const [onClose, setOnClose] = useState(true);
+  const btnRef = React.useRef();
 
   const handleFavouratesClick = (storeId) => {
     history.push(`/store-favourates/${storeId}`);
@@ -50,6 +60,35 @@ const Store = (props) => {
 
   return (
     <div className={styles.container}>
+      <Button ref={btnRef} colorScheme="teal" onClick={() => setIsOpen(true)}>
+        Open
+      </Button>
+      {/* drawer */}
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={() => setIsOpen(false)}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Create your account</DrawerHeader>
+
+            <DrawerBody>
+              <Input placeholder="Type here..." />
+            </DrawerBody>
+
+            <DrawerFooter>
+              <Button variant="outline" mr={3} onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button color="blue">Save</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+
       {storeData && (
         <div className={styles.store_card}>
           <h1 className={styles.store_name}>{storeData.account_store}</h1>

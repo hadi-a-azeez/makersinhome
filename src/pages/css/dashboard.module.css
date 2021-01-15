@@ -3,6 +3,8 @@
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+  background-color: #fef7ed;
+  min-height: 100vh;
 }
 .btn {
   padding: 18px 0px;
@@ -46,21 +48,19 @@
   align-items: center;
 }
 .card_heading {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
-  color: white;
+  color: rgb(26, 24, 24);
   /* text-transform: uppercase; */
 }
 .card_data_bold {
-  font-size: 29px;
-  font-weight: 400px;
+  font-size: 33px;
+  font-weight: 700px;
+  color: #222154;
 }
 .iconFilled {
-  width: 25px;
-  height: auto;
-  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(103%)
-    contrast(103%);
-  margin-bottom: 5px;
+  filter: invert(51%) sepia(98%) saturate(4272%) hue-rotate(122deg)
+    brightness(101%) contrast(101%);
 }
 .cardPlain {
   margin-top: 20px;
@@ -69,6 +69,7 @@
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 10px 10px;
+  background-color: white;
 }
 .cardPlainHeading {
   font-size: 15px;
@@ -117,4 +118,30 @@
 }
 .red {
   background-color: #d95352;
+}
+.lightgreen {
+  background-color: #1ab0b0;
+}
+.orange {
+  background-color: #ff7443;
+}
+.pink {
+  background-color: #fa5a7d;
+}
+
+/* new css */
+
+.topdiv {
+  height: 180px;
+  border-radius: 0px 0px 30px 30px;
+  width: 100%;
+  position: relative;
+}
+.welcome {
+  color: white;
+}
+.shopname {
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
 }

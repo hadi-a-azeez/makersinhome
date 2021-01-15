@@ -8,7 +8,7 @@ import CategoriesIcon from "../assets/gridFilled.svg";
 import WhatsappLogo from "../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../api/sellerProductAPI";
 import { getUserInfo } from "../api/sellerAccountAPI";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Box, Flex, Image } from "@chakra-ui/react";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState([]);
@@ -38,10 +38,139 @@ const Dashboard = () => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={"Home"} />
-        <h1 className={styles.heading_bold}>Dashboard</h1>
+        <Box
+          className={styles.topdiv}
+          shadow="md"
+          d="flex"
+          justifyContent="center"
+          style={{ backgroundColor: " #00b140" }}
+        >
+          <Flex direction="row" w="90%" mt="8">
+            <Image
+              borderRadius="full"
+              boxSize="80px"
+              src="https://mindbodygreen-res.cloudinary.com/images/w_767,q_auto:eco,f_auto,fl_lossy/usr/RetocQT/sarah-fielding.jpg"
+              alt="Segun Adebayo"
+            />
+            <Flex direction="column" ml="4" mt="2">
+              <h1 className={styles.welcome}>Welcome back,</h1>
+              <h1 className={styles.shopname}>Naaz Shop</h1>
+            </Flex>
+          </Flex>
+        </Box>
+        <SimpleGrid columns={2} spacing={3} w="90%" mt="-10" zIndex="1">
+          <Box
+            height="100px"
+            w="100%"
+            shadow="base"
+            backgroundColor="white"
+            borderRadius="18px"
+            display="flex"
+            dir="row"
+          >
+            <Image
+              src={VisibleIcon}
+              className={styles.iconFilled}
+              width="5"
+              height="5"
+              mt="4"
+              ml="3"
+            />
+            <Flex direction="column" mt="4" ml="1">
+              <h1 className={styles.card_heading}>Store visits</h1>
+              <h1 className={styles.card_data_bold}>
+                {countData.message_clicks ? countData.message_clicks : 0}
+              </h1>
+            </Flex>
+          </Box>
+          <Box
+            height="100px"
+            w="100%"
+            shadow="base"
+            backgroundColor="white"
+            borderRadius="18px"
+            display="flex"
+            dir="row"
+          >
+            <Image
+              src={MessagesIcon}
+              className={styles.iconFilled}
+              width="5"
+              height="5"
+              mt="4"
+              ml="3"
+            />
+            <Flex direction="column" mt="4" ml="1">
+              <h1 className={styles.card_heading}>Messages Started</h1>
+              <h1 className={styles.card_data_bold}>
+                {countData.message_clicks ? countData.message_clicks : 0}
+              </h1>
+            </Flex>
+          </Box>
+          <Box
+            height="100px"
+            w="100%"
+            shadow="base"
+            backgroundColor="white"
+            borderRadius="18px"
+            display="flex"
+            dir="row"
+          >
+            <Image
+              src={ProductsIcon}
+              className={styles.iconFilled}
+              width="5"
+              height="5"
+              mt="4"
+              ml="3"
+            />
+            <Flex direction="column" mt="4" ml="1">
+              <h1 className={styles.card_heading}>Products</h1>
+              <h1 className={styles.card_data_bold}>
+                {countData.products_count}
+              </h1>
+            </Flex>
+          </Box>
+          <Box
+            height="100px"
+            w="100%"
+            shadow="base"
+            backgroundColor="white"
+            borderRadius="18px"
+            display="flex"
+            dir="row"
+          >
+            <Image
+              src={CategoriesIcon}
+              className={styles.iconFilled}
+              width="7"
+              height="5"
+              mt="4"
+              ml="3"
+            />
+            <Flex direction="column" mt="4" ml="1">
+              <h1 className={styles.card_heading}>Categories</h1>
+              <h1 className={styles.card_data_bold}>{countData.cat_count}</h1>
+            </Flex>
+          </Box>
+        </SimpleGrid>
+        <div className={styles.cardPlain} onClick={shareToWhatsapp}>
+          <h1 className={styles.cardPlainHeading}>
+            Share link on Social Media
+          </h1>
+          <h1 className={styles.cardPlainSubHeading}>
+            Your customers can visit your online store and see your products
+            from this link
+          </h1>
+          <button className={styles.btn_whatsapp}>
+            <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
+            Share
+          </button>
+        </div>
+
+        {/* <h1 className={styles.heading_bold}>Dashboard</h1>
         <SimpleGrid columns={2} spacing={5} w="90%">
-          <div className={`${styles.card} ${styles.green}`}>
+          <div className={`${styles.card} ${styles.lightgreen}`}>
             <div className={styles.card_content}>
               <img src={VisibleIcon} alt="home" className={styles.iconFilled} />
               <h1 className={styles.card_heading}>Store visits</h1>
@@ -50,7 +179,7 @@ const Dashboard = () => {
               </h1>
             </div>
           </div>
-          <div className={`${styles.card} ${styles.blue}`}>
+          <div className={`${styles.card} ${styles.orange}`}>
             <div className={styles.card_content}>
               <img
                 src={MessagesIcon}
@@ -64,7 +193,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className={`${styles.card} ${styles.yellow}`}>
+          <div className={`${styles.card} ${styles.pink}`}>
             <div className={styles.card_content}>
               <img
                 src={ProductsIcon}
@@ -102,7 +231,7 @@ const Dashboard = () => {
             <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
             Share
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
