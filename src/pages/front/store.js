@@ -1,23 +1,20 @@
-import React, { useEffect, useState, useDisclosure } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, Link, withRouter } from "react-router-dom";
 import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
+import Whatsapp from "../../assets/logo-whatsapp.svg";
+import Favourites from "../../assets/heart-outline.svg";
 import {
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
+  Skeleton,
+  Stack,
 } from "@chakra-ui/react";
 
 const Store = (props) => {
@@ -27,19 +24,19 @@ const Store = (props) => {
   const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
   const [catSelected, setCatSelected] = useState("all");
-  const [isOpen, setIsOpen] = useState(false);
-  const [onClose, setOnClose] = useState(true);
-  const btnRef = React.useRef();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFavouratesClick = (storeId) => {
     history.push(`/store-favourates/${storeId}`);
   };
   useEffect(() => {
+    setIsLoading(true);
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
       setStoreData(storeResponse.data.data.storeinfo);
       setStoreProducts(storeResponse.data.data.products);
       setStoreCategories(storeResponse.data.data.categories);
+      setIsLoading(false);
       //update store views analytics
       const analyticResponse = await updateStoreViews(
         storeResponse.data.data.storeinfo.id
@@ -60,43 +57,45 @@ const Store = (props) => {
 
   return (
     <div className={styles.container}>
-      <Button ref={btnRef} colorScheme="teal" onClick={() => setIsOpen(true)}>
-        Open
-      </Button>
-      {/* drawer */}
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={() => setIsOpen(false)}
-        finalFocusRef={btnRef}
+      <Button
+        backgroundColor="#25D366"
+        borderRadius="100%"
+        position="fixed"
+        bottom="8"
+        right="8"
+        height="60px"
+        width="60px"
       >
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Create your account</DrawerHeader>
-
-            <DrawerBody>
-              <Input placeholder="Type here..." />
-            </DrawerBody>
-
-            <DrawerFooter>
-              <Button variant="outline" mr={3} onClick={() => setIsOpen(false)}>
-                Cancel
-              </Button>
-              <Button color="blue">Save</Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-
+        <img
+          src={Whatsapp}
+          className={styles.iconWhatsapp}
+          height="30px"
+          width="30px"
+        />
+      </Button>
       {storeData && (
         <div className={styles.store_card}>
           <h1 className={styles.store_name}>{storeData.account_store}</h1>
           <h1 className={styles.store_location}>
             {storeData.account_store_address}
           </h1>
-          <Button onClick={() => handleFavouratesClick(storeData.id)}>
-            Favourates
+          <Button
+            onClick={() => handleFavouratesClick(storeData.id)}
+            backgroundColor="white"
+            borderRadius="100%"
+            position="absolute"
+            height="40px"
+            width="40px"
+            bottom="2"
+            right="3"
+            padding="0"
+          >
+            <img
+              src={Favourites}
+              className={styles.iconFavourites}
+              height="25px"
+              width="25px"
+            />
           </Button>
         </div>
       )}
@@ -145,32 +144,61 @@ const Store = (props) => {
       </div>
       {/* <div className={styles.products}> */}
       {/* product item starts here */}
+      {isLoading && (
+        <>
+          <SimpleGrid columns={2} spacing={2} w="95%" mt="2">
+            <Skeleton
+              height="160px"
+              w="100%"
+              style={{ borderRadius: "15px" }}
+            />
+            <Skeleton
+              height="160px"
+              w="100%"
+              style={{ borderRadius: "15px" }}
+            />
+            <Skeleton
+              height="160px"
+              w="100%"
+              style={{ borderRadius: "15px" }}
+            />
+            <Skeleton
+              height="160px"
+              w="100%"
+              style={{ borderRadius: "15px" }}
+            />
+          </SimpleGrid>
+        </>
+      )}
       <SimpleGrid columns={2} spacing={2} w="95%">
-        {storeProducts.map((product) => {
-          return (
-            <div
-              className={styles.product_item}
-              onClick={() => history.push(`/product_detail/${product.id}`)}
-              key={product.id}
-            >
-              {product.images && (
-                <img
-                  src={`${productImagesRoot}/min/${
-                    product.images.split(",")[0]
-                  }`}
-                  alt="img"
-                  className={styles.product_image}
-                />
-              )}
-              <div className={styles.product_details}>
-                <h1 className={styles.product_name}>{product.product_name}</h1>
-                <h1 className={styles.product_price}>
-                  ₹{product.product_price}
-                </h1>
+        {!isLoading &&
+          storeProducts.map((product) => {
+            return (
+              <div
+                className={styles.product_item}
+                onClick={() => history.push(`/product_detail/${product.id}`)}
+                key={product.id}
+              >
+                {product.images && (
+                  <img
+                    src={`${productImagesRoot}/min/${
+                      product.images.split(",")[0]
+                    }`}
+                    alt="img"
+                    className={styles.product_image}
+                  />
+                )}
+                <div className={styles.product_details}>
+                  <h1 className={styles.product_name}>
+                    {product.product_name}
+                  </h1>
+                  <h1 className={styles.product_price}>
+                    ₹{product.product_price}
+                  </h1>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
         {/* product item ends here */}
       </SimpleGrid>
       {/* </div> */}

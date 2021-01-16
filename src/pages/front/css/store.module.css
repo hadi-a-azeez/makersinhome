@@ -29,6 +29,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .store_name {
   color: white;
@@ -140,6 +141,14 @@
   margin-left: 6%;
   margin-top: 3px;
   margin-bottom: 8px;
+}
+.iconWhatsapp {
+  filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(129deg)
+    brightness(107%) contrast(99%);
+}
+.iconFavourites {
+  filter: invert(0%) sepia(13%) saturate(346%) hue-rotate(154deg)
+    brightness(84%) contrast(104%);
 }
 @media screen and (min-width: 480px) {
   .products {

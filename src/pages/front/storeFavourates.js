@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styles from "./css/store.module.css";
-import { useHistory, Link, withRouter } from "react-router-dom";
-import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
+import styles from "./css/favourites.module.css";
+import { useHistory } from "react-router-dom";
 import { productImagesRoot } from "../../config";
-import { updateStoreViews } from "../../api/custAnalyticsAPI";
-import {
-  SimpleGrid,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { SimpleGrid, IconButton, Image } from "@chakra-ui/react";
+import FavouritesIcon from "../../assets/heart-outline.svg";
 
 const StoreFavourates = (props) => {
   const history = useHistory();
@@ -38,29 +33,62 @@ const StoreFavourates = (props) => {
 
   return (
     <div className={styles.container}>
+      <IconButton
+        backgroundColor="#f8f9fd"
+        borderRadius="30px"
+        aria-label="Search database"
+        icon={<ArrowBackIcon color="black" w={8} h={8} />}
+        pos="fixed"
+        top="3"
+        left="3"
+        onClick={() => history.goBack()}
+      />
+      <h1 className={styles.heading}>My favourites</h1>
       <SimpleGrid columns={2} spacing={2} w="95%">
         {productsData ? (
           productsData.map((product) => {
             return (
-              <div
-                className={styles.product_item}
-                onClick={() =>
-                  history.push(`/product_detail/${product.product_id}`)
-                }
-                key={product.product_id}
-              >
-                <img
-                  src={`${productImagesRoot}/min/${product.product_image}`}
-                  alt="img"
-                  className={styles.product_image}
-                />
+              <>
+                <div
+                  className={styles.product_item}
+                  onClick={() =>
+                    history.push(`/product_detail/${product.product_id}`)
+                  }
+                  key={product.product_id}
+                >
+                  <img
+                    src={`${productImagesRoot}/min/${product.product_image}`}
+                    alt="img"
+                    className={styles.product_image}
+                  />
 
-                <div className={styles.product_details}>
-                  <h1 className={styles.product_name}>
-                    {product.product_name}
-                  </h1>
+                  <div className={styles.product_details}>
+                    <h1 className={styles.product_name}>
+                      {product.product_name}
+                    </h1>
+                    <h1 className={styles.product_price}>
+                      ₹{product.product_price}
+                    </h1>
+                  </div>
+                  <IconButton
+                    backgroundColor="#f8f9fd"
+                    borderRadius="30px"
+                    aria-label="Search database"
+                    icon={
+                      <Image
+                        src={FavouritesIcon}
+                        width={5}
+                        height={5}
+                        className={styles.favouritesFilled}
+                      />
+                    }
+                    pos="absolute"
+                    bottom="3"
+                    right="3"
+                    onClick={() => history.goBack()}
+                  />
                 </div>
-              </div>
+              </>
             );
           })
         ) : !isProducts ? (
