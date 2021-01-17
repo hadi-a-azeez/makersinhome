@@ -25,6 +25,7 @@ const Store = (props) => {
   const [storeCategories, setStoreCategories] = useState([]);
   const [catSelected, setCatSelected] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [isStoreExists, setIsStoreExists] = useState(true);
 
   const handleFavouratesClick = (storeId) => {
     history.push(`/store-favourates/${storeId}`);
@@ -33,14 +34,19 @@ const Store = (props) => {
     setIsLoading(true);
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
-      setStoreData(storeResponse.data.data.storeinfo);
-      setStoreProducts(storeResponse.data.data.products);
-      setStoreCategories(storeResponse.data.data.categories);
-      setIsLoading(false);
-      //update store views analytics
-      const analyticResponse = await updateStoreViews(
-        storeResponse.data.data.storeinfo.id
-      );
+      if (storeResponse.status != 404) {
+        console.log(storeResponse.status);
+        setStoreData(storeResponse.data.data.storeinfo);
+        setStoreProducts(storeResponse.data.data.products);
+        setStoreCategories(storeResponse.data.data.categories);
+        setIsLoading(false);
+        //update store views analytics
+        const analyticResponse = await updateStoreViews(
+          storeResponse.data.data.storeinfo.id
+        );
+      } else {
+        setIsStoreExists(false);
+      }
     };
     getData();
   }, []);
@@ -55,7 +61,7 @@ const Store = (props) => {
     storeData.id && getSelectedProducts();
   }, [catSelected]);
 
-  return (
+  return isStoreExists ? (
     <div className={styles.container}>
       <Button
         backgroundColor="#25D366"
@@ -203,6 +209,8 @@ const Store = (props) => {
       </SimpleGrid>
       {/* </div> */}
     </div>
+  ) : (
+    <p>No STore BY That Name</p>
   );
 };
 

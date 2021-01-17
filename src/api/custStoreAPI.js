@@ -9,7 +9,10 @@ export const getStoreDataAll = async (storeLink) => {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    console.log(error.response.status);
+    if (error.response.status == 404) {
+      return error.response;
+    }
   }
 };
 
