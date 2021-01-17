@@ -21,6 +21,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const Signup = lazy(() => import("./pages/signup"));
 const SignIn = lazy(() => import("./pages/signin"));
+const AuthenticatedRoutes = lazy(() => import("./adminRoute"));
 const AddNewProduct = lazy(() => import("./pages/addNewProduct"));
 const StoreInfo = lazy(() => import("./pages/storeInfo"));
 const Products = lazy(() => import("./pages/products"));
@@ -41,27 +42,27 @@ const ProductDetail = lazy(() => import("./pages/front/productDetail"));
 const Home = lazy(() => import("./pages/front/home"));
 
 function App() {
-  const AuthenticatedRoutes = () => {
-    return (
-      <>
-        <BottomNavigationMenu />
-        <Route path="/add_product/:catogory?" component={AddNewProduct} />
-        <Route path="/store_info" component={StoreInfo} />
-        <Route path="/products" component={Products} />
-        <Route path="/product_detailed/:id" component={ProductDetailed} />
-        <Route
-          path="/products_category/:cat_name/:id"
-          component={ProductsByCategory}
-        />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/add_category" component={AddNewCategory} />
-        <Route path="/edit_category/:category_id" component={EditCategory} />
-        <Route path="/categories" component={Categories} />
-        <Route path="/account" component={Account} />
-        <Route path="/edit_account" component={EditAccount} />
-      </>
-    );
-  };
+  // const AuthenticatedRoutes = () => {
+  //   return (
+  //     <>
+  //       <BottomNavigationMenu />
+  //       <Route path="/add_product/:catogory?" component={AddNewProduct} />
+  //       <Route path="/store_info" component={StoreInfo} />
+  //       <Route path="/products" component={Products} />
+  //       <Route path="/product_detailed/:id" component={ProductDetailed} />
+  //       <Route
+  //         path="/products_category/:cat_name/:id"
+  //         component={ProductsByCategory}
+  //       />
+  //       <Route path="/dashboard" component={Dashboard} />
+  //       <Route path="/add_category" component={AddNewCategory} />
+  //       <Route path="/edit_category/:category_id" component={EditCategory} />
+  //       <Route path="/categories" component={Categories} />
+  //       <Route path="/account" component={Account} />
+  //       <Route path="/edit_account" component={EditAccount} />
+  //     </>
+  //   );
+  // };
 
   return (
     <Router>
