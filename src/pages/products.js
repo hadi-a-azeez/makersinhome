@@ -9,6 +9,7 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../components/labelHeader";
 import Placeholder from "../assets/placeholder.png";
+import Empty from "../assets/empty.svg";
 import { Box, StatNumber, Stat, Button, Skeleton } from "@chakra-ui/react";
 
 const Products = (props) => {
@@ -21,6 +22,7 @@ const Products = (props) => {
     const getProductsData = async () => {
       const productsData = await getProductsApi("all");
       setProductsArray(productsData.data.data);
+      console.log(productsArray);
       setIsLoading(false);
     };
     getProductsData();
@@ -70,12 +72,17 @@ const Products = (props) => {
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     {/* images are returned with image name and id with it seperated by : */}
-                    {item.images && (
+                    {item.images ? (
                       <img
                         src={`${productImagesRoot}/min/${
                           item.images.split(",")[0].split(":")[0]
                         }`}
                         alt="image"
+                        className={styles.thumbnail_image}
+                      />
+                    ) : (
+                      <img
+                        src={Placeholder}
                         className={styles.thumbnail_image}
                       />
                     )}
@@ -114,6 +121,15 @@ const Products = (props) => {
             </Link>
           ))}
         {/* card one ends here */}
+        {productsArray.length === 0 && !isLoading && (
+          <>
+            <img src={Empty} className={styles.emptyImage} />
+            <h1 className={styles.heading}>
+              Your products list is empty!<br></br>
+              Add products to your list
+            </h1>
+          </>
+        )}
 
         <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS

@@ -118,6 +118,7 @@ const Store = (props) => {
           placeholder="search in this store"
           borderRadius="30px"
           borderColor="white"
+          onClick={() => history.push("/store/shafi/search")}
         />
       </InputGroup>
 

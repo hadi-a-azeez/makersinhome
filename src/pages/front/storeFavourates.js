@@ -5,6 +5,7 @@ import { productImagesRoot } from "../../config";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { SimpleGrid, IconButton, Image } from "@chakra-ui/react";
 import FavouritesIcon from "../../assets/heart-outline.svg";
+import FavouritesIconFilled from "../../assets/heart_filled.svg";
 
 const StoreFavourates = (props) => {
   const history = useHistory();
@@ -76,7 +77,7 @@ const StoreFavourates = (props) => {
                     aria-label="Search database"
                     icon={
                       <Image
-                        src={FavouritesIcon}
+                        src={FavouritesIconFilled}
                         width={5}
                         height={5}
                         className={styles.favouritesFilled}

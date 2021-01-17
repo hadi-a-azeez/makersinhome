@@ -9,6 +9,7 @@ import WhatsappLogo from "../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../api/sellerProductAPI";
 import { getUserInfo } from "../api/sellerAccountAPI";
 import { SimpleGrid, Box, Flex, Image } from "@chakra-ui/react";
+import Switch from "react-switch";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState([]);
@@ -21,7 +22,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log("started");
     //get count of products and catgories of the current user
     const getCount = async () => {
       const response = await getCountAPI();
@@ -45,6 +45,12 @@ const Dashboard = () => {
           justifyContent="center"
           style={{ backgroundColor: " #00b140" }}
         >
+          <Switch
+            onColor="#ffffff"
+            width={36}
+            height={21}
+            style={{ position: "absolute", right: "3" }}
+          />
           <Flex direction="row" w="90%" mt="8">
             <Image
               borderRadius="full"
@@ -167,71 +173,6 @@ const Dashboard = () => {
             Share
           </button>
         </div>
-
-        {/* <h1 className={styles.heading_bold}>Dashboard</h1>
-        <SimpleGrid columns={2} spacing={5} w="90%">
-          <div className={`${styles.card} ${styles.lightgreen}`}>
-            <div className={styles.card_content}>
-              <img src={VisibleIcon} alt="home" className={styles.iconFilled} />
-              <h1 className={styles.card_heading}>Store visits</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData.store_views ? countData.store_views : 0}
-              </h1>
-            </div>
-          </div>
-          <div className={`${styles.card} ${styles.orange}`}>
-            <div className={styles.card_content}>
-              <img
-                src={MessagesIcon}
-                alt="home"
-                className={styles.iconFilled}
-              />
-              <h1 className={styles.card_heading}>Messages started</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData.message_clicks ? countData.message_clicks : 0}
-              </h1>
-            </div>
-          </div>
-
-          <div className={`${styles.card} ${styles.pink}`}>
-            <div className={styles.card_content}>
-              <img
-                src={ProductsIcon}
-                alt="home"
-                className={styles.iconFilled}
-              />
-              <h1 className={styles.card_heading}>Total products</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData.products_count}
-              </h1>
-            </div>
-          </div>
-          <div className={`${styles.card} ${styles.red}`}>
-            <div className={styles.card_content}>
-              <img
-                src={CategoriesIcon}
-                alt="home"
-                className={styles.iconFilled}
-              />
-              <h1 className={styles.card_heading}>Categories</h1>
-              <h1 className={styles.card_data_bold}>{countData.cat_count}</h1>
-            </div>
-          </div>
-        </SimpleGrid>
-
-        <div className={styles.cardPlain} onClick={shareToWhatsapp}>
-          <h1 className={styles.cardPlainHeading}>
-            Share link on Social Media
-          </h1>
-          <h1 className={styles.cardPlainSubHeading}>
-            Your customers can visit your online store and see your products
-            from this link
-          </h1>
-          <button className={styles.btn_whatsapp}>
-            <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
-            Share
-          </button>
-        </div> */}
       </div>
     </>
   );

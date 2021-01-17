@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Search from "./pages/front/search";
 
 // import Signup from "./pages/signup";
 // import SignIn from "./pages/signin";
@@ -70,6 +71,7 @@ function App() {
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/store/:storelink" component={Store} />
+          <Route exact path="/store/:storelink/search" component={Search} />
           <Route
             exact
             path="/store-favourates/:store_id"

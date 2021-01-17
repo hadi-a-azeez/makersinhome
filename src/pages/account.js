@@ -6,7 +6,13 @@ import LabelHeader from "../components/labelHeader";
 import { getStoreInfoAPI } from "../api/sellerAccountAPI";
 import Placeholder from "../assets/placeholder.png";
 import { profileImagesRoot } from "../config";
-import { Stack, Image, Flex } from "@chakra-ui/react";
+import {
+  Stack,
+  Image,
+  Flex,
+  SkeletonCircle,
+  SkeletonText,
+} from "@chakra-ui/react";
 import WhatsappLogo from "../assets/logo-whatsapp.svg";
 import ContactUs from "../assets/call_outline.svg";
 import AboutUs from "../assets/about_outline.svg";
@@ -44,16 +50,21 @@ const Account = () => {
             borderRadius="full"
             boxSize="80px"
             objectFit="cover"
+            fallback={<SkeletonCircle size="20" />}
           />
           <Flex direction="column" mt="3" ml="3">
-            <h1
-              style={{
-                fontSize: "20px",
-                fontWeight: "600",
-              }}
-            >
-              {storeInfo.account_store}
-            </h1>
+            {storeInfo.account_store ? (
+              <h1
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                }}
+              >
+                {storeInfo.account_store}
+              </h1>
+            ) : (
+              <SkeletonText noOfLines={1} height="20px" />
+            )}
             <Link to="/edit_account" className={styles.link}>
               Edit business details
             </Link>
