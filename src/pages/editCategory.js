@@ -40,7 +40,7 @@ const AddNewCategory = (props) => {
       setparentCategoriesData(responseParentCategory.data.data);
       const responseSingleCategory = await getSingleCategoryAPI(categoryId);
       console.log("cat Data", responseSingleCategory);
-      setSingleCategoryData(responseSingleCategory.data.data[0]);
+      setSingleCategoryData(responseSingleCategory.data.data);
     };
     getCategoriesData();
   }, []);

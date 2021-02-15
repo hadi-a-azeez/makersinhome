@@ -6,6 +6,7 @@ export const getParentCategoriesApi = async () => {
     const parentCategoriesData = await axios_seller.get(
       "/seller/catogories/parent"
     );
+    console.log(parentCategoriesData);
     return parentCategoriesData;
   } catch (error) {
     return error;
@@ -16,6 +17,7 @@ export const getParentCategoriesApi = async () => {
 export const getCategoriesAPI = async () => {
   try {
     const categoriesData = await axios_seller.get(`/seller/catogories/`);
+    console.log(categoriesData);
     return categoriesData;
   } catch (error) {
     return error;

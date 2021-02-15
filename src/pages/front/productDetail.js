@@ -91,15 +91,15 @@ const ProductDetail = (props) => {
           showThumbs={false}
           showStatus={false}
         >
-          {productData.images &&
-            productData.images.split(",").map((image) => {
+          {productData.products_images &&
+            productData.products_images.map((image) => {
               return (
                 <div
-                  key={image.split(":")[0]}
+                  key={image.id}
                   style={{ height: 350, backgroundColor: `white` }}
                 >
                   <img
-                    src={`${productImagesRoot}/${image}`}
+                    src={`${productImagesRoot}/${image.product_image}`}
                     style={{
                       objectFit: "cover",
                       height: 350,

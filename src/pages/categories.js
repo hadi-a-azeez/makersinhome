@@ -63,7 +63,7 @@ const Categories = () => {
             <Skeleton height="75px" w="90%" mt="3" />
           </>
         )}
-        {isLogin &&
+        {categoriesArray.length > 0 &&
           categoriesArray.map((item, index) => (
             <Box
               w="90%"
