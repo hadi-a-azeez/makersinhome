@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./css/signup.module.css";
+import styles from "../css/signup.module.css";
 import {
   FormControl,
   FormLabel,
@@ -10,9 +10,9 @@ import {
   Box,
   Image,
 } from "@chakra-ui/react";
-import AddToCart from "../assets/addtocart.svg";
-import { useForm } from "../components/useForm";
-import { apiRoot } from "../config";
+import AddToCart from "../../../assets/addtocart.svg";
+import { useForm } from "../../../components/useForm";
+import { apiRoot } from "../../../config";
 import axios from "axios";
 
 const SignUp = () => {

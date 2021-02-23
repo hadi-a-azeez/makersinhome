@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/products.module.css";
+import styles from "../css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { productImagesRoot } from "../config";
+import { productImagesRoot } from "../../../config";
 import Switch from "react-switch";
-import { getProductsApi, updateProductStock } from "../api/sellerProductAPI";
-import Loader from "react-loader-spinner";
+import {
+  getProductsApi,
+  updateProductStock,
+} from "../../../api/sellerProductAPI";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../components/labelHeader";
-import Placeholder from "../assets/placeholder.png";
+import LabelHeader from "../../../components/labelHeader";
+import Placeholder from "../../../assets/placeholder.png";
+import Empty from "../../../assets/empty.svg";
 import { Box, StatNumber, Stat, Button, Skeleton } from "@chakra-ui/react";
 
 const Products = (props) => {
-  const productsCat = props.match.params.id;
-  const productsCatName = props.match.params.cat_name;
   const [productsArray, setProductsArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
@@ -21,16 +22,13 @@ const Products = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const getProductsData = async () => {
-      const productsData = await getProductsApi(productsCat);
+      const productsData = await getProductsApi("all");
       setProductsArray(productsData.data.data);
+      console.log(productsArray);
       setIsLoading(false);
-      console.log(productsData.data);
-      if (productsData.data.login === false) {
-        history.push("/");
-      }
     };
     getProductsData();
-  }, [productsCat]);
+  }, []);
 
   //in stock,out of stock update
   const flipProductStock = async (a, b, id) => {
@@ -42,13 +40,12 @@ const Products = (props) => {
     };
     setProductsArray(newProductsArray);
     let response = await updateProductStock(parseInt(product.id));
-    console.log(response);
   };
 
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={productsCatName} />
+        <LabelHeader label="All Products" />
         {isLoading && (
           <>
             <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
@@ -60,7 +57,7 @@ const Products = (props) => {
         {!isLoading &&
           productsArray.map((item, index) => (
             <Link
-              to={`/product_detailed/${item.id}`}
+              to={`/product_edit/${item.id}`}
               key={item.id}
               className={styles.link}
             >
@@ -77,12 +74,15 @@ const Products = (props) => {
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     {/* images are returned with image name and id with it seperated by : */}
-                    {item.images && (
+                    {item.products_images[0] ? (
                       <img
-                        src={`${productImagesRoot}/min/${
-                          item.images.split(",")[0].split(":")[0]
-                        }`}
+                        src={`${productImagesRoot}/min/${item.products_images[0].product_image}`}
                         alt="image"
+                        className={styles.thumbnail_image}
+                      />
+                    ) : (
+                      <img
+                        src={Placeholder}
                         className={styles.thumbnail_image}
                       />
                     )}
@@ -121,8 +121,17 @@ const Products = (props) => {
             </Link>
           ))}
         {/* card one ends here */}
+        {productsArray.length === 0 && !isLoading && (
+          <>
+            <img src={Empty} className={styles.emptyImage} />
+            <h1 className={styles.heading}>
+              Your products list is empty!<br></br>
+              Add products to your list
+            </h1>
+          </>
+        )}
 
-        <Link to={`/add_product/${productsCat}`} className={styles.btn}>
+        <Link to="/add_product" className={styles.btn}>
           ADD PRODUCTS
         </Link>
         <div className={styles.blank}></div>

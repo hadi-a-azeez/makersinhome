@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
-import styles from "./css/categories.module.css";
-import { getCategoriesAPI, deleteCategoryAPI } from "../api/sellerCategoryAPI";
-import axios from "axios";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../components/labelHeader";
-import Ellipse from "../assets/ellipse_outline.svg";
+import styles from "../css/categories.module.css";
+import {
+  getCategoriesAPI,
+  deleteCategoryAPI,
+} from "../../../api/sellerCategoryAPI";
+import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import LabelHeader from "../../../components/labelHeader";
+import Ellipse from "../../../assets/ellipse_outline.svg";
 import {
   Box,
   Menu,
@@ -22,7 +23,6 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);

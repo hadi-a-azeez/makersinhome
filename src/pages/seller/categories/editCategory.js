@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/addNewCategory.module.css";
+import styles from "../css/addNewCategory.module.css";
 
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../components/labelHeader";
+import LabelHeader from "../../../components/labelHeader";
 import {
   updateCatogoriesAPI,
   getParentCategoriesApi,
   getSingleCategoryAPI,
-} from "../api/sellerCategoryAPI";
+} from "../../../api/sellerCategoryAPI";
 import {
   Input,
   Button,
@@ -17,7 +17,7 @@ import {
   Select,
   Box,
 } from "@chakra-ui/react";
-import { useForm } from "../components/useForm";
+import { useForm } from "../../../components/useForm";
 
 const AddNewCategory = (props) => {
   const [parentCategoriesData, setparentCategoriesData] = useState([]);

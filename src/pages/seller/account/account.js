@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styles from "./css/account.module.css";
-import theme from "./css/theme/theme.module.css";
+import styles from "../css/account.module.css";
 import { Link, useHistory } from "react-router-dom";
-import LabelHeader from "../components/labelHeader";
-import { getStoreInfoAPI } from "../api/sellerAccountAPI";
-import Placeholder from "../assets/placeholder.png";
-import { profileImagesRoot } from "../config";
+import LabelHeader from "../../../components/labelHeader";
+import { getStoreInfoAPI } from "../../../api/sellerAccountAPI";
+import Placeholder from "../../../assets/placeholder.png";
+import { profileImagesRoot } from "../../../config";
 import {
   Stack,
   Image,
@@ -13,10 +12,10 @@ import {
   SkeletonCircle,
   SkeletonText,
 } from "@chakra-ui/react";
-import WhatsappLogo from "../assets/logo-whatsapp.svg";
-import ContactUs from "../assets/call_outline.svg";
-import AboutUs from "../assets/about_outline.svg";
-import LogOut from "../assets/logout_outline.svg";
+import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
+import ContactUs from "../../../assets/call_outline.svg";
+import AboutUs from "../../../assets/about_outline.svg";
+import LogOut from "../../../assets/logout_outline.svg";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});
@@ -31,7 +30,7 @@ const Account = () => {
   useEffect(() => {
     (async () => {
       const response = await getStoreInfoAPI();
-      setStoreInfo(response.data.data[0]);
+      setStoreInfo(response.data.data);
     })();
   }, []);
 

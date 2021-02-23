@@ -26,9 +26,10 @@ export const addProductAPI = async (product) => {
   }
 };
 //update a product details
-export const updateProductAPI = async (product) => {
+export const updateProductAPI = async (product, id) => {
+  console.log(product);
   try {
-    const response = await axios_seller.put(`/seller/products`, product);
+    const response = await axios_seller.put(`/seller/products/${id}`, product);
     console.log(response);
     return response;
   } catch (error) {
@@ -38,11 +39,12 @@ export const updateProductAPI = async (product) => {
 };
 //Delete Product Images
 export const deleteProductImagesAPI = async (images, pid) => {
-  let imagesArr = { images_delete: images };
+  console.log(images);
+  const imagesToDelete = { images_delete: images };
   try {
     const response = await axios_seller.post(
       `/seller/products/imageDelete/${pid}`,
-      imagesArr
+      imagesToDelete
     );
     console.log(response);
     return response;

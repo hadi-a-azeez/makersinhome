@@ -17,6 +17,7 @@ axios_seller.interceptors.request.use((config) => {
 axios_seller.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error);
     if (error.response.status === 401) {
       //place your reentry code
       localStorage.removeItem("loginExpiry");

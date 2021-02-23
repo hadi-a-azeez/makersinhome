@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import styles from "./css/productDetailed.module.css";
-import { productImagesRoot } from "../config";
+import styles from "../css/productDetailed.module.css";
+import { productImagesRoot } from "../../../config";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import LabelHeader from "../components/labelHeader";
-import { useForm } from "../components/useForm";
+import LabelHeader from "../../../components/labelHeader";
+import { useForm } from "../../../components/useForm";
 import imageCompression from "browser-image-compression";
-import { getCategoriesAPI } from "../api/sellerCategoryAPI";
+import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
 import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
 
 import {
@@ -17,7 +17,7 @@ import {
   deleteProductImagesAPI,
   deleteProductAPI,
   uploadProductImageAPI,
-} from "../api/sellerProductAPI";
+} from "../../../api/sellerProductAPI";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -39,7 +39,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 
-const ProductDetailed = (props) => {
+const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [productImagesLocal, setProductImagesLocal] = useState([]);
   const [serverImagesToDelete, setServerImagesToDelete] = useState([]);
@@ -59,8 +59,8 @@ const ProductDetailed = (props) => {
       setIsLoading(true);
       const productDetails = await getProductAPI(productId);
       setIsLoading(false);
-      setProduct(productDetails.data.data[0]);
-      const image = productDetails.data.data[0].images;
+      setProduct(productDetails.data.data);
+      const image = productDetails.data.data.products_images;
       const responseCatogory = await getCategoriesAPI();
       setCategoriesArray(responseCatogory.data.data);
     };
@@ -69,7 +69,6 @@ const ProductDetailed = (props) => {
 
   //flip is on product in state on switch click
   const handleIsOnSale = () => {
-    console.log("nnnnice");
     let onSale = !product.product_is_sale;
     setProduct({ ...product, product_is_sale: onSale ? 1 : 0 });
   };
@@ -104,7 +103,10 @@ const ProductDetailed = (props) => {
     if (serverImagesToDelete.length > 0) {
       await deleteProductImagesAPI(serverImagesToDelete, productId);
     }
-    const responseAPI = await updateProductAPI(product);
+    const editedProduct = { ...product };
+    delete editedProduct.products_images;
+
+    const responseAPI = await updateProductAPI(editedProduct, productId);
     setIsBtnLoading(false);
     toast({
       title: "Product updated.",
@@ -129,16 +131,14 @@ const ProductDetailed = (props) => {
       prevImages.filter((image) => image.name !== imageToDelete)
     );
   };
+
   //add images to be deleted from server to array
   const deleteServerImages = (imageToDelete) => {
-    console.log(product.images);
-    let img = product.images;
-    let imagesDeleted = img
-      .split(",")
-      .filter((image) => image !== imageToDelete)
-      .join(",");
-    console.log(imagesDeleted);
-    setProduct({ ...product, images: imagesDeleted });
+    let currentImages = product.products_images;
+    let newImages = currentImages.filter(
+      (image) => image.id !== imageToDelete.id
+    );
+    setProduct({ ...product, products_images: newImages });
     setServerImagesToDelete([...serverImagesToDelete, imageToDelete]);
   };
 
@@ -217,8 +217,8 @@ const ProductDetailed = (props) => {
               <label htmlFor="file-upload" className={styles.customFileUpload}>
                 <AddIcon w={8} h={8} />
               </label>
-              {product.images &&
-                product.images.split(",").map((image, index) => {
+              {product.products_images &&
+                product.products_images.map((image, index) => {
                   return (
                     <div
                       key={index}
@@ -232,7 +232,7 @@ const ProductDetailed = (props) => {
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={`${productImagesRoot}/min/${image.split(":")[0]}`}
+                        src={`${productImagesRoot}/min/${image.product_image}`}
                         key={index}
                       />
                       <IconButton
@@ -452,4 +452,4 @@ const ProductDetailed = (props) => {
   );
 };
 
-export default ProductDetailed;
+export default ProductEdit;

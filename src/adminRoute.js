@@ -1,15 +1,15 @@
 import AddNewProduct from "./pages/addNewProduct";
-import StoreInfo from "./pages/storeInfo";
-import Products from "./pages/products";
+import StoreInfo from "./client/account/storeInfo";
+import Products from "./client/products";
 import ProductDetailed from "./pages/productEdit";
 import Dashboard from "./pages/dashboard";
 import BottomNavigationMenu from "./components/bottomNavigation";
-import AddNewCategory from "./pages/addNewCategory";
-import Categories from "./pages/categories";
+import AddNewCategory from "./client/categories/addNewCategory";
+import Categories from "./client/categories/categories";
 import Account from "./pages/account";
 import ProductsByCategory from "./pages/productsByCategory";
-import EditAccount from "./pages/editAccount";
-import EditCategory from "./pages/editCategory";
+import EditAccount from "./client/account/editAccount";
+import EditCategory from "./client/categories/editCategory";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/addNewProduct.module.css";
-import { getCategoriesAPI } from "../api/sellerCategoryAPI";
+import styles from "../css/addNewProduct.module.css";
+import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../components/labelHeader";
+import LabelHeader from "../../../components/labelHeader";
 import imageCompression from "browser-image-compression";
-import { useForm } from "../components/useForm";
+import { useForm } from "../../../components/useForm";
 import { Switch } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import { addProductAPI, uploadProductImageAPI } from "../api/sellerProductAPI";
+import {
+  addProductAPI,
+  uploadProductImageAPI,
+} from "../../../api/sellerProductAPI";
 import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
 import {
   Input,
@@ -65,12 +68,13 @@ const AddNewProduct = (props) => {
   const addProduct = async () => {
     setIsBtnLoading(true);
     const response = await addProductAPI(product);
-    const id = response.data.data.product_id;
+    console.log(response.data);
+    const productId = response.data.data.id;
     //upload image to server if any
     if (compressedImages.length > 0) {
       const responseImageUpload = await uploadProductImageAPI(
         compressedImages,
-        id
+        productId
       );
     }
     setIsBtnLoading(false);
@@ -83,7 +87,7 @@ const AddNewProduct = (props) => {
       position: "bottom",
     });
     //add delay to model Completed product adding
-    setTimeout(() => history.push("/products/All%20Products/all"), 2000);
+    // setTimeout(() => history.push("/products/All%20Products/all"), 2000);
   };
   const handleIsOnSale = () => {
     setProduct({ ...product, product_is_sale: !product.product_is_sale });

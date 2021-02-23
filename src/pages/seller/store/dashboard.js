@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "./css/dashboard.module.css";
-import LabelHeader from "../components/labelHeader";
-import VisibleIcon from "../assets/eye.svg";
-import MessagesIcon from "../assets/chatbubble-ellipses.svg";
-import ProductsIcon from "../assets/layersFilled.svg";
-import CategoriesIcon from "../assets/gridFilled.svg";
-import WhatsappLogo from "../assets/logo-whatsapp.svg";
-import { getCountAPI } from "../api/sellerProductAPI";
-import { getUserInfo } from "../api/sellerAccountAPI";
+import styles from "../css/dashboard.module.css";
+import VisibleIcon from "../../../assets/eye.svg";
+import MessagesIcon from "../../../assets/chatbubble-ellipses.svg";
+import ProductsIcon from "../../../assets/layersFilled.svg";
+import CategoriesIcon from "../../../assets/gridFilled.svg";
+import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
+import { getCountAPI } from "../../../api/sellerProductAPI";
+import { getUserInfo } from "../../../api/sellerAccountAPI";
 import { SimpleGrid, Box, Flex, Image } from "@chakra-ui/react";
 import Switch from "react-switch";
 

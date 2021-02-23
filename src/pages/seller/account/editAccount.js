@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import styles from "./css/editAccount.module.css";
+import styles from "../css/editAccount.module.css";
 import Loader from "react-loader-spinner";
 import imageCompression from "browser-image-compression";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../components/labelHeader";
-import { useForm } from "../components/useForm";
-import { updateStoreAPI } from "../api/sellerStoreAPI";
-import TextField from "@material-ui/core/TextField";
-import { profileImagesRoot } from "../config";
+import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import LabelHeader from "../../../components/labelHeader";
+import { useForm } from "../../../components/useForm";
+import { updateStoreAPI } from "../../../api/sellerStoreAPI";
+import { profileImagesRoot } from "../../../config";
 import {
   getStoreInfoAPI,
   uploadProfileImageAPI,
-} from "../api/sellerAccountAPI";
+} from "../../../api/sellerAccountAPI";
 import {
   Input,
   Textarea,
@@ -52,12 +51,19 @@ const EditAccount = () => {
           imagesFromInput[i],
           options
         );
-        imagesCompressed.push(compressedFile);
+        const convertedBlobFile = new File(
+          [compressedFile],
+          imagesFromInput[i].name,
+          {
+            type: imagesFromInput[i].type,
+            lastModified: Date.now(),
+          }
+        );
+        imagesCompressed.push(convertedBlobFile);
       }
+
       setCompreseesdImagesState(imagesCompressed);
       setImageEdited(true);
-
-      // setProductImageConverted(URL.createObjectURL(compressedFile));
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +80,8 @@ const EditAccount = () => {
     const getStoreInfo = async () => {
       setIsLoading(true);
       let response = await getStoreInfoAPI();
-      setStoreInfo(response.data.data[0]);
+      setStoreInfo(response.data.data);
+      console.log(response.data.data);
       setIsLoading(false);
     };
     getStoreInfo();
@@ -82,7 +89,11 @@ const EditAccount = () => {
 
   const updateStore = async () => {
     setIsBtnLoading(true);
-    if (isImageEdited) await uploadProfileImageAPI(compressedImagesState);
+    if (isImageEdited)
+      await uploadProfileImageAPI(
+        compressedImagesState,
+        storeInfo.account_store_image
+      );
     await updateStoreAPI(storeInfo);
 
     setIsBtnLoading(false);

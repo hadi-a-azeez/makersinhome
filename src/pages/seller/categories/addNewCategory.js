@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/addNewCategory.module.css";
+import styles from "../css/addNewCategory.module.css";
 
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../components/labelHeader";
+import LabelHeader from "../../../components/labelHeader";
 import {
   addCatogoriesAPI,
   getParentCategoriesApi,
-} from "../api/sellerCategoryAPI";
+} from "../../../api/sellerCategoryAPI";
 import {
   Input,
   Button,

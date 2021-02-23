@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import styles from "./css/signup.module.css";
+import styles from "../css/signup.module.css";
 import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
-import { signinUserAPI } from "../api/sellerAccountAPI";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { signinUserAPI } from "../../../api/sellerAccountAPI";
+import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {
   FormControl,
   FormLabel,
@@ -14,7 +14,7 @@ import {
   Box,
   Image,
 } from "@chakra-ui/react";
-import AddToCart from "../assets/addtocart.svg";
+import AddToCart from "../../../assets/addtocart.svg";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
