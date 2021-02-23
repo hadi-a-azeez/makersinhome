@@ -76,9 +76,7 @@ const ProductDetail = (props) => {
             {productData.images && (
               <meta
                 property="og:image"
-                content={`${productImagesRoot}/${
-                  productData.images.split(",")[0]
-                }`}
+                content={`${productImagesRoot}/${productData.products_images[0].product_image}`}
               />
             )}
           </Helmet>
@@ -141,7 +139,7 @@ const ProductDetail = (props) => {
                 storeData.id,
                 productData.id,
                 productData.product_name,
-                productData.images.split(",")[0]
+                productData.products_images[0].product_image
               )
             }
           >

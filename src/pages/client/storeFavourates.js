@@ -67,9 +67,6 @@ const StoreFavourates = (props) => {
                     <h1 className={styles.product_name}>
                       {product.product_name}
                     </h1>
-                    <h1 className={styles.product_price}>
-                      ₹{product.product_price}
-                    </h1>
                   </div>
                   <IconButton
                     backgroundColor="#f8f9fd"

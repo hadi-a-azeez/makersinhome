@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./css/search.module.css";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { SearchIcon } from "@chakra-ui/icons";
 import FavouritesIcon from "../../assets/heart-outline.svg";
+import { productImagesRoot } from "../../config";
 import {
   SimpleGrid,
   IconButton,
@@ -11,10 +12,49 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import { searchProductsAPI } from "../../api/custStoreAPI";
 import { useHistory } from "react-router-dom";
 
-const Search = () => {
+const Search = (props) => {
+  const storeId = props.match.params.storeId;
   const history = useHistory();
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  useEffect(() => {
+    if (searchValue == "") {
+      setFilteredProducts([]);
+    } else {
+      doSearch();
+    }
+  }, [searchValue]);
+
+  const doSearch = async () => {
+    const response = await searchProductsAPI(storeId, searchValue);
+    setFilteredProducts(response.data.data);
+    console.log(response);
+  };
+
+  const ProductCard = ({ product }) => {
+    return (
+      <div
+        className={styles.product_item}
+        onClick={() => history.push(`/product_detail/${product.id}`)}
+      >
+        <img
+          src={`${productImagesRoot}/min/${product.products_images[0].product_image}`}
+          alt="img"
+          className={styles.product_image}
+        />
+
+        <div className={styles.product_details}>
+          <h1 className={styles.product_name}>{product.product_name}</h1>
+          <h1 className={styles.product_price}>{product.product_price}</h1>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -51,39 +91,21 @@ const Search = () => {
             placeholder="search in this store"
             borderRadius="30px"
             borderColor="white"
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </InputGroup>
 
         <SimpleGrid columns={2} spacing={2} w="95%">
-          <div className={styles.product_item}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/d/da/Cup_and_Saucer_LACMA_47.35.6a-b_%281_of_3%29.jpg"
-              alt="img"
-              className={styles.product_image}
-            />
-
-            <div className={styles.product_details}>
-              <h1 className={styles.product_name}>Cup Tea</h1>
-              <h1 className={styles.product_price}>₹299</h1>
-            </div>
-            <IconButton
-              backgroundColor="#f8f9fd"
-              borderRadius="30px"
-              aria-label="Search database"
-              icon={
-                <Image
-                  src={FavouritesIcon}
-                  width={5}
-                  height={5}
-                  className={styles.favouritesFilled}
-                />
-              }
-              pos="absolute"
-              bottom="3"
-              right="3"
-              onClick={() => history.goBack()}
-            />
-          </div>
+          {searchValue.length > 0 ? (
+            <>
+              {filteredProducts.length > 0 &&
+                filteredProducts.map((product) => (
+                  <ProductCard product={product} key={product.id} />
+                ))}
+            </>
+          ) : (
+            <h1>Search Here</h1>
+          )}
         </SimpleGrid>
       </div>
     </>

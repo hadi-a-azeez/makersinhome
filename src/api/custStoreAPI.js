@@ -70,3 +70,15 @@ export const getProductDetailAPI = async (productId) => {
     console.log(error);
   }
 };
+
+//search for  products
+export const searchProductsAPI = async (storeId, searchTerm) => {
+  try {
+    const response = await axios.get(
+      `${apiRoot}/client/store/search/products/${storeId}/${searchTerm}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

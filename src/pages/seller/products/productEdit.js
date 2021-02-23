@@ -357,9 +357,7 @@ const ProductEdit = (props) => {
                 id="parentcategory"
                 variant="filled"
                 size="lg"
-                value={
-                  product.product_cat == 0 ? "DEFAULT" : product.product_cat
-                }
+                value={!product.product_cat ? "DEFAULT" : product.product_cat}
                 onChange={updateProduct}
               >
                 <option value="DEFAULT" disabled>

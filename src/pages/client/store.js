@@ -35,7 +35,7 @@ const Store = (props) => {
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
       if (storeResponse.status != 404) {
-        console.log(storeResponse.status);
+        console.log(storeResponse);
         setStoreData(storeResponse.data.data.storeinfo);
         setStoreProducts(storeResponse.data.data.products);
         setStoreCategories(storeResponse.data.data.categories);
@@ -118,7 +118,7 @@ const Store = (props) => {
           placeholder="search in this store"
           borderRadius="30px"
           borderColor="white"
-          onClick={() => history.push("/store/shafi/search")}
+          onClick={() => history.push(`/store/search/${storeData.id}`)}
         />
       </InputGroup>
 
@@ -186,11 +186,9 @@ const Store = (props) => {
                 onClick={() => history.push(`/product_detail/${product.id}`)}
                 key={product.id}
               >
-                {product.images && (
+                {product.products_images && (
                   <img
-                    src={`${productImagesRoot}/min/${
-                      product.images.split(",")[0]
-                    }`}
+                    src={`${productImagesRoot}/min/${product.products_images[0].product_image}`}
                     alt="img"
                     className={styles.product_image}
                   />

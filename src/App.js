@@ -61,7 +61,7 @@ function App() {
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/store/:storelink" component={Store} />
-          <Route exact path="/store/:storelink/search" component={Search} />
+          <Route exact path="/store/search/:storeId" component={Search} />
           <Route
             exact
             path="/store-favourates/:store_id"

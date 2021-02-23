@@ -38,8 +38,11 @@ export const addCatogoriesAPI = async (newCategory, selected) => {
 
 //update single category
 export const updateCatogoriesAPI = async (category) => {
+  console.log(category);
+  const catId = category.id;
+  delete category.id;
   try {
-    return await axios_seller.put(`/seller/catogories/`, category);
+    return await axios_seller.put(`/seller/catogories/${catId}`, category);
   } catch (error) {
     console.log(error);
   }
