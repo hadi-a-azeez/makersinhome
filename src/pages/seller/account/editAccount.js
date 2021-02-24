@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../css/editAccount.module.css";
 import Loader from "react-loader-spinner";
 import imageCompression from "browser-image-compression";
@@ -39,7 +39,6 @@ const EditAccount = () => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     let imagesCompressed = [];
-    console.log(event.target.files[0]);
     const options = {
       maxSizeMB: 0.6,
       maxWidthOrHeight: 1080,
@@ -188,6 +187,7 @@ const EditAccount = () => {
         size="lg"
         w="90%"
         mt="3"
+        mb="20"
         onClick={() => validateFields(updateStore)}
       >
         Update Store Info

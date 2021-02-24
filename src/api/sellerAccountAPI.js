@@ -45,7 +45,7 @@ export const uploadProfileImageAPI = async (imagesLocal, oldProfile) => {
 
   try {
     const response = await axios_seller.post(
-      `${apiRoot}/seller/store/profile-upload/${oldProfile}`,
+      `${apiRoot}/seller/store/profile-upload`,
       formData,
       {
         headers: {
