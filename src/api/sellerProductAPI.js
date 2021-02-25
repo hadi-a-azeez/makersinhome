@@ -107,6 +107,7 @@ export const uploadProductImageAPI = async (imagesLocal, productId) => {
   let formData = new FormData();
   imagesLocal.map((image) => {
     formData.append("product_image", image.image);
+    console.log(image.image);
   });
   try {
     const response = await axios_seller.post(

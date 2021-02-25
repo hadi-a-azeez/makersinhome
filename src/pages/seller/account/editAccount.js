@@ -52,7 +52,9 @@ const EditAccount = () => {
         );
         const convertedBlobFile = new File(
           [compressedFile],
-          imagesFromInput[i].name,
+          Date.now() +
+            Math.floor(100000 + Math.random() * 900000) +
+            imagesFromInput[i].name,
           {
             type: imagesFromInput[i].type,
             lastModified: Date.now(),
@@ -88,12 +90,13 @@ const EditAccount = () => {
 
   const updateStore = async () => {
     setIsBtnLoading(true);
-    if (isImageEdited)
-      await uploadProfileImageAPI(
-        compressedImagesState,
-        storeInfo.account_store_image
-      );
-    await updateStoreAPI(storeInfo);
+    let storeinfoNew = { ...storeInfo };
+    if (isImageEdited) {
+      await uploadProfileImageAPI(compressedImagesState);
+      delete storeinfoNew.account_store_image;
+    }
+
+    await updateStoreAPI(storeinfoNew);
 
     setIsBtnLoading(false);
     toast({

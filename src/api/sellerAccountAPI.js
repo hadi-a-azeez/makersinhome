@@ -21,7 +21,7 @@ export const signinUserAPI = async (loginUsername, loginPassword) => {
 //get all info of loginned user
 export const getUserInfo = async () => {
   try {
-    return await axios_seller.get(`${apiRoot}/seller/store`);
+    return await axios_seller.get(`/seller/store`);
   } catch (error) {
     console.log(error);
   }
@@ -30,22 +30,21 @@ export const getUserInfo = async () => {
 //get info about user store
 
 export const getStoreInfoAPI = async () => {
-  let response = await axios_seller.get(`${apiRoot}/seller/store`);
+  let response = await axios_seller.get(`/seller/store`);
   console.log(response);
   return response;
 };
 
 //upload user profile image to server
 
-export const uploadProfileImageAPI = async (imagesLocal, oldProfile) => {
+export const uploadProfileImageAPI = async (imagesLocal) => {
   let formData = new FormData();
-  imagesLocal.map((image) => {
-    formData.append("account_store_image", image);
-  });
+
+  formData.append("account_store_image", imagesLocal[0]);
 
   try {
     const response = await axios_seller.post(
-      `${apiRoot}/seller/store/profile-upload`,
+      `/seller/store/profile-upload`,
       formData,
       {
         headers: {
