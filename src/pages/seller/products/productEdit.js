@@ -50,6 +50,12 @@ const ProductEdit = (props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const cancelRef = useRef();
   const toast = useToast();
+  //array of avalilable units
+  const unitsArray = [
+    { id: 1, name: "piece" },
+    { id: 2, name: "kg" },
+    { id: 4, name: "litre" },
+  ];
 
   let history = useHistory();
   const productId = props.match.params.id;
@@ -307,6 +313,27 @@ const ProductEdit = (props) => {
                 size="lg"
               />
             </FormControl>
+            <FormControl w="90%" mt="4" isRequired>
+              <FormLabel>categories</FormLabel>
+              <Select
+                name="parent category"
+                name="product_cat"
+                id="parentcategory"
+                variant="filled"
+                size="lg"
+                value={!product.product_cat ? "DEFAULT" : product.product_cat}
+                onChange={updateProduct}
+              >
+                <option value="DEFAULT" disabled>
+                  select category
+                </option>
+                {categoriesArray.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.cat_name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl isRequired w="90%" mt="4">
               <FormLabel>Is Product On Discount</FormLabel>
               <Switch
@@ -349,23 +376,19 @@ const ProductEdit = (props) => {
                 </FormControl>
               )}
             </Stack>
-            <FormControl w="90%" mt="4" isRequired>
-              <FormLabel>categories</FormLabel>
+
+            <FormControl isRequired w="90%" mt="4">
+              <FormLabel>Product Unit</FormLabel>
               <Select
-                name="parent category"
-                name="product_cat"
-                id="parentcategory"
+                name="product_unit"
+                value={product.product_unit}
                 variant="filled"
                 size="lg"
-                value={!product.product_cat ? "DEFAULT" : product.product_cat}
                 onChange={updateProduct}
               >
-                <option value="DEFAULT" disabled>
-                  select category
-                </option>
-                {categoriesArray.map((item, index) => (
-                  <option value={item.id} key={index}>
-                    {item.cat_name}
+                {unitsArray.map((item) => (
+                  <option value={item.name} key={item.id}>
+                    {item.name}
                   </option>
                 ))}
               </Select>

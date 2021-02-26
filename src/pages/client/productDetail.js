@@ -7,7 +7,15 @@ import FavouritesIcon from "../../assets/heart-outline.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { IconButton, Skeleton, HStack } from "@chakra-ui/react";
+import {
+  IconButton,
+  Skeleton,
+  Input,
+  Stack,
+  FormControl,
+  FormLabel,
+  Select,
+} from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
@@ -15,16 +23,24 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
   const [storeData, setStoreData] = useState({});
+  const [selectedUnit, setSelectedUnit] = useState("");
+  const [productQuantity, setProductQuantity] = useState("");
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
+  const unitsObject = {
+    kg: ["gm", "kg"],
+    litre: ["ml", "litre"],
+    piece: ["piece"],
+  };
 
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true);
       const productResponse = await getProductDetailAPI(productId);
       setProductData(productResponse.data.data.product);
+      setSelectedUnit(productResponse.data.data.product.product_unit);
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
       setIsLoading(false);
@@ -57,6 +73,27 @@ const ProductDetail = (props) => {
         "favourates",
         JSON.stringify([{ store_id, product_id, product_image, product_name }])
       );
+    }
+  };
+  const handleCart = (store_id, product_id, product_name, product_image) => {
+    let productObject = {
+      store_id,
+      product_id,
+      product_image,
+      product_name,
+      product_quantity: `${productQuantity} ${selectedUnit}`,
+    };
+    if (localStorage.getItem("cart")) {
+      let storedArr = JSON.parse(localStorage.getItem("cart"));
+      let isContains = storedArr.some(
+        (product) => product.product_id == product_id
+      );
+      if (!isContains) {
+        let cartArr = [productObject, ...storedArr];
+        localStorage.setItem("cart", JSON.stringify(cartArr));
+      }
+    } else {
+      localStorage.setItem("cart", JSON.stringify([productObject]));
     }
   };
   const whatsappBuy = async () => {
@@ -126,12 +163,37 @@ const ProductDetail = (props) => {
             ₹{productData.product_price} ₹{productData.product_sale_price}
           </h1>
         )}
+        <Stack direction="row" w="90%" mt="4" mb="4">
+          <FormControl isRequired w="60%">
+            <Input
+              type="text"
+              name="product_price"
+              variant="filled"
+              size="lg"
+              placeholder="quantity"
+              onChange={(e) => setProductQuantity(e.target.value)}
+            />
+          </FormControl>
 
-        <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
-          <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
-          Buy on whatsapp
-        </button>
-        {productData.id && (
+          <FormControl w="40%">
+            <Select
+              name="product_unit"
+              value={selectedUnit || ""}
+              variant="filled"
+              size="lg"
+              onChange={(e) => setSelectedUnit(e.target.value)}
+            >
+              {productData.product_unit &&
+                unitsObject[productData.product_unit].map((unit, index) => (
+                  <option value={unit} key={index}>
+                    {unit}
+                  </option>
+                ))}
+            </Select>
+          </FormControl>
+        </Stack>
+
+        {/* {productData.id && (
           <button
             className={styles.btn_favourites}
             onClick={() =>
@@ -150,7 +212,31 @@ const ProductDetail = (props) => {
             />
             Add to favourites
           </button>
+        )} */}
+        {productData.id && (
+          <button
+            className={styles.btn_favourites}
+            onClick={() =>
+              handleCart(
+                storeData.id,
+                productData.id,
+                productData.product_name,
+                productData.products_images[0].product_image
+              )
+            }
+          >
+            <img
+              src={FavouritesIcon}
+              alt="w"
+              className={styles.favouritesicon}
+            />
+            Add to Cart
+          </button>
         )}
+        <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
+          <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
+          Buy on whatsapp
+        </button>
         <h1 className={styles.desc_heading}>Description</h1>
         <h1 className={styles.description}>{productData.product_desc}</h1>
         <h1 className={styles.desc_heading}>More products on this store</h1>

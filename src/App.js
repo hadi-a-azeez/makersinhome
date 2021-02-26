@@ -29,6 +29,7 @@ const ProductsByCategory = lazy(() =>
 const EditAccount = lazy(() => import("./pages/seller/account/editAccount"));
 const Store = lazy(() => import("./pages/client/store"));
 const StoreFavourates = lazy(() => import("./pages/client/storeFavourates"));
+const StoreCart = lazy(() => import("./pages/client/storeCart"));
 const ProductDetail = lazy(() => import("./pages/client/productDetail"));
 const Home = lazy(() => import("./pages/client/home"));
 
@@ -62,6 +63,7 @@ function App() {
           <Route exact path="/home" component={Home} />
           <Route exact path="/store/:storelink" component={Store} />
           <Route exact path="/store/search/:storeId" component={Search} />
+          <Route exact path="/cart/:store_id" component={StoreCart} />
           <Route
             exact
             path="/store-favourates/:store_id"

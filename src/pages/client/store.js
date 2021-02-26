@@ -28,7 +28,7 @@ const Store = (props) => {
   const [isStoreExists, setIsStoreExists] = useState(true);
 
   const handleFavouratesClick = (storeId) => {
-    history.push(`/store-favourates/${storeId}`);
+    history.push(`/cart/${storeId}`);
   };
   useEffect(() => {
     setIsLoading(true);

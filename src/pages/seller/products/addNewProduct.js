@@ -37,6 +37,13 @@ const AddNewProduct = (props) => {
   const [isFormError, setIsFormError] = useState(false);
   const toast = useToast();
 
+  //array of avalilable units
+  const unitsArray = [
+    { id: 1, name: "piece" },
+    { id: 2, name: "kg" },
+    { id: 4, name: "litre" },
+  ];
+
   useEffect(() => {
     const fetchCategories = async () => {
       //get catogories of the current user to display on product category section
@@ -195,6 +202,34 @@ const AddNewProduct = (props) => {
           />
         </FormControl>
         <FormControl isRequired w="90%" mt="4">
+          <FormLabel>Category</FormLabel>
+          <Select
+            name="parent category"
+            name="product_cat"
+            id="parentcategory"
+            value={
+              product.product_cat
+                ? product.product_cat
+                : defaultCatogory
+                ? defaultCatogory
+                : "DEFAULT"
+            }
+            variant="filled"
+            size="lg"
+            onChange={updateProduct}
+          >
+            <option value="DEFAULT" disabled>
+              select category
+            </option>
+            {categoriesArray.map((item, index) => (
+              <option value={item.id} key={index}>
+                {item.cat_name}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl isRequired w="90%" mt="4">
           <FormLabel>Is Product On Discount</FormLabel>
           <Switch
             onChange={handleIsOnSale}
@@ -233,28 +268,17 @@ const AddNewProduct = (props) => {
           )}
         </Stack>
         <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Category</FormLabel>
+          <FormLabel>Product Unit</FormLabel>
           <Select
-            name="parent category"
-            name="product_cat"
-            id="parentcategory"
-            value={
-              product.product_cat
-                ? product.product_cat
-                : defaultCatogory
-                ? defaultCatogory
-                : "DEFAULT"
-            }
+            name="product_unit"
+            value="piece"
             variant="filled"
             size="lg"
             onChange={updateProduct}
           >
-            <option value="DEFAULT" disabled>
-              select category
-            </option>
-            {categoriesArray.map((item, index) => (
-              <option value={item.id} key={index}>
-                {item.cat_name}
+            {unitsArray.map((item) => (
+              <option value={item.name} key={item.id}>
+                {item.name}
               </option>
             ))}
           </Select>
