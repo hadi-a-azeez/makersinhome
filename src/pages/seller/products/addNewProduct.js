@@ -271,7 +271,7 @@ const AddNewProduct = (props) => {
           <FormLabel>Product Unit</FormLabel>
           <Select
             name="product_unit"
-            value="piece"
+            value={product.product_unit || ""}
             variant="filled"
             size="lg"
             onChange={updateProduct}
