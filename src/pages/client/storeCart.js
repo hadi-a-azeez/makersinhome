@@ -38,8 +38,9 @@ const StoreCart = (props) => {
         filteredArr.length > 0
           ? setProductsData(filteredArr)
           : setIsProducts(false);
+        setProductsInCart(filteredArr);
       }
-      setProductsInCart(cartArr);
+
       console.log(cartArr);
     };
     getProducts();
