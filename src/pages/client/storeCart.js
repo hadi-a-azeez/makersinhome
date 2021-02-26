@@ -17,10 +17,14 @@ const StoreCart = (props) => {
   const [productsInCart, setProductsInCart] = useState([]);
 
   const whatsappBuy = async () => {
-    const products =
-      "Hey � I'd like to place an order *Order 1* • 1 x Terracotta $10 • 1 x Plant $10 Total: $20 _______________________ *Order Details* Name: yg Contact: 7989080 _______________________ � Send this message to confirm �";
+    const productsMsg = productsInCart.map(
+      (item) => `• ${item.product_name}   -   ${item.product_quantity} %0D%0A`
+    );
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
+      ""
+    )}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
     window.location.replace(
-      `https://api.whatsapp.com/send?phone=919496742190&text=${products}`
+      `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
     );
   };
 
