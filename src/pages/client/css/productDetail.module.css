@@ -26,10 +26,17 @@
   margin-left: 5%;
   align-self: flex-start;
 }
+.product_price_strike {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 5%;
+  text-decoration: line-through;
+  color: red;
+  align-self: flex-start;
+}
 .product_price {
   font-size: 18px;
   font-weight: 400;
-  margin-top: 7px;
   margin-left: 5%;
   color: #00b140;
   align-self: flex-start;
@@ -74,14 +81,14 @@
   height: auto;
   margin-right: 6px;
 }
-.favouritesicon {
+.carticon {
   filter: invert(0%) sepia(88%) saturate(7453%) hue-rotate(214deg)
     brightness(95%) contrast(110%);
   width: 30px;
   height: auto;
   margin-right: 6px;
 }
-.btn_favourites {
+.btn_cart {
   padding: 16px 0px;
   border-radius: 4px;
   background: white;
@@ -91,76 +98,8 @@
   font-size: 17px;
   width: 90%;
   margin-top: 7px;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-.products_block_s {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-
-  overflow: auto;
-  white-space: nowrap;
-  background-color: red;
-}
-.product_item_s {
-  width: 150px !important;
-  background-color: red;
-}
-.product_image_s {
-  width: 90%;
-  height: 150px;
-  border-radius: 15px;
-  margin-top: 8px;
-  background-position: center center;
-  object-fit: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-.product_details_s {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-.product_name_s {
-  font-size: 14px;
-  font-weight: 600;
-  color: #323232;
-  margin-left: 6%;
-  margin-top: 7px;
-}
-.product_price_s {
-  font-size: 13px;
-  font-weight: 500;
-  color: #00b140;
-  margin-left: 6%;
-  margin-top: 3px;
-  margin-bottom: 8px;
-}
-/*starts*/
-.similarProducts {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  width: 100%;
-
-  overflow: auto;
-  white-space: nowrap;
-}
-.margin_left {
-  margin-left: 5%;
-}
-.category_item_selected {
-  background-color: black;
-  padding: 10px 20px;
-  color: white;
-  border-radius: 20px;
-  font-size: 14px;
-  margin-left: 5px;
-  margin-bottom: 5px;
 }

@@ -6,7 +6,7 @@ import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
-import Favourites from "../../assets/heart-outline.svg";
+import CartIcon from "../../assets/cart-outline.svg";
 import {
   SimpleGrid,
   Input,
@@ -14,7 +14,6 @@ import {
   InputLeftElement,
   Button,
   Skeleton,
-  Stack,
 } from "@chakra-ui/react";
 
 const Store = (props) => {
@@ -97,10 +96,10 @@ const Store = (props) => {
             padding="0"
           >
             <img
-              src={Favourites}
-              className={styles.iconFavourites}
-              height="25px"
-              width="25px"
+              src={CartIcon}
+              className={styles.carticon}
+              height="20px"
+              width="20px"
             />
           </Button>
         </div>

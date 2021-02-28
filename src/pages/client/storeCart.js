@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import { productImagesRoot } from "../../config";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
-import FavouritesIcon from "../../assets/heart-outline.svg";
-import FavouritesIconFilled from "../../assets/heart_filled.svg";
+import CartIcon from "../../assets/cart-outline.svg";
+import CartIconFilled from "../../assets/cart-filled.svg";
 
 const StoreCart = (props) => {
   const history = useHistory();
@@ -92,7 +92,7 @@ const StoreCart = (props) => {
                     aria-label="Search database"
                     icon={
                       <Image
-                        src={FavouritesIconFilled}
+                        src={CartIconFilled}
                         width={5}
                         height={5}
                         className={styles.favouritesFilled}
@@ -114,7 +114,13 @@ const StoreCart = (props) => {
         )}
         {/* product item ends here */}
       </SimpleGrid>
-      <Button mt="5" size="lg" colorScheme="green" onClick={whatsappBuy}>
+      <Button
+        mt="5"
+        size="lg"
+        colorScheme="green"
+        w="90%"
+        onClick={whatsappBuy}
+      >
         Buy On Whatsapp
       </Button>
     </div>

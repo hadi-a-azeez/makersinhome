@@ -3,7 +3,7 @@ import styles from "./css/productDetail.module.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-import FavouritesIcon from "../../assets/heart-outline.svg";
+import CartIcon from "../../assets/cart-outline.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -13,7 +13,6 @@ import {
   Input,
   Stack,
   FormControl,
-  FormLabel,
   Select,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -50,31 +49,31 @@ const ProductDetail = (props) => {
   }, []);
 
   //handle add to favourates button click
-  const handleFavourates = (
-    store_id,
-    product_id,
-    product_name,
-    product_image
-  ) => {
-    if (localStorage.getItem("favourates")) {
-      let storedArr = JSON.parse(localStorage.getItem("favourates"));
-      let isContains = storedArr.some(
-        (product) => product.product_id == product_id
-      );
-      if (!isContains) {
-        let favouratesArr = [
-          { store_id, product_id, product_image, product_name },
-          ...storedArr,
-        ];
-        localStorage.setItem("favourates", JSON.stringify(favouratesArr));
-      }
-    } else {
-      localStorage.setItem(
-        "favourates",
-        JSON.stringify([{ store_id, product_id, product_image, product_name }])
-      );
-    }
-  };
+  // const handleFavourates = (
+  //   store_id,
+  //   product_id,
+  //   product_name,
+  //   product_image
+  // ) => {
+  //   if (localStorage.getItem("favourates")) {
+  //     let storedArr = JSON.parse(localStorage.getItem("favourates"));
+  //     let isContains = storedArr.some(
+  //       (product) => product.product_id == product_id
+  //     );
+  //     if (!isContains) {
+  //       let favouratesArr = [
+  //         { store_id, product_id, product_image, product_name },
+  //         ...storedArr,
+  //       ];
+  //       localStorage.setItem("favourates", JSON.stringify(favouratesArr));
+  //     }
+  //   } else {
+  //     localStorage.setItem(
+  //       "favourates",
+  //       JSON.stringify([{ store_id, product_id, product_image, product_name }])
+  //     );
+  //   }
+  // };
   const handleCart = (store_id, product_id, product_name, product_image) => {
     let productObject = {
       store_id,
@@ -159,11 +158,16 @@ const ProductDetail = (props) => {
         {productData.product_is_sale == 0 ? (
           <h1 className={styles.product_price}>₹{productData.product_price}</h1>
         ) : (
-          <h1 className={styles.product_price}>
-            ₹{productData.product_price} ₹{productData.product_sale_price}
-          </h1>
+          <Stack direction="row" w="95%" mt="2">
+            <h1 className={styles.product_price_strike}>
+              ₹{productData.product_price}
+            </h1>
+            <h1 className={styles.product_price}>
+              ₹{productData.product_sale_price}
+            </h1>
+          </Stack>
         )}
-        <Stack direction="row" w="90%" mt="4" mb="4">
+        <Stack direction="row" w="90%" mt="4" mb="1">
           <FormControl isRequired w="60%">
             <Input
               type="text"
@@ -215,7 +219,7 @@ const ProductDetail = (props) => {
         )} */}
         {productData.id && (
           <button
-            className={styles.btn_favourites}
+            className={styles.btn_cart}
             onClick={() =>
               handleCart(
                 storeData.id,
@@ -225,11 +229,7 @@ const ProductDetail = (props) => {
               )
             }
           >
-            <img
-              src={FavouritesIcon}
-              alt="w"
-              className={styles.favouritesicon}
-            />
+            <img src={CartIcon} alt="w" className={styles.carticon} />
             Add to Cart
           </button>
         )}
@@ -239,26 +239,6 @@ const ProductDetail = (props) => {
         </button>
         <h1 className={styles.desc_heading}>Description</h1>
         <h1 className={styles.description}>{productData.product_desc}</h1>
-        <h1 className={styles.desc_heading}>More products on this store</h1>
-        <div className={styles.similarProducts}>
-          <div className={styles.margin_left}></div>
-          <div className={styles.category_item_selected}>All</div>
-          <div className={styles.category_item_selected}>All do there</div>
-          <div className={styles.category_item_selected}>All hey</div>
-          <div className={styles.category_item_selected}>All</div>
-          <div className={styles.category_item_selected}>All</div>
-          <div className={styles.product_item_s}>
-            <img
-              src={WhatsappLogo}
-              alt="img"
-              className={styles.product_image_s}
-            />
-            <div className={styles.product_details_s}>
-              <h1 className={styles.product_name_s}>hey</h1>
-              <h1 className={styles.product_price_s}>₹3434</h1>
-            </div>
-          </div>
-        </div>
       </div>
     </HelmetProvider>
   );
