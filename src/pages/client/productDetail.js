@@ -8,6 +8,7 @@ import { getProductDetailAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
+  Button,
   IconButton,
   Skeleton,
   Input,
@@ -15,7 +16,9 @@ import {
   FormControl,
   Select,
   FormErrorMessage,
+  FormLabel,
 } from "@chakra-ui/react";
+import { Tag, HStack } from "@chakra-ui/react";
 
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
@@ -31,9 +34,35 @@ const ProductDetail = (props) => {
   const productId = props.match.params.productId;
   const history = useHistory();
   const unitsObject = {
-    kg: { units: ["gm", "kg"], default_value: 500 },
-    litre: { units: ["ml", "litre"], default_value: 500 },
-    piece: { units: ["piece"], default_value: 1 },
+    kg: {
+      units: ["gm", "kg"],
+      default_value: 500,
+      value_sets: [
+        { value: 100, unit: "gm" },
+        { value: 250, unit: "gm" },
+        { value: 500, unit: "gm" },
+        { value: 1, unit: "kg" },
+      ],
+    },
+    litre: {
+      units: ["ml", "litre"],
+      default_value: 500,
+      value_sets: [
+        { value: 100, unit: "ml" },
+        { value: 250, unit: "ml" },
+        { value: 500, unit: "ml" },
+        { value: 1, unit: "litre" },
+      ],
+    },
+    piece: {
+      units: ["piece"],
+      default_value: 1,
+      value_sets: [
+        { value: 1, unit: "piece" },
+        { value: 2, unit: "piece" },
+        { value: 5, unit: "piece" },
+      ],
+    },
   };
 
   useEffect(() => {
@@ -96,7 +125,7 @@ const ProductDetail = (props) => {
     if (localStorage.getItem("cart")) {
       let storedArr = JSON.parse(localStorage.getItem("cart"));
       let isContains = storedArr.some(
-        (product) => product.product_id == product_id
+        (product) => product.product_id === product_id
       );
       if (!isContains) {
         let cartArr = [productObject, ...storedArr];
@@ -182,7 +211,30 @@ const ProductDetail = (props) => {
             </h1>
           </Stack>
         )}
-        <Stack direction="row" w="90%" mt="4" mb="1">
+        {/* predefined quantities */}
+
+        <FormLabel>Quantity</FormLabel>
+        <HStack spacing={4}>
+          {productData.product_unit &&
+            unitsObject[productData.product_unit].value_sets.map(
+              (set, index) => (
+                <Button
+                  size="sm"
+                  key={index}
+                  variant="solid"
+                  variant="outline"
+                  onClick={() => {
+                    setProductQuantity(set.value);
+                    setSelectedUnit(set.unit);
+                  }}
+                >
+                  {`${set.value} ${set.unit}`}
+                </Button>
+              )
+            )}
+        </HStack>
+
+        <Stack direction="row" w="70%" mt="4" mb="1">
           <FormControl
             isRequired
             w="60%"
