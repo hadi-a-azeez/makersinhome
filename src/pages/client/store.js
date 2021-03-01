@@ -29,6 +29,11 @@ const Store = (props) => {
   const handleFavouratesClick = (storeId) => {
     history.push(`/cart/${storeId}`);
   };
+  const handleWhatsappSupport = () => {
+    window.location.replace(
+      `https://api.whatsapp.com/send?phone=${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
+    );
+  };
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
@@ -70,6 +75,7 @@ const Store = (props) => {
         right="8"
         height="60px"
         width="60px"
+        onClick={handleWhatsappSupport}
       >
         <img
           src={Whatsapp}

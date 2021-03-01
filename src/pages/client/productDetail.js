@@ -14,7 +14,9 @@ import {
   Stack,
   FormControl,
   Select,
+  FormErrorMessage,
 } from "@chakra-ui/react";
+
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
@@ -29,9 +31,9 @@ const ProductDetail = (props) => {
   const productId = props.match.params.productId;
   const history = useHistory();
   const unitsObject = {
-    kg: ["gm", "kg"],
-    litre: ["ml", "litre"],
-    piece: ["piece"],
+    kg: { units: ["gm", "kg"], default_value: 500 },
+    litre: { units: ["ml", "litre"], default_value: 500 },
+    piece: { units: ["piece"], default_value: 1 },
   };
 
   useEffect(() => {
@@ -39,7 +41,13 @@ const ProductDetail = (props) => {
       setIsLoading(true);
       const productResponse = await getProductDetailAPI(productId);
       setProductData(productResponse.data.data.product);
-      setSelectedUnit(productResponse.data.data.product.product_unit);
+      setSelectedUnit(
+        unitsObject[productResponse.data.data.product.product_unit].units[0]
+      );
+      setProductQuantity(
+        unitsObject[productResponse.data.data.product.product_unit]
+          .default_value
+      );
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
       setIsLoading(false);
@@ -74,7 +82,10 @@ const ProductDetail = (props) => {
   //     );
   //   }
   // };
-  const handleCart = (store_id, product_id, product_name, product_image) => {
+  const validateAddToCart = (callback) => {
+    if (productQuantity > 0) callback();
+  };
+  const addToCart = (store_id, product_id, product_name, product_image) => {
     let productObject = {
       store_id,
       product_id,
@@ -97,8 +108,12 @@ const ProductDetail = (props) => {
   };
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
+    const productsMsg = `• ${
+      productData.product_name
+    }   -   ${`${productQuantity} ${selectedUnit}`} %0D%0A`;
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
     window.location.replace(
-      `https://api.whatsapp.com/send?phone=919496742190&text=I%20want%20to%20know%20about%20this%20product%20%F0%9F%9B%92%0AProduct%20Name%3A%20${productData.product_name}%0AProduct%20Link%20%3A%20${window.location.href}`
+      `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
     );
   };
   return (
@@ -168,15 +183,22 @@ const ProductDetail = (props) => {
           </Stack>
         )}
         <Stack direction="row" w="90%" mt="4" mb="1">
-          <FormControl isRequired w="60%">
+          <FormControl
+            isRequired
+            w="60%"
+            isInvalid={productQuantity.length < 1}
+          >
             <Input
-              type="text"
-              name="product_price"
+              type="number"
+              name="product_quantity"
               variant="filled"
               size="lg"
+              value={productQuantity}
               placeholder="quantity"
               onChange={(e) => setProductQuantity(e.target.value)}
             />
+
+            <FormErrorMessage>Please add product quantity</FormErrorMessage>
           </FormControl>
 
           <FormControl w="40%">
@@ -188,11 +210,13 @@ const ProductDetail = (props) => {
               onChange={(e) => setSelectedUnit(e.target.value)}
             >
               {productData.product_unit &&
-                unitsObject[productData.product_unit].map((unit, index) => (
-                  <option value={unit} key={index}>
-                    {unit}
-                  </option>
-                ))}
+                unitsObject[productData.product_unit].units.map(
+                  (unit, index) => (
+                    <option value={unit} key={index}>
+                      {unit}
+                    </option>
+                  )
+                )}
             </Select>
           </FormControl>
         </Stack>
@@ -221,11 +245,13 @@ const ProductDetail = (props) => {
           <button
             className={styles.btn_cart}
             onClick={() =>
-              handleCart(
-                storeData.id,
-                productData.id,
-                productData.product_name,
-                productData.products_images[0].product_image
+              validateAddToCart(() =>
+                addToCart(
+                  storeData.id,
+                  productData.id,
+                  productData.product_name,
+                  productData.products_images[0].product_image
+                )
               )
             }
           >

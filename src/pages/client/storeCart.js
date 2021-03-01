@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
 import { productImagesRoot } from "../../config";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
 import CartIcon from "../../assets/cart-outline.svg";
 import CartIconFilled from "../../assets/cart-filled.svg";
@@ -14,10 +14,8 @@ const StoreCart = (props) => {
 
   let storeId = props.match.params.store_id;
 
-  const [productsInCart, setProductsInCart] = useState([]);
-
   const whatsappBuy = async () => {
-    const productsMsg = productsInCart.map(
+    const productsMsg = productsData.map(
       (item) => `• ${item.product_name}   -   ${item.product_quantity} %0D%0A`
     );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
@@ -28,6 +26,19 @@ const StoreCart = (props) => {
     );
   };
 
+  const removeCartProduct = async (productId) => {
+    const newProductsInCart = productsData.filter(
+      (product) => product.product_id !== productId
+    );
+    let cartArr = await JSON.parse(localStorage.getItem("cart"));
+    if (cartArr) {
+      let filteredArr = cartArr.filter(
+        (product) => product.product_id !== productId
+      );
+      localStorage.setItem("cart", JSON.stringify(filteredArr));
+    }
+    setProductsData(newProductsInCart);
+  };
   useEffect(() => {
     const getProducts = async () => {
       let cartArr = await JSON.parse(localStorage.getItem("cart"));
@@ -38,7 +49,6 @@ const StoreCart = (props) => {
         filteredArr.length > 0
           ? setProductsData(filteredArr)
           : setIsProducts(false);
-        setProductsInCart(filteredArr);
       }
 
       console.log(cartArr);
@@ -61,7 +71,7 @@ const StoreCart = (props) => {
       />
       <h1 className={styles.heading}>Cart</h1>
       <SimpleGrid columns={2} spacing={2} w="95%">
-        {productsData ? (
+        {productsData.length > 0 ? (
           productsData.map((product) => {
             return (
               <>
@@ -77,7 +87,21 @@ const StoreCart = (props) => {
                     alt="img"
                     className={styles.product_image}
                   />
-
+                  <IconButton
+                    colorScheme="gray"
+                    borderRadius="100%"
+                    aria-label="Call Segun"
+                    size="sm"
+                    position="absolute"
+                    top="5px"
+                    right="3px"
+                    zIndex="8"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeCartProduct(product.product_id);
+                    }}
+                    icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                  />
                   <div className={styles.product_details}>
                     <h1 className={styles.product_name}>
                       {product.product_name}
@@ -107,10 +131,8 @@ const StoreCart = (props) => {
               </>
             );
           })
-        ) : !isProducts ? (
-          <h1>No Favourates</h1>
         ) : (
-          <h1>Loading..</h1>
+          <h1>No Products</h1>
         )}
         {/* product item ends here */}
       </SimpleGrid>
