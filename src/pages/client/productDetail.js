@@ -17,6 +17,7 @@ import {
   Select,
   FormErrorMessage,
   FormLabel,
+  Box,
 } from "@chakra-ui/react";
 import { Tag, HStack } from "@chakra-ui/react";
 
@@ -130,6 +131,14 @@ const ProductDetail = (props) => {
       if (!isContains) {
         let cartArr = [productObject, ...storedArr];
         localStorage.setItem("cart", JSON.stringify(cartArr));
+      } else {
+        //remove existing product and replace with new
+        const productsOther = storedArr.filter(
+          (product) => product.product_id != parseInt(productId)
+        );
+        console.log(productsOther);
+        let cartArr = [productObject, ...productsOther];
+        localStorage.setItem("cart", JSON.stringify(cartArr));
       }
     } else {
       localStorage.setItem("cart", JSON.stringify([productObject]));
@@ -212,67 +221,67 @@ const ProductDetail = (props) => {
           </Stack>
         )}
         {/* predefined quantities */}
+        <Box w="90%">
+          <FormLabel alignSelf="flex-start">Quantity</FormLabel>
+          <HStack spacing={4} alignSelf="flex-start">
+            {productData.product_unit &&
+              unitsObject[productData.product_unit].value_sets.map(
+                (set, index) => (
+                  <Button
+                    size="sm"
+                    key={index}
+                    variant="solid"
+                    variant="outline"
+                    onClick={() => {
+                      setProductQuantity(set.value);
+                      setSelectedUnit(set.unit);
+                    }}
+                  >
+                    {`${set.value} ${set.unit}`}
+                  </Button>
+                )
+              )}
+          </HStack>
 
-        <FormLabel>Quantity</FormLabel>
-        <HStack spacing={4}>
-          {productData.product_unit &&
-            unitsObject[productData.product_unit].value_sets.map(
-              (set, index) => (
-                <Button
-                  size="sm"
-                  key={index}
-                  variant="solid"
-                  variant="outline"
-                  onClick={() => {
-                    setProductQuantity(set.value);
-                    setSelectedUnit(set.unit);
-                  }}
-                >
-                  {`${set.value} ${set.unit}`}
-                </Button>
-              )
-            )}
-        </HStack>
-
-        <Stack direction="row" w="70%" mt="4" mb="1">
-          <FormControl
-            isRequired
-            w="60%"
-            isInvalid={productQuantity.length < 1}
-          >
-            <Input
-              type="number"
-              name="product_quantity"
-              variant="filled"
-              size="lg"
-              value={productQuantity}
-              placeholder="quantity"
-              onChange={(e) => setProductQuantity(e.target.value)}
-            />
-
-            <FormErrorMessage>Please add product quantity</FormErrorMessage>
-          </FormControl>
-
-          <FormControl w="40%">
-            <Select
-              name="product_unit"
-              value={selectedUnit || ""}
-              variant="filled"
-              size="lg"
-              onChange={(e) => setSelectedUnit(e.target.value)}
+          <Stack direction="row" w="70%" mt="4" mb="1" alignSelf="flex-start">
+            <FormControl
+              isRequired
+              w="50%"
+              isInvalid={productQuantity.length < 1}
             >
-              {productData.product_unit &&
-                unitsObject[productData.product_unit].units.map(
-                  (unit, index) => (
-                    <option value={unit} key={index}>
-                      {unit}
-                    </option>
-                  )
-                )}
-            </Select>
-          </FormControl>
-        </Stack>
+              <Input
+                type="number"
+                name="product_quantity"
+                variant="filled"
+                size="lg"
+                value={productQuantity}
+                placeholder="quantity"
+                onChange={(e) => setProductQuantity(e.target.value)}
+              />
 
+              <FormErrorMessage>Please add product quantity</FormErrorMessage>
+            </FormControl>
+
+            <FormControl w="50%">
+              <Select
+                name="product_unit"
+                value={selectedUnit || ""}
+                variant="filled"
+                size="lg"
+                onChange={(e) => setSelectedUnit(e.target.value)}
+              >
+                {productData.product_unit &&
+                  unitsObject[productData.product_unit].units.map(
+                    (unit, index) => (
+                      <option value={unit} key={index}>
+                        {unit}
+                      </option>
+                    )
+                  )}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Box>
         {/* {productData.id && (
           <button
             className={styles.btn_favourites}
