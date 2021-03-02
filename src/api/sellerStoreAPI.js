@@ -9,3 +9,12 @@ export const updateStoreAPI = async (storeInfo) => {
     return error;
   }
 };
+
+export const updateStoreStatusAPI = async (storeId) => {
+  try {
+    const response = await axios_seller.put(`/seller/store/status/${storeId}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

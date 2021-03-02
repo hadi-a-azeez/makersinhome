@@ -48,6 +48,10 @@ const Categories = () => {
   const handleDeleteClick = async () => {
     console.log(categoryDeleteId);
     const result = await deleteCategoryAPI(categoryDeleteId);
+    const modifiedCategoryArray = categoriesArray.filter(
+      (category) => category.id !== categoryDeleteId
+    );
+    setCategoriesArray(modifiedCategoryArray);
     console.log(result);
     setIsOpen(false);
   };
@@ -154,9 +158,23 @@ const Categories = () => {
           </AlertDialogOverlay>
         </AlertDialog>
 
-        <Link to="/add_category" className={styles.btn}>
+        {/* <Link to="/add_category" className={styles.btn}>
           ADD CATEGORIES
-        </Link>
+        </Link> */}
+        <Button
+          onClick={() => history.push("/add_category")}
+          position="fixed"
+          zIndex="1000"
+          mb="70"
+          bottom="0"
+          size="lg"
+          w="90%"
+          bgColor="#00B140"
+          textColor="#fff"
+          height="60px"
+        >
+          ADD CATEGORIES
+        </Button>
 
         <div className={styles.blank}></div>
       </div>

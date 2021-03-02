@@ -7,8 +7,11 @@ import CategoriesIcon from "../../../assets/gridFilled.svg";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
-import { SimpleGrid, Box, Flex, Image } from "@chakra-ui/react";
-import Switch from "react-switch";
+import { SimpleGrid, Box, Flex, Image, SkeletonCircle } from "@chakra-ui/react";
+import Placeholder from "../.../../../../assets/placeholder.png";
+import { profileImagesRoot } from "../../../config";
+import { Switch } from "@chakra-ui/react";
+import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState([]);
@@ -18,6 +21,16 @@ const Dashboard = () => {
     window.location.replace(
       `https://api.whatsapp.com/send?text=%F0%9F%91%8B%20Hello%0AWe%20have%20launched%20our%20online%20store%20${userInfo.account_store}.%20Now%20you%20can%20order%20products%20from%20us%20using%20this%20link%3A%20%0Amakersinhome.netlify.app/${userInfo.account_store_link}%0A%0AFeel%20free%20to%20contact%20us%20for%20any%20help %20at%20${userInfo.account_whatsapp}.%20%0AThank%20You%F0%9F%98%8D%0A%0Amade%20using%20Shopwhats`
     );
+  };
+
+  const flipStoreStatus = async (storeId) => {
+    const response = await updateStoreStatusAPI(storeId);
+    const modifiedUserInfo = {
+      ...userInfo,
+      account_store_status: !userInfo.account_store_status,
+    };
+    setUserInfo(modifiedUserInfo);
+    console.log(response);
   };
 
   useEffect(() => {
@@ -32,7 +45,6 @@ const Dashboard = () => {
     };
     getCount();
     getUser();
-    console.log(userInfo);
   }, []);
   return (
     <>
@@ -42,24 +54,35 @@ const Dashboard = () => {
           shadow="md"
           d="flex"
           justifyContent="center"
-          style={{ backgroundColor: " #00b140" }}
+          style={
+            userInfo.account_store_status
+              ? { backgroundColor: "#00b140" }
+              : { backgroundColor: "red" }
+          }
         >
           <Switch
-            onColor="#ffffff"
-            width={36}
-            height={21}
-            style={{ position: "absolute", right: "3" }}
+            size="lg"
+            right="6"
+            top="5"
+            pos="absolute"
+            isChecked={userInfo.account_store_status ? true : false}
+            onChange={(e) => flipStoreStatus(userInfo.id)}
           />
           <Flex direction="row" w="90%" mt="8">
             <Image
               borderRadius="full"
               boxSize="80px"
-              src="https://mindbodygreen-res.cloudinary.com/images/w_767,q_auto:eco,f_auto,fl_lossy/usr/RetocQT/sarah-fielding.jpg"
+              fallback={<SkeletonCircle size="20" />}
+              src={
+                userInfo.account_store_image
+                  ? `${profileImagesRoot}/${userInfo.account_store_image}`
+                  : Placeholder
+              }
               alt="Segun Adebayo"
             />
             <Flex direction="column" ml="4" mt="2">
               <h1 className={styles.welcome}>Welcome back,</h1>
-              <h1 className={styles.shopname}>Naaz Shop</h1>
+              <h1 className={styles.shopname}>{userInfo.account_store}</h1>
             </Flex>
           </Flex>
         </Box>

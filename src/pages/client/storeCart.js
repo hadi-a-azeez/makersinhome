@@ -6,14 +6,23 @@ import { ArrowBackIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
 import CartIcon from "../../assets/cart-outline.svg";
 import CartIconFilled from "../../assets/cart-filled.svg";
+import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 
 const StoreCart = (props) => {
   const history = useHistory();
   const [productsData, setProductsData] = useState([]);
   const [isProducts, setIsProducts] = useState(true);
-
+  const [userInfo, setUserInfo] = useState({});
   let storeId = props.match.params.store_id;
 
+  useEffect(() => {
+    const getStoreDetails = async () => {
+      const response = await getStoreDataByIdAPI(storeId);
+      console.log(response);
+      setUserInfo(response.data.data);
+    };
+    getStoreDetails();
+  }, []);
   const whatsappBuy = async () => {
     const productsMsg = productsData.map(
       (item) => `• ${item.product_name}   -   ${item.product_quantity} %0D%0A`
@@ -22,7 +31,7 @@ const StoreCart = (props) => {
       ""
     )}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
     window.location.replace(
-      `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
+      `https://api.whatsapp.com/send/?phone=91${userInfo.account_whatsapp}&text=${whatsappMessage}`
     );
   };
 
@@ -136,15 +145,18 @@ const StoreCart = (props) => {
         )}
         {/* product item ends here */}
       </SimpleGrid>
-      <Button
-        mt="5"
-        size="lg"
-        colorScheme="green"
-        w="90%"
-        onClick={whatsappBuy}
-      >
-        Buy On Whatsapp
-      </Button>
+      {userInfo.account_whatsapp && (
+        <Button
+          mt="5"
+          size="lg"
+          colorScheme="green"
+          w="90%"
+          onClick={whatsappBuy}
+          mb="10"
+        >
+          Buy On Whatsapp
+        </Button>
+      )}
     </div>
   );
 };

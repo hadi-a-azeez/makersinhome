@@ -123,9 +123,20 @@ const Products = (props) => {
           ))}
         {/* card one ends here */}
 
-        <Link to={`/add_product/${productsCat}`} className={styles.btn}>
+        <Button
+          onClick={() => history.push("/add_product")}
+          position="fixed"
+          zIndex="1000"
+          mb="70"
+          bottom="0"
+          size="lg"
+          w="90%"
+          bgColor="#00B140"
+          textColor="#fff"
+          height="60px"
+        >
           ADD PRODUCTS
-        </Link>
+        </Button>
         <div className={styles.blank}></div>
       </div>
     </>

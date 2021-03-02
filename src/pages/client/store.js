@@ -38,6 +38,7 @@ const Store = (props) => {
     setIsLoading(true);
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
+      console.log(storeResponse);
       if (storeResponse.status != 404) {
         console.log(storeResponse);
         setStoreData(storeResponse.data.data.storeinfo);

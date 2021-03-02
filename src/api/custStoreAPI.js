@@ -16,15 +16,13 @@ export const getStoreDataAll = async (storeLink) => {
   }
 };
 
-// //get details of a store from link
-// export const getStoreInfoAPI = async (storeLink) => {
-//   try {
-//     const response = await axios.get(`${apiRoot}/client/store/${storeLink}`);
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+//get store details by user id
+export const getStoreDataByIdAPI = async (userId) => {
+  const response = await axios
+    .get(`${apiRoot}/client/store/byid/${userId}`)
+    .catch((err) => console.log(err));
+  return response;
+};
 
 //get store products by category
 export const getStoreProducts = async (userId, cat) => {
