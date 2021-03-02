@@ -92,6 +92,7 @@ const Search = (props) => {
             borderRadius="30px"
             borderColor="white"
             onChange={(e) => setSearchValue(e.target.value)}
+            autoFocus
           />
         </InputGroup>
 

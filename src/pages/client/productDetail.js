@@ -220,6 +220,18 @@ const ProductDetail = (props) => {
           left="3"
           onClick={() => history.goBack()}
         />
+        <IconButton
+          backgroundColor="#ffbe0f"
+          borderRadius="30px"
+          aria-label="Search database"
+          icon={<Image src={CartIcon} w={30} h={30} />}
+          pos="fixed"
+          top="4"
+          right="4"
+          w="60px"
+          h="60px"
+          onClick={() => history.push(`/cart/${storeData.id}`)}
+        />
 
         <h1 className={styles.product_name}>{productData.product_name}</h1>
         {productData.product_is_sale == 0 ? (
