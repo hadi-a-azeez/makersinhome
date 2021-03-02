@@ -107,7 +107,7 @@ const Dashboard = () => {
             <Flex direction="column" mt="4" ml="1">
               <h1 className={styles.card_heading}>Store visits</h1>
               <h1 className={styles.card_data_bold}>
-                {countData.message_clicks ? countData.message_clicks : 0}
+                {countData.message_clicks ? countData.store_views : 0}
               </h1>
             </Flex>
           </Box>

@@ -39,7 +39,7 @@ const Store = (props) => {
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
       console.log(storeResponse);
-      if (storeResponse.status != 404) {
+      if (storeResponse.status !== 404) {
         console.log(storeResponse);
         setStoreData(storeResponse.data.data.storeinfo);
         setStoreProducts(storeResponse.data.data.products);
@@ -49,6 +49,7 @@ const Store = (props) => {
         const analyticResponse = await updateStoreViews(
           storeResponse.data.data.storeinfo.id
         );
+        console.log(analyticResponse);
       } else {
         setIsStoreExists(false);
       }

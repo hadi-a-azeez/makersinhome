@@ -82,8 +82,8 @@
   margin-right: 6px;
 }
 .carticon {
-  filter: invert(0%) sepia(88%) saturate(7453%) hue-rotate(214deg)
-    brightness(95%) contrast(110%);
+  filter: invert(100%) sepia(0%) saturate(7473%) hue-rotate(322deg)
+    brightness(108%) contrast(92%);
   width: 30px;
   height: auto;
   margin-right: 6px;

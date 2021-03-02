@@ -8,6 +8,7 @@ import { getProductDetailAPI } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {
+  Image,
   Button,
   IconButton,
   Skeleton,
@@ -18,12 +19,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Box,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Tag, HStack } from "@chakra-ui/react";
 
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
+import { useToast } from "@chakra-ui/react";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
@@ -32,8 +35,11 @@ const ProductDetail = (props) => {
   const [productQuantity, setProductQuantity] = useState("");
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
+  const toast = useToast();
+
   const unitsObject = {
     kg: {
       units: ["gm", "kg"],
@@ -143,6 +149,14 @@ const ProductDetail = (props) => {
     } else {
       localStorage.setItem("cart", JSON.stringify([productObject]));
     }
+    setIsAddedCart(true);
+    toast({
+      title: "Product Added To Cart",
+      status: "success",
+      duration: 2000,
+      position: "top",
+      isClosable: true,
+    });
   };
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
@@ -302,28 +316,69 @@ const ProductDetail = (props) => {
             Add to favourites
           </button>
         )} */}
-        {productData.id && (
-          <button
-            className={styles.btn_cart}
-            onClick={() =>
-              validateAddToCart(() =>
-                addToCart(
-                  storeData.id,
-                  productData.id,
-                  productData.product_name,
-                  productData.products_images[0].product_image
+        {
+          !isAddedCart ? (
+            <Button
+              w="90%"
+              size="lg"
+              leftIcon={<Image src={CartIcon} className={styles.carticon} />}
+              style={{ backgroundColor: "#00b140" }}
+              color="white"
+              mt="2"
+              paddingBottom="8"
+              paddingTop="8"
+              variant="solid"
+              onClick={() =>
+                validateAddToCart(() =>
+                  addToCart(
+                    storeData.id,
+                    productData.id,
+                    productData.product_name,
+                    productData.products_images[0].product_image
+                  )
                 )
-              )
-            }
-          >
-            <img src={CartIcon} alt="w" className={styles.carticon} />
-            Add to Cart
-          </button>
-        )}
-        <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
+              }
+            >
+              ADD TO CART
+            </Button>
+          ) : (
+            <Button
+              w="90%"
+              paddingBottom="8"
+              paddingTop="8"
+              size="lg"
+              leftIcon={<CheckCircleIcon color="white" w="25px" h="25px" />}
+              style={{ backgroundColor: "#ff8826" }}
+              color="white"
+              mt="2"
+              variant="solid"
+              onClick={() => history.push(`/cart/${storeData.id}`)}
+            >
+              GO TO CART
+            </Button>
+          )
+
+          // <button
+          //   className={styles.btn_cart}
+          //   onClick={() =>
+          //     validateAddToCart(() =>
+          //       addToCart(
+          //         storeData.id,
+          //         productData.id,
+          //         productData.product_name,
+          //         productData.products_images[0].product_image
+          //       )
+          //     )
+          //   }
+          // >
+          //   <img src={CartIcon} alt="w" className={styles.carticon} />
+          //   Add to Cart
+          // </button>
+        }
+        {/* <button className={styles.btn_whatsapp} onClick={whatsappBuy}>
           <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
           Buy on whatsapp
-        </button>
+        </button> */}
         <h1 className={styles.desc_heading}>Description</h1>
         <h1 className={styles.description}>{productData.product_desc}</h1>
       </div>
