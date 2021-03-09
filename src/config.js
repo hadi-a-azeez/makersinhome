@@ -1,4 +1,4 @@
-export const apiRoot = "https://wecollab.club/api";
+export const apiRoot = "http://139.180.188.9:5000/api";
 export const productImagesRoot = "https://wecollab.club/api/product-images";
 export const profileImagesRoot = "https://wecollab.club/api/profile-images";
 
