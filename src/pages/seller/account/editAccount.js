@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/editAccount.module.css";
 import Loader from "react-loader-spinner";
+import { v4 as uuidv4 } from "uuid";
 import imageCompression from "browser-image-compression";
 import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../../../components/labelHeader";
@@ -50,11 +51,10 @@ const EditAccount = () => {
           imagesFromInput[i],
           options
         );
+        let imageName = uuidv4();
         const convertedBlobFile = new File(
           [compressedFile],
-          Date.now() +
-            Math.floor(100000 + Math.random() * 900000) +
-            imagesFromInput[i].name,
+          Date.now() + Math.floor(100000 + Math.random() * 900000) + imageName,
           {
             type: imagesFromInput[i].type,
             lastModified: Date.now(),
@@ -92,7 +92,10 @@ const EditAccount = () => {
     setIsBtnLoading(true);
     let storeinfoNew = { ...storeInfo };
     if (isImageEdited) {
-      await uploadProfileImageAPI(compressedImagesState);
+      await uploadProfileImageAPI(
+        compressedImagesState,
+        storeInfo.account_store_image
+      );
       delete storeinfoNew.account_store_image;
     }
 
@@ -131,7 +134,7 @@ const EditAccount = () => {
             src={
               isImageEdited
                 ? URL.createObjectURL(compressedImagesState[0])
-                : `${profileImagesRoot}/${storeInfo.account_store_image}`
+                : `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeInfo.account_store_image}?alt=media`
             }
             alt="image"
             className={styles.thumbnail_image}

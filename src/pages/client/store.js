@@ -195,7 +195,7 @@ const Store = (props) => {
               >
                 {product.products_images && (
                   <img
-                    src={`${productImagesRoot}/min/${product.products_images[0].product_image}`}
+                    src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`}
                     alt="img"
                     className={styles.product_image}
                   />

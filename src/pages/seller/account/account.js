@@ -43,7 +43,7 @@ const Account = () => {
           <Image
             src={
               storeInfo.account_store_image
-                ? `${profileImagesRoot}/${storeInfo.account_store_image}`
+                ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeInfo.account_store_image}?alt=media`
                 : Placeholder
             }
             borderRadius="full"

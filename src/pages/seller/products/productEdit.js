@@ -156,14 +156,36 @@ const ProductEdit = (props) => {
       maxWidthOrHeight: 1080,
       useWebWorker: true,
     };
+    const optionsMin = {
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
     try {
       for (let i = 0; i < imagesFromInput.length; i++) {
         const compressedFile = await imageCompression(
           imagesFromInput[i],
           options
         );
+        const compressedFileMin = await imageCompression(
+          imagesFromInput[i],
+          optionsMin
+        );
+
         let imageName = uuidv4();
+
         compressedFile.lastModifiedDate = new Date();
+        compressedFileMin.lastModifiedDate = new Date();
+
+        const convertedBlobFileMin = new File(
+          [compressedFileMin],
+          imagesFromInput[i].name,
+          {
+            type: imagesFromInput[i].type,
+            lastModified: Date.now(),
+          }
+        );
+
         const convertedBlobFile = new File(
           [compressedFile],
           imagesFromInput[i].name,
@@ -177,6 +199,7 @@ const ProductEdit = (props) => {
           {
             name: imageName,
             image: convertedBlobFile,
+            imagemin: convertedBlobFileMin,
             imageblob: URL.createObjectURL(compressedFile),
           },
         ]);
@@ -238,7 +261,7 @@ const ProductEdit = (props) => {
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={`${productImagesRoot}/min/${image.product_image}`}
+                        src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${image.product_image}?alt=media`}
                         key={index}
                       />
                       <IconButton

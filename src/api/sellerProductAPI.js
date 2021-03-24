@@ -1,4 +1,5 @@
 import axios_seller from "./axios-seller";
+import firebase from "../firebase";
 
 /* get product specific by catogory or all */
 export const getProductsApi = async (catogory) => {
@@ -40,13 +41,33 @@ export const updateProductAPI = async (product, id) => {
 //Delete Product Images
 export const deleteProductImagesAPI = async (images, pid) => {
   console.log(images);
+
   const imagesToDelete = { images_delete: images };
   try {
     const response = await axios_seller.post(
       `/seller/products/imageDelete/${pid}`,
       imagesToDelete
     );
-    console.log(response);
+    //delete image from firebase storage
+    //delete from firebase storage
+    for (const image of images) {
+      console.log(image);
+      const imageRefMin = firebase
+        .storage()
+        .ref()
+        .child(`product_images/min/${image.product_image}`);
+      imageRefMin.delete(image.imagemin).then((snapshot) => {
+        console.log(snapshot);
+      });
+
+      const imageRef = firebase
+        .storage()
+        .ref()
+        .child(`product_images/${image.product_image}`);
+      imageRef.delete(image.image).then((snapshot) => {
+        console.log(snapshot);
+      });
+    }
     return response;
   } catch (error) {
     console.log(error);
@@ -101,27 +122,62 @@ export const updateProductStock = async (productId) => {
   }
 };
 
-//upload product images to server
+//upload product images
 
-export const uploadProductImageAPI = async (imagesLocal, productId) => {
-  let formData = new FormData();
-  imagesLocal.map((image) => {
-    formData.append("product_image", image.image);
-    console.log(image.image);
-  });
+export const uploadProductImageAPI = async (imagesArr, productId) => {
+  console.log(imagesArr);
+  const imagesNamesArr = imagesArr.map((img) => img.name);
+  //add images to database
   try {
-    const response = await axios_seller.post(
-      `/seller/products/imageupload/${productId}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+    const api = await axios_seller.post(
+      `/seller/products/imageAdd/${productId}`,
+      { product_images: imagesNamesArr }
     );
-    return response;
   } catch (error) {
-    console.log(error);
     return error;
   }
+  //upload images to firebase (min images also)
+
+  console.log(imagesArr);
+  for (const image of imagesArr) {
+    console.log(image);
+    const imageRefMin = firebase
+      .storage()
+      .ref()
+      .child(`product_images/min/${image.name}`);
+    imageRefMin.put(image.imagemin).then((snapshot) => {
+      console.log(snapshot);
+    });
+
+    const imageRef = firebase
+      .storage()
+      .ref()
+      .child(`product_images/${image.name}`);
+    imageRef.put(image.image).then((snapshot) => {
+      console.log(snapshot);
+    });
+  }
 };
+
+// export const uploadProductImageAPI = async (imagesLocal, productId) => {
+//   let formData = new FormData();
+//   imagesLocal.map((image) => {
+//     formData.append("product_image", image.image);
+//     console.log(image.image);
+//   });
+//   try {
+//     const response = await axios_seller.post(
+//       `/seller/products/imageupload/${productId}`,
+//       formData,
+//       {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       }
+//     );
+//     return response;
+//   } catch (error) {
+//     console.log(error);
+//     return error;
+//   }
+// };

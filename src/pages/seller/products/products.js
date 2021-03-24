@@ -76,7 +76,7 @@ const Products = (props) => {
                     {/* images are returned with image name and id with it seperated by : */}
                     {item.products_images[0] ? (
                       <img
-                        src={`${productImagesRoot}/min/${item.products_images[0].product_image}`}
+                        src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${item.products_images[0].product_image}?alt=media`}
                         alt="image"
                         className={styles.thumbnail_image}
                       />

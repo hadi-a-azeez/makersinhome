@@ -107,28 +107,42 @@ const AddNewProduct = (props) => {
       maxWidthOrHeight: 1080,
       useWebWorker: true,
     };
+    const optionsMin = {
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 360,
+      useWebWorker: true,
+    };
     try {
       for (let i = 0; i < imagesFromInput.length; i++) {
         const compressedFile = await imageCompression(
           imagesFromInput[i],
           options
         );
+        const compressedFileMin = await imageCompression(
+          imagesFromInput[i],
+          optionsMin
+        );
         //generate uuid for images
         let imageName = uuidv4();
+
         compressedFile.lastModifiedDate = new Date();
-        const convertedBlobFile = new File(
-          [compressedFile],
-          imagesFromInput[i].name,
-          {
-            type: imagesFromInput[i].type,
-            lastModified: Date.now(),
-          }
-        );
+        compressedFileMin.lastModifiedDate = new Date();
+
+        const convertedBlobFile = new File([compressedFile], imageName, {
+          type: imagesFromInput[i].type,
+          lastModified: Date.now(),
+        });
+        const convertedBlobFileMin = new File([compressedFileMin], imageName, {
+          type: imagesFromInput[i].type,
+          lastModified: Date.now(),
+        });
+
         setCompressedImages((oldArray) => [
           ...oldArray,
           {
             name: imageName,
             image: convertedBlobFile,
+            imagemin: convertedBlobFileMin,
             imageblob: URL.createObjectURL(compressedFile),
           },
         ]);

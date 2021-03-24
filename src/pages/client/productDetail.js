@@ -200,7 +200,7 @@ const ProductDetail = (props) => {
                   style={{ height: 350, backgroundColor: `white` }}
                 >
                   <img
-                    src={`${productImagesRoot}/${image.product_image}`}
+                    src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`}
                     style={{
                       objectFit: "cover",
                       height: 350,
