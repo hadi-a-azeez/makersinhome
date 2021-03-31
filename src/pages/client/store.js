@@ -14,6 +14,7 @@ import {
   InputLeftElement,
   Button,
   Skeleton,
+  Stack,
 } from "@chakra-ui/react";
 
 const Store = (props) => {
@@ -204,9 +205,20 @@ const Store = (props) => {
                   <h1 className={styles.product_name}>
                     {product.product_name}
                   </h1>
-                  <h1 className={styles.product_price}>
-                    ₹{product.product_price}
-                  </h1>
+                  {product.product_is_sale == 0 ? (
+                    <h1 className={styles.product_price}>
+                      ₹{product.product_price}
+                    </h1>
+                  ) : (
+                    <Stack direction="row" w="95%" mt="2">
+                      <h1 className={styles.product_price_strike}>
+                        ₹{product.product_price}
+                      </h1>
+                      <h1 className={styles.product_price}>
+                        ₹{product.product_sale_price}
+                      </h1>
+                    </Stack>
+                  )}
                 </div>
               </div>
             );

@@ -48,13 +48,20 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  padding: 10px;
 }
 .product_name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #323232;
+  margin-left: 6%;
+  margin-top: 7px;
+}
+.product_quantity {
   font-size: 14px;
   font-weight: 600;
   color: #323232;
   margin-left: 6%;
-  margin-top: 7px;
 }
 .product_price {
   font-size: 13px;

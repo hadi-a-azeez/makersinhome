@@ -28,7 +28,7 @@ const StoreCart = (props) => {
     );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
-    )}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
+    )}_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=91${userInfo.account_whatsapp}&text=${whatsappMessage}`
     );
@@ -118,11 +118,11 @@ const StoreCart = (props) => {
                     <h1 className={styles.product_name}>
                       {product.product_name}
                     </h1>
-                    <h1 className={styles.product_name}>
+                    <h1 className={styles.product_quantity}>
                       {product.product_quantity}
                     </h1>
                   </div>
-                  <IconButton
+                  {/* <IconButton
                     backgroundColor="#f8f9fd"
                     borderRadius="30px"
                     aria-label="Search database"
@@ -138,7 +138,7 @@ const StoreCart = (props) => {
                     bottom="3"
                     right="3"
                     onClick={() => history.goBack()}
-                  />
+                  /> */}
                 </div>
               </>
             );
