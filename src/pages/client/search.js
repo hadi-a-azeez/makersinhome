@@ -12,6 +12,7 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import Placeholder from "../../assets/placeholder.png";
 import { searchProductsAPI } from "../../api/custStoreAPI";
 import { useHistory } from "react-router-dom";
 
@@ -42,7 +43,11 @@ const Search = (props) => {
         onClick={() => history.push(`/product_detail/${product.id}`)}
       >
         <img
-          src={`${productImagesRoot}/min/${product.products_images[0].product_image}`}
+          src={
+            product.products_images.length > 0
+              ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`
+              : Placeholder
+          }
           alt="img"
           className={styles.product_image}
         />

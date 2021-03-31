@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
-import { productImagesRoot } from "../../config";
 import { ArrowBackIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
-import CartIcon from "../../assets/cart-outline.svg";
+import Placeholder from "../../assets/placeholder.png";
 import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 
@@ -92,7 +91,11 @@ const StoreCart = (props) => {
                   key={product.product_id}
                 >
                   <img
-                    src={`${productImagesRoot}/min/${product.product_image}`}
+                    src={
+                      product.product_image
+                        ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.product_image}?alt=media`
+                        : Placeholder
+                    }
                     alt="img"
                     className={styles.product_image}
                   />
@@ -154,7 +157,7 @@ const StoreCart = (props) => {
           onClick={whatsappBuy}
           mb="10"
         >
-          Buy On Whatsapp
+          Place Order on Whatsapp
         </Button>
       )}
     </div>

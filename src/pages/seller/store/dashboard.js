@@ -75,7 +75,7 @@ const Dashboard = () => {
               fallback={<SkeletonCircle size="20" />}
               src={
                 userInfo.account_store_image
-                  ? `${profileImagesRoot}/${userInfo.account_store_image}`
+                  ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${userInfo.account_store_image}?alt=media`
                   : Placeholder
               }
               alt="Segun Adebayo"

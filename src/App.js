@@ -60,7 +60,7 @@ function App() {
     <Router>
       <Suspense fallback={<p>Loading</p>}>
         <Switch>
-          <Route exact path="/home" component={Home} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/store/:storelink" component={Store} />
           <Route exact path="/store/search/:storeId" component={Search} />
           <Route exact path="/cart/:store_id" component={StoreCart} />
