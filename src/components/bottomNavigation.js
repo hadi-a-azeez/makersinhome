@@ -21,8 +21,11 @@ const BottomNavigationMenu = () => {
     if (!bottomNavItems.some((sel) => sel == location.pathname.split("/")[1])) {
       if (localStorage.getItem("bottomNavLast"))
         setValue(localStorage.getItem("bottomNavLast"));
-    } 
+    }
   }, []);
+  useEffect(() => {
+    setValue(location.pathname.split("/")[1]);
+  }, [location.pathname]);
   return (
     <>
       <div className={styles.container}>

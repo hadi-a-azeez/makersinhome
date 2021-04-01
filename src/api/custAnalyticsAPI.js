@@ -5,10 +5,7 @@ import { apiRoot } from "../config";
 export const updateStoreViews = async (shopid) => {
   try {
     return await axios.get(
-      `${apiRoot}/client/store/analytics/storeviews/${shopid}`,
-      {
-        withCredentials: true,
-      }
+      `${apiRoot}/client/store/analytics/storeviews/${shopid}`
     );
   } catch (error) {
     console.log(error);

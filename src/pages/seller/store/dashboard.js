@@ -12,10 +12,12 @@ import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
 import { Switch } from "@chakra-ui/react";
 import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+  const history = useHistory();
 
   const shareToWhatsapp = () => {
     window.location.replace(
@@ -136,6 +138,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
           <Box
+            onClick={() => history.push("/products")}
             height="100px"
             w="100%"
             shadow="base"
@@ -160,6 +163,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
           <Box
+            onClick={() => history.push("/categories")}
             height="100px"
             w="100%"
             shadow="base"
