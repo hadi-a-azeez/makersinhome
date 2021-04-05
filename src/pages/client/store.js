@@ -32,7 +32,7 @@ const Store = (props) => {
   };
   const handleWhatsappSupport = () => {
     window.location.replace(
-      `https://api.whatsapp.com/send?phone=${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
+      `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
     );
   };
   useEffect(() => {
@@ -185,7 +185,7 @@ const Store = (props) => {
           </SimpleGrid>
         </>
       )}
-      <SimpleGrid columns={2} spacing={2} w="95%">
+      <SimpleGrid columns={2} spacing={2} w="100%" p="12px">
         {!isLoading &&
           storeProducts.map((product) => {
             return (
@@ -210,7 +210,7 @@ const Store = (props) => {
                       ₹{product.product_price}
                     </h1>
                   ) : (
-                    <Stack direction="row" w="95%" mt="2">
+                    <Stack direction="row" w="95%" ml="4%">
                       <h1 className={styles.product_price_strike}>
                         ₹{product.product_price}
                       </h1>
