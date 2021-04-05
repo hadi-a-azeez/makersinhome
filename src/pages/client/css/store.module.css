@@ -4,7 +4,7 @@
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  background-color: #f7f7f7;
+  background-color: #f3f3f3f3;
   min-height: 100vh;
 }
 .link {
@@ -14,92 +14,53 @@
   justify-content: center;
   color: black;
 }
-.product_price_strike {
-  font-size: 13px;
-  font-weight: 400;
-  margin-left: 5%;
-  text-decoration: line-through;
-  color: red;
-  align-self: flex-start;
-}
 
-.store_card {
-  height: 120px;
-  width: 90%;
-  background-color: white;
-  background: url("https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80")
-    rgba(7, 6, 6, 0.3);
-  background-blend-mode: multiply;
-  background-position: center;
-  background-size: cover;
-  border-radius: 9px;
-  margin-top: 40px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-.store_name {
-  color: white;
-  font-size: 20px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-}
-.store_location {
-  color: white;
-  font-size: 15px;
-  font-weight: 400;
-  margin-top: 5px;
-}
-.search_block {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-}
-.search {
-  width: 72%;
-  padding: 16px 14px;
-  background: #fff;
-  border: 0px solid #ccc;
-  border-radius: 20px 0px 0px 20px;
-  margin-bottom: 10px;
-}
-.search_icon {
-  float: left;
-  width: 10%;
-  padding: 14px 10px;
-  background: #fff;
-  border-radius: 0px 20px 20px 0px;
-}
-.categories {
+.categories_container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  width: 100%;
-  margin-right: 20px;
+  width: 95%;
+
   overflow: auto;
   white-space: nowrap;
 }
-.margin_left {
-  margin-left: 5%;
+.store_header {
+  background-color: white;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: row;
+  justify-content: space-between;
 }
+.whatsapp_support_button {
+  margin-right: 15px;
+}
+.logo_container {
+  margin-left: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.logo_name {
+  margin-left: 10px;
+  font-size: 25px;
+}
+
 .category_item {
   background-color: white;
   padding: 10px 20px;
   color: black;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 14px;
-  margin-left: 5px;
+  margin-left: 8px;
   margin-bottom: 5px;
 }
 .category_item_selected {
   background-color: black;
   padding: 10px 20px;
   color: white;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 14px;
   margin-left: 5px;
   margin-bottom: 5px;
@@ -112,55 +73,23 @@
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
-.product_item {
-  width: 100%;
-  border-radius: 15px;
-  height: auto;
-  background-color: white;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.product_image {
-  width: 90%;
-  height: 160px;
-  border-radius: 15px;
-  margin-top: 8px;
-  background-position: center center;
-  object-fit: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-.product_details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-.product_name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #323232;
-  margin-left: 6%;
-  margin-top: 5px;
-}
-.product_price {
-  font-size: 13px;
-  font-weight: 800;
-  color: #00b140;
-  margin-left: 8%;
 
-  margin-bottom: 8px;
-}
 .iconWhatsapp {
   filter: invert(100%) sepia(0%) saturate(7495%) hue-rotate(129deg)
     brightness(107%) contrast(99%);
 }
-.carticon {
-  filter: invert(0%) sepia(13%) saturate(346%) hue-rotate(154deg)
-    brightness(84%) contrast(104%);
+.button_cart {
+  height: 70px;
+  width: 70px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: grid;
+  place-items: center;
+  background-color: black;
+  border-radius: 100%;
 }
+
 @media screen and (min-width: 480px) {
   .products {
     display: flex;

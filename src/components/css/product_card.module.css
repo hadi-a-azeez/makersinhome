@@ -1,0 +1,44 @@
+.product_card {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  align-items: center;
+  padding: 10px;
+}
+.product_image {
+  border-radius: 5px;
+  width: 90%;
+  margin-top: 5%;
+  height: 150px;
+  background-position: center center;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.price_container {
+  display: flex;
+  margin-top: 8px;
+  justify-content: center;
+}
+.product_price {
+  font-weight: bold;
+  font-size: 18px;
+  color: #47d592;
+}
+.product_name {
+  font-family: Epilogue;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  color: #7c7c7c;
+}
+.product_price_strike {
+  text-decoration: line-through;
+  font-family: Epilogue;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9aa49f;
+}

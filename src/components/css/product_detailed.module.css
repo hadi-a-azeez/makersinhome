@@ -1,0 +1,125 @@
+.container {
+  background-color: gr;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.button_cart {
+  height: 70px;
+  width: 70px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: grid;
+  place-items: center;
+  background-color: black;
+  border-radius: 100%;
+}
+.button_back {
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: grid;
+  place-items: center;
+  background-color: white;
+  border-radius: 100%;
+}
+.image_slider {
+  width: 100%;
+  min-height: 380px;
+  border-radius: 0px !important;
+  position: relative;
+}
+
+.product_top_container {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px;
+}
+.product_name {
+  min-width: 70%;
+  font-size: 30px;
+  font-weight: 500;
+  margin-right: 5%;
+  margin-left: 6px;
+}
+.price_container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+}
+.product_price {
+  font-weight: bold;
+  font-size: 32px;
+  color: #47d592;
+}
+
+.product_price_strike {
+  text-decoration: line-through;
+  margin-left: 4px;
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: -10px;
+  color: #9aa49f;
+}
+.sub_heading {
+  font-family: Epilogue;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin-left: 20px;
+  margin-bottom: 6px;
+  margin-top: -15px;
+  color: #686868;
+}
+.variant_container {
+  display: flex;
+  margin-top: 15px;
+  margin-left: 20px;
+}
+.variant_item {
+  height: 55px;
+  font-weight: 600;
+  font-size: 20px;
+  width: 65px;
+  left: 113px;
+  display: grid;
+  place-items: center;
+  margin-right: 20px;
+  top: 504px;
+  border-radius: 10px;
+  background: #f6f6f6;
+}
+.add_cart_button {
+  margin-top: 30px;
+  margin-left: 5%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  border-radius: 10px;
+  background-color: black;
+}
+.add_cart_icon {
+  width: 40px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+}
+.add_cart_text {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: white;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, Link, withRouter } from "react-router-dom";
@@ -6,7 +6,9 @@ import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
-import CartIcon from "../../assets/cart-outline.svg";
+import Placeholder from "../../assets/placeholder.png";
+import CartIcon from "../../assets/cartIcon.svg";
+import MenuIcon from "../../assets/bars.svg";
 import {
   SimpleGrid,
   Input,
@@ -15,7 +17,11 @@ import {
   Button,
   Skeleton,
   Stack,
+  Image,
+  SkeletonCircle,
+  useDisclosure,
 } from "@chakra-ui/react";
+import ProductCard from "../../components/ProductCard";
 
 const Store = (props) => {
   let history = useHistory();
@@ -70,24 +76,13 @@ const Store = (props) => {
 
   return isStoreExists ? (
     <div className={styles.container}>
-      <Button
-        backgroundColor="#25D366"
-        borderRadius="100%"
-        position="fixed"
-        bottom="8"
-        right="8"
-        height="60px"
-        width="60px"
-        onClick={handleWhatsappSupport}
+      <div
+        className={styles.button_cart}
+        onClick={() => handleFavouratesClick(storeData.id)}
       >
-        <img
-          src={Whatsapp}
-          className={styles.iconWhatsapp}
-          height="30px"
-          width="30px"
-        />
-      </Button>
-      {storeData && (
+        <img src={CartIcon} width="35px" />
+      </div>
+      {/* {storeData && (
         <div className={styles.store_card}>
           <h1 className={styles.store_name}>{storeData.account_store}</h1>
           <h1 className={styles.store_location}>
@@ -112,10 +107,33 @@ const Store = (props) => {
             />
           </Button>
         </div>
-      )}
+      )} */}
+      <div className={styles.store_header}>
+        <div className={styles.logo_container}>
+          <Image
+            src={
+              storeData.account_store_image
+                ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeData.account_store_image}?alt=media`
+                : Placeholder
+            }
+            borderRadius="full"
+            boxSize="35px"
+            objectFit="cover"
+            fallback={<SkeletonCircle size="15" />}
+          />
+          <h2 className={styles.logo_name}>{storeData.account_store}</h2>
+        </div>
+        <img
+          src={Whatsapp}
+          className={styles.whatsapp_support_button}
+          height="30px"
+          width="30px"
+          onClick={handleWhatsappSupport}
+        />
+      </div>
       <InputGroup
         w="90%"
-        mb="3"
+        mb="6"
         size="lg"
         backgroundColor="white"
         borderRadius="30px"
@@ -123,15 +141,15 @@ const Store = (props) => {
         <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
         <Input
           type="text"
-          placeholder="search in this store"
+          placeholder="Search for products"
           borderRadius="30px"
-          borderColor="white"
+          border="2px solid black"
+          height="50px"
           onClick={() => history.push(`/store/search/${storeData.id}`)}
         />
       </InputGroup>
 
-      <div className={styles.categories}>
-        <div className={styles.margin_left}></div>
+      <div className={styles.categories_container}>
         <div
           className={
             catSelected == "all"
@@ -188,40 +206,7 @@ const Store = (props) => {
       <SimpleGrid columns={2} spacing={2} w="100%" p="12px">
         {!isLoading &&
           storeProducts.map((product) => {
-            return (
-              <div
-                className={styles.product_item}
-                onClick={() => history.push(`/product_detail/${product.id}`)}
-                key={product.id}
-              >
-                {product.products_images && (
-                  <img
-                    src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`}
-                    alt="img"
-                    className={styles.product_image}
-                  />
-                )}
-                <div className={styles.product_details}>
-                  <h1 className={styles.product_name}>
-                    {product.product_name}
-                  </h1>
-                  {product.product_is_sale == 0 ? (
-                    <h1 className={styles.product_price}>
-                      ₹{product.product_price}
-                    </h1>
-                  ) : (
-                    <Stack direction="row" w="95%" ml="4%">
-                      <h1 className={styles.product_price_strike}>
-                        ₹{product.product_price}
-                      </h1>
-                      <h1 className={styles.product_price}>
-                        ₹{product.product_sale_price}
-                      </h1>
-                    </Stack>
-                  )}
-                </div>
-              </div>
-            );
+            return <ProductCard product={product} />;
           })}
         {/* product item ends here */}
       </SimpleGrid>
