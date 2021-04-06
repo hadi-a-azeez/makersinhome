@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import styles from "./css/product_card.module.css";
 import ProductDetailed from "./ProductDetailed";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, store }) => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
@@ -17,6 +17,7 @@ const ProductCard = ({ product }) => {
         onClose={onClose}
         btnRef={btnRef}
         product={product}
+        store={store}
       />
       <div
         className={styles.product_card}

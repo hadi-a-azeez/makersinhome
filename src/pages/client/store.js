@@ -206,7 +206,7 @@ const Store = (props) => {
       <SimpleGrid columns={2} spacing={2} w="100%" p="12px">
         {!isLoading &&
           storeProducts.map((product) => {
-            return <ProductCard product={product} />;
+            return <ProductCard product={product} store={storeData} />;
           })}
         {/* product item ends here */}
       </SimpleGrid>

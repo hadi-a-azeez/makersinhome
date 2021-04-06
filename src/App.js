@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Search from "./pages/client/search";
 
+import Store from "./pages/client/store";
+import StoreFavourates from "./pages/client/storeFavourates";
+import StoreCart from "./pages/client/storeCart";
+import ProductDetail from "./pages/client/productDetail";
+import Home from "./pages/client/home";
+
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
 const AddNewProduct = lazy(() =>
@@ -27,11 +33,6 @@ const ProductsByCategory = lazy(() =>
   import("./pages/seller/products/productsByCategory")
 );
 const EditAccount = lazy(() => import("./pages/seller/account/editAccount"));
-const Store = lazy(() => import("./pages/client/store"));
-const StoreFavourates = lazy(() => import("./pages/client/storeFavourates"));
-const StoreCart = lazy(() => import("./pages/client/storeCart"));
-const ProductDetail = lazy(() => import("./pages/client/productDetail"));
-const Home = lazy(() => import("./pages/client/home"));
 
 function App() {
   const AuthenticatedRoutes = () => {
