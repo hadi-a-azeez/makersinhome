@@ -41,10 +41,6 @@ const ProductDetail = (props) => {
     getProduct();
   }, []);
 
-  useEffect(() => {
-    alert("hi");
-  }, [localStorage.getItem("cart")]);
-
   const addToCart = (store_id, product_id, product_name, product_image) => {
     let productObject = {
       store_id,
