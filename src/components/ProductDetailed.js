@@ -47,15 +47,18 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
                 return (
                   <div
                     key={image.id}
-                    style={{ height: 320, backgroundColor: `white` }}
+                    style={{
+                      height: "50vh",
+                      backgroundColor: `white`,
+                    }}
                   >
                     <img
                       src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`}
                       style={{
                         objectFit: "cover",
                         objectPosition: "50% 10%",
-                        height: 320,
-                        borderRadius: "0px 0px 25px 25px",
+                        height: "50vh",
+                        borderRadius: "15px",
                       }}
                     />
                   </div>
@@ -108,13 +111,9 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
             >
               <div className={styles.product_desc_title}>
                 <h3>Description</h3>
-                <img src={ArrowDown} width="30px" />
               </div>
-              <Collapse in={isOpenDesc} animateOpacity>
-                <p className={styles.product_desc_body}>
-                  {product.product_desc}
-                </p>
-              </Collapse>
+
+              <p className={styles.product_desc_body}>{product.product_desc}</p>
             </div>
             <div
               className={styles.product_desc_container}
@@ -122,16 +121,14 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
             >
               <div className={styles.product_desc_title}>
                 <h3>Seller Details</h3>
-                <img src={ArrowDown} width="30px" />
               </div>
-              <Collapse in={isOpenAdress} animateOpacity>
-                <p className={styles.product_desc_body}>
-                  This item is sold by{" "}
-                  <span style={{ color: "blue" }}>{store.account_store}</span>
-                  <br />
-                  {store.account_store_address}
-                </p>
-              </Collapse>
+
+              <p className={styles.product_desc_body}>
+                This item is sold by{" "}
+                <span style={{ color: "blue" }}>{store.account_store}</span>
+                <br />
+                {store.account_store_address}
+              </p>
             </div>
           </div>
         </DrawerContent>
