@@ -56,7 +56,6 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
                       src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`}
                       style={{
                         objectFit: "cover",
-                        objectPosition: "50% 10%",
                         height: "50vh",
                         borderRadius: "15px",
                       }}
@@ -105,6 +104,7 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
               <img src={CartIcon} className={styles.add_cart_icon} />
               <div className={styles.add_cart_text}>Add to Cart</div>
             </div>
+
             <div
               className={styles.product_desc_container}
               onClick={onToggleDesc}
