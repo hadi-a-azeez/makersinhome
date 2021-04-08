@@ -122,8 +122,33 @@ export const updateProductStock = async (productId) => {
   }
 };
 
-//upload product images
+export const addProductsVariantAPI = async (variants_array) => {
+  try {
+    const response = await axios_seller.post("/seller/products/variants", {
+      variants_array,
+    });
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+export const deleteProductsVariantAPI = async (variants_array) => {
+  console.log(variants_array);
+  try {
+    const response = await axios_seller.post(
+      "/seller/products/variants/delete",
+      {
+        variants_array,
+      }
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//upload product images
 export const uploadProductImageAPI = async (imagesArr, productId) => {
   console.log(imagesArr);
   const imagesNamesArr = imagesArr.map((img) => img.name);

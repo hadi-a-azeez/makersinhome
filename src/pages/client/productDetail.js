@@ -4,8 +4,22 @@ import { Carousel } from "react-responsive-carousel";
 import WhatsappLogo from "../../assets/logo-whatsapp.svg";
 import CartIcon from "../../assets/cartIcon.svg";
 import CartIconBlack from "../../assets/cartIconblack.svg";
+import BuyIcon from "../../assets/buynow.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
 import BackIcon from "../../assets/angle-left.svg";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  Button,
+  IconButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import styles from "../../components/css/product_detailed.module.css";
 import { ArrowBackIcon, CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
@@ -16,17 +30,25 @@ import { Skeleton, useToast } from "@chakra-ui/react";
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
   const [storeData, setStoreData] = useState({});
+
   const [selectedUnit, setSelectedUnit] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [cartProducts, setCartProducts] = useState([]);
   const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
   const toast = useToast();
   const [selectedVariant, setSelectedVariant] = useState("S");
   const sizesArr = ["S", "M", "L", "XL"];
+  const {
+    onOpen: onOpenCart,
+    onClose: onCloseCart,
+    isOpen: isOpenCart,
+  } = useDisclosure();
 
+  //get product data from server
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true);
@@ -36,6 +58,17 @@ const ProductDetail = (props) => {
 
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
+
+      //get all items in cart from localstorage
+      let cartArr = await JSON.parse(localStorage.getItem("cart"));
+      if (cartArr) {
+        let filteredArr = cartArr.filter(
+          (product) =>
+            product.store_id == productResponse.data.data.storeinfo.id
+        );
+        setCartProducts(filteredArr);
+      }
+
       setIsLoading(false);
     };
     getProduct();
@@ -77,6 +110,7 @@ const ProductDetail = (props) => {
       position: "top-left",
       isClosable: true,
     });
+    onOpenCart();
   };
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
@@ -91,12 +125,37 @@ const ProductDetail = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div
-          className={styles.rounded_button_cart}
-          onClick={() => history.push(`/cart/${storeData.id}`)}
+        <Popover
+          placement="bottom-start"
+          isOpen={isOpenCart}
+          onOpen={onOpenCart}
+          onClose={onCloseCart}
         >
-          <img src={CartIconBlack} width="35px" />
-        </div>
+          <PopoverTrigger>
+            <IconButton
+              width="60px"
+              height="60px"
+              icon={<img src={CartIconBlack} width="40px" />}
+              position="fixed"
+              top="30px"
+              right="25px"
+              zIndex="1"
+              borderRadius="100%"
+            />
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Cart</PopoverHeader>
+            <PopoverBody>
+              <ol>
+                {cartProducts.map((cartProduct) => (
+                  <li>{cartProduct.product_name}</li>
+                ))}
+              </ol>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {isLoading && (
@@ -172,6 +231,13 @@ const ProductDetail = (props) => {
             {size}
           </div>
         ))}
+      </div>
+      <div
+        className={styles.add_cart_button}
+        style={{ backgroundColor: "#ffc400", marginTop: "25px" }}
+      >
+        <img src={BuyIcon} className={styles.buy_now_icon} />
+        <div className={styles.add_cart_text}>Buy Now</div>
       </div>
       <div
         className={styles.add_cart_button}

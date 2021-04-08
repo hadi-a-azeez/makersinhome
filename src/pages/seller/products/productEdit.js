@@ -9,7 +9,7 @@ import LabelHeader from "../../../components/labelHeader";
 import { useForm } from "../../../components/useForm";
 import imageCompression from "browser-image-compression";
 import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
-import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
+import { SmallCloseIcon, AddIcon, CloseIcon } from "@chakra-ui/icons";
 
 import {
   getProductAPI,
@@ -17,6 +17,8 @@ import {
   deleteProductImagesAPI,
   deleteProductAPI,
   uploadProductImageAPI,
+  addProductsVariantAPI,
+  deleteProductsVariantAPI,
 } from "../../../api/sellerProductAPI";
 import {
   AlertDialog,
@@ -37,17 +39,22 @@ import {
   Image,
   IconButton,
   SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
+import { Box } from "@material-ui/core";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [productImagesLocal, setProductImagesLocal] = useState([]);
   const [serverImagesToDelete, setServerImagesToDelete] = useState([]);
+  const [variantsLocal, setVariantsLocal] = useState([]);
+  const [variantsToDelete, setVariantsToDelete] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
+  const [newVariant, setNewVariant] = useState("");
   const [isFormError, setIsFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef();
   const toast = useToast();
   //array of avalilable units
@@ -98,6 +105,14 @@ const ProductEdit = (props) => {
   const updateProductFull = async () => {
     setIsBtnLoading(true);
 
+    //variants manipulation
+    if (variantsLocal.length > 0) {
+      addProductsVariantAPI(variantsLocal);
+    }
+    if (variantsToDelete.length > 0) {
+      deleteProductsVariantAPI(variantsToDelete);
+    }
+
     //check if new images are added to product if upload it to server
     if (productImagesLocal.length > 0) {
       const responseImage = await uploadProductImageAPI(
@@ -135,6 +150,27 @@ const ProductEdit = (props) => {
   const deleteLocalImages = (imageToDelete) => {
     setProductImagesLocal((prevImages) =>
       prevImages.filter((image) => image.name !== imageToDelete)
+    );
+  };
+
+  //delete variants in server
+  const deleteServerVariants = (toDeleteVariant) => {
+    let currentVariants = product.products_variants;
+    let newVariants = currentVariants.filter(
+      (variant) => variant.id !== toDeleteVariant.id
+    );
+    setProduct({ ...product, products_variants: newVariants });
+    console.log(toDeleteVariant);
+    setVariantsToDelete((old) => [...old, toDeleteVariant.id]);
+    console.log(variantsToDelete);
+  };
+
+  //delete newly added variants from state
+  const deleteLocalVariants = (variantToDelete) => {
+    setVariantsLocal((old) =>
+      old.filter(
+        (variant) => variant.variant_name !== variantToDelete.variant_name
+      )
     );
   };
 
@@ -401,20 +437,68 @@ const ProductEdit = (props) => {
             </Stack>
 
             <FormControl isRequired w="90%" mt="4">
-              <FormLabel>Product Unit</FormLabel>
-              <Select
-                name="product_unit"
-                value={product.product_unit}
-                variant="filled"
-                size="lg"
-                onChange={updateProduct}
-              >
-                {unitsArray.map((item) => (
-                  <option value={item.name} key={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </Select>
+              <FormLabel>Product Variants</FormLabel>
+              <Box m="4px">
+                {product.products_variants &&
+                  product.products_variants.map((variant) => (
+                    <Box
+                      borderRadius="5px"
+                      border="1px solid #c2c2c2"
+                      p="5px"
+                      mt="8px"
+                    >
+                      <Stack direction="row" justifyContent="space-between">
+                        <Text ml="10px"> {variant.variant_name}</Text>
+                        <IconButton
+                          icon={<CloseIcon />}
+                          size="sm"
+                          mr="6px"
+                          onClick={() => deleteServerVariants(variant)}
+                        />
+                      </Stack>
+                    </Box>
+                  ))}
+                {variantsLocal &&
+                  variantsLocal.map((variant) => (
+                    <Box
+                      borderRadius="5px"
+                      border="1px solid #c2c2c2"
+                      p="5px"
+                      mt="8px"
+                    >
+                      <Stack direction="row" justifyContent="space-between">
+                        <Text ml="10px"> {variant.variant_name}</Text>
+                        <IconButton
+                          icon={<CloseIcon />}
+                          size="sm"
+                          mr="6px"
+                          onClick={() => deleteLocalVariants(variant)}
+                        />
+                      </Stack>
+                    </Box>
+                  ))}
+                <Input
+                  type="text"
+                  value={newVariant}
+                  onChange={(e) => setNewVariant(e.target.value)}
+                  mt="10px"
+                />
+                <Button
+                  mt="10px"
+                  colorScheme="blue"
+                  onClick={() => {
+                    if (newVariant) {
+                      setVariantsLocal((old) => [
+                        ...old,
+                        { variant_name: newVariant, product_id: productId },
+                      ]);
+                      setNewVariant("");
+                    }
+                  }}
+                >
+                  Add Variant
+                </Button>
+              </Box>
             </FormControl>
             <FormControl id="description" w="90%" mt="4">
               <FormLabel>Description</FormLabel>
