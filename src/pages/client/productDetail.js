@@ -217,21 +217,26 @@ const ProductDetail = (props) => {
           </>
         )}
       </div>
-      <h3 className={styles.sub_heading}>SIZE:</h3>
-      <div className={styles.variant_container}>
-        {sizesArr.map((size) => (
-          <div
-            className={
-              selectedVariant == size
-                ? styles.variant_item_selected
-                : styles.variant_item
-            }
-            onClick={() => setSelectedVariant(size)}
-          >
-            {size}
-          </div>
-        ))}
-      </div>
+      {productData.products_variants &&
+        productData.products_variants.length > 0 && (
+          <>
+            <h3 className={styles.sub_heading}>Variants:</h3>
+            <div className={styles.variant_container}>
+              {productData.products_variants.map((variant) => (
+                <div
+                  className={
+                    selectedVariant.id == variant.id
+                      ? styles.variant_item_selected
+                      : styles.variant_item
+                  }
+                  onClick={() => setSelectedVariant(variant)}
+                >
+                  {variant.variant_name}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       <div
         className={styles.add_cart_button}
         style={{ backgroundColor: "#ffc400", marginTop: "25px" }}
