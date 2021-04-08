@@ -24,11 +24,17 @@ const StoreCart = (props) => {
   }, []);
   const whatsappBuy = async () => {
     const productsMsg = productsData.map(
-      (item) => `• ${item.product_name}   -   ${item.product_quantity} %0D%0A`
+      (item) =>
+        `• ${item.product_name}   x   ${item.product_quantity} = ₹${
+          item.product_quantity * item.product_price
+        }%0D%0A `
     );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
-    )}_______________________%0D%0A%0D%0A Powered by Saav.in`;
+    )}%0D%0A Total: ₹${productsData.reduce(
+      (acc, curr) => acc + curr.product_quantity * curr.product_price,
+      0
+    )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=91${userInfo.account_whatsapp}&text=${whatsappMessage}`
     );

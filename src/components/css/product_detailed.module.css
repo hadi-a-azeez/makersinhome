@@ -85,6 +85,20 @@
   font-size: 26px;
   color: #ff5826;
 }
+.cart_count {
+  display: grid;
+  place-items: center;
+  background-color: #ff5826;
+  color: white;
+  position: absolute;
+  top: 0px;
+  font-family: "elemen";
+  font-weight: bold;
+  right: 0px;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+}
 .product_price_strike {
   text-decoration: line-through;
   font-weight: normal;
@@ -195,4 +209,11 @@
   color: #838282;
   letter-spacing: 0.7px;
   margin-bottom: 20px;
+}
+.cart_popup_container {
+  margin-bottom: 10px;
+}
+.cart_popup_item {
+  font-size: 20px;
+  font-family: "helvetica-regular";
 }

@@ -33,9 +33,7 @@ const Store = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStoreExists, setIsStoreExists] = useState(true);
 
-  const handleFavouratesClick = (storeId) => {
-    history.push(`/cart/${storeId}`);
-  };
+  const handleFavouratesClick = (storeId) => {};
   const handleWhatsappSupport = () => {
     window.location.replace(
       `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
@@ -78,7 +76,7 @@ const Store = (props) => {
     <div className={styles.container}>
       <div
         className={styles.button_cart}
-        onClick={() => handleFavouratesClick(storeData.id)}
+        onClick={() => history.push(`/cart/${storeData.id}`)}
       >
         <img src={CartIcon} width="35px" />
       </div>

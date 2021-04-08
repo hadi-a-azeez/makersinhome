@@ -19,10 +19,12 @@ import {
   Button,
   IconButton,
   useDisclosure,
+  Box,
+  Text,
+  AvatarBadge,
 } from "@chakra-ui/react";
 
 import styles from "../../components/css/product_detailed.module.css";
-import { ArrowBackIcon, CheckCircleIcon, EmailIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
@@ -30,23 +32,30 @@ import { Skeleton, useToast } from "@chakra-ui/react";
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
   const [storeData, setStoreData] = useState({});
-
-  const [selectedUnit, setSelectedUnit] = useState("");
-  const [productQuantity, setProductQuantity] = useState("");
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
-  const toast = useToast();
-  const [selectedVariant, setSelectedVariant] = useState("S");
-  const sizesArr = ["S", "M", "L", "XL"];
+  const [selectedVariant, setSelectedVariant] = useState("");
+
   const {
     onOpen: onOpenCart,
     onClose: onCloseCart,
     isOpen: isOpenCart,
   } = useDisclosure();
+
+  const getCartProducts = async (storeId) => {
+    //get all items in cart from localstorage
+    let cartArr = await JSON.parse(localStorage.getItem("cart"));
+    if (cartArr) {
+      let filteredArr = cartArr.filter(
+        (product) => product.store_id == storeId
+      );
+      setCartProducts(filteredArr);
+    }
+  };
 
   //get product data from server
   useEffect(() => {
@@ -55,32 +64,38 @@ const ProductDetail = (props) => {
       const productResponse = await getProductDetailAPI(productId);
       console.log(productResponse);
       setProductData(productResponse.data.data.product);
-
+      //set default variant value if available
+      {
+        productResponse.data.data.product.products_variants.length > 0 &&
+          setSelectedVariant(
+            productResponse.data.data.product.products_variants[0]
+          );
+      }
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
 
-      //get all items in cart from localstorage
-      let cartArr = await JSON.parse(localStorage.getItem("cart"));
-      if (cartArr) {
-        let filteredArr = cartArr.filter(
-          (product) =>
-            product.store_id == productResponse.data.data.storeinfo.id
-        );
-        setCartProducts(filteredArr);
-      }
+      await getCartProducts(productResponse.data.data.storeinfo.id);
 
       setIsLoading(false);
     };
     getProduct();
   }, []);
 
-  const addToCart = (store_id, product_id, product_name, product_image) => {
+  const addToCart = async (
+    store_id,
+    product_id,
+    product_name,
+    product_image,
+    product_price
+  ) => {
     let productObject = {
       store_id,
       product_id,
       product_image,
       product_name,
-      product_quantity: `${productQuantity} ${selectedUnit}`,
+      product_quantity: 1,
+      product_variant: selectedVariant,
+      product_price,
     };
     if (localStorage.getItem("cart")) {
       let storedArr = JSON.parse(localStorage.getItem("cart"));
@@ -91,37 +106,37 @@ const ProductDetail = (props) => {
         let cartArr = [productObject, ...storedArr];
         localStorage.setItem("cart", JSON.stringify(cartArr));
       } else {
-        //remove existing product and replace with new
+        //increment quanitity of product
         const productsOther = storedArr.filter(
-          (product) => product.product_id != parseInt(productId)
+          (product) => product.product_id !== parseInt(productId)
         );
-        console.log(productsOther);
-        let cartArr = [productObject, ...productsOther];
+        let productAdded = storedArr.filter(
+          (product) => product.product_id === parseInt(productId)
+        );
+        productAdded[0].product_quantity = ++productAdded[0].product_quantity;
+        let cartArr = [...productAdded, ...productsOther];
         localStorage.setItem("cart", JSON.stringify(cartArr));
       }
     } else {
       localStorage.setItem("cart", JSON.stringify([productObject]));
     }
+
+    await getCartProducts(store_id);
     setIsAddedCart(true);
-    toast({
-      title: "Product Added To Cart",
-      status: "success",
-      duration: 2000,
-      position: "top-left",
-      isClosable: true,
-    });
+
     onOpenCart();
   };
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
-    const productsMsg = `• ${
-      productData.product_name
-    }   -   ${`${productQuantity} ${selectedUnit}`} %0D%0A`;
+    const productsMsg = `• ${productData.product_name} ${
+      productData.product_variant && `(${productData.product_variant})`
+    }  x ${productData.product_quantity}  %0D%0A`;
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
     );
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -132,27 +147,49 @@ const ProductDetail = (props) => {
           onClose={onCloseCart}
         >
           <PopoverTrigger>
-            <IconButton
+            <Box
               width="60px"
               height="60px"
-              icon={<img src={CartIconBlack} width="40px" />}
               position="fixed"
               top="30px"
               right="25px"
               zIndex="1"
-              borderRadius="100%"
-            />
+            >
+              <IconButton
+                width="60px"
+                height="60px"
+                icon={<img src={CartIconBlack} width="40px" />}
+                borderRadius="100%"
+              />
+              <div className={styles.cart_count}>
+                {cartProducts.reduce(
+                  (acc, curr) => acc + curr.product_quantity,
+                  0
+                )}
+              </div>
+            </Box>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Cart</PopoverHeader>
             <PopoverBody>
-              <ol>
+              <div className={styles.cart_popup_container}>
                 {cartProducts.map((cartProduct) => (
-                  <li>{cartProduct.product_name}</li>
+                  <div className={styles.cart_popup_item}>
+                    {cartProduct.product_name} x {cartProduct.product_quantity}
+                  </div>
                 ))}
-              </ol>
+              </div>
+              <Button
+                w="100%"
+                onClick={() => history.push(`/cart/${storeData.id}`)}
+              >
+                Go To Cart
+              </Button>
+              <Button w="100%" mt="10px" colorScheme="green">
+                Checkout On Whatsapp
+              </Button>
             </PopoverBody>
           </PopoverContent>
         </Popover>
@@ -246,14 +283,18 @@ const ProductDetail = (props) => {
       </div>
       <div
         className={styles.add_cart_button}
-        onClick={() =>
+        onClick={() => {
+          const productFinalPrice = productData.product_is_sale
+            ? productData.product_sale_price
+            : productData.product_price;
           addToCart(
             storeData.id,
             productData.id,
             productData.product_name,
-            productData.products_images[0].product_image
-          )
-        }
+            productData.products_images[0].product_image,
+            productFinalPrice
+          );
+        }}
       >
         <img src={CartIcon} className={styles.add_cart_icon} />
         <div className={styles.add_cart_text}>Add to Cart</div>
