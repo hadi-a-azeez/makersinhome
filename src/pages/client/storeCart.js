@@ -6,14 +6,20 @@ import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
 import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
+import useStore from "../../cartState";
 
 const StoreCart = (props) => {
   const history = useHistory();
   const [productsData, setProductsData] = useState([]);
   const [isProducts, setIsProducts] = useState(true);
   const [userInfo, setUserInfo] = useState({});
+
+  const cartProducts = useStore((state) => state.products);
+  const deleteCartProduct = useStore((state) => state.deleteProduct);
+
   let storeId = props.match.params.store_id;
 
+  // get store details from server
   useEffect(() => {
     const getStoreDetails = async () => {
       const response = await getStoreDataByIdAPI(storeId);
@@ -22,16 +28,17 @@ const StoreCart = (props) => {
     };
     getStoreDetails();
   }, []);
+
   const whatsappBuy = async () => {
-    const productsMsg = productsData.map(
+    const productsMsg = cartProducts.map(
       (item) =>
-        `• ${item.product_name}   x   ${item.product_quantity} = ₹${
+        `• ${item.product_name}   x   ${item.product_quantity} - ₹${
           item.product_quantity * item.product_price
         }%0D%0A `
     );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
-    )}%0D%0A Total: ₹${productsData.reduce(
+    )}%0D%0A Total: ₹${cartProducts.reduce(
       (acc, curr) => acc + curr.product_quantity * curr.product_price,
       0
     )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
@@ -40,35 +47,6 @@ const StoreCart = (props) => {
     );
   };
 
-  const removeCartProduct = async (productId) => {
-    const newProductsInCart = productsData.filter(
-      (product) => product.product_id !== productId
-    );
-    let cartArr = await JSON.parse(localStorage.getItem("cart"));
-    if (cartArr) {
-      let filteredArr = cartArr.filter(
-        (product) => product.product_id !== productId
-      );
-      localStorage.setItem("cart", JSON.stringify(filteredArr));
-    }
-    setProductsData(newProductsInCart);
-  };
-  useEffect(() => {
-    const getProducts = async () => {
-      let cartArr = await JSON.parse(localStorage.getItem("cart"));
-      if (cartArr) {
-        let filteredArr = cartArr.filter(
-          (product) => product.store_id == storeId
-        );
-        filteredArr.length > 0
-          ? setProductsData(filteredArr)
-          : setIsProducts(false);
-      }
-
-      console.log(cartArr);
-    };
-    getProducts();
-  }, []);
   //check if current store has any favourates saved by user
 
   return (
@@ -85,8 +63,8 @@ const StoreCart = (props) => {
       />
       <h1 className={styles.heading}>Cart</h1>
       <SimpleGrid columns={2} spacing={2} w="95%">
-        {productsData.length > 0 ? (
-          productsData.map((product) => {
+        {cartProducts.length > 0 ? (
+          cartProducts.map((product) => {
             return (
               <>
                 <div
@@ -116,7 +94,7 @@ const StoreCart = (props) => {
                     zIndex="8"
                     onClick={(e) => {
                       e.stopPropagation();
-                      removeCartProduct(product.product_id);
+                      deleteCartProduct(product);
                     }}
                     icon={<SmallCloseIcon color="black" w={4} h={4} />}
                   />
@@ -128,23 +106,6 @@ const StoreCart = (props) => {
                       {product.product_quantity}
                     </h1>
                   </div>
-                  {/* <IconButton
-                    backgroundColor="#f8f9fd"
-                    borderRadius="30px"
-                    aria-label="Search database"
-                    icon={
-                      <Image
-                        src={CartIconFilled}
-                        width={5}
-                        height={5}
-                        className={styles.favouritesFilled}
-                      />
-                    }
-                    pos="absolute"
-                    bottom="3"
-                    right="3"
-                    onClick={() => history.goBack()}
-                  /> */}
                 </div>
               </>
             );

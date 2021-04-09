@@ -28,34 +28,27 @@ import styles from "../../components/css/product_detailed.module.css";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
+import useStore from "../../cartState";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState({});
   const [storeData, setStoreData] = useState({});
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [cartProducts, setCartProducts] = useState([]);
+  // const [cartProducts, setCartProducts] = useState([]);
   const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
   const [selectedVariant, setSelectedVariant] = useState("");
+
+  const cartProducts = useStore((state) => state.products);
+  const addToCartState = useStore((state) => state.addProduct);
 
   const {
     onOpen: onOpenCart,
     onClose: onCloseCart,
     isOpen: isOpenCart,
   } = useDisclosure();
-
-  const getCartProducts = async (storeId) => {
-    //get all items in cart from localstorage
-    let cartArr = await JSON.parse(localStorage.getItem("cart"));
-    if (cartArr) {
-      let filteredArr = cartArr.filter(
-        (product) => product.store_id == storeId
-      );
-      setCartProducts(filteredArr);
-    }
-  };
 
   //get product data from server
   useEffect(() => {
@@ -74,7 +67,7 @@ const ProductDetail = (props) => {
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
 
-      await getCartProducts(productResponse.data.data.storeinfo.id);
+      // await getCartProducts(productResponse.data.data.storeinfo.id);
 
       setIsLoading(false);
     };
@@ -121,7 +114,7 @@ const ProductDetail = (props) => {
       localStorage.setItem("cart", JSON.stringify([productObject]));
     }
 
-    await getCartProducts(store_id);
+    // await getCartProducts(store_id);
     setIsAddedCart(true);
 
     onOpenCart();
@@ -287,13 +280,15 @@ const ProductDetail = (props) => {
           const productFinalPrice = productData.product_is_sale
             ? productData.product_sale_price
             : productData.product_price;
-          addToCart(
-            storeData.id,
-            productData.id,
-            productData.product_name,
-            productData.products_images[0].product_image,
-            productFinalPrice
-          );
+          addToCartState({
+            store_id: storeData.id,
+            product_id: productData.id,
+            product_name: productData.product_name,
+            product_image: productData.products_images[0].product_image,
+            product_price: productFinalPrice,
+            product_variant: selectedVariant,
+            product_quantity: 1,
+          });
         }}
       >
         <img src={CartIcon} className={styles.add_cart_icon} />

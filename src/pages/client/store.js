@@ -20,8 +20,11 @@ import {
   Image,
   SkeletonCircle,
   useDisclosure,
+  IconButton,
+  Box,
 } from "@chakra-ui/react";
 import ProductCard from "../../components/ProductCard";
+import useStore from "../../cartState";
 
 const Store = (props) => {
   let history = useHistory();
@@ -32,6 +35,7 @@ const Store = (props) => {
   const [catSelected, setCatSelected] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isStoreExists, setIsStoreExists] = useState(true);
+  const cartProducts = useStore((state) => state.products);
 
   const handleFavouratesClick = (storeId) => {};
   const handleWhatsappSupport = () => {
@@ -74,38 +78,27 @@ const Store = (props) => {
 
   return isStoreExists ? (
     <div className={styles.container}>
-      <div
-        className={styles.button_cart}
+      <Box
+        width="65px"
+        height="65px"
+        position="fixed"
+        bottom="30px"
+        right="25px"
+        zIndex="1"
         onClick={() => history.push(`/cart/${storeData.id}`)}
       >
-        <img src={CartIcon} width="35px" />
-      </div>
-      {/* {storeData && (
-        <div className={styles.store_card}>
-          <h1 className={styles.store_name}>{storeData.account_store}</h1>
-          <h1 className={styles.store_location}>
-            {storeData.account_store_address}
-          </h1>
-          <Button
-            onClick={() => handleFavouratesClick(storeData.id)}
-            backgroundColor="white"
-            borderRadius="100%"
-            position="absolute"
-            height="40px"
-            width="40px"
-            bottom="2"
-            right="3"
-            padding="0"
-          >
-            <img
-              src={CartIcon}
-              className={styles.carticon}
-              height="20px"
-              width="20px"
-            />
-          </Button>
+        <IconButton
+          width="65px"
+          height="65px"
+          icon={<img src={CartIcon} width="40px" />}
+          borderRadius="100%"
+          backgroundColor="#000"
+        />
+        <div className={styles.cart_count}>
+          {cartProducts.reduce((acc, curr) => acc + curr.product_quantity, 0)}
         </div>
-      )} */}
+      </Box>
+
       <div className={styles.store_header}>
         <div className={styles.logo_container}>
           <Image
