@@ -22,6 +22,7 @@ import {
   Box,
   Text,
   AvatarBadge,
+  Stack,
 } from "@chakra-ui/react";
 
 import styles from "../../components/css/product_detailed.module.css";
@@ -267,7 +268,7 @@ const ProductDetail = (props) => {
             </div>
           </>
         )}
-      <div
+      {/* <div
         className={styles.add_cart_button}
         style={{ backgroundColor: "#ffc400", marginTop: "25px" }}
       >
@@ -293,19 +294,44 @@ const ProductDetail = (props) => {
       >
         <img src={CartIcon} className={styles.add_cart_icon} />
         <div className={styles.add_cart_text}>Add to Cart</div>
-      </div>
+      </div> */}
+
+      <Button
+        alignSelf="center"
+        size="lg"
+        ml="5%"
+        w="90%"
+        p="10px"
+        leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
+        h="60px"
+        mt="20px"
+        backgroundColor="#ff5826"
+        color="white"
+        fontFamily="elemen"
+      >
+        Buy Now
+      </Button>
+      <Button
+        ml="5%"
+        mt="15px"
+        leftIcon={<img src={CartIconBlack} className={styles.add_cart_icon} />}
+        alignSelf="center"
+        size="lg"
+        w="90%"
+        h="60px"
+        fontFamily="elemen"
+        mb="20px"
+      >
+        Add to Cart
+      </Button>
 
       <div className={styles.product_desc_container}>
-        <div className={styles.product_desc_title}>
-          <h3>Description</h3>
-        </div>
+        <div className={styles.product_desc_title}>Description</div>
 
         <p className={styles.product_desc_body}>{productData.product_desc}</p>
       </div>
       <div className={styles.product_desc_container}>
-        <div className={styles.product_desc_title}>
-          <h3>Seller Details</h3>
-        </div>
+        <div className={styles.product_desc_title}>Seller Details</div>
 
         <p className={styles.product_desc_body}>
           This item is sold by{" "}

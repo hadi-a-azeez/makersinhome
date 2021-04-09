@@ -167,15 +167,14 @@
   border-radius: 10px;
   background-color: #ff5826;
 }
+
 .add_cart_icon {
   width: 40px;
   margin-bottom: 8px;
-  margin-right: 5px;
 }
 .buy_now_icon {
   width: 40px;
   margin-top: 5px;
-  margin-right: 3px;
 }
 .add_cart_text {
   font-size: 20px;
@@ -198,14 +197,13 @@
 }
 .product_desc_title {
   display: flex;
-  font-family: "elemen";
-  font-weight: bold;
-  color: rgb(73, 71, 71);
+  font-family: "helvetica-regular";
+  color: black;
   font-size: 20px;
 }
 .product_desc_body {
   font-family: "helvetica-regular";
-  font-size: 16px;
+  font-size: 15px;
   color: #838282;
   letter-spacing: 0.7px;
   margin-bottom: 20px;
