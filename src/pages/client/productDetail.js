@@ -75,57 +75,16 @@ const ProductDetail = (props) => {
     getProduct();
   }, []);
 
-  const addToCart = async (
-    store_id,
-    product_id,
-    product_name,
-    product_image,
-    product_price
-  ) => {
-    let productObject = {
-      store_id,
-      product_id,
-      product_image,
-      product_name,
-      product_quantity: 1,
-      product_variant: selectedVariant,
-      product_price,
-    };
-    if (localStorage.getItem("cart")) {
-      let storedArr = JSON.parse(localStorage.getItem("cart"));
-      let isContains = storedArr.some(
-        (product) => product.product_id === product_id
-      );
-      if (!isContains) {
-        let cartArr = [productObject, ...storedArr];
-        localStorage.setItem("cart", JSON.stringify(cartArr));
-      } else {
-        //increment quanitity of product
-        const productsOther = storedArr.filter(
-          (product) => product.product_id !== parseInt(productId)
-        );
-        let productAdded = storedArr.filter(
-          (product) => product.product_id === parseInt(productId)
-        );
-        productAdded[0].product_quantity = ++productAdded[0].product_quantity;
-        let cartArr = [...productAdded, ...productsOther];
-        localStorage.setItem("cart", JSON.stringify(cartArr));
-      }
-    } else {
-      localStorage.setItem("cart", JSON.stringify([productObject]));
-    }
-
-    // await getCartProducts(store_id);
-    setIsAddedCart(true);
-
-    onOpenCart();
-  };
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
     const productsMsg = `• ${productData.product_name} ${
-      productData.product_variant && `(${productData.product_variant})`
-    }  x ${productData.product_quantity}  %0D%0A`;
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg}_______________________%0D%0A%0D%0A Powered by Shopwhats`;
+      selectedVariant && `(${selectedVariant.variant_name})`
+    } x 1 -   ₹${
+      productData.product_is_sale
+        ? productData.product_sale_price
+        : productData.product_price
+    } %0D%0A`;
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg}_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
     );
@@ -268,33 +227,6 @@ const ProductDetail = (props) => {
             </div>
           </>
         )}
-      {/* <div
-        className={styles.add_cart_button}
-        style={{ backgroundColor: "#ffc400", marginTop: "25px" }}
-      >
-        <img src={BuyIcon} className={styles.buy_now_icon} />
-        <div className={styles.add_cart_text}>Buy Now</div>
-      </div>
-      <div
-        className={styles.add_cart_button}
-        onClick={() => {
-          const productFinalPrice = productData.product_is_sale
-            ? productData.product_sale_price
-            : productData.product_price;
-          addToCartState({
-            store_id: storeData.id,
-            product_id: productData.id,
-            product_name: productData.product_name,
-            product_image: productData.products_images[0].product_image,
-            product_price: productFinalPrice,
-            product_variant: selectedVariant,
-            product_quantity: 1,
-          });
-        }}
-      >
-        <img src={CartIcon} className={styles.add_cart_icon} />
-        <div className={styles.add_cart_text}>Add to Cart</div>
-      </div> */}
 
       <Button
         alignSelf="center"
@@ -302,9 +234,9 @@ const ProductDetail = (props) => {
         ml="5%"
         w="90%"
         p="10px"
+        onClick={whatsappBuy}
         leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
         h="60px"
-        mt="20px"
         backgroundColor="#ff5826"
         color="white"
         fontFamily="elemen"
@@ -321,6 +253,20 @@ const ProductDetail = (props) => {
         h="60px"
         fontFamily="elemen"
         mb="20px"
+        onClick={() => {
+          const productFinalPrice = productData.product_is_sale
+            ? productData.product_sale_price
+            : productData.product_price;
+          addToCartState({
+            store_id: storeData.id,
+            product_id: productData.id,
+            product_name: productData.product_name,
+            product_image: productData.products_images[0].product_image,
+            product_price: productFinalPrice,
+            product_variant: selectedVariant,
+            product_quantity: 1,
+          });
+        }}
       >
         Add to Cart
       </Button>

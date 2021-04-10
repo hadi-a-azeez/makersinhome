@@ -123,12 +123,13 @@
   font-family: "elemen";
   margin-top: 5px;
   margin-left: 5%;
+  margin-bottom: 15px;
 }
 .variant_item {
   height: 45px;
   font-weight: bold;
   font-size: 17px;
-  width: 45px;
+  width: 50px;
   display: grid;
   place-items: center;
   margin-right: 12px;
@@ -140,7 +141,7 @@
   font-weight: bold;
   animation: pulse 0.6s forwards;
   font-size: 17px;
-  width: 45px;
+  width: 50px;
   display: grid;
   place-items: center;
   margin-right: 12px;
