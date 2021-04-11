@@ -32,7 +32,9 @@ const StoreCart = (props) => {
   const whatsappBuy = async () => {
     const productsMsg = cartProducts.map(
       (item) =>
-        `• ${item.product_name}   x   ${item.product_quantity} - ₹${
+        `• ${item.product_name} ${
+          item.product_variant && `(${item.product_variant.variant_name})`
+        }   x   ${item.product_quantity} - ₹${
           item.product_quantity * item.product_price
         }%0D%0A `
     );
@@ -104,6 +106,9 @@ const StoreCart = (props) => {
                     </h1>
                     <h1 className={styles.product_quantity}>
                       {product.product_quantity}
+                    </h1>
+                    <h1 className={styles.product_quantity}>
+                      {product.product_id_gen}
                     </h1>
                   </div>
                 </div>

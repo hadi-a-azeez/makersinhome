@@ -1,14 +1,14 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import _ from "lodash";
-import { prettyDOM } from "@testing-library/dom";
 
 let useStore = (set, get) => ({
   products: [],
   addProduct: (product) => {
     //check if product already exists
     let isProductContains = get().products.some(
-      (productInState) => productInState.product_id === product.product_id
+      (productInState) =>
+        productInState.product_id_gen == product.product_id_gen
     );
     if (!isProductContains)
       set((state) => ({ products: [...state.products, product] }));
@@ -16,11 +16,11 @@ let useStore = (set, get) => ({
       //increment quanitity of product
       const productsOther = get().products.filter(
         (productInState) =>
-          productInState.product_id !== parseInt(product.product_id)
+          productInState.product_id_gen != parseInt(product.product_id_gen)
       );
       let productAdded = get().products.filter(
         (productInState) =>
-          productInState.product_id === parseInt(product.product_id)
+          productInState.product_id_gen == product.product_id_gen
       );
       productAdded[0].product_quantity = ++productAdded[0].product_quantity;
       set((state) => ({ products: [...productsOther, ...productAdded] }));
@@ -28,7 +28,7 @@ let useStore = (set, get) => ({
   },
   deleteProduct: (product) => {
     let newProducts = get().products.filter(
-      (prd) => prd.product_id !== product.product_id
+      (prd) => prd.product_id_gen != product.product_id_gen
     );
     set((state) => ({ products: [...newProducts] }));
   },

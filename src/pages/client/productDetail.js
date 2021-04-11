@@ -130,7 +130,10 @@ const ProductDetail = (props) => {
               <div className={styles.cart_popup_container}>
                 {cartProducts.map((cartProduct) => (
                   <div className={styles.cart_popup_item}>
-                    {cartProduct.product_name} x {cartProduct.product_quantity}
+                    {cartProduct.product_name}
+                    {cartProduct.product_variant &&
+                      `(${cartProduct.product_variant.variant_name})`}{" "}
+                    x {cartProduct.product_quantity}
                   </div>
                 ))}
               </div>
@@ -265,6 +268,10 @@ const ProductDetail = (props) => {
             product_price: productFinalPrice,
             product_variant: selectedVariant,
             product_quantity: 1,
+            //unique id for identify with reference to variant
+            product_id_gen: `${productData.id}${
+              selectedVariant && selectedVariant.id
+            }`,
           });
         }}
       >

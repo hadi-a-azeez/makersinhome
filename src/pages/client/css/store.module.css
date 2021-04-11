@@ -49,6 +49,9 @@
 .whatsapp_support_button {
   margin-right: 15px;
 }
+.whatsapp_support_button:hover {
+  fill: green;
+}
 .logo_container {
   margin-left: 4px;
   display: flex;
