@@ -49,19 +49,51 @@ const SignUp = () => {
           setIsSignUpError(true);
         } else {
           setIsSignUpError(false);
-          setIsOtpPage(true);
+          sendOtp(register.account_phone);
         }
-
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
         return error;
       }
     }
   };
+  const setUpRecaptcha = () => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+        },
+      }
+    );
+  };
+  const sendOtp = async (phoneNo) => {
+    console.log(`91${phoneNo}`);
+    setUpRecaptcha();
 
-  const sendOtp = () => {
-    let recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha");
+    firebase
+      .auth()
+      .signInWithPhoneNumber(`+91${phoneNo}`, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        setIsLoading(false);
+        setIsOtpPage(true);
+        setIsLoading(false);
+        console.log(confirmationResult);
+        window.confirmationResult = confirmationResult;
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+        console.log(error);
+      });
+  };
+  const verifyOtp = async (otpTyped) => {
+    const result = await window.confirmationResult.confirm(otpTyped);
+    console.log(result);
   };
 
   const validation = () => {
@@ -86,6 +118,7 @@ const SignUp = () => {
         <h1 className={styles.heading_bold}>&nbsp;FREE</h1>
         <h1 className={styles.heading_normal}>&nbsp;store.</h1>
       </div>
+      <div id="recaptcha-container" />
       {isSignUpError && (
         <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
           <h1>{errorMessage}</h1>
@@ -141,29 +174,30 @@ const SignUp = () => {
       {isOtpPage && (
         <>
           <Stack direction="column" justifyContent="center">
-            <FormControl mt="3">
-              <FormLabel
-                color="black.300"
-                fontWeight="400"
-                textAlign="center"
-                fontSize="16px"
-              >
-                Please Enter <b>OTP</b> we send you.
-              </FormLabel>
-              <HStack mt="20px" mb="20px">
-                <PinInput
-                  otp
-                  type="number"
-                  size="lg"
-                  onChange={(otpEntered) => setOtpUser(otpEntered)}
-                >
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                  <PinInputField />
-                </PinInput>
-              </HStack>
-            </FormControl>
+            <FormLabel
+              color="black.300"
+              fontWeight="400"
+              textAlign="center"
+              fontSize="16px"
+            >
+              Please Enter <b>OTP</b> we send you.
+            </FormLabel>
+
+            <Input
+              border="2px"
+              alignSelf="center"
+              mt="20px"
+              mb="20px"
+              type="number"
+              size="lg"
+              width="180px"
+              placeholder="123456"
+              fontSize="30px"
+              textAlign="center"
+              height="60px"
+              onChange={(e) => setOtpUser(e.target.value)}
+            />
+
             <Button
               isLoading={isLoading}
               loadingText="Completing Registration"
@@ -173,9 +207,12 @@ const SignUp = () => {
               pt="8"
               pb="8"
               style={{ backgroundColor: `#00b140`, color: `white` }}
-              onClick={handleSignUpClick}
+              onClick={() => {
+                console.log(otpUser);
+                verifyOtp(otpUser);
+              }}
             >
-              Sign Up
+              Complete Registration
             </Button>
           </Stack>
         </>
