@@ -9,7 +9,14 @@ import {
   Flex,
   Box,
   Image,
+  InputGroup,
+  InputLeftAddon,
+  PinInput,
+  PinInputField,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
+import firebase from "../../../firebase";
 import AddToCart from "../../../assets/addtocart.svg";
 import { useForm } from "../../../components/useForm";
 import { apiRoot } from "../../../config";
@@ -24,6 +31,8 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSignUpError, setIsSignUpError] = useState(false);
+  const [isOtpPage, setIsOtpPage] = useState(false);
+  const [otpUser, setOtpUser] = useState();
 
   const handleSignUpClick = async () => {
     let isValidate = validation();
@@ -32,19 +41,17 @@ const SignUp = () => {
       setIsLoading(true);
       try {
         const response = await axios.post(
-          `${apiRoot}/seller/register`,
-          register,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+          `${apiRoot}/seller/register/checkphone/${register.account_phone}`
         );
-        console.log(response);
-        if (response.data.status_code === 400) {
-          setErrorMessage(response.data.error.message);
+
+        if (!response.data.status) {
+          setErrorMessage("Already Registered");
           setIsSignUpError(true);
+        } else {
+          setIsSignUpError(false);
+          setIsOtpPage(true);
         }
+
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -53,17 +60,17 @@ const SignUp = () => {
     }
   };
 
+  const sendOtp = () => {
+    let recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha");
+  };
+
   const validation = () => {
     if (register.account_phone.length !== 10) {
       setIsSignUpError(true);
       setErrorMessage("Enter valid phone number");
       return false;
     }
-    if (register.account_password.length < 6) {
-      setIsSignUpError(true);
-      setErrorMessage("The minimum password length is at least 6 characters");
-      return false;
-    }
+
     if (register.account_store.length < 1) {
       setIsSignUpError(true);
       setErrorMessage("Enter store name");
@@ -84,57 +91,95 @@ const SignUp = () => {
           <h1>{errorMessage}</h1>
         </Box>
       )}
-      <div className={styles.input_group}>
-        <FormControl w="90%" mt="3">
-          <FormLabel color="gray.500" fontWeight="400">
-            Phone No
-          </FormLabel>
-          <Input
-            type="text"
+
+      {!isOtpPage && (
+        <div className={styles.input_group}>
+          <FormControl w="90%" mt="3">
+            <FormLabel color="gray.500" fontWeight="400">
+              Whatsapp No
+            </FormLabel>
+            <InputGroup size="lg">
+              <InputLeftAddon children="🇮🇳 +91" />
+              <Input
+                type="number"
+                size="lg"
+                placeholder="Phone number"
+                name="account_phone"
+                onChange={updateRegister}
+              />
+            </InputGroup>
+          </FormControl>
+
+          <FormControl w="90%" mt="3">
+            <FormLabel color="gray.500" fontWeight="400">
+              Store name
+            </FormLabel>
+            <Input
+              type="text"
+              size="lg"
+              placeholder="vaank shop"
+              onChange={updateRegister}
+              name="account_store"
+            />
+          </FormControl>
+          <Button
+            isLoading={isLoading}
+            loadingText="Sending OTP"
             size="lg"
-            placeholder="Phone number"
-            name="account_phone"
-            onChange={updateRegister}
-          />
-        </FormControl>
-        <FormControl w="90%" mt="3">
-          <FormLabel color="gray.500" fontWeight="400">
-            Password
-          </FormLabel>
-          <Input
-            type="password"
-            size="lg"
-            placeholder="••••••••••••"
-            onChange={updateRegister}
-            name="account_password"
-          />
-        </FormControl>
-        <FormControl w="90%" mt="3">
-          <FormLabel color="gray.500" fontWeight="400">
-            Store name
-          </FormLabel>
-          <Input
-            type="text"
-            size="lg"
-            placeholder="vaank shop"
-            onChange={updateRegister}
-            name="account_store"
-          />
-        </FormControl>
-        <Button
-          isLoading={isLoading}
-          loadingText="Signing Up"
-          size="lg"
-          w="90%"
-          mt="7"
-          pt="8"
-          pb="8"
-          style={{ backgroundColor: `#00b140`, color: `white` }}
-          onClick={handleSignUpClick}
-        >
-          Sign Up
-        </Button>
-      </div>
+            w="90%"
+            mt="7"
+            pt="8"
+            pb="8"
+            style={{ backgroundColor: `#00b140`, color: `white` }}
+            onClick={handleSignUpClick}
+          >
+            Sign Up
+          </Button>
+        </div>
+      )}
+
+      {isOtpPage && (
+        <>
+          <Stack direction="column" justifyContent="center">
+            <FormControl mt="3">
+              <FormLabel
+                color="black.300"
+                fontWeight="400"
+                textAlign="center"
+                fontSize="16px"
+              >
+                Please Enter <b>OTP</b> we send you.
+              </FormLabel>
+              <HStack mt="20px" mb="20px">
+                <PinInput
+                  otp
+                  type="number"
+                  size="lg"
+                  onChange={(otpEntered) => setOtpUser(otpEntered)}
+                >
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                  <PinInputField />
+                </PinInput>
+              </HStack>
+            </FormControl>
+            <Button
+              isLoading={isLoading}
+              loadingText="Completing Registration"
+              size="lg"
+              w="100%"
+              mt="20"
+              pt="8"
+              pb="8"
+              style={{ backgroundColor: `#00b140`, color: `white` }}
+              onClick={handleSignUpClick}
+            >
+              Sign Up
+            </Button>
+          </Stack>
+        </>
+      )}
       <Image src={AddToCart} width="70%" mt="8" />
     </div>
   );
