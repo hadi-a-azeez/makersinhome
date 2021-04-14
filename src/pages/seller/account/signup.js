@@ -25,12 +25,10 @@ import axios from "axios";
 const SignUp = () => {
   const [register, setRegister, updateRegister] = useForm({
     account_phone: "",
-    account_password: "",
     account_store: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isSignUpError, setIsSignUpError] = useState(false);
   const [isOtpPage, setIsOtpPage] = useState(false);
   const [otpUser, setOtpUser] = useState();
 
@@ -45,10 +43,10 @@ const SignUp = () => {
         );
 
         if (!response.data.status) {
-          setErrorMessage("Already Registered");
-          setIsSignUpError(true);
+          setErrorMessage("Already Registered, Please Login");
+          setIsLoading(false);
         } else {
-          setIsSignUpError(false);
+          setErrorMessage("");
           sendOtp(register.account_phone);
         }
       } catch (error) {
@@ -69,9 +67,8 @@ const SignUp = () => {
     );
   };
   const sendOtp = async (phoneNo) => {
-    console.log(`91${phoneNo}`);
     setUpRecaptcha();
-
+    console.time();
     firebase
       .auth()
       .signInWithPhoneNumber(`+91${phoneNo}`, window.recaptchaVerifier)
@@ -83,6 +80,7 @@ const SignUp = () => {
         setIsLoading(false);
         console.log(confirmationResult);
         window.confirmationResult = confirmationResult;
+        console.timeEnd();
         // ...
       })
       .catch((error) => {
@@ -92,19 +90,31 @@ const SignUp = () => {
       });
   };
   const verifyOtp = async (otpTyped) => {
-    const result = await window.confirmationResult.confirm(otpTyped);
-    console.log(result);
+    setIsLoading(true);
+    try {
+      const result = await window.confirmationResult.confirm(otpTyped);
+      console.log("No Error", result);
+      console.log(register);
+      const registerResponse = await axios.post(
+        `${apiRoot}/seller/register/new`,
+        register
+      );
+      setErrorMessage("");
+      console.log(registerResponse);
+    } catch (error) {
+      setIsLoading(false);
+      setErrorMessage("Otp is wrong");
+      console.log("yes error", error);
+    }
   };
 
   const validation = () => {
     if (register.account_phone.length !== 10) {
-      setIsSignUpError(true);
       setErrorMessage("Enter valid phone number");
       return false;
     }
 
     if (register.account_store.length < 1) {
-      setIsSignUpError(true);
       setErrorMessage("Enter store name");
       return false;
     }
@@ -119,7 +129,7 @@ const SignUp = () => {
         <h1 className={styles.heading_normal}>&nbsp;store.</h1>
       </div>
       <div id="recaptcha-container" />
-      {isSignUpError && (
+      {errorMessage.length > 1 && (
         <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
           <h1>{errorMessage}</h1>
         </Box>
@@ -184,11 +194,11 @@ const SignUp = () => {
             </FormLabel>
 
             <Input
+              type="number"
               border="2px"
               alignSelf="center"
               mt="20px"
               mb="20px"
-              type="number"
               size="lg"
               width="180px"
               placeholder="123456"
@@ -208,7 +218,6 @@ const SignUp = () => {
               pb="8"
               style={{ backgroundColor: `#00b140`, color: `white` }}
               onClick={() => {
-                console.log(otpUser);
                 verifyOtp(otpUser);
               }}
             >
