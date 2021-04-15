@@ -11,6 +11,7 @@ import {
   Flex,
   SkeletonCircle,
   SkeletonText,
+  Box,
 } from "@chakra-ui/react";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import ContactUs from "../../../assets/call_outline.svg";
@@ -65,72 +66,38 @@ const Account = () => {
               <SkeletonText noOfLines={1} height="20px" />
             )}
             <Link to="/edit_account" className={styles.link}>
-              Edit business details
+              Edit store details
             </Link>
           </Flex>
         </Flex>
         <hr style={{ height: "1px", width: "80%" }} />
-
-        <Stack
-          spacing={2}
-          direction="row"
-          ml="8"
-          mt="3"
-          alignSelf="flex-start"
-          onClick={() => (window.location = "https://wa.link/t25r2b")}
-        >
-          <img
-            src={WhatsappLogo}
-            alt="w"
-            style={{ width: "24px", height: "24px", alignSelf: "center" }}
-          />
-          <h1 style={{ fontSize: "20px" }}>Whatsapp Support</h1>
-        </Stack>
-        <Stack
-          spacing={2}
-          direction="row"
-          ml="8"
-          mt="4"
-          alignSelf="flex-start"
-          onClick={() => (window.location = "tel:9496742190")}
-        >
-          <img
-            src={ContactUs}
-            alt="w"
-            style={{ width: "24px", height: "24px", alignSelf: "center" }}
-          />
-          <h1 style={{ fontSize: "20px" }}>Call us</h1>
-        </Stack>
-        <Stack
-          spacing={2}
-          direction="row"
-          ml="8"
-          mt="4"
-          alignSelf="flex-start"
-          onClick={() => (window.location = "tel:9496742190")}
-        >
-          <img
-            src={AboutUs}
-            alt="w"
-            style={{ width: "24px", height: "24px", alignSelf: "center" }}
-          />
-          <h1 style={{ fontSize: "20px" }}>About Us</h1>
-        </Stack>
-        <Stack
-          spacing={2}
-          direction="row"
-          alignSelf="flex-start"
-          ml="8"
-          mt="4"
-          onClick={logOut}
-        >
-          <img
-            src={LogOut}
-            alt="w"
-            style={{ width: "24px", height: "24px", alignSelf: "center" }}
-          />
-          <h1 style={{ fontSize: "20px" }}>Log Out</h1>
-        </Stack>
+        <div className={styles.nav_container}>
+          <div
+            className={styles.nav_item}
+            onClick={() => (window.location = "https://wa.link/t25r2b")}
+          >
+            <img src={WhatsappLogo} alt="w" />
+            <h1>Whatsapp Support</h1>
+          </div>
+          <div
+            className={styles.nav_item}
+            onClick={() => (window.location = "tel:9496742190")}
+          >
+            <img src={ContactUs} alt="w" />
+            <h1>Call Us</h1>
+          </div>
+          <div
+            className={styles.nav_item}
+            onClick={() => (window.location = "tel:9496742190")}
+          >
+            <img src={AboutUs} alt="w" />
+            <h1>About </h1>
+          </div>
+          <div className={styles.nav_item} onClick={logOut}>
+            <img src={LogOut} alt="w" />
+            <h1>Logout</h1>
+          </div>
+        </div>
       </div>
     </>
   );

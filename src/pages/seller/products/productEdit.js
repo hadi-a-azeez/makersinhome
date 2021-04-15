@@ -595,16 +595,6 @@ const ProductEdit = (props) => {
             </AlertDialog>
 
             <Button
-              colorScheme="white"
-              style={{ color: "red" }}
-              w="90%"
-              mb="6px"
-              size="lg"
-              onClick={() => setIsOpen(true)}
-            >
-              Delete this product
-            </Button>
-            <Button
               colorScheme="green"
               w="90%"
               isLoading={isBtnLoading}

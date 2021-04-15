@@ -99,7 +99,8 @@ export const getProductAPI = async (id) => {
 //delete product of a user
 export const deleteProductAPI = async (productId) => {
   try {
-    const api = await axios_seller.delete(`/seller/products/${productId}`);
+    const response = await axios_seller.delete(`/seller/products/${productId}`);
+    return response;
   } catch (error) {
     return error;
   }
