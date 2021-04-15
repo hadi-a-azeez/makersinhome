@@ -5,13 +5,14 @@ import { useHistory } from "react-router-dom";
 import LabelHeader from "../../../components/labelHeader";
 import imageCompression from "browser-image-compression";
 import { useForm } from "../../../components/useForm";
-import { Switch } from "@chakra-ui/react";
+import { Box, Flex, Switch, Text } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import {
   addProductAPI,
+  addProductsVariantAPI,
   uploadProductImageAPI,
 } from "../../../api/sellerProductAPI";
-import { SmallCloseIcon, AddIcon } from "@chakra-ui/icons";
+import { SmallCloseIcon, AddIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Input,
   Textarea,
@@ -25,6 +26,9 @@ import {
   IconButton,
   SimpleGrid,
 } from "@chakra-ui/react";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import FocusLock from "@chakra-ui/focus-lock";
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -35,14 +39,9 @@ const AddNewProduct = (props) => {
   const [compressedImages, setCompressedImages] = useState([]);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
+  const [variantsLocal, setVariantsLocal] = useState([]);
+  const [newVariant, setNewVariant] = useState("");
   const toast = useToast();
-
-  //array of avalilable units
-  const unitsArray = [
-    { id: 1, name: "piece" },
-    { id: 2, name: "kg" },
-    { id: 4, name: "litre" },
-  ];
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -77,6 +76,15 @@ const AddNewProduct = (props) => {
     const response = await addProductAPI(product);
     console.log(response.data);
     const productId = response.data.data.id;
+
+    //clean up variants and add to server if any
+    if (variantsLocal.length > 0) {
+      let variantsFiltered = variantsLocal.map((variant) => ({
+        variant_name: variant.variant_name,
+        product_id: productId,
+      }));
+      await addProductsVariantAPI(variantsFiltered);
+    }
     //upload image to server if any
     if (compressedImages.length > 0) {
       const responseImageUpload = await uploadProductImageAPI(
@@ -244,7 +252,7 @@ const AddNewProduct = (props) => {
         </FormControl>
 
         <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Is Product On Discount</FormLabel>
+          <FormLabel>Discount</FormLabel>
           <Switch
             onChange={handleIsOnSale}
             size="lg"
@@ -282,20 +290,85 @@ const AddNewProduct = (props) => {
           )}
         </Stack>
         <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Product Unit</FormLabel>
-          <Select
-            name="product_unit"
-            value={product.product_unit || ""}
-            variant="filled"
-            size="lg"
-            onChange={updateProduct}
+          <FormLabel>Product Variants</FormLabel>
+          <Flex direction="row" flexWrap="wrap">
+            {variantsLocal &&
+              variantsLocal.map((variant) => (
+                <Box
+                  borderRadius="5px"
+                  border="1px solid #c2c2c2"
+                  p="5px"
+                  ml="5px"
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Text ml="10px"> {variant.variant_name}</Text>
+                    <IconButton
+                      icon={<CloseIcon />}
+                      size="sm"
+                      mr="6px"
+                      onClick={() =>
+                        setVariantsLocal((old) =>
+                          old.filter(
+                            (variantCurr) => variantCurr.id !== variant.id
+                          )
+                        )
+                      }
+                    />
+                  </Stack>
+                </Box>
+              ))}
+          </Flex>
+          <Popup
+            lockScroll={true}
+            closeOnDocumentClick={false}
+            trigger={
+              <Button mt="10px" colorScheme="blue">
+                Add Variant
+              </Button>
+            }
+            modal
+            contentStyle={{ width: "80vw", borderRadius: "10px" }}
+            nested
           >
-            {unitsArray.map((item) => (
-              <option value={item.name} key={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </Select>
+            {(close) => (
+              <Box p="20px">
+                <FocusLock />
+                <Text mb="5px" fontWeight="bold">
+                  Add Variant
+                </Text>
+                <Input
+                  type="text"
+                  value={newVariant}
+                  onChange={(e) => setNewVariant(e.target.value)}
+                  mt="10px"
+                  mb="18px"
+                />
+                <Button onClick={close} mr="8px">
+                  Cancel
+                </Button>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    if (newVariant) {
+                      setVariantsLocal((old) => [
+                        ...old,
+                        { id: uuidv4(), variant_name: newVariant },
+                      ]);
+                      setNewVariant("");
+                      close();
+                    }
+                  }}
+                >
+                  Add Variant
+                </Button>
+                <Stack />
+              </Box>
+            )}
+          </Popup>
         </FormControl>
         <FormControl w="90%" mt="4">
           <FormLabel>Description</FormLabel>
@@ -320,6 +393,7 @@ const AddNewProduct = (props) => {
           onClick={() => validateFields(addProduct)}
           size="lg"
           mb="80px"
+          mt="10px"
         >
           Add Product
         </Button>

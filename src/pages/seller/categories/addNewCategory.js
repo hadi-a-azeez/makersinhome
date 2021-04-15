@@ -62,8 +62,8 @@ const AddNewCategory = () => {
       const response = await addCatogoriesAPI(newCategory, selected);
       setIsLoading(false);
       toast({
-        title: "Product added.",
-        description: "Product added successfully.",
+        title: "New Category added.",
+        description: "Category added successfully.",
         status: "success",
         duration: 2000,
         isClosable: true,

@@ -40,8 +40,14 @@ import {
   IconButton,
   SimpleGrid,
   Text,
+  Grid,
+  Flex,
+  Heading,
 } from "@chakra-ui/react";
 import { Box } from "@material-ui/core";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import FocusLock from "@chakra-ui/focus-lock";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
@@ -57,12 +63,6 @@ const ProductEdit = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef();
   const toast = useToast();
-  //array of avalilable units
-  const unitsArray = [
-    { id: 1, name: "piece" },
-    { id: 2, name: "kg" },
-    { id: 4, name: "litre" },
-  ];
 
   let history = useHistory();
   const productId = props.match.params.id;
@@ -107,10 +107,10 @@ const ProductEdit = (props) => {
 
     //variants manipulation
     if (variantsLocal.length > 0) {
-      addProductsVariantAPI(variantsLocal);
+      await addProductsVariantAPI(variantsLocal);
     }
     if (variantsToDelete.length > 0) {
-      deleteProductsVariantAPI(variantsToDelete);
+      await deleteProductsVariantAPI(variantsToDelete);
     }
 
     //check if new images are added to product if upload it to server
@@ -245,6 +245,7 @@ const ProductEdit = (props) => {
     }
   };
 
+  //error in product delete
   const handleDelete = async () => {
     await deleteProductAPI(productId);
     setIsLoading(false);
@@ -253,7 +254,12 @@ const ProductEdit = (props) => {
 
   return (
     <>
-      <LabelHeader label={"Update product"} isBackButton={true} />
+      <LabelHeader
+        label={"Update product"}
+        isBackButton={true}
+        isRightIcon={true}
+        iconAction={() => setIsOpen(true)}
+      />
       <div>
         {isLoading ? (
           <div className={styles.loaderwraper}>
@@ -349,7 +355,6 @@ const ProductEdit = (props) => {
                   );
                 })}
             </SimpleGrid>
-
             <input
               type="file"
               accept="image/*"
@@ -435,38 +440,48 @@ const ProductEdit = (props) => {
                 </FormControl>
               )}
             </Stack>
-
             <FormControl isRequired w="90%" mt="4">
               <FormLabel>Product Variants</FormLabel>
-              <Box m="4px">
+              <Flex direction="row" flexWrap="wrap">
                 {product.products_variants &&
                   product.products_variants.map((variant) => (
                     <Box
+                      ml="8px"
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
-                      p="5px"
                       mt="8px"
+                      p="3px"
                     >
-                      <Stack direction="row" justifyContent="space-between">
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                      >
                         <Text ml="10px"> {variant.variant_name}</Text>
                         <IconButton
                           icon={<CloseIcon />}
                           size="sm"
-                          mr="6px"
+                          mr="4px"
                           onClick={() => deleteServerVariants(variant)}
                         />
                       </Stack>
                     </Box>
                   ))}
+
                 {variantsLocal &&
                   variantsLocal.map((variant) => (
                     <Box
+                      ml="8px"
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
                       p="5px"
                       mt="8px"
                     >
-                      <Stack direction="row" justifyContent="space-between">
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         <Text ml="10px"> {variant.variant_name}</Text>
                         <IconButton
                           icon={<CloseIcon />}
@@ -477,28 +492,54 @@ const ProductEdit = (props) => {
                       </Stack>
                     </Box>
                   ))}
-                <Input
-                  type="text"
-                  value={newVariant}
-                  onChange={(e) => setNewVariant(e.target.value)}
-                  mt="10px"
-                />
-                <Button
-                  mt="10px"
-                  colorScheme="blue"
-                  onClick={() => {
-                    if (newVariant) {
-                      setVariantsLocal((old) => [
-                        ...old,
-                        { variant_name: newVariant, product_id: productId },
-                      ]);
-                      setNewVariant("");
-                    }
-                  }}
-                >
-                  Add Variant
-                </Button>
-              </Box>
+              </Flex>
+              <Popup
+                lockScroll={true}
+                closeOnDocumentClick={false}
+                trigger={
+                  <Button mt="10px" colorScheme="blue">
+                    Add Variant
+                  </Button>
+                }
+                modal
+                contentStyle={{ width: "80vw", borderRadius: "10px" }}
+                nested
+              >
+                {(close) => (
+                  <Box p="20px">
+                    <FocusLock />
+                    <Text mb="5px" fontWeight="bold">
+                      Add Variant
+                    </Text>
+                    <Input
+                      type="text"
+                      value={newVariant}
+                      onChange={(e) => setNewVariant(e.target.value)}
+                      mt="10px"
+                      mb="18px"
+                    />
+                    <Button onClick={close} mr="8px">
+                      Cancel
+                    </Button>
+                    <Button
+                      colorScheme="blue"
+                      onClick={() => {
+                        if (newVariant) {
+                          setVariantsLocal((old) => [
+                            ...old,
+                            { variant_name: newVariant, product_id: productId },
+                          ]);
+                          setNewVariant("");
+                          close();
+                        }
+                      }}
+                    >
+                      Add Variant
+                    </Button>
+                    <Stack />
+                  </Box>
+                )}
+              </Popup>
             </FormControl>
             <FormControl id="description" w="90%" mt="4">
               <FormLabel>Description</FormLabel>
@@ -512,7 +553,6 @@ const ProductEdit = (props) => {
                 onChange={updateProduct}
               />
             </FormControl>
-
             <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Stock</FormLabel>
               <Switch
@@ -526,17 +566,8 @@ const ProductEdit = (props) => {
             {isFormError && (
               <h1 style={{ color: "red" }}>Please fill all required details</h1>
             )}
-            <Button
-              colorScheme="white"
-              style={{ color: "red" }}
-              w="90%"
-              mb="6px"
-              size="lg"
-              onClick={() => setIsOpen(true)}
-            >
-              Delete this product
-            </Button>
             <AlertDialog
+              isCentered
               isOpen={isOpen}
               leastDestructiveRef={cancelRef}
               onClose={() => setIsOpen(false)}
@@ -562,6 +593,17 @@ const ProductEdit = (props) => {
                 </AlertDialogContent>
               </AlertDialogOverlay>
             </AlertDialog>
+
+            <Button
+              colorScheme="white"
+              style={{ color: "red" }}
+              w="90%"
+              mb="6px"
+              size="lg"
+              onClick={() => setIsOpen(true)}
+            >
+              Delete this product
+            </Button>
             <Button
               colorScheme="green"
               w="90%"

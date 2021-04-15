@@ -69,7 +69,7 @@ const SignIn = () => {
             Phone No
           </FormLabel>
           <Input
-            type="text"
+            type="number"
             size="lg"
             placeholder="Phone number"
             onChange={(e) => setLoginUsername(e.target.value)}
