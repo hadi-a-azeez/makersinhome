@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import LabelHeader from "../../../components/labelHeader";
 import imageCompression from "browser-image-compression";
 import { useForm } from "../../../components/useForm";
-import { Box, Flex, Switch, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Switch, Text } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import {
   addProductAPI,
@@ -276,7 +276,22 @@ const AddNewProduct = (props) => {
           </FormControl>
           {product.product_is_sale && (
             <FormControl w="100%">
-              <FormLabel>Sale price</FormLabel>
+              <Stack direction="row" justifyContent="space-between">
+                <FormLabel>Sale Price</FormLabel>
+                {product.product_sale_price && product.product_price && (
+                  <Badge
+                    colorScheme="green"
+                    variant="solid"
+                    fontSize="14px"
+                    alignSelf="center"
+                  >
+                    {100 -
+                      (100 * product.product_sale_price) /
+                        product.product_price}
+                    % OFF
+                  </Badge>
+                )}
+              </Stack>
               <Input
                 type="text"
                 name="product_sale_price"

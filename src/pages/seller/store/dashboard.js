@@ -7,7 +7,15 @@ import CategoriesIcon from "../../../assets/gridFilled.svg";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
-import { SimpleGrid, Box, Flex, Image, SkeletonCircle } from "@chakra-ui/react";
+import {
+  SimpleGrid,
+  Box,
+  Flex,
+  Image,
+  SkeletonCircle,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
 import { Switch } from "@chakra-ui/react";
@@ -21,7 +29,7 @@ const Dashboard = () => {
 
   const shareToWhatsapp = () => {
     window.location.replace(
-      `https://api.whatsapp.com/send?text=%F0%9F%91%8B%20Hello%0AWe%20have%20launched%20our%20online%20store%20${userInfo.account_store}.%20Now%20you%20can%20order%20products%20from%20us%20using%20this%20link%3A%20%0Amakersinhome.netlify.app/${userInfo.account_store_link}%0A%0AFeel%20free%20to%20contact%20us%20for%20any%20help %20at%20${userInfo.account_whatsapp}.%20%0AThank%20You%F0%9F%98%8D%0A%0Amade%20using%20Shopwhats`
+      `https://api.whatsapp.com/send?text=%F0%9F%91%8B%20Hello%0AWe%20have%20launched%20our%20online%20store%20${userInfo.account_store}.%20Now%20you%20can%20order%20products%20from%20us%20using%20this%20link%3A%20%0Ahttps://saav.in/store/${userInfo.account_store_link}%0A%0AFeel%20free%20to%20contact%20us%20for%20any%20help %20at%20${userInfo.account_whatsapp}.%20%0AThank%20You%F0%9F%98%8D%0A%0Amade%20using%20Saav.in`
     );
   };
 
@@ -186,7 +194,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
         </SimpleGrid>
-        <div className={styles.cardPlain} onClick={shareToWhatsapp}>
+        <div className={styles.cardPlain}>
           <h1 className={styles.cardPlainHeading}>
             Share link on Social Media
           </h1>
@@ -194,10 +202,25 @@ const Dashboard = () => {
             Your customers can visit your online store and see your products
             from this link
           </h1>
-          <button className={styles.btn_whatsapp}>
-            <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
-            Share
-          </button>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            ml="6px"
+            alignItems="center"
+          >
+            <Text
+              color="#028ccc"
+              onClick={() =>
+                (window.location = `https://saav.in/store/${userInfo.account_store_link}`)
+              }
+            >
+              Saav.in/store/{userInfo.account_store_link}
+            </Text>
+            <button className={styles.btn_whatsapp} onClick={shareToWhatsapp}>
+              <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
+              Share
+            </button>
+          </Stack>
         </div>
       </div>
     </>

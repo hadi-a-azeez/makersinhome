@@ -32,6 +32,32 @@ let useStore = (set, get) => ({
     );
     set((state) => ({ products: [...newProducts] }));
   },
+  addQuantity: (product) => {
+    const productsOther = get().products.filter(
+      (productInState) =>
+        productInState.product_id_gen != parseInt(product.product_id_gen)
+    );
+    let productAdded = get().products.filter(
+      (productInState) =>
+        productInState.product_id_gen == product.product_id_gen
+    );
+    console.log(productAdded);
+    productAdded[0].product_quantity = ++productAdded[0].product_quantity;
+    set((state) => ({ products: [...productsOther, ...productAdded] }));
+  },
+  removeQuantity: (product) => {
+    const productsOther = get().products.filter(
+      (productInState) =>
+        productInState.product_id_gen != parseInt(product.product_id_gen)
+    );
+    let productAdded = get().products.filter(
+      (productInState) =>
+        productInState.product_id_gen == product.product_id_gen
+    );
+    if (productAdded[0].product_quantity !== 1)
+      productAdded[0].product_quantity = --productAdded[0].product_quantity;
+    set((state) => ({ products: [...productsOther, ...productAdded] }));
+  },
 });
 
 useStore = create(persist(useStore));

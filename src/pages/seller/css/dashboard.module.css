@@ -101,8 +101,8 @@
   align-items: center;
 }
 .whatsappicon {
-  filter: invert(99%) sepia(19%) saturate(0%) hue-rotate(355deg)
-    brightness(112%) contrast(100%);
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(334deg)
+    brightness(106%) contrast(103%);
   width: 16px;
   height: auto;
   margin-right: 2px;

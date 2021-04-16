@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
-import { ArrowBackIcon, SmallCloseIcon } from "@chakra-ui/icons";
-import { SimpleGrid, IconButton, Image, Button } from "@chakra-ui/react";
+import {
+  ArrowBackIcon,
+  DeleteIcon,
+  PlusSquareIcon,
+  SmallCloseIcon,
+} from "@chakra-ui/icons";
+import {
+  SimpleGrid,
+  IconButton,
+  Image,
+  Button,
+  Flex,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
 import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
@@ -16,6 +29,8 @@ const StoreCart = (props) => {
 
   const cartProducts = useStore((state) => state.products);
   const deleteCartProduct = useStore((state) => state.deleteProduct);
+  const addCartQuantity = useStore((state) => state.addQuantity);
+  const removeCartQuantity = useStore((state) => state.removeQuantity);
 
   let storeId = props.match.params.store_id;
 
@@ -38,7 +53,7 @@ const StoreCart = (props) => {
           item.product_quantity * item.product_price
         }%0D%0A `
     );
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an orderipvconfig %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
     )}%0D%0A Total: ₹${cartProducts.reduce(
       (acc, curr) => acc + curr.product_quantity * curr.product_price,
@@ -64,7 +79,7 @@ const StoreCart = (props) => {
         onClick={() => history.goBack()}
       />
       <h1 className={styles.heading}>Cart</h1>
-      <SimpleGrid columns={2} spacing={2} w="95%">
+      <Flex flexDirection="column" w="95%">
         {cartProducts.length > 0 ? (
           cartProducts.map((product) => {
             return (
@@ -76,6 +91,19 @@ const StoreCart = (props) => {
                   }
                   key={product.product_id}
                 >
+                  <IconButton
+                    colorScheme="gray"
+                    borderRadius="100%"
+                    size="sm"
+                    position="absolute"
+                    right="8px"
+                    top="8px"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCartProduct(product);
+                    }}
+                    icon={<DeleteIcon color="red.400" w={4} h={4} />}
+                  />
                   <img
                     src={
                       product.product_image
@@ -85,31 +113,38 @@ const StoreCart = (props) => {
                     alt="img"
                     className={styles.product_image}
                   />
-                  <IconButton
-                    colorScheme="gray"
-                    borderRadius="100%"
-                    aria-label="Call Segun"
-                    size="sm"
-                    position="absolute"
-                    top="5px"
-                    right="3px"
-                    zIndex="8"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteCartProduct(product);
-                    }}
-                    icon={<SmallCloseIcon color="black" w={4} h={4} />}
-                  />
+
                   <div className={styles.product_details}>
                     <h1 className={styles.product_name}>
                       {product.product_name}
                     </h1>
-                    <h1 className={styles.product_quantity}>
-                      {product.product_quantity}
+                    <h1 className={styles.product_price}>
+                      ₹{product.product_price}
                     </h1>
-                    <h1 className={styles.product_quantity}>
-                      {product.product_id_gen}
+                    <h1 className={styles.subheading}>
+                      Variant: {product.product_variant.variant_name}
                     </h1>
+                    <div className={styles.quantity_container}>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeCartQuantity(product);
+                        }}
+                        className={styles.small_circle}
+                      >
+                        -
+                      </div>
+                      <Text p="6px">{product.product_quantity}</Text>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addCartQuantity(product);
+                        }}
+                        className={styles.small_circle}
+                      >
+                        +
+                      </div>
+                    </div>
                   </div>
                 </div>
               </>
@@ -119,7 +154,7 @@ const StoreCart = (props) => {
           <h1>No Products</h1>
         )}
         {/* product item ends here */}
-      </SimpleGrid>
+      </Flex>
       {userInfo.account_whatsapp && (
         <Button
           mt="5"

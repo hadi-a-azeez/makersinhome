@@ -5,7 +5,7 @@ import { useHistory, Link, withRouter } from "react-router-dom";
 import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
 import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
-import Whatsapp from "../../assets/logo-whatsapp.svg";
+import Whatsapp from "../../assets/whatsapp_filled.svg";
 import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
 import MenuIcon from "../../assets/bars.svg";
@@ -116,8 +116,6 @@ const Store = (props) => {
         <img
           src={Whatsapp}
           className={styles.whatsapp_support_button}
-          height="30px"
-          width="30px"
           onClick={handleWhatsappSupport}
         />
       </div>

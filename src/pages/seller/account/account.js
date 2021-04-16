@@ -12,11 +12,18 @@ import {
   SkeletonCircle,
   SkeletonText,
   Box,
+  Heading,
+  Text,
+  IconButton,
 } from "@chakra-ui/react";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import ContactUs from "../../../assets/call_outline.svg";
 import AboutUs from "../../../assets/about_outline.svg";
 import LogOut from "../../../assets/logout_outline.svg";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import { CloseIcon } from "@chakra-ui/icons";
+import FocusLock from "@chakra-ui/focus-lock";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});
@@ -86,13 +93,43 @@ const Account = () => {
             <img src={ContactUs} alt="w" />
             <h1>Call Us</h1>
           </div>
-          <div
-            className={styles.nav_item}
-            onClick={() => (window.location = "tel:9496742190")}
+          <Popup
+            lockScroll={true}
+            modal
+            contentStyle={{
+              width: "80vw",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
+            trigger={
+              <div className={styles.nav_item}>
+                <img src={AboutUs} alt="w" />
+                <h1>About </h1>
+              </div>
+            }
           >
-            <img src={AboutUs} alt="w" />
-            <h1>About </h1>
-          </div>
+            {(close) => (
+              <Stack>
+                <FocusLock />
+                <IconButton
+                  alignSelf="flex-end"
+                  icon={<CloseIcon />}
+                  w="40px"
+                  h="40px"
+                  onClick={close}
+                />
+                <Heading size="sm" alignSelf="center">
+                  About Us
+                </Heading>
+                <Text alignSelf="center" mt="10px" p="10px" textAlign="center">
+                  We are Saav, we provide online entrepreneurs and small
+                  business owners with the technology, services, and support to
+                  succeed online.
+                </Text>
+              </Stack>
+            )}
+          </Popup>
+
           <div className={styles.nav_item} onClick={logOut}>
             <img src={LogOut} alt="w" />
             <h1>Logout</h1>
