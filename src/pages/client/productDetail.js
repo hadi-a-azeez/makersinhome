@@ -210,73 +210,93 @@ const ProductDetail = (props) => {
           </>
         )}
       </div>
-      {productData.products_variants &&
-        productData.products_variants.length > 0 && (
-          <>
-            <h3 className={styles.sub_heading}>Variants:</h3>
-            <div className={styles.variant_container}>
-              {productData.products_variants.map((variant) => (
-                <div
-                  className={
-                    selectedVariant.id == variant.id
-                      ? styles.variant_item_selected
-                      : styles.variant_item
-                  }
-                  onClick={() => setSelectedVariant(variant)}
-                >
-                  {variant.variant_name}
+      {productData && productData.product_stock === 1 ? (
+        <>
+          {productData.products_variants &&
+            productData.products_variants.length > 0 && (
+              <>
+                <h3 className={styles.sub_heading}>Variants:</h3>
+                <div className={styles.variant_container}>
+                  {productData.products_variants.map((variant) => (
+                    <div
+                      className={
+                        selectedVariant.id == variant.id
+                          ? styles.variant_item_selected
+                          : styles.variant_item
+                      }
+                      onClick={() => setSelectedVariant(variant)}
+                    >
+                      {variant.variant_name}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </>
-        )}
+              </>
+            )}
 
-      <Button
-        alignSelf="center"
-        size="lg"
-        ml="5%"
-        w="90%"
-        p="10px"
-        onClick={whatsappBuy}
-        leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
-        h="60px"
-        backgroundColor="#ff5826"
-        color="white"
-        fontFamily="elemen"
-      >
-        Buy Now
-      </Button>
-      <Button
-        ml="5%"
-        mt="15px"
-        leftIcon={<img src={CartIconBlack} className={styles.add_cart_icon} />}
-        alignSelf="center"
-        size="lg"
-        w="90%"
-        h="60px"
-        fontFamily="elemen"
-        mb="20px"
-        onClick={() => {
-          const productFinalPrice = productData.product_is_sale
-            ? productData.product_sale_price
-            : productData.product_price;
-          addToCartState({
-            store_id: storeData.id,
-            product_id: productData.id,
-            product_name: productData.product_name,
-            product_image: productData.products_images[0].product_image,
-            product_price: productFinalPrice,
-            product_variant: selectedVariant,
-            product_quantity: 1,
-            //unique id for identify with reference to variant
-            product_id_gen: `${productData.id}${
-              selectedVariant && selectedVariant.id
-            }`,
-          });
-        }}
-      >
-        Add to Cart
-      </Button>
+          <Button
+            alignSelf="center"
+            size="lg"
+            ml="5%"
+            w="90%"
+            p="10px"
+            onClick={whatsappBuy}
+            leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
+            h="60px"
+            backgroundColor="#ff5826"
+            color="white"
+            fontFamily="elemen"
+          >
+            Buy Now
+          </Button>
+          <Button
+            ml="5%"
+            mt="15px"
+            leftIcon={
+              <img src={CartIconBlack} className={styles.add_cart_icon} />
+            }
+            alignSelf="center"
+            size="lg"
+            w="90%"
+            h="60px"
+            fontFamily="elemen"
+            mb="20px"
+            onClick={() => {
+              const productFinalPrice = productData.product_is_sale
+                ? productData.product_sale_price
+                : productData.product_price;
+              addToCartState({
+                store_id: storeData.id,
+                product_id: productData.id,
+                product_name: productData.product_name,
+                product_image: productData.products_images[0].product_image,
+                product_price: productFinalPrice,
+                product_variant: selectedVariant,
+                product_quantity: 1,
+                //unique id for identify with reference to variant
+                product_id_gen: `${productData.id}${
+                  selectedVariant && selectedVariant.id
+                }`,
+              });
+            }}
+          >
+            Add to Cart
+          </Button>
+        </>
+      ) : (
+        <Button
+          alignSelf="center"
+          size="lg"
+          ml="5%"
+          w="90%"
+          p="10px"
+          h="60px"
+          backgroundColor="#ff8763"
+          color="white"
+          fontFamily="elemen"
+        >
+          Out Of Stock
+        </Button>
+      )}
 
       <div className={styles.product_desc_container}>
         <div className={styles.product_desc_title}>Description</div>
