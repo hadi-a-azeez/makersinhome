@@ -33,30 +33,34 @@ let useStore = (set, get) => ({
     set((state) => ({ products: [...newProducts] }));
   },
   addQuantity: (product) => {
-    const productsOther = get().products.filter(
-      (productInState) =>
-        productInState.product_id_gen != parseInt(product.product_id_gen)
-    );
-    let productAdded = get().products.filter(
+    const productIndex = get().products.findIndex(
       (productInState) =>
         productInState.product_id_gen == product.product_id_gen
     );
-    console.log(productAdded);
-    productAdded[0].product_quantity = ++productAdded[0].product_quantity;
-    set((state) => ({ products: [...productsOther, ...productAdded] }));
+
+    const productsArr = [...get().products];
+    productsArr[productIndex] = {
+      ...productsArr[productIndex],
+      product_quantity: ++productsArr[productIndex].product_quantity,
+    };
+    console.log(productsArr);
+
+    set((state) => ({ products: productsArr }));
   },
   removeQuantity: (product) => {
-    const productsOther = get().products.filter(
-      (productInState) =>
-        productInState.product_id_gen != parseInt(product.product_id_gen)
-    );
-    let productAdded = get().products.filter(
+    const productIndex = get().products.findIndex(
       (productInState) =>
         productInState.product_id_gen == product.product_id_gen
     );
-    if (productAdded[0].product_quantity !== 1)
-      productAdded[0].product_quantity = --productAdded[0].product_quantity;
-    set((state) => ({ products: [...productsOther, ...productAdded] }));
+
+    const productsArr = [...get().products];
+    productsArr[productIndex] = {
+      ...productsArr[productIndex],
+      product_quantity: --productsArr[productIndex].product_quantity,
+    };
+    console.log(productsArr);
+
+    set((state) => ({ products: productsArr }));
   },
 });
 

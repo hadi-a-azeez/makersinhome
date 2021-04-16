@@ -53,7 +53,7 @@ const StoreCart = (props) => {
           item.product_quantity * item.product_price
         }%0D%0A `
     );
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an orderipvconfig %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
     )}%0D%0A Total: ₹${cartProducts.reduce(
       (acc, curr) => acc + curr.product_quantity * curr.product_price,
@@ -84,13 +84,7 @@ const StoreCart = (props) => {
           cartProducts.map((product) => {
             return (
               <>
-                <div
-                  className={styles.product_item}
-                  onClick={() =>
-                    history.push(`/product_detail/${product.product_id}`)
-                  }
-                  key={product.product_id}
-                >
+                <div className={styles.product_item} key={product.product_id}>
                   <IconButton
                     colorScheme="gray"
                     borderRadius="100%"
@@ -111,11 +105,19 @@ const StoreCart = (props) => {
                         : Placeholder
                     }
                     alt="img"
+                    onClick={() =>
+                      history.push(`/product_detail/${product.product_id}`)
+                    }
                     className={styles.product_image}
                   />
 
                   <div className={styles.product_details}>
-                    <h1 className={styles.product_name}>
+                    <h1
+                      onClick={() =>
+                        history.push(`/product_detail/${product.product_id}`)
+                      }
+                      className={styles.product_name}
+                    >
                       {product.product_name}
                     </h1>
                     <h1 className={styles.product_price}>
