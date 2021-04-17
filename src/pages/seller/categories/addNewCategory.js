@@ -70,7 +70,7 @@ const AddNewCategory = () => {
         position: "bottom",
       });
       //delay for toast
-      setTimeout(() => history.push("/categories"), 2000);
+      setTimeout(() => history.push("/app/categories"), 2000);
     }
   };
 

@@ -5,6 +5,8 @@ import LabelHeader from "../../../components/labelHeader";
 import { getStoreInfoAPI } from "../../../api/sellerAccountAPI";
 import Placeholder from "../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
+import BottomNavigationMenu from "../../../components/bottomNavigation";
+
 import {
   Stack,
   Image,
@@ -72,7 +74,7 @@ const Account = () => {
             ) : (
               <SkeletonText noOfLines={1} height="20px" />
             )}
-            <Link to="/edit_account" className={styles.link}>
+            <Link to="/app/edit_account" className={styles.link}>
               Edit store details
             </Link>
           </Flex>
@@ -135,6 +137,7 @@ const Account = () => {
             <h1>Logout</h1>
           </div>
         </div>
+        <BottomNavigationMenu />
       </div>
     </>
   );

@@ -250,7 +250,7 @@ const ProductEdit = (props) => {
   const handleDelete = async () => {
     await deleteProductAPI(productId);
     setIsLoading(false);
-    history.push("/products/All%20Products/all");
+    history.push("/app/products/All%20Products/all");
   };
 
   return (
@@ -379,7 +379,7 @@ const ProductEdit = (props) => {
               />
             </FormControl>
             <FormControl w="90%" mt="4" isRequired>
-              <FormLabel>categories</FormLabel>
+              <FormLabel>Category</FormLabel>
               <Select
                 name="parent category"
                 name="product_cat"
@@ -400,7 +400,7 @@ const ProductEdit = (props) => {
               </Select>
             </FormControl>
             <FormControl isRequired w="90%" mt="4">
-              <FormLabel>Is Product On Discount</FormLabel>
+              <FormLabel>Discount</FormLabel>
               <Switch
                 onChange={() => {
                   handleIsOnSale();
@@ -572,7 +572,7 @@ const ProductEdit = (props) => {
                 whiteSpace="pre-wrap"
               />
             </FormControl>
-            <FormControl id="description" w="90%" mt="4px">
+            {/* <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Stock</FormLabel>
               <Switch
                 size="lg"
@@ -581,7 +581,7 @@ const ProductEdit = (props) => {
                 isChecked={product.product_stock ? true : false}
                 onChange={updateProductStock}
               />
-            </FormControl>
+            </FormControl> */}
             {isFormError && (
               <h1 style={{ color: "red" }}>Please fill all required details</h1>
             )}

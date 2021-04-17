@@ -26,9 +26,9 @@ const Products = (props) => {
       setProductsArray(productsData.data.data);
       setIsLoading(false);
       console.log(productsData.data);
-      if (productsData.data.login === false) {
-        history.push("/");
-      }
+      // if (productsData.data.login === false) {
+      //   history.push("/");
+      // }
     };
     getProductsData();
   }, [productsCat]);
@@ -49,7 +49,7 @@ const Products = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label={productsCatName} />
+        <LabelHeader label={productsCatName} isBackButton />
         {isLoading && (
           <>
             <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
@@ -61,7 +61,7 @@ const Products = (props) => {
         {!isLoading &&
           productsArray.map((item, index) => (
             <Link
-              to={`/product_edit/${item.id}`}
+              to={`/app/product_edit/${item.id}`}
               key={item.id}
               className={styles.link}
             >
@@ -78,11 +78,9 @@ const Products = (props) => {
                 <div className={styles.image_block}>
                   <div className={styles.thumbnail}>
                     {/* images are returned with image name and id with it seperated by : */}
-                    {item.images && (
+                    {item.products_images && (
                       <img
-                        src={`${productImagesRoot}/min/${
-                          item.images.split(",")[0].split(":")[0]
-                        }`}
+                        src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${item.products_images[0].product_image}?alt=media`}
                         alt="image"
                         className={styles.thumbnail_image}
                       />
@@ -127,7 +125,7 @@ const Products = (props) => {
           onClick={() => history.push("/add_product")}
           position="fixed"
           zIndex="1000"
-          mb="70"
+          mb="10"
           bottom="0"
           size="lg"
           w="90%"

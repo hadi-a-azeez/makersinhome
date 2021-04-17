@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import BottomNavigationMenu from "../../../components/bottomNavigation";
+
 import { productImagesRoot } from "../../../config";
 import Switch from "react-switch";
 import {
@@ -57,7 +59,7 @@ const Products = (props) => {
         {!isLoading &&
           productsArray.map((item, index) => (
             <Link
-              to={`/product_edit/${item.id}`}
+              to={`/app/product_edit/${item.id}`}
               key={item.id}
               className={styles.link}
             >
@@ -135,7 +137,7 @@ const Products = (props) => {
           ADD PRODUCTS
         </Link> */}
         <Button
-          onClick={() => history.push("/add_product")}
+          onClick={() => history.push("/app/add_product")}
           position="fixed"
           zIndex="1000"
           mb="70"
@@ -149,6 +151,7 @@ const Products = (props) => {
           ADD PRODUCTS
         </Button>
         <div className={styles.blank}></div>
+        <BottomNavigationMenu />
       </div>
     </>
   );

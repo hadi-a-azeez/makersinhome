@@ -102,7 +102,7 @@ const AddNewProduct = (props) => {
       position: "bottom",
     });
     //add delay to model Completed product adding
-    // setTimeout(() => history.push("/products/All%20Products/all"), 2000);
+    setTimeout(() => history.push("/app/products/All%20Products/all"), 2000);
   };
   const handleIsOnSale = () => {
     setProduct({ ...product, product_is_sale: !product.product_is_sale });
@@ -223,7 +223,7 @@ const AddNewProduct = (props) => {
             onChange={updateProduct}
           />
         </FormControl>
-        <FormControl isRequired w="90%" mt="4">
+        <FormControl w="90%" mt="4">
           <FormLabel>Category</FormLabel>
           <Select
             name="parent category"
@@ -251,7 +251,7 @@ const AddNewProduct = (props) => {
           </Select>
         </FormControl>
 
-        <FormControl isRequired w="90%" mt="4">
+        <FormControl w="90%" mt="4">
           <FormLabel>Discount</FormLabel>
           <Switch
             onChange={handleIsOnSale}
@@ -265,7 +265,7 @@ const AddNewProduct = (props) => {
           <FormControl isRequired w="100%">
             <FormLabel>Product price</FormLabel>
             <Input
-              type="text"
+              type="number"
               name="product_price"
               defaultValue={product.product_price}
               variant="filled"
@@ -295,7 +295,7 @@ const AddNewProduct = (props) => {
                 )}
               </Stack>
               <Input
-                type="text"
+                type="number"
                 name="product_sale_price"
                 defaultValue={product.product_sale_price}
                 variant="filled"
@@ -306,7 +306,7 @@ const AddNewProduct = (props) => {
             </FormControl>
           )}
         </Stack>
-        <FormControl isRequired w="90%" mt="4">
+        <FormControl w="90%" mt="4">
           <FormLabel>Product Variants</FormLabel>
           <Flex direction="row" flexWrap="wrap">
             {variantsLocal &&

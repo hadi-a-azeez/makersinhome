@@ -23,6 +23,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
+import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);
@@ -79,7 +80,9 @@ const Categories = () => {
               borderWidth="1px"
               borderRadius="lg"
               onClick={() =>
-                history.push(`/products_category/${item.cat_name}/${item.id}`)
+                history.push(
+                  `/app/products_category/${item.cat_name}/${item.id}`
+                )
               }
             >
               <h1 className={styles.heading_bold}>{item.cat_name}</h1>
@@ -112,7 +115,7 @@ const Categories = () => {
                   <MenuItem
                     onClick={(e) => {
                       e.stopPropagation();
-                      history.push(`/edit_category/${item.id}`);
+                      history.push(`/app/edit_category/${item.id}`);
                     }}
                   >
                     Edit Category
@@ -162,7 +165,7 @@ const Categories = () => {
           ADD CATEGORIES
         </Link> */}
         <Button
-          onClick={() => history.push("/add_category")}
+          onClick={() => history.push("/app/add_category")}
           position="fixed"
           zIndex="1000"
           mb="70"
@@ -177,6 +180,7 @@ const Categories = () => {
         </Button>
 
         <div className={styles.blank}></div>
+        <BottomNavigationMenu />
       </div>
     </>
   );

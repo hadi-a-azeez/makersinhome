@@ -7,6 +7,8 @@ import CategoriesIcon from "../../../assets/gridFilled.svg";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
+import BottomNavigationMenu from "../../../components/bottomNavigation";
+
 import {
   SimpleGrid,
   Box,
@@ -146,7 +148,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
           <Box
-            onClick={() => history.push("/products")}
+            onClick={() => history.push("/app/products")}
             height="100px"
             w="100%"
             shadow="base"
@@ -171,7 +173,7 @@ const Dashboard = () => {
             </Flex>
           </Box>
           <Box
-            onClick={() => history.push("/categories")}
+            onClick={() => history.push("/app/categories")}
             height="100px"
             w="100%"
             shadow="base"
@@ -222,6 +224,7 @@ const Dashboard = () => {
             </button>
           </Stack>
         </div>
+        <BottomNavigationMenu />
       </div>
     </>
   );

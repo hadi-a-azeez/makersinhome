@@ -32,7 +32,7 @@ const SignIn = () => {
     //redirect to dashboard if already loginned
     if (localStorage.getItem("token") && localStorage.getItem("loginExpiry")) {
       if (localStorage.getItem("loginExpiry") > Date.now())
-        return history.push("/dashboard");
+        return history.push("/app/dashboard");
     }
   }, []);
 

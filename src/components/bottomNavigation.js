@@ -14,18 +14,8 @@ import AccountIconFilled from "../assets/personFilled.svg";
 
 const BottomNavigationMenu = () => {
   const location = useLocation();
-  const [value, setValue] = useState(location.pathname.split("/")[1]);
+  const [value, setValue] = useState(location.pathname.split("/")[2]);
 
-  useEffect(() => {
-    let bottomNavItems = ["dashboard", "categories", "account", "products"];
-    if (!bottomNavItems.some((sel) => sel == location.pathname.split("/")[1])) {
-      if (localStorage.getItem("bottomNavLast"))
-        setValue(localStorage.getItem("bottomNavLast"));
-    }
-  }, []);
-  useEffect(() => {
-    setValue(location.pathname.split("/")[1]);
-  }, [location.pathname]);
   return (
     <>
       <div className={styles.container}>
@@ -36,7 +26,6 @@ const BottomNavigationMenu = () => {
             value={value}
             onChange={(event, value) => {
               setValue(value);
-              localStorage.setItem("bottomNavLast", value);
             }}
           >
             <BottomNavigationAction
@@ -60,7 +49,7 @@ const BottomNavigationMenu = () => {
                 )
               }
               component={Link}
-              to="/dashboard"
+              to="/app/dashboard"
               value="dashboard"
             />
             <BottomNavigationAction
@@ -84,7 +73,7 @@ const BottomNavigationMenu = () => {
                 )
               }
               component={Link}
-              to="/products/"
+              to="/app/products/"
               value="products"
             />
             <BottomNavigationAction
@@ -108,7 +97,7 @@ const BottomNavigationMenu = () => {
                 )
               }
               component={Link}
-              to="/categories"
+              to="/app/categories"
               value="categories"
             />
             <BottomNavigationAction
@@ -132,7 +121,7 @@ const BottomNavigationMenu = () => {
                 value == "account" ? styles.navItemSelected : styles.navItem
               }
               component={Link}
-              to="/account"
+              to="/app/account"
               value="account"
             />
           </BottomNavigation>
