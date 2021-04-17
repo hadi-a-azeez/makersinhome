@@ -90,11 +90,13 @@ const StoreCart = (props) => {
           >
             Total :{" "}
           </Text>
-          <Text
-            fontFamily="elemen"
-            fontWeight="800"
-            fontSize="30px"
-            color="green.500"
+          <div
+            style={{
+              fontFamily: "elemen",
+              fontWeight: "800",
+              fontSize: "30px",
+              color: "green",
+            }}
           >
             ₹
             {cartProducts
@@ -103,7 +105,7 @@ const StoreCart = (props) => {
                 (acc, curr) => acc + curr.product_quantity * curr.product_price,
                 0
               )}
-          </Text>
+          </div>
         </Stack>
       </Stack>
 
