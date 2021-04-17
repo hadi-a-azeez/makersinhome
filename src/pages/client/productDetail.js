@@ -162,7 +162,7 @@ const ProductDetail = (props) => {
             <PopoverHeader>
               <Stack direction="row" justifyContent="space-between">
                 <Text fontWeight="bold">Cart</Text>
-                <Text color="green.500" mr="30px">
+                <Text color="green.500" mr="30">
                   {" "}
                   Total: ₹
                   <b>

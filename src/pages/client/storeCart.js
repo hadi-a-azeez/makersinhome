@@ -81,7 +81,7 @@ const StoreCart = (props) => {
       />
       <Stack direction="row" w="100%" mt="60px" justifyContent="space-between">
         <h1 className={styles.heading}>Cart</h1>
-        <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" mr="20px">
           <Text
             fontFamily="elemen"
             fontWeight="600"
@@ -91,7 +91,6 @@ const StoreCart = (props) => {
             Total :{" "}
           </Text>
           <Text
-            mr="20px"
             fontFamily="elemen"
             fontWeight="800"
             fontSize="30px"
