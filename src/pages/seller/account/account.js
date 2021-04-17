@@ -34,7 +34,7 @@ const Account = () => {
   const logOut = () => {
     localStorage.removeItem("loginExpiry");
     localStorage.removeItem("token");
-    history.push("./login");
+    history.push("/login");
   };
 
   useEffect(() => {

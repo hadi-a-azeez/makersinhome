@@ -48,7 +48,7 @@ const SignIn = () => {
     localStorage.removeItem("token");
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("loginExpiry", Date.now() + 1.123e9);
-    history.push("/dashboard");
+    history.push("/app/dashboard");
   };
   return (
     <div className={styles.container}>
