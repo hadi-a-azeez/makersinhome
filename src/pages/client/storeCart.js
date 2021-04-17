@@ -79,8 +79,36 @@ const StoreCart = (props) => {
         left="3"
         onClick={() => history.goBack()}
       />
-      <h1 className={styles.heading}>Cart</h1>
-      <Flex flexDirection="column" w="95%">
+      <Stack direction="row" w="100%" mt="60px" justifyContent="space-between">
+        <h1 className={styles.heading}>Cart</h1>
+        <Stack direction="row" alignItems="center">
+          <Text
+            fontFamily="elemen"
+            fontWeight="600"
+            fontSize="20px"
+            color="gray.600"
+          >
+            Total :{" "}
+          </Text>
+          <Text
+            mr="20px"
+            fontFamily="elemen"
+            fontWeight="800"
+            fontSize="30px"
+            color="green.500"
+          >
+            ₹
+            {cartProducts
+              .filter((prd) => prd.store_id == storeId)
+              .reduce(
+                (acc, curr) => acc + curr.product_quantity * curr.product_price,
+                0
+              )}
+          </Text>
+        </Stack>
+      </Stack>
+
+      <Flex flexDirection="column" w="95%" mb="140px">
         {cartProducts.filter((prd) => prd.store_id == storeId).length > 0 ? (
           cartProducts
             .filter((prd) => prd.store_id == storeId)
@@ -162,6 +190,8 @@ const StoreCart = (props) => {
       </Flex>
 
       <Button
+        position="fixed"
+        bottom="35px"
         isLoading={_.isEmpty(userInfo)}
         mt="5"
         size="lg"
@@ -171,7 +201,6 @@ const StoreCart = (props) => {
         borderRadius="25px"
         leftIcon={<img src={Whatsapp} className={styles.whatsapp_icon} />}
         onClick={whatsappBuy}
-        mb="10"
       >
         Place Order on Whatsapp
       </Button>

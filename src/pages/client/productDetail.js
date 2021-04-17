@@ -114,9 +114,9 @@ const ProductDetail = (props) => {
         ? productData.product_sale_price
         : productData.product_price
     } %0D%0A`;
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg}_______________________%0D%0A%0D%0A Powered by Saav.in`;
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg} %0D%0A *Total: ₹${productData.product_price}*%0D%0A _______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
-      `https://api.whatsapp.com/send/?phone=919496742190&text=${whatsappMessage}`
+      `https://api.whatsapp.com/send/?phone=91${storeData.account_whatsapp}&text=${whatsappMessage}`
     );
   };
 
@@ -159,7 +159,24 @@ const ProductDetail = (props) => {
           <PopoverContent>
             <PopoverArrow />
             <PopoverCloseButton />
-            <PopoverHeader>Cart</PopoverHeader>
+            <PopoverHeader>
+              <Stack direction="row" justifyContent="space-between">
+                <Text fontWeight="bold">Cart</Text>
+                <Text color="green.500" mr="30px">
+                  {" "}
+                  Total: ₹
+                  <b>
+                    {cartProducts
+                      .filter((prd) => prd.store_id == storeData.id)
+                      .reduce(
+                        (acc, curr) =>
+                          acc + curr.product_quantity * curr.product_price,
+                        0
+                      )}
+                  </b>
+                </Text>
+              </Stack>
+            </PopoverHeader>
             <PopoverBody>
               <div className={styles.cart_popup_container}>
                 {cartProducts
@@ -376,6 +393,7 @@ const ProductDetail = (props) => {
                         mt="60px"
                         bg="green.500"
                         borderRadius="30px"
+                        textAlign="center"
                       >
                         Succesfully Added To Cart
                       </Box>
