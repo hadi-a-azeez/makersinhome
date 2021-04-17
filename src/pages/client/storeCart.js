@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
-import {
-  ArrowBackIcon,
-  DeleteIcon,
-  PlusSquareIcon,
-  SmallCloseIcon,
-} from "@chakra-ui/icons";
+import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
+import Whatsapp from "../../assets/logo-whatsapp.svg";
 import {
   SimpleGrid,
   IconButton,
@@ -20,6 +16,7 @@ import Placeholder from "../../assets/placeholder.png";
 import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
+import _ from "lodash";
 
 const StoreCart = (props) => {
   const history = useHistory();
@@ -45,20 +42,24 @@ const StoreCart = (props) => {
   }, []);
 
   const whatsappBuy = async () => {
-    const productsMsg = cartProducts.map(
-      (item) =>
-        `• ${item.product_name} ${
-          item.product_variant && `(${item.product_variant.variant_name})`
-        }   x   ${item.product_quantity} - ₹${
-          item.product_quantity * item.product_price
-        }%0D%0A `
-    );
+    const productsMsg = cartProducts
+      .filter((prd) => prd.store_id == storeId)
+      .map(
+        (item) =>
+          `• ${item.product_name} ${
+            item.product_variant && `(${item.product_variant.variant_name})`
+          }   x   ${item.product_quantity} - ₹${
+            item.product_quantity * item.product_price
+          }%0D%0A `
+      );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
-    )}%0D%0A Total: ₹${cartProducts.reduce(
-      (acc, curr) => acc + curr.product_quantity * curr.product_price,
-      0
-    )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
+    )}%0D%0A Total: ₹${cartProducts
+      .filter((prd) => prd.store_id == storeId)
+      .reduce(
+        (acc, curr) => acc + curr.product_quantity * curr.product_price,
+        0
+      )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=91${userInfo.account_whatsapp}&text=${whatsappMessage}`
     );
@@ -80,95 +81,100 @@ const StoreCart = (props) => {
       />
       <h1 className={styles.heading}>Cart</h1>
       <Flex flexDirection="column" w="95%">
-        {cartProducts.length > 0 ? (
-          cartProducts.map((product) => {
-            return (
-              <>
-                <div className={styles.product_item} key={product.product_id}>
-                  <IconButton
-                    colorScheme="gray"
-                    borderRadius="100%"
-                    size="sm"
-                    position="absolute"
-                    right="8px"
-                    top="8px"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteCartProduct(product);
-                    }}
-                    icon={<DeleteIcon color="red.400" w={4} h={4} />}
-                  />
-                  <img
-                    src={
-                      product.product_image
-                        ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.product_image}?alt=media`
-                        : Placeholder
-                    }
-                    alt="img"
-                    onClick={() =>
-                      history.push(`/product_detail/${product.product_id}`)
-                    }
-                    className={styles.product_image}
-                  />
-
-                  <div className={styles.product_details}>
-                    <h1
+        {cartProducts.filter((prd) => prd.store_id == storeId).length > 0 ? (
+          cartProducts
+            .filter((prd) => prd.store_id == storeId)
+            .map((product) => {
+              return (
+                <>
+                  <div className={styles.product_item} key={product.product_id}>
+                    <IconButton
+                      colorScheme="gray"
+                      borderRadius="100%"
+                      size="sm"
+                      position="absolute"
+                      right="8px"
+                      top="8px"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteCartProduct(product);
+                      }}
+                      icon={<DeleteIcon color="red.400" w={4} h={4} />}
+                    />
+                    <img
+                      src={
+                        product.product_image
+                          ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.product_image}?alt=media`
+                          : Placeholder
+                      }
+                      alt="img"
                       onClick={() =>
                         history.push(`/product_detail/${product.product_id}`)
                       }
-                      className={styles.product_name}
-                    >
-                      {product.product_name}
-                    </h1>
-                    <h1 className={styles.product_price}>
-                      ₹{product.product_price}
-                    </h1>
-                    <h1 className={styles.subheading}>
-                      Variant: {product.product_variant.variant_name}
-                    </h1>
-                    <div className={styles.quantity_container}>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeCartQuantity(product);
-                        }}
-                        className={styles.small_circle}
+                      className={styles.product_image}
+                    />
+
+                    <div className={styles.product_details}>
+                      <h1
+                        onClick={() =>
+                          history.push(`/product_detail/${product.product_id}`)
+                        }
+                        className={styles.product_name}
                       >
-                        -
-                      </div>
-                      <Text p="6px">{product.product_quantity}</Text>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addCartQuantity(product);
-                        }}
-                        className={styles.small_circle}
-                      >
-                        +
+                        {product.product_name}
+                      </h1>
+                      <h1 className={styles.product_price}>
+                        ₹{product.product_price}
+                      </h1>
+                      <h1 className={styles.subheading}>
+                        Variant: {product.product_variant.variant_name}
+                      </h1>
+                      <div className={styles.quantity_container}>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeCartQuantity(product);
+                          }}
+                          className={styles.small_circle}
+                        >
+                          -
+                        </div>
+                        <Text p="6px">{product.product_quantity}</Text>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addCartQuantity(product);
+                          }}
+                          className={styles.small_circle}
+                        >
+                          +
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </>
-            );
-          })
+                </>
+              );
+            })
         ) : (
           <h1>No Products</h1>
         )}
         {/* product item ends here */}
       </Flex>
-      {userInfo.account_whatsapp && (
-        <Button
-          mt="5"
-          size="lg"
-          colorScheme="green"
-          w="90%"
-          onClick={whatsappBuy}
-          mb="10"
-        >
-          Place Order on Whatsapp
-        </Button>
-      )}
+
+      <Button
+        isLoading={_.isEmpty(userInfo)}
+        mt="5"
+        size="lg"
+        colorScheme="green"
+        w="90%"
+        h="60px"
+        borderRadius="25px"
+        leftIcon={<img src={Whatsapp} className={styles.whatsapp_icon} />}
+        onClick={whatsappBuy}
+        mb="10"
+      >
+        Place Order on Whatsapp
+      </Button>
     </div>
   );
 };

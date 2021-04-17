@@ -436,9 +436,11 @@ const ProductEdit = (props) => {
                         fontSize="14px"
                         alignSelf="center"
                       >
-                        {100 -
-                          (100 * product.product_sale_price) /
-                            product.product_price}
+                        {parseInt(
+                          100 -
+                            (100 * product.product_sale_price) /
+                              product.product_price
+                        )}
                         % OFF
                       </Badge>
                     )}
@@ -567,6 +569,7 @@ const ProductEdit = (props) => {
                 defaultValue={product.product_desc}
                 rows="4"
                 onChange={updateProduct}
+                whiteSpace="pre-wrap"
               />
             </FormControl>
             <FormControl id="description" w="90%" mt="4px">
@@ -617,6 +620,7 @@ const ProductEdit = (props) => {
               loadingText="Uploading"
               onClick={() => validateFields(updateProductFull)}
               size="lg"
+              mt="15px"
             >
               Update product
             </Button>

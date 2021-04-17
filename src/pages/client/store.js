@@ -97,7 +97,9 @@ const Store = (props) => {
             backgroundColor="#000"
           />
           <div className={styles.cart_count}>
-            {cartProducts.reduce((acc, curr) => acc + curr.product_quantity, 0)}
+            {cartProducts
+              .filter((prd) => prd.store_id == storeData.id)
+              .reduce((acc, curr) => acc + curr.product_quantity, 0)}
           </div>
         </Box>
 
@@ -172,24 +174,24 @@ const Store = (props) => {
           <>
             <SimpleGrid columns={2} spacing={2} w="95%" mt="2">
               <Skeleton
-                height="160px"
+                height="220px"
                 w="100%"
-                style={{ borderRadius: "15px" }}
+                style={{ borderRadius: "5px" }}
               />
               <Skeleton
-                height="160px"
+                height="220px"
                 w="100%"
-                style={{ borderRadius: "15px" }}
+                style={{ borderRadius: "5px" }}
               />
               <Skeleton
-                height="160px"
+                height="220px"
                 w="100%"
-                style={{ borderRadius: "15px" }}
+                style={{ borderRadius: "5px" }}
               />
               <Skeleton
-                height="160px"
+                height="220px"
                 w="100%"
-                style={{ borderRadius: "15px" }}
+                style={{ borderRadius: "5px" }}
               />
             </SimpleGrid>
           </>

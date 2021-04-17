@@ -56,11 +56,20 @@
   flex-direction: column;
   width: 100%;
 }
+.whatsapp_icon {
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(334deg)
+    brightness(106%) contrast(103%);
+  width: 35px;
+}
 .product_name {
   font-family: "elemen";
   font-size: 20px;
   font-weight: 600;
   color: #323232;
+  width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .product_quantity {
   font-size: 14px;

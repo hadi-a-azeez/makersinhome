@@ -54,11 +54,11 @@ let useStore = (set, get) => ({
     );
 
     const productsArr = [...get().products];
-    productsArr[productIndex] = {
-      ...productsArr[productIndex],
-      product_quantity: --productsArr[productIndex].product_quantity,
-    };
-    console.log(productsArr);
+    if (productsArr[productIndex].product_quantity !== 1)
+      productsArr[productIndex] = {
+        ...productsArr[productIndex],
+        product_quantity: --productsArr[productIndex].product_quantity,
+      };
 
     set((state) => ({ products: productsArr }));
   },

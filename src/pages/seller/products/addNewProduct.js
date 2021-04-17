@@ -285,9 +285,11 @@ const AddNewProduct = (props) => {
                     fontSize="14px"
                     alignSelf="center"
                   >
-                    {100 -
-                      (100 * product.product_sale_price) /
-                        product.product_price}
+                    {parseInt(
+                      100 -
+                        (100 * product.product_sale_price) /
+                          product.product_price
+                    )}
                     % OFF
                   </Badge>
                 )}

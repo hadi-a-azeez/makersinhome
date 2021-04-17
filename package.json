@@ -26,6 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-switch": "^5.0.1",
+    "react-zoom-pan-pinch": "^1.6.1",
     "reactjs-popup": "^2.0.4",
     "use-state-if-mounted": "^1.0.4",
     "uuid": "^8.3.2",
