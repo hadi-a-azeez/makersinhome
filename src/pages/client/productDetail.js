@@ -160,9 +160,9 @@ const ProductDetail = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" justifyContent="space-between" w="90%">
                 <Text fontWeight="bold">Cart</Text>
-                <Text color="green.500" mr="30">
+                <Text color="green.500">
                   {" "}
                   Total: ₹
                   <b>

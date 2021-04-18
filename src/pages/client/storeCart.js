@@ -79,9 +79,9 @@ const StoreCart = (props) => {
         left="3"
         onClick={() => history.goBack()}
       />
-      <Stack direction="row" w="100%" mt="60px" justifyContent="space-between">
+      <Stack direction="row" w="90%" mt="60px" justifyContent="space-between">
         <h1 className={styles.heading}>Cart</h1>
-        <Stack direction="row" alignItems="center" mr="20px">
+        <Stack direction="row" alignItems="center">
           <Text
             fontFamily="elemen"
             fontWeight="600"
