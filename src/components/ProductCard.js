@@ -32,6 +32,7 @@ const ProductCard = ({ product, store }) => {
           />
         )}
         <div className={styles.product_details}>
+          <h1 className={styles.product_name}>{product.product_name}</h1>
           <div className={styles.price_container}>
             {product.product_is_sale == 0 ? (
               <h1 className={styles.product_price}>₹{product.product_price}</h1>
@@ -43,10 +44,20 @@ const ProductCard = ({ product, store }) => {
                 <h1 className={styles.product_price_strike}>
                   ₹{product.product_price}
                 </h1>
+                {product.product_is_sale && (
+                  <div className={styles.product_discount}>
+                    {" "}
+                    {parseInt(
+                      100 -
+                        (100 * product.product_sale_price) /
+                          product.product_price
+                    )}
+                    % OFF
+                  </div>
+                )}
               </>
             )}
           </div>
-          <h1 className={styles.product_name}>{product.product_name}</h1>
         </div>
       </div>
     </>

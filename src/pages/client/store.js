@@ -114,32 +114,31 @@ const Store = (props) => {
                   ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeData.account_store_image}?alt=media`
                   : Placeholder
               }
-              borderRadius="full"
-              boxSize="35px"
+              borderRadius="10px"
+              boxSize="40px"
               objectFit="cover"
               fallback={<SkeletonCircle size="15" />}
             />
             <h2 className={styles.logo_name}>{storeData.account_store}</h2>
           </div>
-          <img
-            src={Whatsapp}
-            className={styles.whatsapp_support_button}
-            onClick={handleWhatsappSupport}
-          />
+          <div className={styles.whatsapp_support_button}>
+            <img src={Whatsapp} onClick={handleWhatsappSupport} />
+          </div>
         </div>
         <InputGroup
-          w="90%"
+          w="92%"
           mb="6"
           size="lg"
           backgroundColor="white"
           borderRadius="30px"
+          fontFamily="elemen"
         >
           <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
           <Input
             type="text"
             placeholder="Search for products"
             borderRadius="30px"
-            border="2px solid black"
+            border="1px solid black"
             height="50px"
             onClick={() => history.push(`/store/search/${storeData.id}`)}
           />
@@ -199,7 +198,7 @@ const Store = (props) => {
             </SimpleGrid>
           </>
         )}
-        <SimpleGrid columns={2} spacing={2} w="100%" p="12px">
+        <SimpleGrid columns={2} spacing={1} w="100%" p="10px">
           {!isLoading &&
             storeProducts.map((product) => {
               return <ProductCard product={product} store={storeData} />;
