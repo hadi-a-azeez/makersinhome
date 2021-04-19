@@ -1,10 +1,12 @@
 import { useDisclosure } from "@chakra-ui/hooks";
+import { Image } from "@chakra-ui/image";
 import { Stack } from "@chakra-ui/layout";
+import { Skeleton } from "@chakra-ui/skeleton";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./css/product_card.module.css";
 
-const ProductCard = ({ product, store }) => {
+const ProductCard = ({ product }) => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
@@ -17,10 +19,18 @@ const ProductCard = ({ product, store }) => {
         key={product.id}
       >
         {product.products_images && (
-          <img
+          <Image
             src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`}
             alt="img"
             className={styles.product_image}
+            fallback={
+              <Skeleton
+                height="180px"
+                width="98%"
+                borderRadius="5px"
+                marginTop="5%"
+              />
+            }
           />
         )}
         <div className={styles.product_details}>

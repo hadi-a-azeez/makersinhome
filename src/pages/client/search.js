@@ -11,14 +11,19 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Text,
+  Stack,
 } from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
 import { searchProductsAPI } from "../../api/custStoreAPI";
 import { useHistory } from "react-router-dom";
+import ProductCard from "../../components/ProductCard";
+import { CircularProgress } from "@material-ui/core";
 
 const Search = (props) => {
   const storeId = props.match.params.storeId;
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -31,33 +36,11 @@ const Search = (props) => {
   }, [searchValue]);
 
   const doSearch = async () => {
+    setIsLoading(true);
     const response = await searchProductsAPI(storeId, searchValue);
     setFilteredProducts(response.data.data);
+    setIsLoading(false);
     console.log(response);
-  };
-
-  const ProductCard = ({ product }) => {
-    return (
-      <div
-        className={styles.product_item}
-        onClick={() => history.push(`/product_detail/${product.id}`)}
-      >
-        <img
-          src={
-            product.products_images.length > 0
-              ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`
-              : Placeholder
-          }
-          alt="img"
-          className={styles.product_image}
-        />
-
-        <div className={styles.product_details}>
-          <h1 className={styles.product_name}>{product.product_name}</h1>
-          <h1 className={styles.product_price}>{product.product_price}</h1>
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -102,16 +85,23 @@ const Search = (props) => {
         </InputGroup>
 
         <SimpleGrid columns={2} spacing={2} w="95%">
-          {searchValue.length > 0 ? (
-            <>
-              {filteredProducts.length > 0 &&
+          <>
+            {searchValue.length > 0 ? (
+              filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <ProductCard product={product} key={product.id} />
-                ))}
-            </>
-          ) : (
-            <h1>Search Here</h1>
-          )}
+                ))
+              ) : isLoading ? (
+                <Stack ml="80%" mt="50px" justifyContent="center">
+                  <CircularProgress isIndeterminate color="green.300" />
+                </Stack>
+              ) : (
+                <Text>No results </Text>
+              )
+            ) : (
+              <Text>Search Here</Text>
+            )}
+          </>
         </SimpleGrid>
       </div>
     </>

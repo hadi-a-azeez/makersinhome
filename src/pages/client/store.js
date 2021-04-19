@@ -14,6 +14,7 @@ import {
   CircularProgress,
   CircularProgressLabel,
   SkeletonText,
+  Text,
 } from "@chakra-ui/react";
 
 import {
@@ -42,6 +43,7 @@ const Store = (props) => {
   const [catSelected, setCatSelected] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isStoreExists, setIsStoreExists] = useState(true);
+  const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
 
   const handleWhatsappSupport = () => {
@@ -73,12 +75,16 @@ const Store = (props) => {
   }, []);
   useEffect(() => {
     const getSelectedProducts = async () => {
+      setIsLoading(true);
+      setIsProducts(true);
       setStoreProducts([]);
       const productsResponse = await getStoreProducts(
         storeData.id,
         catSelected
       );
       productsResponse && setStoreProducts(productsResponse.data.data);
+      if (productsResponse.data.data.length < 1) setIsProducts(false);
+      setIsLoading(false);
     };
     storeData.id && getSelectedProducts();
   }, [catSelected]);
@@ -191,9 +197,9 @@ const Store = (props) => {
 
         {/* <div className={styles.products}> */}
         {/* product item starts here */}
-
+        {!isLoading && !isProducts && <Text mt="40px">No Products</Text>}
         <SimpleGrid columns={2} spacing={1} w="95%">
-          {storeProducts.length < 1 && (
+          {isLoading && (
             <>
               <Stack
                 direction="column"

@@ -327,6 +327,7 @@ const ProductDetail = (props) => {
                     <div className={styles.variant_container}>
                       {productData.products_variants.map((variant) => (
                         <div
+                          key={variant.id}
                           className={
                             selectedVariant.id == variant.id
                               ? styles.variant_item_selected
