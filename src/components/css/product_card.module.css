@@ -1,6 +1,5 @@
 .product_card {
   position: relative;
-  background-color: white;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -9,6 +8,7 @@
 }
 
 .product_image {
+  background-color: grey;
   border-radius: 5px;
   width: 95%;
   margin-top: 5%;
@@ -26,12 +26,21 @@
 }
 
 .price_container {
+  font-family: "elemen";
   display: flex;
 }
 .product_price {
   font-weight: bold;
   font-size: 18px;
-  color: #212121d2;
+  color: #363636;
+}
+.product_price_strike {
+  text-decoration: line-through;
+  margin-left: 4px;
+  margin-top: 2px;
+  font-weight: medium;
+  font-size: 14px;
+  color: #9aa49f;
 }
 .product_discount {
   color: #06cc6f;
@@ -41,7 +50,7 @@
 }
 .product_name {
   font-family: "elemen";
-  margin-top: 8px;
+  margin-top: 5px;
   font-style: normal;
   font-size: 15px;
   width: 80%;
@@ -49,13 +58,4 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: #212121;
-}
-.product_price_strike {
-  text-decoration: line-through;
-  font-family: Epilogue;
-  margin-left: 4px;
-  margin-top: 2px;
-  font-weight: 500;
-  font-size: 14px;
-  color: #9aa49f;
 }

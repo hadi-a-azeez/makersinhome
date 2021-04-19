@@ -10,7 +10,11 @@ import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
 import MenuIcon from "../../assets/bars.svg";
 
-import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
+import {
+  CircularProgress,
+  CircularProgressLabel,
+  SkeletonText,
+} from "@chakra-ui/react";
 
 import {
   SimpleGrid,
@@ -143,20 +147,36 @@ const Store = (props) => {
             onClick={() => history.push(`/store/search/${storeData.id}`)}
           />
         </InputGroup>
+        {storeCategories.length < 1 && (
+          <Stack direction="row" w="95%" ml="5%" alignItems="flex-start">
+            <Skeleton w="60px" h="40px" borderRadius="40px" />
+            <Skeleton w="90px" h="40px" borderRadius="40px" />
+            <Skeleton w="80px" h="40px" borderRadius="40px" />
+            <Skeleton w="80px" h="40px" borderRadius="40px" />
+          </Stack>
+        )}
+        {storeCategories.length > 0 && (
+          <div className={styles.categories_container}>
+            {storeCategories.length < 1 && (
+              <>
+                <Skeleton w="60px" h="40px" borderRadius="40px" />
+                <Skeleton w="90px" h="40px" borderRadius="40px" />
+                <Skeleton w="80px" h="40px" borderRadius="40px" />
+                <Skeleton w="80px" h="40px" borderRadius="40px" />
+              </>
+            )}
+            <div
+              className={
+                catSelected == "all"
+                  ? styles.category_item_selected
+                  : styles.category_item
+              }
+              onClick={() => setCatSelected("all")}
+            >
+              All
+            </div>
 
-        <div className={styles.categories_container}>
-          <div
-            className={
-              catSelected == "all"
-                ? styles.category_item_selected
-                : styles.category_item
-            }
-            onClick={() => setCatSelected("all")}
-          >
-            All
-          </div>
-          {storeCategories &&
-            storeCategories.map((cat) => (
+            {storeCategories.map((cat) => (
               <div
                 key={cat.id}
                 className={
@@ -169,36 +189,53 @@ const Store = (props) => {
                 {cat.cat_name}
               </div>
             ))}
-        </div>
+          </div>
+        )}
         {/* <div className={styles.products}> */}
         {/* product item starts here */}
-        {isLoading && (
-          <>
-            <SimpleGrid columns={2} spacing={2} w="95%" mt="2">
-              <Skeleton
-                height="220px"
-                w="100%"
-                style={{ borderRadius: "5px" }}
-              />
-              <Skeleton
-                height="220px"
-                w="100%"
-                style={{ borderRadius: "5px" }}
-              />
-              <Skeleton
-                height="220px"
-                w="100%"
-                style={{ borderRadius: "5px" }}
-              />
-              <Skeleton
-                height="220px"
-                w="100%"
-                style={{ borderRadius: "5px" }}
-              />
-            </SimpleGrid>
-          </>
-        )}
+
         <SimpleGrid columns={2} spacing={1} w="100%" p="10px">
+          {storeProducts.length < 1 && (
+            <>
+              <Stack direction="column" width="100%">
+                <Skeleton
+                  marginTop="5%"
+                  height="180px"
+                  borderRadius="5px"
+                  paddingLeft="5px"
+                  paddingRight="5px"
+                  w="90%"
+                  style={{ borderRadius: "5px" }}
+                />
+                <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />
+              </Stack>
+              <Stack direction="column" width="100%">
+                <Skeleton
+                  marginTop="5%"
+                  height="180px"
+                  borderRadius="5px"
+                  paddingLeft="5px"
+                  paddingRight="5px"
+                  w="90%"
+                  style={{ borderRadius: "5px" }}
+                />
+                <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />
+              </Stack>
+              <Stack direction="column" width="100%">
+                <Skeleton
+                  marginTop="5%"
+                  height="180px"
+                  borderRadius="5px"
+                  paddingLeft="5px"
+                  paddingRight="5px"
+                  w="90%"
+                  style={{ borderRadius: "5px" }}
+                />
+                <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />
+              </Stack>
+            </>
+          )}
+
           {!isLoading &&
             storeProducts.map((product) => {
               return <ProductCard product={product} store={storeData} />;

@@ -1,11 +1,16 @@
 @font-face {
   font-family: "elemen";
-  src: url("../../assets/fonts/NeueEinstellung-Bold.woff2");
+  src: url("../../assets/fonts/circular-bold.woff");
   font-weight: bold;
 }
 @font-face {
   font-family: "elemen";
-  src: url("../../assets/fonts/NeueEinstellung-Regular.woff2");
+  src: url("../../assets/fonts/circular-medium.woff");
+  font-weight: medium;
+}
+@font-face {
+  font-family: "elemen";
+  src: url("../../assets/fonts/circular-book.woff");
   font-weight: normal;
 }
 @font-face {
