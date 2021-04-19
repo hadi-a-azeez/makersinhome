@@ -139,7 +139,7 @@ const ProductDetail = (props) => {
               width="60px"
               height="60px"
               position="fixed"
-              top="30px"
+              top="25px"
               right="25px"
               zIndex="1"
             >
@@ -156,11 +156,16 @@ const ProductDetail = (props) => {
               </div>
             </Box>
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent borderRadius="20px" p="8px">
             <PopoverArrow />
-            <PopoverCloseButton />
+            <PopoverCloseButton
+              m="6px"
+              borderRadius="full"
+              border="1px solid #e5e5e6"
+              size="md"
+            />
             <PopoverHeader>
-              <Stack direction="row" justifyContent="space-between" w="90%">
+              <Stack direction="row" justifyContent="space-between" w="85%">
                 <Text fontWeight="bold">Cart</Text>
                 <Text color="green.500">
                   {" "}
@@ -191,12 +196,16 @@ const ProductDetail = (props) => {
                   ))}
               </div>
               <Button
+                h="42px"
                 w="100%"
                 onClick={() => history.push(`/cart/${storeData.id}`)}
+                borderRadius="25px"
               >
                 Go To Cart
               </Button>
               <Button
+                h="44px"
+                borderRadius="25px"
                 w="100%"
                 mt="10px"
                 colorScheme="green"
@@ -210,14 +219,7 @@ const ProductDetail = (props) => {
       </div>
 
       {isLoading ? (
-        <Skeleton
-          height="50vh"
-          marginTop="10px"
-          marginLeft="2%"
-          marginRight="2%"
-          width="96%"
-          borderRadius="15px"
-        />
+        <Skeleton height="50vh" width="100%" />
       ) : (
         <Carousel
           className={styles.image_slider}
@@ -248,7 +250,7 @@ const ProductDetail = (props) => {
                     style={{
                       objectFit: "cover",
                       height: "50vh",
-                      borderRadius: "15px",
+                      borderRadius: "6px",
                     }}
                   />
                 </div>
@@ -256,9 +258,9 @@ const ProductDetail = (props) => {
             })}
         </Carousel>
       )}
-      <div className={styles.button_back} onClick={() => history.goBack()}>
+      {/* <div className={styles.button_back} onClick={() => history.goBack()}>
         <img src={BackIcon} width="25px" />
-      </div>
+      </div> */}
 
       {isLoading ? (
         <>
@@ -297,7 +299,7 @@ const ProductDetail = (props) => {
           />
         </>
       ) : (
-        <>
+        <Stack direction="column" padding="14px" spacing="0px">
           <h1 className={styles.product_name}>{productData.product_name}</h1>
           <div className={styles.price_container}>
             {productData.product_is_sale == 0 ? (
@@ -312,6 +314,15 @@ const ProductDetail = (props) => {
                 <h1 className={styles.product_price_strike}>
                   ₹{productData.product_price}
                 </h1>
+                <div className={styles.product_discount}>
+                  {" "}
+                  {parseInt(
+                    100 -
+                      (100 * productData.product_sale_price) /
+                        productData.product_price
+                  )}
+                  % OFF
+                </div>
               </>
             )}
           </div>
@@ -342,12 +353,14 @@ const ProductDetail = (props) => {
                 alignSelf="center"
                 size="lg"
                 ml="5%"
-                w="90%"
+                w="98%"
+                borderRadius="48px"
                 p="10px"
                 onClick={whatsappBuy}
                 leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
-                h="60px"
-                backgroundColor="#ff5826"
+                h="58px"
+                mb="10px"
+                backgroundColor="#ff5500"
                 color="white"
                 fontFamily="elemen"
               >
@@ -356,14 +369,17 @@ const ProductDetail = (props) => {
 
               <Button
                 ml="5%"
+                borderRadius="48px"
                 mt="15px"
                 leftIcon={
                   <img src={CartIconBlack} className={styles.add_cart_icon} />
                 }
                 alignSelf="center"
                 size="lg"
-                w="90%"
-                h="60px"
+                w="98%"
+                backgroundColor="#ffece3"
+                color="#ff5500"
+                h="58px"
                 fontFamily="elemen"
                 mb="20px"
                 onClick={() => {
@@ -435,12 +451,19 @@ const ProductDetail = (props) => {
 
             <p className={styles.product_desc_body}>
               This item is sold by{" "}
-              <span style={{ color: "blue" }}>{storeData.account_store}</span>
+              <span
+                style={{ color: "blue" }}
+                onClick={() =>
+                  history.push(`/store/${storeData.account_store_link}`)
+                }
+              >
+                {storeData.account_store}
+              </span>
               <br />
               {storeData.account_store_address}
             </p>
           </div>
-        </>
+        </Stack>
       )}
     </div>
   );

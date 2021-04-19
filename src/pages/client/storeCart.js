@@ -95,7 +95,7 @@ const StoreCart = (props) => {
               fontFamily: "elemen",
               fontWeight: "800",
               fontSize: "30px",
-              color: "green",
+              color: "#00b140",
             }}
           >
             ₹
@@ -199,7 +199,7 @@ const StoreCart = (props) => {
         colorScheme="green"
         w="90%"
         h="60px"
-        borderRadius="25px"
+        borderRadius="48px"
         leftIcon={<img src={Whatsapp} className={styles.whatsapp_icon} />}
         onClick={whatsappBuy}
       >
