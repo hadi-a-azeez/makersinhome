@@ -54,7 +54,7 @@ const SignIn = () => {
     <div className={styles.container}>
       <div className={styles.heading_block}>
         <Text fontWeight="600" fontSize="28px">
-          Log in to Vaank
+          Log in to Saav
         </Text>
         {/* <h1 className={styles.heading_bold_big}>Log in to Vaank</h1> */}
       </div>

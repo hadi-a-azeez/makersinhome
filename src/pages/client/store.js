@@ -118,10 +118,12 @@ const Store = (props) => {
                   ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeData.account_store_image}?alt=media`
                   : Placeholder
               }
-              borderRadius="10px"
-              boxSize="40px"
+              borderRadius="full"
+              boxSize="46px"
               objectFit="cover"
-              fallback={<SkeletonCircle size="15" />}
+              fallback={
+                <Image src={Placeholder} borderRadius="full" boxSize="46px" />
+              }
             />
             <h2 className={styles.logo_name}>{storeData.account_store}</h2>
           </div>
@@ -147,88 +149,92 @@ const Store = (props) => {
             onClick={() => history.push(`/store/search/${storeData.id}`)}
           />
         </InputGroup>
-        {storeCategories.length < 1 && (
-          <Stack direction="row" w="95%" ml="5%" alignItems="flex-start">
-            <Skeleton w="60px" h="40px" borderRadius="40px" />
-            <Skeleton w="90px" h="40px" borderRadius="40px" />
-            <Skeleton w="80px" h="40px" borderRadius="40px" />
-            <Skeleton w="80px" h="40px" borderRadius="40px" />
-          </Stack>
-        )}
-        {storeCategories.length > 0 && (
-          <div className={styles.categories_container}>
-            {storeCategories.length < 1 && (
-              <>
-                <Skeleton w="60px" h="40px" borderRadius="40px" />
-                <Skeleton w="90px" h="40px" borderRadius="40px" />
-                <Skeleton w="80px" h="40px" borderRadius="40px" />
-                <Skeleton w="80px" h="40px" borderRadius="40px" />
-              </>
-            )}
-            <div
-              className={
-                catSelected == "all"
-                  ? styles.category_item_selected
-                  : styles.category_item
-              }
-              onClick={() => setCatSelected("all")}
-            >
-              All
-            </div>
 
-            {storeCategories.map((cat) => (
+        <div className={styles.categories_container}>
+          {storeCategories.length < 1 ? (
+            <>
+              <Skeleton w="60px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="90px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
+            </>
+          ) : (
+            <>
               <div
-                key={cat.id}
                 className={
-                  catSelected == cat.id
+                  catSelected == "all"
                     ? styles.category_item_selected
                     : styles.category_item
                 }
-                onClick={() => setCatSelected(cat.id)}
+                onClick={() => setCatSelected("all")}
               >
-                {cat.cat_name}
+                All
               </div>
-            ))}
-          </div>
-        )}
+
+              {storeCategories.map((cat) => (
+                <div
+                  key={cat.id}
+                  className={
+                    catSelected == cat.id
+                      ? styles.category_item_selected
+                      : styles.category_item
+                  }
+                  onClick={() => setCatSelected(cat.id)}
+                >
+                  {cat.cat_name}
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+
         {/* <div className={styles.products}> */}
         {/* product item starts here */}
 
-        <SimpleGrid columns={2} spacing={1} w="100%" p="10px">
+        <SimpleGrid columns={2} spacing={1} w="95%">
           {storeProducts.length < 1 && (
             <>
-              <Stack direction="column" width="100%">
+              <Stack
+                direction="column"
+                width="100%"
+                paddingLeft="5px"
+                marginTop="5%"
+                paddingRight="5px"
+              >
                 <Skeleton
-                  marginTop="5%"
                   height="180px"
                   borderRadius="5px"
-                  paddingLeft="5px"
-                  paddingRight="5px"
-                  w="90%"
+                  w="98%"
                   style={{ borderRadius: "5px" }}
                 />
                 <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />
               </Stack>
-              <Stack direction="column" width="100%">
+              <Stack
+                paddingLeft="5px"
+                marginTop="5%"
+                paddingRight="5px"
+                direction="column"
+                width="100%"
+              >
                 <Skeleton
-                  marginTop="5%"
                   height="180px"
                   borderRadius="5px"
-                  paddingLeft="5px"
-                  paddingRight="5px"
-                  w="90%"
+                  w="98%"
                   style={{ borderRadius: "5px" }}
                 />
                 <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />
               </Stack>
-              <Stack direction="column" width="100%">
+              <Stack
+                paddingLeft="5px"
+                marginTop="5%"
+                paddingRight="5px"
+                direction="column"
+                width="100%"
+              >
                 <Skeleton
-                  marginTop="5%"
                   height="180px"
                   borderRadius="5px"
-                  paddingLeft="5px"
-                  paddingRight="5px"
-                  w="90%"
+                  w="98%"
                   style={{ borderRadius: "5px" }}
                 />
                 <SkeletonText mt="10px" noOfLines={2} spacing="1" width="90%" />

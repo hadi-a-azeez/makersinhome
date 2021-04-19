@@ -1,16 +1,18 @@
 .product_card {
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 5px;
   padding-right: 5px;
   padding-left: 5px;
 }
 
 .product_image {
-  background-color: grey;
   border-radius: 5px;
-  width: 95%;
+  width: 98%;
   margin-top: 5%;
   height: 180px;
   background-position: center center;
@@ -22,7 +24,8 @@
 .product_details {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-self: flex-start;
+  margin-left: 2%;
 }
 
 .price_container {
