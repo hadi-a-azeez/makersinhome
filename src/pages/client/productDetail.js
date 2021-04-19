@@ -24,6 +24,7 @@ import {
   Text,
   AvatarBadge,
   Stack,
+  Image,
 } from "@chakra-ui/react";
 
 import styles from "../../components/css/product_detailed.module.css";
@@ -218,88 +219,79 @@ const ProductDetail = (props) => {
         </Popover>
       </div>
 
-      {isLoading ? (
-        <Skeleton height="50vh" width="100%" />
-      ) : (
-        <Carousel
-          className={styles.image_slider}
-          infiniteLoop
-          dynamicHeight
-          showThumbs={false}
-          showStatus={false}
-          showArrows={false}
-        >
-          {productData.products_images &&
-            productData.products_images.map((image) => {
-              return (
-                <div
-                  key={image.id}
-                  style={{
-                    height: "50vh",
-                    backgroundColor: `white`,
-                  }}
-                  onClick={() => {
-                    setPopupImage(
-                      `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`
-                    );
-                    onImageOpen();
-                  }}
-                >
-                  <img
-                    src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`}
-                    style={{
-                      objectFit: "cover",
-                      height: "50vh",
-                      borderRadius: "6px",
-                    }}
-                  />
-                </div>
-              );
-            })}
-        </Carousel>
+      {!productData && (
+        <div className={styles.image_slider}>
+          <Skeleton height="50vh" width="100%" borderRadius="6px" />
+        </div>
       )}
+      <Carousel
+        className={styles.image_slider}
+        infiniteLoop
+        dynamicHeight
+        showThumbs={false}
+        showStatus={false}
+        showArrows={false}
+      >
+        {productData &&
+          productData.products_images.map((image) => {
+            return (
+              <div
+                key={image.id}
+                style={{
+                  height: "50vh",
+                  backgroundColor: `white`,
+                }}
+                onClick={() => {
+                  setPopupImage(
+                    `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`
+                  );
+                  onImageOpen();
+                }}
+              >
+                <Image
+                  src={
+                    image.product_image ? (
+                      `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`
+                    ) : (
+                      <Skeleton height="50vh" borderRadius="6px" />
+                    )
+                  }
+                  style={{
+                    objectFit: "cover",
+                    height: "50vh",
+                    borderRadius: "6px",
+                  }}
+                  fallback={<Skeleton height="50vh" borderRadius="6px" />}
+                />
+              </div>
+            );
+          })}
+      </Carousel>
+
       {/* <div className={styles.button_back} onClick={() => history.goBack()}>
         <img src={BackIcon} width="25px" />
       </div> */}
 
       {isLoading ? (
-        <>
-          <Skeleton height="30px" mt="20px" ml="5%" w="50%" />
-          <Skeleton height="35px" mt="10px" ml="5%" w="20%" mb="18px" />
-          <Stack direction="row" mt="10px">
+        <Stack direction="column" mt="20px" p="12px">
+          <Skeleton height="30px" w="50%" />
+          <Skeleton height="30px" mt="10px" w="30%" mb="18px" />
+          <Stack direction="row" mt="30px">
+            <Skeleton height="45px" borderRadius="48px" w="60px" mb="18px" />
             <Skeleton
               height="45px"
-              borderRadius="10px"
+              borderRadius="48px"
               ml="5%"
-              w="50px"
+              w="70px"
               mb="18px"
             />
-            <Skeleton
-              height="45px"
-              borderRadius="10px"
-              ml="5%"
-              w="50px"
-              mb="18px"
-            />
-            <Skeleton
-              height="45px"
-              borderRadius="10px"
-              ml="5%"
-              w="50px"
-              mb="18px"
-            />
+            <Skeleton height="45px" borderRadius="48px" w="80px" mb="18px" />
           </Stack>
-          <Skeleton height="60px" ml="5%" w="90%" borderRadius="5px" />
-          <Skeleton
-            height="60px"
-            mt="15px"
-            ml="5%"
-            w="90%"
-            borderRadius="5px"
-          />
-        </>
+          <Skeleton height="60px" w="98%" borderRadius="48px" />
+          <Skeleton height="60px" mt="18px" w="98%" borderRadius="48px" />
+        </Stack>
       ) : (
-        <Stack direction="column" padding="14px" spacing="0px">
+        <div className={styles.product_details_container}>
           <h1 className={styles.product_name}>{productData.product_name}</h1>
           <div className={styles.price_container}>
             {productData.product_is_sale == 0 ? (
@@ -352,7 +344,6 @@ const ProductDetail = (props) => {
               <Button
                 alignSelf="center"
                 size="lg"
-                ml="5%"
                 w="98%"
                 borderRadius="48px"
                 p="10px"
@@ -368,9 +359,7 @@ const ProductDetail = (props) => {
               </Button>
 
               <Button
-                ml="5%"
                 borderRadius="48px"
-                mt="15px"
                 leftIcon={
                   <img src={CartIconBlack} className={styles.add_cart_icon} />
                 }
@@ -424,7 +413,6 @@ const ProductDetail = (props) => {
             <Button
               alignSelf="center"
               size="lg"
-              ml="5%"
               w="90%"
               p="10px"
               h="60px"
@@ -463,7 +451,7 @@ const ProductDetail = (props) => {
               {storeData.account_store_address}
             </p>
           </div>
-        </Stack>
+        </div>
       )}
     </div>
   );
