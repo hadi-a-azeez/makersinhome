@@ -38,6 +38,26 @@ export const updateProductAPI = async (product, id) => {
     return error;
   }
 };
+
+//delete images from firebase storage
+export const deleteFirebaseImages = async (images) => {
+  console.log(images);
+  for (const image of images) {
+    console.log(image);
+    const imageRefMin = firebase
+      .storage()
+      .ref()
+      .child(`product_images/min/${image.product_image}`);
+    await imageRefMin.delete(image.imagemin);
+
+    const imageRef = firebase
+      .storage()
+      .ref()
+      .child(`product_images/${image.product_image}`);
+    await imageRef.delete(image.image);
+  }
+};
+
 //Delete Product Images
 export const deleteProductImagesAPI = async (images, pid) => {
   console.log(images);
@@ -50,24 +70,7 @@ export const deleteProductImagesAPI = async (images, pid) => {
     );
     //delete image from firebase storage
     //delete from firebase storage
-    for (const image of images) {
-      console.log(image);
-      const imageRefMin = firebase
-        .storage()
-        .ref()
-        .child(`product_images/min/${image.product_image}`);
-      imageRefMin.delete(image.imagemin).then((snapshot) => {
-        console.log(snapshot);
-      });
-
-      const imageRef = firebase
-        .storage()
-        .ref()
-        .child(`product_images/${image.product_image}`);
-      imageRef.delete(image.image).then((snapshot) => {
-        console.log(snapshot);
-      });
-    }
+    await deleteFirebaseImages(images);
     return response;
   } catch (error) {
     console.log(error);

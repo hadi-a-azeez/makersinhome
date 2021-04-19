@@ -73,6 +73,7 @@ const Store = (props) => {
   }, []);
   useEffect(() => {
     const getSelectedProducts = async () => {
+      setStoreProducts([]);
       const productsResponse = await getStoreProducts(
         storeData.id,
         catSelected

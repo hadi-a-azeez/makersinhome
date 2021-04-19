@@ -19,6 +19,7 @@ import {
   uploadProductImageAPI,
   addProductsVariantAPI,
   deleteProductsVariantAPI,
+  deleteFirebaseImages,
 } from "../../../api/sellerProductAPI";
 import {
   AlertDialog,
@@ -250,6 +251,8 @@ const ProductEdit = (props) => {
   const handleDelete = async () => {
     await deleteProductAPI(productId);
     setIsLoading(false);
+    console.log("sngle dleete", product.products_images);
+    await deleteFirebaseImages(product.products_images);
     history.push("/app/products/All%20Products/all");
   };
 

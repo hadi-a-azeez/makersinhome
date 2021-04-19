@@ -27,7 +27,18 @@
   align-self: flex-start;
   margin-left: 2%;
 }
+.product_name {
+  font-family: "elemen";
+  margin-top: 5px;
+  font-style: normal;
+  font-size: 15px;
+  width: 160px;
 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #212121;
+}
 .price_container {
   font-family: "elemen";
   display: flex;
@@ -50,15 +61,4 @@
   font-size: 15px;
   font-weight: 800;
   margin-left: 10px;
-}
-.product_name {
-  font-family: "elemen";
-  margin-top: 5px;
-  font-style: normal;
-  font-size: 15px;
-  width: 80%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #212121;
 }

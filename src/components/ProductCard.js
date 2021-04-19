@@ -3,7 +3,6 @@ import { Stack } from "@chakra-ui/layout";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./css/product_card.module.css";
-import ProductDetailed from "./ProductDetailed";
 
 const ProductCard = ({ product, store }) => {
   const history = useHistory();
@@ -12,13 +11,6 @@ const ProductCard = ({ product, store }) => {
 
   return (
     <>
-      <ProductDetailed
-        isOpen={isOpen}
-        onClose={onClose}
-        btnRef={btnRef}
-        product={product}
-        store={store}
-      />
       <div
         className={styles.product_card}
         onClick={() => history.push(`/product_detail/${product.id}`)}
@@ -32,7 +24,7 @@ const ProductCard = ({ product, store }) => {
           />
         )}
         <div className={styles.product_details}>
-          <h1 className={styles.product_name}>{product.product_name}</h1>
+          <div className={styles.product_name}>{product.product_name}</div>
           <div className={styles.price_container}>
             {product.product_is_sale == 0 ? (
               <h1 className={styles.product_price}>₹{product.product_price}</h1>
