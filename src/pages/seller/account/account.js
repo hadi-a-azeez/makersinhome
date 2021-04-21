@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../css/account.module.css";
 import { Link, useHistory } from "react-router-dom";
 import LabelHeader from "../../../components/labelHeader";
@@ -8,6 +8,13 @@ import { profileImagesRoot } from "../../../config";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 import {
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
   Stack,
   Image,
   Flex,
@@ -29,6 +36,8 @@ import FocusLock from "@chakra-ui/focus-lock";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const cancelRef = useRef();
 
   let history = useHistory();
   const logOut = () => {
@@ -132,10 +141,37 @@ const Account = () => {
             )}
           </Popup>
 
-          <div className={styles.nav_item} onClick={logOut}>
+          <div className={styles.nav_item} onClick={() => setIsOpen(true)}>
             <img src={LogOut} alt="w" />
-            <h1>Logout</h1>
+            <h1>Logout </h1>
           </div>
+          <AlertDialog
+            isCentered
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={() => setIsOpen(false)}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent w="90%">
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Logout Confirmation
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Are you sure you want to Logout?
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button colorScheme="red" onClick={logOut} ml={3}>
+                    Logout
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </div>
         <BottomNavigationMenu />
       </div>

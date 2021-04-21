@@ -62,17 +62,60 @@ const Store = (props) => {
         setStoreProducts(storeResponse.data.data.products);
         setStoreCategories(storeResponse.data.data.categories);
         setIsLoading(false);
+        console.log("here", cartProducts);
         //update store views analytics
-        const analyticResponse = await updateStoreViews(
-          storeResponse.data.data.storeinfo.id
-        );
-        console.log(analyticResponse);
+        await sendStoreAnalytics(storeResponse.data.data.storeinfo.id);
       } else {
         setIsStoreExists(false);
       }
     };
     getData();
   }, []);
+
+  const sendStoreAnalytics = async (storeId) => {
+    //check if storeid is in array and date is today if not add and increment store visit
+    const todayDate = "22/04/2021";
+    const visits = JSON.parse(localStorage.getItem("visits"));
+    if (visits) {
+      if (visits.date !== todayDate) {
+        localStorage.removeItem("visits");
+        await updateStoreViews(storeId);
+        localStorage.setItem(
+          "visits",
+          JSON.stringify({ array: [storeId], date: todayDate })
+        );
+      } else {
+        const isVisited = visits.array.some((visit) => visit === storeId);
+        if (!isVisited) {
+          await updateStoreViews(storeId);
+          localStorage.setItem(
+            "visits",
+            JSON.stringify({
+              array: [...visits.array, storeId],
+              date: todayDate,
+            })
+          );
+        }
+      }
+    } else {
+      await updateStoreViews(storeId);
+      localStorage.setItem(
+        "visits",
+        JSON.stringify({ array: [storeId], date: todayDate })
+      );
+    }
+    // console.log(cartProducts);
+    // console.log(new Date().toLocaleDateString());
+    // const isVisitedToday = userVisited.filter(
+    //   (entry) => entry.store_id === storeId
+    // );
+    // console.log("vis", isVisitedToday);
+    // if (!isVisitedToday) {
+    //   await updateStoreViews(storeId);
+    //   addVisitor({ store_id: storeId, date: new Date().toLocaleDateString() });
+    // }
+  };
+
   useEffect(() => {
     const getSelectedProducts = async () => {
       setIsLoading(true);

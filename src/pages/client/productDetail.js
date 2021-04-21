@@ -4,7 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 import WhatsappLogo from "../../assets/logo-whatsapp.svg";
 import CartIcon from "../../assets/cartIcon.svg";
 import CartIconBlack from "../../assets/cartIconblack.svg";
-import BuyIcon from "../../assets/buynow.svg";
+import WhatsappClean from "../../assets/whatsapp_clean.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
 import BackIcon from "../../assets/angle-left.svg";
 import ImageModal from "../../components/ImageModal";
@@ -115,7 +115,11 @@ const ProductDetail = (props) => {
         ? productData.product_sale_price
         : productData.product_price
     } %0D%0A`;
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg} %0D%0A *Total: ₹${productData.product_price}*%0D%0A _______________________%0D%0A%0D%0A Powered by Saav.in`;
+    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg} %0D%0A *Total: ₹${
+      productData.product_is_sale
+        ? productData.product_sale_price
+        : productData.product_price
+    }*%0D%0A _______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=91${storeData.account_whatsapp}&text=${whatsappMessage}`
     );
@@ -167,7 +171,7 @@ const ProductDetail = (props) => {
             />
             <PopoverHeader>
               <Stack direction="row" justifyContent="space-between" w="85%">
-                <Text fontWeight="bold">Cart</Text>
+                <Text fontWeight="bold">Bag</Text>
                 <Text color="green.500">
                   {" "}
                   Total: ₹
@@ -189,9 +193,13 @@ const ProductDetail = (props) => {
                   .filter((prd) => prd.store_id == storeData.id)
                   .map((cartProduct) => (
                     <div className={styles.cart_popup_item}>
-                      {cartProduct.product_name}
-                      {cartProduct.product_variant &&
-                        `(${cartProduct.product_variant.variant_name})`}{" "}
+                      <span className={styles.cart_popup_name}>
+                        {cartProduct.product_name}
+                      </span>
+                      <span className={styles.cart_popup_variant}>
+                        {cartProduct.product_variant &&
+                          `(${cartProduct.product_variant.variant_name})`}
+                      </span>{" "}
                       x {cartProduct.product_quantity}
                     </div>
                   ))}
@@ -288,7 +296,7 @@ const ProductDetail = (props) => {
             <Skeleton height="45px" borderRadius="48px" w="80px" mb="18px" />
           </Stack>
           <Skeleton height="60px" w="98%" borderRadius="48px" />
-          <Skeleton height="60px" mt="18px" w="98%" borderRadius="48px" />
+          <Skeleton height="60px" mt="15px" w="98%" borderRadius="48px" />
         </Stack>
       ) : (
         <div className={styles.product_details_container}>
@@ -345,21 +353,23 @@ const ProductDetail = (props) => {
               <Button
                 alignSelf="center"
                 size="lg"
+                mt="20px"
                 w="98%"
                 borderRadius="48px"
                 p="10px"
                 onClick={whatsappBuy}
-                leftIcon={<img src={BuyIcon} className={styles.buy_now_icon} />}
+                leftIcon={
+                  <img src={WhatsappClean} className={styles.buy_now_icon} />
+                }
                 h="58px"
-                mb="10px"
-                backgroundColor="#ff5500"
+                backgroundColor="#08BD80"
                 color="white"
                 fontFamily="elemen"
               >
-                Buy Now
+                Buy On Whatsapp
               </Button>
-
               <Button
+                mt="13px"
                 borderRadius="48px"
                 leftIcon={
                   <img src={CartIconBlack} className={styles.add_cart_icon} />
@@ -367,8 +377,7 @@ const ProductDetail = (props) => {
                 alignSelf="center"
                 size="lg"
                 w="98%"
-                backgroundColor="#ffece3"
-                color="#ff5500"
+                color="#141414"
                 h="58px"
                 fontFamily="elemen"
                 mb="20px"
@@ -401,13 +410,13 @@ const ProductDetail = (props) => {
                         borderRadius="30px"
                         textAlign="center"
                       >
-                        Succesfully Added To Cart
+                        Succesfully Added To Bag
                       </Box>
                     ),
                   });
                 }}
               >
-                Add to Cart
+                Add to Bag
               </Button>
             </>
           ) : (
