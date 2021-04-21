@@ -42,6 +42,7 @@ const ProductDetail = (props) => {
   const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
+  const [isError, setIsError] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState("");
   const [popupImage, setPopupImage] = useState("");
   const {
@@ -67,12 +68,12 @@ const ProductDetail = (props) => {
       console.log(productResponse);
       setProductData(productResponse.data.data.product);
       //set default variant value if available
-      {
-        productResponse.data.data.product.products_variants.length > 0 &&
-          setSelectedVariant(
-            productResponse.data.data.product.products_variants[0]
-          );
-      }
+      // {
+      //   productResponse.data.data.product.products_variants.length > 0 &&
+      //     setSelectedVariant(
+      //       productResponse.data.data.product.products_variants[0]
+      //     );
+      // }
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
 
@@ -82,6 +83,46 @@ const ProductDetail = (props) => {
     };
     getProduct();
   }, []);
+  const validateBuy = (callback) => {
+    setIsError(false);
+    if (selectedVariant !== "") callback();
+    else setIsError(true);
+  };
+
+  const addToCart = () => {
+    const productFinalPrice = productData.product_is_sale
+      ? productData.product_sale_price
+      : productData.product_price;
+    addToCartState({
+      store_id: storeData.id,
+      product_id: productData.id,
+      product_name: productData.product_name,
+      product_image: productData.products_images[0].product_image,
+      product_price: productFinalPrice,
+      product_variant: selectedVariant,
+      product_quantity: 1,
+      //unique id for identify with reference to variant
+      product_id_gen: `${productData.id}${
+        selectedVariant && selectedVariant.id
+      }`,
+    });
+    toast({
+      position: "top",
+      duration: 1000,
+      render: () => (
+        <Box
+          color="white"
+          p={3}
+          mt="60px"
+          bg="green.500"
+          borderRadius="30px"
+          textAlign="center"
+        >
+          Succesfully Added To Bag
+        </Box>
+      ),
+    });
+  };
   const whatsappBuyCart = async () => {
     const productsMsg = cartProducts
       .filter((prd) => prd.store_id == storeData.id)
@@ -326,6 +367,7 @@ const ProductDetail = (props) => {
               </>
             )}
           </div>
+
           {productData.product_stock && productData.product_stock === 1 ? (
             <>
               {productData.products_variants &&
@@ -341,7 +383,10 @@ const ProductDetail = (props) => {
                               ? styles.variant_item_selected
                               : styles.variant_item
                           }
-                          onClick={() => setSelectedVariant(variant)}
+                          onClick={() => {
+                            setIsError(false);
+                            setSelectedVariant(variant);
+                          }}
                         >
                           {variant.variant_name}
                         </div>
@@ -349,7 +394,18 @@ const ProductDetail = (props) => {
                     </div>
                   </>
                 )}
-
+              {isError && (
+                <Text
+                  mt="6px"
+                  ml="10px"
+                  color="red.500"
+                  fontSize="20px"
+                  fontFamily="elemen"
+                  className={styles.shake_horizontal}
+                >
+                  Plese Select a option
+                </Text>
+              )}
               <Button
                 alignSelf="center"
                 size="lg"
@@ -357,7 +413,7 @@ const ProductDetail = (props) => {
                 w="98%"
                 borderRadius="48px"
                 p="10px"
-                onClick={whatsappBuy}
+                onClick={() => validateBuy(whatsappBuy)}
                 leftIcon={
                   <img src={WhatsappClean} className={styles.buy_now_icon} />
                 }
@@ -381,40 +437,7 @@ const ProductDetail = (props) => {
                 h="58px"
                 fontFamily="elemen"
                 mb="20px"
-                onClick={() => {
-                  const productFinalPrice = productData.product_is_sale
-                    ? productData.product_sale_price
-                    : productData.product_price;
-                  addToCartState({
-                    store_id: storeData.id,
-                    product_id: productData.id,
-                    product_name: productData.product_name,
-                    product_image: productData.products_images[0].product_image,
-                    product_price: productFinalPrice,
-                    product_variant: selectedVariant,
-                    product_quantity: 1,
-                    //unique id for identify with reference to variant
-                    product_id_gen: `${productData.id}${
-                      selectedVariant && selectedVariant.id
-                    }`,
-                  });
-                  toast({
-                    position: "top",
-                    duration: 1000,
-                    render: () => (
-                      <Box
-                        color="white"
-                        p={3}
-                        mt="60px"
-                        bg="green.500"
-                        borderRadius="30px"
-                        textAlign="center"
-                      >
-                        Succesfully Added To Bag
-                      </Box>
-                    ),
-                  });
-                }}
+                onClick={() => validateBuy(addToCart)}
               >
                 Add to Bag
               </Button>
