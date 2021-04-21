@@ -3,35 +3,72 @@
   align-items: center;
   flex-direction: column;
   /* background-color: #f7f7f7; */
-  height: 100%;
+  min-height: 100vh;
 }
-.products_bg {
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
   width: 100%;
-  height: auto;
-  margin-top: 0px;
-  margin-top: 60px;
+  border-bottom: 1px solid rgb(228, 228, 228);
 }
-.heading_main {
-  font-size: 29;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
-  color: #090c11;
+.logowrapper {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
 }
-.searchbox {
-  width: 80%;
-  padding: 16px;
-  border: 0.5px solid rgba(0, 0, 0, 0.2);
-  margin-top: 10px;
+.logo {
+  height: 28px;
+  width: auto;
 }
-.btn {
-  padding: 16px 0px;
-  border-radius: 4px;
-  background: #00b140;
-  color: white;
+.saav {
+  color: rgb(20, 20, 20);
   font-weight: 600;
-  font-size: 18px;
-  border: none;
-  width: 70%;
-  margin-top: 10px;
+  font-size: 20px;
+  margin-left: 0.3rem;
+}
+.login_btn {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 5%;
+  padding: 0.3rem 1rem 0.3rem 1rem;
+  background-color: #08bd80;
+  border-radius: 0.2rem;
+}
+.main_heading {
+  color: #222151;
+  font-family: "elemen";
+  font-weight: 600;
+  font-size: 40px;
+  text-align: center;
+  max-width: 14ch;
+  margin-top: 5rem;
+  line-height: 3rem;
+}
+.register_btn {
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+  margin-right: 5%;
+  padding: 0.7rem 3rem 0.7rem 3rem;
+  background-color: #08bd80;
+  border-radius: 0.2rem;
+  margin-top: 1rem;
+}
+.sub_heading {
+  color: #808080;
+  font-family: "elemen";
+  font-weight: 400;
+  font-size: 30;
+  text-align: center;
+  max-width: 30ch;
+  margin-top: 0.4rem;
+  line-height: 1.4rem;
+}
+.main_mockup {
+  width: 90%;
+  height: auto;
 }
