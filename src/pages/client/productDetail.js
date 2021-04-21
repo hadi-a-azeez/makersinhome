@@ -85,7 +85,8 @@ const ProductDetail = (props) => {
   }, []);
   const validateBuy = (callback) => {
     setIsError(false);
-    if (selectedVariant !== "") callback();
+    if (selectedVariant !== "" || productData.products_variants.length < 1)
+      callback();
     else setIsError(true);
   };
 
