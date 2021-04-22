@@ -25,8 +25,8 @@ import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
-  const [countData, setCountData] = useState([]);
-  const [userInfo, setUserInfo] = useState([]);
+  const [countData, setCountData] = useState({});
+  const [userInfo, setUserInfo] = useState({ account_store_status: true });
   const history = useHistory();
 
   const shareToWhatsapp = () => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
     //get count of products and catgories of the current user
     const getCount = async () => {
       const response = await getCountAPI();
-      setCountData(response.data.data[0]);
+      setCountData(response.data.data);
     };
     const getUser = async () => {
       const response = await getUserInfo();
@@ -119,7 +119,7 @@ const Dashboard = () => {
             <Flex direction="column" mt="4" ml="1">
               <h1 className={styles.card_heading}>Store visits</h1>
               <h1 className={styles.card_data_bold}>
-                {countData.store_views ? countData.store_views : 0}
+                {countData && countData.store_views ? countData.store_views : 0}
               </h1>
             </Flex>
           </Box>
@@ -143,7 +143,9 @@ const Dashboard = () => {
             <Flex direction="column" mt="4" ml="1">
               <h1 className={styles.card_heading}>Messages Started</h1>
               <h1 className={styles.card_data_bold}>
-                {countData.message_clicks ? countData.message_clicks : 0}
+                {countData && countData.message_clicks
+                  ? countData.message_clicks
+                  : 0}
               </h1>
             </Flex>
           </Box>
@@ -168,7 +170,7 @@ const Dashboard = () => {
             <Flex direction="column" mt="4" ml="1">
               <h1 className={styles.card_heading}>Products</h1>
               <h1 className={styles.card_data_bold}>
-                {countData.products_count}
+                {countData && countData.products_count}
               </h1>
             </Flex>
           </Box>
@@ -192,7 +194,9 @@ const Dashboard = () => {
             />
             <Flex direction="column" mt="4" ml="1">
               <h1 className={styles.card_heading}>Categories</h1>
-              <h1 className={styles.card_data_bold}>{countData.cat_count}</h1>
+              <h1 className={styles.card_data_bold}>
+                {countData && countData.cat_count}
+              </h1>
             </Flex>
           </Box>
         </SimpleGrid>

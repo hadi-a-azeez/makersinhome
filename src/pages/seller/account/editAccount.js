@@ -41,8 +41,8 @@ const EditAccount = () => {
     let imagesFromInput = event.target.files;
     let imagesCompressed = [];
     const options = {
-      maxSizeMB: 0.6,
-      maxWidthOrHeight: 1080,
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 200,
       useWebWorker: true,
     };
     try {

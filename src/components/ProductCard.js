@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
     <>
       <div
         className={styles.product_card}
-        onClick={() => history.push(`/product_detail/${product.id}`)}
+        onClick={() => history.push(`/product/${product.id}`)}
         key={product.id}
       >
         {product.products_images && (

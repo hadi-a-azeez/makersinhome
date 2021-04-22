@@ -116,7 +116,8 @@ const AddNewProduct = (props) => {
       useWebWorker: true,
     };
     const optionsMin = {
-      maxSizeMB: 0.1,
+      maxSizeMB: 0.3,
+      fileType: "webp",
       maxWidthOrHeight: 360,
       useWebWorker: true,
     };

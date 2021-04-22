@@ -138,7 +138,7 @@ const StoreCart = (props) => {
                       }
                       alt="img"
                       onClick={() =>
-                        history.push(`/product_detail/${product.product_id}`)
+                        history.push(`/product/${product.product_id}`)
                       }
                       className={styles.product_image}
                     />
@@ -146,7 +146,7 @@ const StoreCart = (props) => {
                     <div className={styles.product_details}>
                       <h1
                         onClick={() =>
-                          history.push(`/product_detail/${product.product_id}`)
+                          history.push(`/product/${product.product_id}`)
                         }
                         className={styles.product_name}
                       >

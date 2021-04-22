@@ -38,7 +38,7 @@ function App() {
       <Suspense
         fallback={
           <Stack w="100%" h="80vh" justifyContent="center" alignItems="center">
-            <CircularProgress isIndeterminate color="green.30" />
+            <CircularProgress color="inherit" />
           </Stack>
         }
       >
@@ -52,7 +52,7 @@ function App() {
             path="/store-favourates/:store_id"
             component={StoreFavourates}
           />
-          <Route path="/product_detail/:productId" component={ProductDetail} />
+          <Route path="/product/:productId" component={ProductDetail} />
           {/* seller routes */}
           <Route path="/signup" component={Signup} />
           <Route exact path="/login" component={SignIn} />

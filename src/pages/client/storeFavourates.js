@@ -52,9 +52,7 @@ const StoreFavourates = (props) => {
               <>
                 <div
                   className={styles.product_item}
-                  onClick={() =>
-                    history.push(`/product_detail/${product.product_id}`)
-                  }
+                  onClick={() => history.push(`/product/${product.product_id}`)}
                   key={product.product_id}
                 >
                   <img
