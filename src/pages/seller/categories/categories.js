@@ -61,6 +61,7 @@ const Categories = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Categories"} />
+        <div style={{ marginTop: "70px" }} />
         {isLoading && (
           <>
             <Skeleton height="75px" w="90%" mt="3" />

@@ -54,10 +54,7 @@ const SignIn = () => {
     <div className={styles.container}>
       <Header signup={true} />
       <div className={styles.heading_block}>
-        <Text fontWeight="600" fontSize="28px">
-          Log in to Saav
-        </Text>
-        {/* <h1 className={styles.heading_bold_big}>Log in to Vaank</h1> */}
+        <h1 className={styles.heading_bold_big}>Log in to Saav</h1>
       </div>
       {isLoginError && (
         <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
