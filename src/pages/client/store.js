@@ -194,12 +194,16 @@ const Store = (props) => {
 
         <div className={styles.categories_container}>
           {storeCategories.length < 1 ? (
-            <>
-              <Skeleton w="60px" h="40px" borderRadius="40px" ml="8px" />
-              <Skeleton w="90px" h="40px" borderRadius="40px" ml="8px" />
-              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
-              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
-            </>
+            <div
+              className={
+                catSelected == "all"
+                  ? styles.category_item_selected
+                  : styles.category_item
+              }
+              onClick={() => setCatSelected("all")}
+            >
+              All
+            </div>
           ) : (
             <>
               <div
@@ -226,6 +230,14 @@ const Store = (props) => {
                   {cat.cat_name}
                 </div>
               ))}
+            </>
+          )}
+          {isLoading && (
+            <>
+              <Skeleton w="60px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="90px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
+              <Skeleton w="80px" h="40px" borderRadius="40px" ml="8px" />
             </>
           )}
         </div>

@@ -131,12 +131,13 @@
 }
 .variant_container {
   display: flex;
+  flex-direction: row;
   font-family: "elemen";
-  width: auto;
-  overflow-x: auto;
+  width: 100%;
+  overflow: auto;
+  white-space: nowrap;
 }
 .variant_item {
-  height: 45px;
   font-family: "elemen";
   font-weight: bold;
   border: 1px solid #e5e5e6;
@@ -144,8 +145,9 @@
   font-size: 15px;
   min-width: 60px;
   width: auto;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 8px;
   border-radius: 40px;
 }
@@ -153,7 +155,6 @@
   animation: pulse 1s;
   background-color: black;
   color: #fff;
-  height: 45px;
   font-family: "elemen";
   font-weight: bold;
   border: 1px solid #e5e5e6;
@@ -161,8 +162,9 @@
   font-size: 15px;
   min-width: 60px;
   width: auto;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 8px;
   border-radius: 40px;
 }
