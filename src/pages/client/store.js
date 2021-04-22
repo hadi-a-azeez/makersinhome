@@ -290,6 +290,7 @@ const Store = (props) => {
             })}
           {/* product item ends here */}
         </SimpleGrid>
+        <div style={{ marginBottom: "30px" }} />
         {/* </div> */}
       </div>
     )

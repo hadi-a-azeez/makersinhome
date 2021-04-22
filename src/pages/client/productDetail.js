@@ -289,7 +289,8 @@ const ProductDetail = (props) => {
                 key={image.id}
                 style={{
                   height: "50vh",
-                  backgroundColor: `white`,
+                  borderRadius: "6px",
+                  backgroundColor: "white",
                 }}
                 onClick={() => {
                   setPopupImage(
@@ -310,6 +311,7 @@ const ProductDetail = (props) => {
                     objectFit: "cover",
                     height: "50vh",
                     borderRadius: "6px",
+                    backgroundColor: "white",
                   }}
                   fallback={<Skeleton height="50vh" borderRadius="6px" />}
                 />

@@ -70,6 +70,9 @@
   height: 50vh;
   position: relative;
   margin-bottom: 10px;
+  border-radius: 6px !important;
+  background-color: white !important;
+  border: 0 !important;
 }
 
 .product_name {
@@ -129,6 +132,8 @@
 .variant_container {
   display: flex;
   font-family: "elemen";
+  width: auto;
+  overflow-x: auto;
 }
 .variant_item {
   height: 45px;
@@ -138,6 +143,7 @@
   padding: 10px 20px 10px 20px;
   font-size: 15px;
   min-width: 60px;
+  width: auto;
   display: grid;
   place-items: center;
   margin-right: 8px;
@@ -154,6 +160,7 @@
   padding: 10px 20px 10px 20px;
   font-size: 15px;
   min-width: 60px;
+  width: auto;
   display: grid;
   place-items: center;
   margin-right: 8px;
