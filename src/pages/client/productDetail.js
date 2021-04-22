@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-import CartIcon from "../../assets/cartIcon.svg";
+//import WhatsappLogo from "../../assets/logo-whatsapp.svg";
+//import CartIcon from "../../assets/cartIcon.svg";
 import CartIconBlack from "../../assets/cartIconblack.svg";
 import WhatsappClean from "../../assets/whatsapp_clean.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
-import BackIcon from "../../assets/angle-left.svg";
+//import BackIcon from "../../assets/angle-left.svg";
 import ImageModal from "../../components/ImageModal";
 import {
   Popover,
@@ -14,7 +14,6 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
   Button,
@@ -22,7 +21,6 @@ import {
   useDisclosure,
   Box,
   Text,
-  AvatarBadge,
   Stack,
   Image,
 } from "@chakra-ui/react";

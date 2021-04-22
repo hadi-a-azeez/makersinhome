@@ -16,6 +16,7 @@ import AddToCart from "../../../assets/addtocart.svg";
 import { useForm } from "../../../components/useForm";
 import { apiRoot } from "../../../config";
 import axios from "axios";
+import Header from "../../../components/header";
 import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
@@ -68,12 +69,7 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
-      <Stack w="100%" direction="row" mt="10px" justifyContent="space-between">
-        <Text>Logo</Text>
-        <Text mr="20px" color="#0075f2" onClick={() => history.push("/login")}>
-          Login
-        </Text>
-      </Stack>
+      <Header />
       <div className={styles.heading_block}>
         <h1 className={styles.heading_normal}>Create your own</h1>
         <h1 className={styles.heading_bold}>&nbsp;FREE</h1>

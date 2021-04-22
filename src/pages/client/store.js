@@ -1,33 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
-import { useHistory, Link, withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
-import { productImagesRoot } from "../../config";
+//import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
 import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
-import MenuIcon from "../../assets/bars.svg";
+//import MenuIcon from "../../assets/bars.svg";
 
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  SkeletonText,
-  Text,
-} from "@chakra-ui/react";
+import { SkeletonText, Text } from "@chakra-ui/react";
 
 import {
   SimpleGrid,
   Input,
   InputGroup,
   InputLeftElement,
-  Button,
   Skeleton,
   Stack,
   Image,
-  SkeletonCircle,
-  useDisclosure,
   IconButton,
   Box,
 } from "@chakra-ui/react";

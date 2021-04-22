@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/signup.module.css";
 import { useHistory } from "react-router-dom";
-import Loader from "react-loader-spinner";
+import Header from "../../../components/header";
 import { signinUserAPI } from "../../../api/sellerAccountAPI";
 import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {
@@ -52,6 +52,7 @@ const SignIn = () => {
   };
   return (
     <div className={styles.container}>
+      <Header signup={true} />
       <div className={styles.heading_block}>
         <Text fontWeight="600" fontSize="28px">
           Log in to Saav
