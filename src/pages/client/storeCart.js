@@ -3,17 +3,9 @@ import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
 import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
-import {
-  SimpleGrid,
-  IconButton,
-  Image,
-  Button,
-  Flex,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { IconButton, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
-import CartIconFilled from "../../assets/cart-filled.svg";
+//import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
 import _ from "lodash";

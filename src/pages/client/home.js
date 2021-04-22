@@ -25,6 +25,9 @@ const Home = () => {
       </h1>
       <button className={styles.register_btn}>Register Now</button>
       <img src={mockupmain} alt="s" className={styles.main_mockup} />
+      <div>
+        <div></div>
+      </div>
     </div>
   );
 };

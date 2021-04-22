@@ -226,22 +226,37 @@
 }
 .cart_popup_container {
   margin-bottom: 10px;
+  width: 100%;
+  overflow-y: auto;
 }
 .cart_popup_item {
   font-size: 20px;
   font-family: "elemen";
   font-weight: normal;
   color: rgb(36, 36, 36);
+  width: 90%;
+  display: flex;
 }
 .cart_popup_name {
-  font-size: 17px;
+  max-width: 80%;
+  font-size: 19px;
   font-family: "elemen";
   font-weight: normal;
   color: rgb(66, 66, 66);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart_popup_quantity {
+  font-size: 19px;
+  font-family: "elemen";
+  font-weight: bold;
+  color: rgb(66, 66, 66);
+  margin-left: 2px;
 }
 .cart_popup_variant {
-  margin-left: 5px;
-  font-size: 15px;
+  margin-left: 4px;
+  font-size: 19px;
   font-family: "elemen";
   font-weight: bold;
   color: rgb(114, 114, 114);

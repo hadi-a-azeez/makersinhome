@@ -241,8 +241,10 @@ const ProductDetail = (props) => {
                       <span className={styles.cart_popup_variant}>
                         {cartProduct.product_variant &&
                           `(${cartProduct.product_variant.variant_name})`}
-                      </span>{" "}
-                      x {cartProduct.product_quantity}
+                      </span>
+                      <span className={styles.cart_popup_quantity}>
+                        x {cartProduct.product_quantity}
+                      </span>
                     </div>
                   ))}
               </div>
