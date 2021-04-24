@@ -70,6 +70,9 @@
   height: 50vh;
   position: relative;
   margin-bottom: 10px;
+  border-radius: 6px !important;
+  background-color: white !important;
+  border: 0 !important;
 }
 
 .product_name {
@@ -128,18 +131,23 @@
 }
 .variant_container {
   display: flex;
+  flex-direction: row;
   font-family: "elemen";
+  width: 100%;
+  overflow: auto;
+  white-space: nowrap;
 }
 .variant_item {
-  height: 45px;
   font-family: "elemen";
   font-weight: bold;
   border: 1px solid #e5e5e6;
   padding: 10px 20px 10px 20px;
   font-size: 15px;
   min-width: 60px;
-  display: grid;
-  place-items: center;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 8px;
   border-radius: 40px;
 }
@@ -147,15 +155,16 @@
   animation: pulse 1s;
   background-color: black;
   color: #fff;
-  height: 45px;
   font-family: "elemen";
   font-weight: bold;
   border: 1px solid #e5e5e6;
   padding: 10px 20px 10px 20px;
   font-size: 15px;
   min-width: 60px;
-  display: grid;
-  place-items: center;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 8px;
   border-radius: 40px;
 }
@@ -226,22 +235,37 @@
 }
 .cart_popup_container {
   margin-bottom: 10px;
+  width: 100%;
+  overflow-y: auto;
 }
 .cart_popup_item {
   font-size: 20px;
   font-family: "elemen";
   font-weight: normal;
   color: rgb(36, 36, 36);
+  width: 90%;
+  display: flex;
 }
 .cart_popup_name {
-  font-size: 17px;
+  max-width: 80%;
+  font-size: 19px;
   font-family: "elemen";
   font-weight: normal;
   color: rgb(66, 66, 66);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart_popup_quantity {
+  font-size: 19px;
+  font-family: "elemen";
+  font-weight: bold;
+  color: rgb(66, 66, 66);
+  margin-left: 2px;
 }
 .cart_popup_variant {
-  margin-left: 5px;
-  font-size: 15px;
+  margin-left: 4px;
+  font-size: 19px;
   font-family: "elemen";
   font-weight: bold;
   color: rgb(114, 114, 114);

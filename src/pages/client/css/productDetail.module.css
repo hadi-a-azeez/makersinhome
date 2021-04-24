@@ -9,8 +9,9 @@
 .image_slider {
   width: 100%;
   min-height: 350px;
-  border-radius: 0px !important;
+  border-radius: 6px !important;
   position: relative;
+  background-color: white !important;
 }
 .product_details {
   display: flex;

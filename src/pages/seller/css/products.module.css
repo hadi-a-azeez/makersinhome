@@ -49,8 +49,7 @@
   margin-bottom: 10px; */
 }
 .image_block {
-  margin-top: 7px;
-  width: 40%;
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,8 +62,8 @@
   margin-left: 10%;
 }
 .thumbnail_image {
-  width: 100%;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border-radius: 4px;
 }
 .product_details {
@@ -77,6 +76,10 @@
   font-weight: 300;
   font-size: 20px;
   margin-top: 5%;
+  width: 12rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .heading_instock {
   font-weight: 400;
@@ -106,10 +109,7 @@
 }
 .toggle {
   /* margin-left: 15%; */
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-self: flex-end;
   margin-right: 5%;
   margin-top: 5%;
 }

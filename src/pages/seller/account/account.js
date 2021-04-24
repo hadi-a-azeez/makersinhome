@@ -57,7 +57,7 @@ const Account = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Account"} />
-
+        <div style={{ marginTop: "70px" }} />
         <Flex direction="row" w="85%" mt="3" mb="3">
           <Image
             src={

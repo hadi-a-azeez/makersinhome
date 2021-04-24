@@ -250,6 +250,7 @@ const ProductEdit = (props) => {
         isRightIcon={true}
         iconAction={() => setIsOpen(true)}
       />
+      <div style={{ marginTop: "70px" }} />
       <div>
         {isLoading ? (
           <div className={styles.loaderwraper}>
