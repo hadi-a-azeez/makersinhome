@@ -8,6 +8,7 @@ import ProductDetail from "./pages/client/productDetail";
 import Home from "./pages/client/home";
 import { Stack } from "@chakra-ui/layout";
 import { CircularProgress } from "@material-ui/core";
+import ImagesDump from "./pages/client/imageDump";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -53,6 +54,8 @@ function App() {
             component={StoreFavourates}
           />
           <Route path="/product/:productId" component={ProductDetail} />
+
+          <Route path="/imagedump" component={ImagesDump} />
           {/* seller routes */}
           <Route path="/signup" component={Signup} />
           <Route exact path="/login" component={SignIn} />

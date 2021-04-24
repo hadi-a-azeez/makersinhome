@@ -165,7 +165,7 @@ const Store = (props) => {
             <Image
               src={
                 storeData.account_store_image
-                  ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeData.account_store_image}?alt=media`
+                  ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${storeData.account_store_image}`
                   : Placeholder
               }
               borderRadius="full"

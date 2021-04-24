@@ -19,7 +19,6 @@ import {
   uploadProductImageAPI,
   addProductsVariantAPI,
   deleteProductsVariantAPI,
-  deleteFirebaseImages,
 } from "../../../api/sellerProductAPI";
 import {
   AlertDialog,
@@ -50,6 +49,7 @@ import { Box } from "@material-ui/core";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
+import { deleteProductImagesS3 } from "../../../api/s3Functions";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
@@ -212,26 +212,14 @@ const ProductEdit = (props) => {
 
         let imageName = uuidv4();
 
-        compressedFile.lastModifiedDate = new Date();
-        compressedFileMin.lastModifiedDate = new Date();
+        const convertedBlobFileMin = new File([compressedFileMin], imageName, {
+          type: imagesFromInput[i].type,
+          lastModified: Date.now(),
+        });
 
-        const convertedBlobFileMin = new File(
-          [compressedFileMin],
-          imagesFromInput[i].name,
-          {
-            type: imagesFromInput[i].type,
-            lastModified: Date.now(),
-          }
-        );
-
-        const convertedBlobFile = new File(
-          [compressedFile],
-          imagesFromInput[i].name,
-          {
-            type: imagesFromInput[i].type,
-            lastModified: Date.now(),
-          }
-        );
+        const convertedBlobFile = new File([compressedFile], imageName, {
+          lastModified: Date.now(),
+        });
         setProductImagesLocal((oldArray) => [
           ...oldArray,
           {
@@ -247,12 +235,10 @@ const ProductEdit = (props) => {
     }
   };
 
-  //error in product delete
   const handleDelete = async () => {
     await deleteProductAPI(productId);
     setIsLoading(false);
-    console.log("sngle dleete", product.products_images);
-    await deleteFirebaseImages(product.products_images);
+    await deleteProductImagesS3(product.products_images);
     history.push("/app/products/All%20Products/all");
   };
 
@@ -307,7 +293,7 @@ const ProductEdit = (props) => {
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${image.product_image}?alt=media`}
+                        src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${image.product_image}`}
                         key={index}
                       />
                       <IconButton

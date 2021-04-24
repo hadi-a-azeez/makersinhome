@@ -293,7 +293,7 @@ const ProductDetail = (props) => {
                 }}
                 onClick={() => {
                   setPopupImage(
-                    `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`
+                    `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`
                   );
                   onImageOpen();
                 }}
@@ -301,7 +301,7 @@ const ProductDetail = (props) => {
                 <Image
                   src={
                     image.product_image ? (
-                      `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`
+                      `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`
                     ) : (
                       <Skeleton height="50vh" borderRadius="6px" />
                     )

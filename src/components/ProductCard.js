@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
       >
         {product.products_images && (
           <Image
-            src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.products_images[0].product_image}?alt=media`}
+            src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${product.products_images[0].product_image}`}
             alt="img"
             className={styles.product_image}
             fallback={

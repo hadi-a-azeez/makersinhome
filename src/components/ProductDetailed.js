@@ -53,7 +53,7 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
                     }}
                   >
                     <img
-                      src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${image.product_image}?alt=media`}
+                      src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`}
                       style={{
                         objectFit: "cover",
                         height: "50vh",

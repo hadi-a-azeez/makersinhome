@@ -134,7 +134,7 @@ const EditAccount = () => {
             src={
               isImageEdited
                 ? URL.createObjectURL(compressedImagesState[0])
-                : `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${storeInfo.account_store_image}?alt=media`
+                : `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${storeInfo.account_store_image}`
             }
             alt="image"
             className={styles.thumbnail_image}

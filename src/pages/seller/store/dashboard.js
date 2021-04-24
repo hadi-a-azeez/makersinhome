@@ -87,7 +87,7 @@ const Dashboard = () => {
               fallback={<SkeletonCircle size="20" />}
               src={
                 userInfo.account_store_image
-                  ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/profile_images%2F${userInfo.account_store_image}?alt=media`
+                  ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${userInfo.account_store_image}`
                   : Placeholder
               }
               alt="Segun Adebayo"

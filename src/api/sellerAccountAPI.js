@@ -2,6 +2,7 @@ import axios from "axios";
 import axios_seller from "./axios-seller";
 import { apiRoot } from "../config";
 import firebase from "../firebase";
+import { deleteProfileImageS3, uploadProfileImageS3 } from "./s3Functions";
 
 //sign in user
 export const signinUserAPI = async (loginUsername, loginPassword) => {
@@ -43,23 +44,13 @@ export const uploadProfileImageAPI = async (imagesLocal, oldprofileimage) => {
 
   //upload image to firebase
   try {
-    const imageRefProfile = firebase
-      .storage()
-      .ref()
-      .child(`profile_images/${imagesLocal[0].name}`);
-    await imageRefProfile.put(imagesLocal[0]);
-
+    await uploadProfileImageS3(imagesLocal[0]);
     //update database
     const apiResponse = await axios_seller.post(`/seller/store/addprofile/`, {
       profile_image: imagesLocal[0].name,
     });
-
-    //delete old profile image
-    const imageRefDelete = firebase
-      .storage()
-      .ref()
-      .child(`profile_images/${oldprofileimage}`);
-    await imageRefDelete.delete();
+    // //delete old profile image
+    await deleteProfileImageS3(oldprofileimage);
   } catch (error) {
     console.log(error);
     return error;

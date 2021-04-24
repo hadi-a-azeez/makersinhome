@@ -133,7 +133,7 @@ const StoreCart = (props) => {
                     <img
                       src={
                         product.product_image
-                          ? `https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${product.product_image}?alt=media`
+                          ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${product.product_image}`
                           : Placeholder
                       }
                       alt="img"

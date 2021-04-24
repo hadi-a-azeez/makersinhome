@@ -121,6 +121,7 @@ const AddNewProduct = (props) => {
       useWebWorker: true,
     };
     try {
+      //image name notchangin
       for (let i = 0; i < imagesFromInput.length; i++) {
         const compressedFile = await imageCompression(
           imagesFromInput[i],
@@ -133,13 +134,13 @@ const AddNewProduct = (props) => {
         //generate uuid for images
         let imageName = uuidv4();
 
-        compressedFile.lastModifiedDate = new Date();
-        compressedFileMin.lastModifiedDate = new Date();
+        console.log(compressedFile);
 
         const convertedBlobFile = new File([compressedFile], imageName, {
           type: imagesFromInput[i].type,
           lastModified: Date.now(),
         });
+        console.log(convertedBlobFile);
         const convertedBlobFileMin = new File([compressedFileMin], imageName, {
           type: imagesFromInput[i].type,
           lastModified: Date.now(),
