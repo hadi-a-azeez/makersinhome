@@ -26,6 +26,8 @@ const Home = () => {
       <img src={mockupmain} alt="s" className={styles.main_mockup} />
       <div>
         <div></div>
+        <div></div>
+        <div></div>
       </div>
     </div>
   );
