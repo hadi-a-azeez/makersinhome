@@ -30,6 +30,7 @@ import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
+import { productImagesRoot } from "../../config";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState(null);
@@ -293,16 +294,14 @@ const ProductDetail = (props) => {
                   backgroundColor: "white",
                 }}
                 onClick={() => {
-                  setPopupImage(
-                    `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`
-                  );
+                  setPopupImage(`${productImagesRoot}/${image.product_image}`);
                   onImageOpen();
                 }}
               >
                 <Image
                   src={
                     image.product_image ? (
-                      `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`
+                      `${productImagesRoot}/${image.product_image}`
                     ) : (
                       <Skeleton height="50vh" borderRadius="6px" />
                     )

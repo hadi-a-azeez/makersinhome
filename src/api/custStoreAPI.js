@@ -16,6 +16,21 @@ export const getStoreDataAll = async (storeLink) => {
   }
 };
 
+//get store products
+export const getStoreProductsPaginated = async (storeId, pageNo) => {
+  try {
+    const response = await axios.get(
+      `${apiRoot}/client/storehomepage/products/${storeId}/${pageNo}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error.response.status);
+    if (error.response.status == 404) {
+      return error.response;
+    }
+  }
+};
+
 //get store details by user id
 export const getStoreDataByIdAPI = async (userId) => {
   const response = await axios

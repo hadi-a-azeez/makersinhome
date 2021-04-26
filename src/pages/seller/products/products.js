@@ -79,7 +79,7 @@ const Products = (props) => {
                     {/* images are returned with image name and id with it seperated by : */}
                     {item.products_images[0] ? (
                       <img
-                        src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${item.products_images[0].product_image}`}
+                        src={`${productImagesRoot}/min/${item.products_images[0].product_image}`}
                         alt="image"
                         className={styles.thumbnail_image}
                       />

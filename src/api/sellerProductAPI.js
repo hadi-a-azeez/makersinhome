@@ -1,6 +1,5 @@
 import axios_seller from "./axios-seller";
-import firebase from "../firebase";
-import { deleteProductImagesS3, uploadProductImageS3 } from "./s3Functions";
+import { deleteProductImageDO, uploadProductImageDO } from "./imageUploadAPI";
 
 /* get product specific by catogory or all */
 export const getProductsApi = async (catogory) => {
@@ -52,7 +51,7 @@ export const deleteProductImagesAPI = async (images, pid) => {
     );
     //delete image from firebase storage
     //delete from firebase storage
-    await deleteProductImagesS3(images);
+    await deleteProductImageDO(images);
 
     return response;
   } catch (error) {
@@ -137,7 +136,6 @@ export const deleteProductsVariantAPI = async (variants_array) => {
 
 //upload product images
 export const uploadProductImageAPI = async (imagesArr, productId) => {
-  console.log(imagesArr);
   const imagesNamesArr = imagesArr.map((img) => img.name);
   //add images to database
   try {
@@ -145,7 +143,7 @@ export const uploadProductImageAPI = async (imagesArr, productId) => {
       `/seller/products/imageAdd/${productId}`,
       { product_images: imagesNamesArr }
     );
-    await uploadProductImageS3(imagesArr);
+    await uploadProductImageDO(imagesArr);
   } catch (error) {
     return error;
   }

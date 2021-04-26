@@ -43,6 +43,7 @@ const EditAccount = () => {
     const options = {
       maxSizeMB: 0.1,
       maxWidthOrHeight: 200,
+      fileType: "image/jpeg",
       useWebWorker: true,
     };
     try {
@@ -51,7 +52,8 @@ const EditAccount = () => {
           imagesFromInput[i],
           options
         );
-        let imageName = uuidv4();
+        let imageName = uuidv4() + ".jpg";
+        console.log(compressedFile);
         const convertedBlobFile = new File(
           [compressedFile],
           Date.now() + Math.floor(100000 + Math.random() * 900000) + imageName,
@@ -135,7 +137,7 @@ const EditAccount = () => {
             src={
               isImageEdited
                 ? URL.createObjectURL(compressedImagesState[0])
-                : `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${storeInfo.account_store_image}`
+                : `${profileImagesRoot}/${storeInfo.account_store_image}`
             }
             alt="image"
             className={styles.thumbnail_image}

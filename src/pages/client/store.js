@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, withRouter } from "react-router-dom";
-import { getStoreProducts, getStoreDataAll } from "../../api/custStoreAPI";
+import {
+  getStoreProducts,
+  getStoreDataAll,
+  getStoreProductsPaginated,
+} from "../../api/custStoreAPI";
 //import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
@@ -13,6 +17,7 @@ import CartIcon from "../../assets/cartIcon.svg";
 import { SkeletonText, Text } from "@chakra-ui/react";
 
 import {
+  Button,
   SimpleGrid,
   Input,
   InputGroup,
@@ -25,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import ProductCard from "../../components/ProductCard";
 import useStore from "../../cartState";
+import { profileImagesRoot } from "../../config";
 
 const Store = (props) => {
   let history = useHistory();
@@ -34,9 +40,11 @@ const Store = (props) => {
   const [storeCategories, setStoreCategories] = useState([]);
   const [catSelected, setCatSelected] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [pageNo, setPageNo] = useState(1);
   const [isStoreExists, setIsStoreExists] = useState(true);
   const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
+  const [isMoreLoading, setIsMoreLoading] = useState(false);
 
   const handleWhatsappSupport = () => {
     window.location.replace(
@@ -47,22 +55,36 @@ const Store = (props) => {
     setIsLoading(true);
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
-      console.log(storeResponse);
+
       if (storeResponse.status !== 404) {
-        console.log(storeResponse);
         setStoreData(storeResponse.data.data.storeinfo);
-        setStoreProducts(storeResponse.data.data.products);
         setStoreCategories(storeResponse.data.data.categories);
-        setIsLoading(false);
-        console.log("here", cartProducts);
+
         //update store views analytics
         await sendStoreAnalytics(storeResponse.data.data.storeinfo.id);
       } else {
         setIsStoreExists(false);
       }
+      const productsResponse = await getStoreProductsPaginated(
+        storeResponse.data.data.storeinfo.id,
+        pageNo
+      );
+      setStoreProducts(productsResponse.data.data.products);
+      setIsLoading(false);
     };
     getData();
   }, []);
+
+  //fetch products when pageno changes
+  useEffect(() => {
+    const getProducts = async () => {
+      setIsMoreLoading(true);
+      const products = await getStoreProductsPaginated(storeData.id, pageNo);
+      setStoreProducts((old) => [...old, ...products.data.data.products]);
+      setIsMoreLoading(false);
+    };
+    if (pageNo > 1) getProducts();
+  }, [pageNo]);
 
   const sendStoreAnalytics = async (storeId) => {
     //check if storeid is in array and date is today if not add and increment store visit
@@ -96,16 +118,6 @@ const Store = (props) => {
         JSON.stringify({ array: [storeId], date: todayDate })
       );
     }
-    // console.log(cartProducts);
-    // console.log(new Date().toLocaleDateString());
-    // const isVisitedToday = userVisited.filter(
-    //   (entry) => entry.store_id === storeId
-    // );
-    // console.log("vis", isVisitedToday);
-    // if (!isVisitedToday) {
-    //   await updateStoreViews(storeId);
-    //   addVisitor({ store_id: storeId, date: new Date().toLocaleDateString() });
-    // }
   };
 
   useEffect(() => {
@@ -157,7 +169,7 @@ const Store = (props) => {
             <Image
               src={
                 storeData.account_store_image
-                  ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${storeData.account_store_image}`
+                  ? `${profileImagesRoot}/${storeData.account_store_image}`
                   : Placeholder
               }
               borderRadius="full"
@@ -298,10 +310,25 @@ const Store = (props) => {
 
           {!isLoading &&
             storeProducts.map((product) => {
-              return <ProductCard product={product} store={storeData} />;
+              return (
+                <ProductCard
+                  product={product}
+                  store={storeData}
+                  key={product.id}
+                />
+              );
             })}
           {/* product item ends here */}
         </SimpleGrid>
+
+        <Button
+          mt="20px"
+          onClick={() => setPageNo((old) => old + 1)}
+          isLoading={isMoreLoading}
+        >
+          Load More
+        </Button>
+
         <div style={{ marginBottom: "30px" }} />
         {/* </div> */}
       </div>

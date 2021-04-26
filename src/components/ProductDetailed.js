@@ -12,6 +12,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from "react-responsive-carousel";
 import { Box, Button, Collapse } from "@material-ui/core";
 import ArrowDown from "../assets/angle-down.svg";
+import { productImagesRoot } from "../config";
 
 const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
   const [selectedVariant, setSelectedVariant] = useState("S");
@@ -53,7 +54,7 @@ const ProductDetailed = ({ isOpen, onClose, btnRef, product, store }) => {
                     }}
                   >
                     <img
-                      src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/${image.product_image}`}
+                      src={`${productImagesRoot}/${image.product_image}`}
                       style={{
                         objectFit: "cover",
                         height: "50vh",

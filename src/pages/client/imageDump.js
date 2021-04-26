@@ -17,7 +17,7 @@ const ImagesDump = () => {
       {images &&
         images.map((img) => (
           <img
-            src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2F${img.product_image}?alt=media`}
+            src={`https://firebasestorage.googleapis.com/v0/b/saav-9c29f.appspot.com/o/product_images%2Fmin%2F${img.product_image}?alt=media`}
             width="50px"
           />
         ))}

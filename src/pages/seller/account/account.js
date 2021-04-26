@@ -62,7 +62,7 @@ const Account = () => {
           <Image
             src={
               storeInfo.account_store_image
-                ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${storeInfo.account_store_image}`
+                ? `${profileImagesRoot}/${storeInfo.account_store_image}`
                 : Placeholder
             }
             borderRadius="full"

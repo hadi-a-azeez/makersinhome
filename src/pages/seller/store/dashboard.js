@@ -87,7 +87,7 @@ const Dashboard = () => {
               fallback={<SkeletonCircle size="20" />}
               src={
                 userInfo.account_store_image
-                  ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/profile/${userInfo.account_store_image}`
+                  ? `${profileImagesRoot}/${userInfo.account_store_image}`
                   : Placeholder
               }
               alt="Segun Adebayo"

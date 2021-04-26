@@ -111,14 +111,16 @@ const AddNewProduct = (props) => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     const options = {
-      maxSizeMB: 0.6,
+      maxSizeMB: 0.8,
       maxWidthOrHeight: 1080,
       useWebWorker: true,
+      fileType: "image/jpeg",
     };
     const optionsMin = {
-      maxSizeMB: 0.3,
-      maxWidthOrHeight: 400,
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 360,
       useWebWorker: true,
+      fileType: "image/jpeg",
     };
     try {
       //image name notchangin
@@ -132,15 +134,11 @@ const AddNewProduct = (props) => {
           optionsMin
         );
         //generate uuid for images
-        let imageName = uuidv4();
-
-        console.log(compressedFile);
-
+        let imageName = uuidv4() + ".jpg";
         const convertedBlobFile = new File([compressedFile], imageName, {
           type: imagesFromInput[i].type,
           lastModified: Date.now(),
         });
-        console.log(convertedBlobFile);
         const convertedBlobFileMin = new File([compressedFileMin], imageName, {
           type: imagesFromInput[i].type,
           lastModified: Date.now(),

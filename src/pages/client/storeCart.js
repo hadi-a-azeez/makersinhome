@@ -9,6 +9,7 @@ import Placeholder from "../../assets/placeholder.png";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
 import _ from "lodash";
+import { productImagesRoot } from "../../config";
 
 const StoreCart = (props) => {
   const history = useHistory();
@@ -125,7 +126,7 @@ const StoreCart = (props) => {
                     <img
                       src={
                         product.product_image
-                          ? `https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${product.product_image}`
+                          ? `${productImagesRoot}/min/${product.product_image}`
                           : Placeholder
                       }
                       alt="img"

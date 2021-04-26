@@ -49,7 +49,7 @@ import { Box } from "@material-ui/core";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
-import { deleteProductImagesS3 } from "../../../api/s3Functions";
+import { deleteProductImageDO } from "../../../api/imageUploadAPI";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
@@ -190,14 +190,16 @@ const ProductEdit = (props) => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     const options = {
-      maxSizeMB: 1,
+      maxSizeMB: 0.8,
       maxWidthOrHeight: 1080,
       useWebWorker: true,
+      fileType: "image/jpeg",
     };
     const optionsMin = {
-      maxSizeMB: 0.1,
+      maxSizeMB: 0.2,
       maxWidthOrHeight: 360,
       useWebWorker: true,
+      fileType: "image/jpeg",
     };
     try {
       for (let i = 0; i < imagesFromInput.length; i++) {
@@ -210,7 +212,7 @@ const ProductEdit = (props) => {
           optionsMin
         );
 
-        let imageName = uuidv4();
+        let imageName = uuidv4() + ".jpg";
 
         const convertedBlobFileMin = new File([compressedFileMin], imageName, {
           type: imagesFromInput[i].type,
@@ -238,7 +240,7 @@ const ProductEdit = (props) => {
   const handleDelete = async () => {
     await deleteProductAPI(productId);
     setIsLoading(false);
-    await deleteProductImagesS3(product.products_images);
+    await deleteProductImageDO(product.products_images);
     history.push("/app/products/All%20Products/all");
   };
 
@@ -294,7 +296,7 @@ const ProductEdit = (props) => {
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${image.product_image}`}
+                        src={`${productImagesRoot}/min/${image.product_image}`}
                         key={index}
                       />
                       <IconButton

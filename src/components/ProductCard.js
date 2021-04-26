@@ -4,6 +4,7 @@ import { Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { productImagesRoot } from "../config";
 import styles from "./css/product_card.module.css";
 
 const ProductCard = ({ product }) => {
@@ -20,7 +21,7 @@ const ProductCard = ({ product }) => {
       >
         {product.products_images && (
           <Image
-            src={`https://saav-product-images.s3.ap-south-1.amazonaws.com/product/min/${product.products_images[0].product_image}`}
+            src={`${productImagesRoot}/min/${product.products_images[0].product_image}`}
             alt="img"
             className={styles.product_image}
             fallback={
