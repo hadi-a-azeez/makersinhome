@@ -129,7 +129,7 @@ const Categories = () => {
                       setCategoryDeleteId(item.id);
                     }}
                   >
-                    Delte Category
+                    Delete Category
                   </MenuItem>
                 </MenuList>
               </Menu>

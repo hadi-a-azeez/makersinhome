@@ -216,11 +216,14 @@ const Dashboard = () => {
           >
             <Text
               color="#028ccc"
+              textTransform="lowercase"
               onClick={() =>
-                (window.location = `https://saav.in/store/${userInfo.account_store_link}`)
+                window.open(
+                  `https://saav.in/store/${userInfo.account_store_link}`
+                )
               }
             >
-              Saav.in/store/{userInfo.account_store_link}
+              saav.in/store/{userInfo.account_store_link}
             </Text>
             <button className={styles.btn_whatsapp} onClick={shareToWhatsapp}>
               <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />

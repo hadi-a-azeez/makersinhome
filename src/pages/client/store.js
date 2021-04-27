@@ -38,10 +38,11 @@ const Store = (props) => {
   const [storeData, setStoreData] = useState({});
   const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
-  const [catSelected, setCatSelected] = useState("all");
+  const [catSelected, setCatSelected] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [isStoreExists, setIsStoreExists] = useState(true);
+  const [isLastPage, setIsLastPage] = useState(false);
   const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
   const [isMoreLoading, setIsMoreLoading] = useState(false);
@@ -65,26 +66,11 @@ const Store = (props) => {
       } else {
         setIsStoreExists(false);
       }
-      const productsResponse = await getStoreProductsPaginated(
-        storeResponse.data.data.storeinfo.id,
-        pageNo
-      );
-      setStoreProducts(productsResponse.data.data.products);
+      setCatSelected("all");
       setIsLoading(false);
     };
     getData();
   }, []);
-
-  //fetch products when pageno changes
-  useEffect(() => {
-    const getProducts = async () => {
-      setIsMoreLoading(true);
-      const products = await getStoreProductsPaginated(storeData.id, pageNo);
-      setStoreProducts((old) => [...old, ...products.data.data.products]);
-      setIsMoreLoading(false);
-    };
-    if (pageNo > 1) getProducts();
-  }, [pageNo]);
 
   const sendStoreAnalytics = async (storeId) => {
     //check if storeid is in array and date is today if not add and increment store visit
@@ -120,20 +106,45 @@ const Store = (props) => {
     }
   };
 
+  //when page changes
   useEffect(() => {
     const getSelectedProducts = async () => {
+      setIsLastPage(false);
+      setIsMoreLoading(true);
+      setIsProducts(true);
+      const productsResponse = await getStoreProducts(
+        storeData.id,
+        catSelected,
+        pageNo
+      );
+      setIsLastPage(productsResponse.data.isLastPage);
+      productsResponse &&
+        setStoreProducts((old) => [...old, ...productsResponse.data.data]);
+      setIsMoreLoading(false);
+    };
+    catSelected && pageNo > 1 && getSelectedProducts();
+  }, [pageNo]);
+
+  //when cat changes
+  useEffect(() => {
+    setPageNo(1);
+    const getSelectedProducts = async () => {
+      setIsLastPage(false);
       setIsLoading(true);
       setIsProducts(true);
       setStoreProducts([]);
       const productsResponse = await getStoreProducts(
         storeData.id,
-        catSelected
+        catSelected,
+        1
       );
+      setIsLastPage(productsResponse.data.isLastPage);
       productsResponse && setStoreProducts(productsResponse.data.data);
       if (productsResponse.data.data.length < 1) setIsProducts(false);
       setIsLoading(false);
     };
-    storeData.id && getSelectedProducts();
+
+    catSelected && getSelectedProducts();
   }, [catSelected]);
 
   return isStoreExists ? (
@@ -321,13 +332,15 @@ const Store = (props) => {
           {/* product item ends here */}
         </SimpleGrid>
 
-        <Button
-          mt="20px"
-          onClick={() => setPageNo((old) => old + 1)}
-          isLoading={isMoreLoading}
-        >
-          Load More
-        </Button>
+        {!isLastPage && (
+          <Button
+            mt="20px"
+            onClick={() => setPageNo((old) => old + 1)}
+            isLoading={isMoreLoading}
+          >
+            Load More
+          </Button>
+        )}
 
         <div style={{ marginBottom: "30px" }} />
         {/* </div> */}
