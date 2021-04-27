@@ -31,6 +31,7 @@ import {
 import ProductCard from "../../components/ProductCard";
 import useStore from "../../cartState";
 import { profileImagesRoot } from "../../config";
+import useFrontStore from "../../storeFrontState";
 
 const Store = (props) => {
   let history = useHistory();
@@ -46,6 +47,9 @@ const Store = (props) => {
   const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
   const [isMoreLoading, setIsMoreLoading] = useState(false);
+
+  // const storeProducts = useFrontStore((state) => state.storeProducts);
+  // const setStoreProducts = useFrontStore((state) => state.setStoreProducts);
 
   const handleWhatsappSupport = () => {
     window.location.replace(
@@ -332,7 +336,7 @@ const Store = (props) => {
           {/* product item ends here */}
         </SimpleGrid>
 
-        {!isLastPage && (
+        {storeProducts.length > 0 && !isLastPage && (
           <Button
             mt="20px"
             onClick={() => setPageNo((old) => old + 1)}
