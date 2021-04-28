@@ -42,11 +42,11 @@
   color: #222151;
   font-family: "elemen";
   font-weight: 600;
-  font-size: 40px;
+  font-size: 34px;
   text-align: center;
-  max-width: 14ch;
+  max-width: 90%;
   margin-top: 5rem;
-  line-height: 3rem;
+  line-height: 2.6rem;
 }
 .register_btn {
   color: white;

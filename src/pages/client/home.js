@@ -11,17 +11,17 @@ const Home = () => {
     <div className={styles.container}>
       <Header />
       <h1 className={styles.main_heading}>
-        Build your<br></br> online store in<br></br> 30 seconds.
+        Build an online store for your Instagram business within 30 seconds.
       </h1>
       <h1 className={styles.sub_heading}>
-        With Saav, you don’t have to be a technology expert to build an
-        ecommerce website and start selling online.
+        An online store for your Instagram business will make you stand alone
+        among your competitors.
       </h1>
       <button
         className={styles.register_btn}
         onClick={() => history.push("/signup")}
       >
-        Register Now
+        Register For Free
       </button>
       <img src={mockupmain} alt="s" className={styles.main_mockup} />
       <div>
