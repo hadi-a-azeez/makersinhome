@@ -35,46 +35,49 @@ import useFrontStore from "../../storeFrontState";
 
 const Store = (props) => {
   let history = useHistory();
+
   const storeLink = props.match.params.storelink;
   const [storeData, setStoreData] = useState({});
-  const [storeProducts, setStoreProducts] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
-  const [catSelected, setCatSelected] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [pageNo, setPageNo] = useState(1);
+
   const [isStoreExists, setIsStoreExists] = useState(true);
-  const [isLastPage, setIsLastPage] = useState(false);
+  const { isLastPage, setIsLastPage } = useFrontStore();
   const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
-  const [isMoreLoading, setIsMoreLoading] = useState(false);
 
-  // const storeProducts = useFrontStore((state) => state.storeProducts);
-  // const setStoreProducts = useFrontStore((state) => state.setStoreProducts);
+  const { isMoreLoading, setIsMoreLoading } = useFrontStore();
+  const { isLoading, setIsLoading } = useFrontStore();
+  const { catSelected, setCatSelected } = useFrontStore();
+  const { pageNo, incrementPageNo } = useFrontStore();
+  const fetchProducts = useFrontStore((state) => state.fetchProducts);
+  const { storeProducts, setStoreProducts } = useFrontStore();
 
-  const handleWhatsappSupport = () => {
-    window.location.replace(
-      `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
-    );
-  };
   useEffect(() => {
-    setIsLoading(true);
     const getData = async () => {
       const storeResponse = await getStoreDataAll(storeLink);
 
       if (storeResponse.status !== 404) {
         setStoreData(storeResponse.data.data.storeinfo);
         setStoreCategories(storeResponse.data.data.categories);
-
+        if (storeProducts.length < 1) {
+          setIsLoading(true);
+          await fetchProducts(storeResponse.data.data.storeinfo.id);
+          setIsLoading(false);
+        }
         //update store views analytics
         await sendStoreAnalytics(storeResponse.data.data.storeinfo.id);
       } else {
         setIsStoreExists(false);
       }
-      setCatSelected("all");
-      setIsLoading(false);
     };
     getData();
   }, []);
+
+  const handleWhatsappSupport = () => {
+    window.location.replace(
+      `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
+    );
+  };
 
   const sendStoreAnalytics = async (storeId) => {
     //check if storeid is in array and date is today if not add and increment store visit
@@ -109,47 +112,6 @@ const Store = (props) => {
       );
     }
   };
-
-  //when page changes
-  useEffect(() => {
-    const getSelectedProducts = async () => {
-      setIsLastPage(false);
-      setIsMoreLoading(true);
-      setIsProducts(true);
-      const productsResponse = await getStoreProducts(
-        storeData.id,
-        catSelected,
-        pageNo
-      );
-      setIsLastPage(productsResponse.data.isLastPage);
-      productsResponse &&
-        setStoreProducts((old) => [...old, ...productsResponse.data.data]);
-      setIsMoreLoading(false);
-    };
-    catSelected && pageNo > 1 && getSelectedProducts();
-  }, [pageNo]);
-
-  //when cat changes
-  useEffect(() => {
-    setPageNo(1);
-    const getSelectedProducts = async () => {
-      setIsLastPage(false);
-      setIsLoading(true);
-      setIsProducts(true);
-      setStoreProducts([]);
-      const productsResponse = await getStoreProducts(
-        storeData.id,
-        catSelected,
-        1
-      );
-      setIsLastPage(productsResponse.data.isLastPage);
-      productsResponse && setStoreProducts(productsResponse.data.data);
-      if (productsResponse.data.data.length < 1) setIsProducts(false);
-      setIsLoading(false);
-    };
-
-    catSelected && getSelectedProducts();
-  }, [catSelected]);
 
   return isStoreExists ? (
     storeData.account_store_status === 0 ? (
@@ -227,7 +189,7 @@ const Store = (props) => {
                   ? styles.category_item_selected
                   : styles.category_item
               }
-              onClick={() => setCatSelected("all")}
+              onClick={() => setCatSelected("all", storeData.id)}
             >
               All
             </div>
@@ -239,7 +201,7 @@ const Store = (props) => {
                     ? styles.category_item_selected
                     : styles.category_item
                 }
-                onClick={() => setCatSelected("all")}
+                onClick={() => setCatSelected("all", storeData.id)}
               >
                 All
               </div>
@@ -252,7 +214,7 @@ const Store = (props) => {
                       ? styles.category_item_selected
                       : styles.category_item
                   }
-                  onClick={() => setCatSelected(cat.id)}
+                  onClick={() => setCatSelected(cat.id, storeData.id)}
                 >
                   {cat.cat_name}
                 </div>
@@ -339,7 +301,7 @@ const Store = (props) => {
         {storeProducts.length > 0 && !isLastPage && (
           <Button
             mt="20px"
-            onClick={() => setPageNo((old) => old + 1)}
+            onClick={() => incrementPageNo(storeData.id)}
             isLoading={isMoreLoading}
           >
             Load More

@@ -62,26 +62,22 @@ const ProductDetail = (props) => {
 
   //get product data from server
   useEffect(() => {
+    console.log(props.location.state);
+    props.location.state && setProductData(props.location.state);
+    console.log(props.location.state);
     const getProduct = async () => {
       const productResponse = await getProductDetailAPI(productId);
-      console.log(productResponse);
-      setProductData(productResponse.data.data.product);
-      //set default variant value if available
-      // {
-      //   productResponse.data.data.product.products_variants.length > 0 &&
-      //     setSelectedVariant(
-      //       productResponse.data.data.product.products_variants[0]
-      //     );
-      // }
+      //set product no product is passed from route
+      !props.location.state &&
+        setProductData(productResponse.data.data.product);
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
-
       // await getCartProducts(productResponse.data.data.storeinfo.id);
-
       setIsLoading(false);
     };
     getProduct();
   }, []);
+
   const validateBuy = (callback) => {
     setIsError(false);
     if (selectedVariant !== "" || productData.products_variants.length < 1)
@@ -233,7 +229,10 @@ const ProductDetail = (props) => {
                 {cartProducts
                   .filter((prd) => prd.store_id == storeData.id)
                   .map((cartProduct) => (
-                    <div className={styles.cart_popup_item}>
+                    <div
+                      className={styles.cart_popup_item}
+                      key={cartProduct.product_id_gen}
+                    >
                       <span className={styles.cart_popup_name}>
                         {cartProduct.product_name}
                       </span>

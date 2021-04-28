@@ -16,7 +16,12 @@ const ProductCard = ({ product }) => {
     <>
       <div
         className={styles.product_card}
-        onClick={() => history.push(`/product/${product.id}`)}
+        onClick={() =>
+          history.push({
+            pathname: `/product/${product.id}`,
+            state: { ...product },
+          })
+        }
         key={product.id}
       >
         {product.products_images && (
