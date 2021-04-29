@@ -403,7 +403,8 @@ const AddNewProduct = (props) => {
           <h1 style={{ color: "red" }}>Please fill all required details</h1>
         )}
         <Button
-          colorScheme="green"
+          backgroundColor="#08bd80"
+          color="white"
           w="90%"
           isLoading={isBtnLoading}
           loadingText="Uploading"

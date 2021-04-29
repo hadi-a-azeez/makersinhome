@@ -192,7 +192,8 @@ const EditAccount = () => {
       <Button
         isLoading={isBtnLoading}
         loadingText="Updating"
-        colorScheme="green"
+        backgroundColor="#08bd80"
+        color="white"
         size="lg"
         w="90%"
         mt="3"

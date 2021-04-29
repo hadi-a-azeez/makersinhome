@@ -50,8 +50,9 @@
 }
 .register_btn {
   color: white;
+  font-family: "elemen";
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 800;
   margin-right: 5%;
   padding: 0.7rem 3rem 0.7rem 3rem;
   background-color: #08bd80;

@@ -28,14 +28,14 @@
 .iconFilled {
   width: 28px;
   height: auto;
-  filter: invert(50%) sepia(85%) saturate(4392%) hue-rotate(120deg)
-    brightness(100%) contrast(102%);
+  filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
+    brightness(90%) contrast(94%);
 }
 .iconStyleSelected {
   width: 28px;
   height: auto;
-  filter: invert(50%) sepia(85%) saturate(4392%) hue-rotate(120deg)
-    brightness(100%) contrast(102%);
+  filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
+    brightness(90%) contrast(94%);
 }
 .navItem {
   width: 100% !important;
@@ -45,5 +45,5 @@
 .navItemSelected {
   width: 100% !important;
   padding: 0 !important;
-  color: #00b140 !important;
+  color: #08bd80 !important;
 }

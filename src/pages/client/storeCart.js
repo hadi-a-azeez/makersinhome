@@ -10,12 +10,13 @@ import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
 import _ from "lodash";
 import { productImagesRoot } from "../../config";
+import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 
 const StoreCart = (props) => {
   const history = useHistory();
   const [productsData, setProductsData] = useState([]);
   const [isProducts, setIsProducts] = useState(true);
-  const [userInfo, setUserInfo] = useState({});
+  const [storeData, setStoreData] = useState({});
 
   const cartProducts = useStore((state) => state.products);
   const deleteCartProduct = useStore((state) => state.deleteProduct);
@@ -29,12 +30,14 @@ const StoreCart = (props) => {
     const getStoreDetails = async () => {
       const response = await getStoreDataByIdAPI(storeId);
       console.log(response);
-      setUserInfo(response.data.data);
+      setStoreData(response.data.data);
     };
     getStoreDetails();
   }, []);
 
   const whatsappBuy = async () => {
+    updateMessagesStarted(storeId);
+
     const productsMsg = cartProducts
       .filter((prd) => prd.store_id == storeId)
       .map(
@@ -54,7 +57,7 @@ const StoreCart = (props) => {
         0
       )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
-      `https://api.whatsapp.com/send/?phone=91${userInfo.account_whatsapp}&text=${whatsappMessage}`
+      `https://api.whatsapp.com/send/?phone=91${storeData.account_whatsapp}&text=${whatsappMessage}`
     );
   };
 
@@ -186,7 +189,7 @@ const StoreCart = (props) => {
       <Button
         position="fixed"
         bottom="35px"
-        isLoading={_.isEmpty(userInfo)}
+        isLoading={_.isEmpty(storeData)}
         mt="5"
         size="lg"
         colorScheme="green"

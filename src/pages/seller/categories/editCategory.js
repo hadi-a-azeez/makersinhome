@@ -129,7 +129,8 @@ const AddNewCategory = (props) => {
           />
         </FormControl>
         <Button
-          colorScheme="green"
+          backgroundColor="#08bd80"
+          color="white"
           mt="4"
           size="lg"
           w="90%"

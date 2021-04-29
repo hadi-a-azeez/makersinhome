@@ -145,7 +145,7 @@ const Products = (props) => {
           bottom="0"
           size="lg"
           w="90%"
-          bgColor="#00B140"
+          bgColor="#08bd80"
           textColor="#fff"
           height="60px"
         >

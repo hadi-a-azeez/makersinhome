@@ -606,7 +606,8 @@ const ProductEdit = (props) => {
             </AlertDialog>
 
             <Button
-              colorScheme="green"
+              backgroundColor="#08bd80"
+              color="white"
               w="90%"
               isLoading={isBtnLoading}
               loadingText="Uploading"

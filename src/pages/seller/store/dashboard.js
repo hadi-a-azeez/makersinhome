@@ -68,7 +68,7 @@ const Dashboard = () => {
           justifyContent="center"
           style={
             userInfo.account_store_status
-              ? { backgroundColor: "#00b140" }
+              ? { backgroundColor: "#08bd80" }
               : { backgroundColor: "red" }
           }
         >

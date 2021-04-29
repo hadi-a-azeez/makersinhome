@@ -93,7 +93,7 @@ const SignIn = () => {
           mt="7"
           pt="8"
           pb="8"
-          style={{ backgroundColor: `#00b140`, color: `white` }}
+          style={{ backgroundColor: `#08bd80`, color: `white` }}
           onClick={signIn}
         >
           Log in

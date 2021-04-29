@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Whatsapp from "../../assets/whatsapp_filled.svg";
+
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-//import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-//import CartIcon from "../../assets/cartIcon.svg";
 import CartIconBlack from "../../assets/cartIconblack.svg";
 import WhatsappClean from "../../assets/whatsapp_clean.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
-//import BackIcon from "../../assets/angle-left.svg";
 import ImageModal from "../../components/ImageModal";
 import {
   Popover,
@@ -31,14 +30,14 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
 import { productImagesRoot } from "../../config";
+import { AddIcon, CopyIcon } from "@chakra-ui/icons";
+import copyText from "../../components/copyText";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState(null);
   const [storeData, setStoreData] = useState({});
   const [similarProducts, setSimilarProducts] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  // const [cartProducts, setCartProducts] = useState([]);
-  const [isAddedCart, setIsAddedCart] = useState(false);
   const productId = props.match.params.productId;
   const history = useHistory();
   const [isError, setIsError] = useState(false);
@@ -67,12 +66,10 @@ const ProductDetail = (props) => {
     console.log(props.location.state);
     const getProduct = async () => {
       const productResponse = await getProductDetailAPI(productId);
-      //set product no product is passed from route
       !props.location.state &&
         setProductData(productResponse.data.data.product);
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
-      // await getCartProducts(productResponse.data.data.storeinfo.id);
       setIsLoading(false);
     };
     getProduct();
@@ -120,6 +117,8 @@ const ProductDetail = (props) => {
     });
   };
   const whatsappBuyCart = async () => {
+    updateMessagesStarted(storeData.id);
+
     const productsMsg = cartProducts
       .filter((prd) => prd.store_id == storeData.id)
       .map(
@@ -343,32 +342,54 @@ const ProductDetail = (props) => {
       ) : (
         <div className={styles.product_details_container}>
           <h1 className={styles.product_name}>{productData.product_name}</h1>
-          <div className={styles.price_container}>
-            {productData.product_is_sale == 0 ? (
-              <h1 className={styles.product_price}>
-                ₹{productData.product_price}
-              </h1>
-            ) : (
-              <>
+          <Stack direction="row" justifyContent="space-between">
+            <div className={styles.price_container}>
+              {productData.product_is_sale == 0 ? (
                 <h1 className={styles.product_price}>
-                  ₹{productData.product_sale_price}
-                </h1>
-                <h1 className={styles.product_price_strike}>
                   ₹{productData.product_price}
                 </h1>
-                <div className={styles.product_discount}>
-                  {" "}
-                  {parseInt(
-                    100 -
-                      (100 * productData.product_sale_price) /
-                        productData.product_price
-                  )}
-                  % OFF
-                </div>
-              </>
-            )}
-          </div>
-
+              ) : (
+                <>
+                  <h1 className={styles.product_price}>
+                    ₹{productData.product_sale_price}
+                  </h1>
+                  <h1 className={styles.product_price_strike}>
+                    ₹{productData.product_price}
+                  </h1>
+                  <div className={styles.product_discount}>
+                    {" "}
+                    {parseInt(
+                      100 -
+                        (100 * productData.product_sale_price) /
+                          productData.product_price
+                    )}
+                    % OFF
+                  </div>
+                </>
+              )}
+            </div>
+            <Stack direction="row" ml="10px">
+              <IconButton
+                icon={
+                  <img
+                    src={Whatsapp}
+                    width="25px"
+                    onClick={() => {
+                      window.location.replace(
+                        `https://api.whatsapp.com/send/?text=Checkout this ${productData.product_name} on ${storeData.account_store} online store 🎉. %0D%0A%0D%0A ${window.location.href}`
+                      );
+                    }}
+                  />
+                }
+                borderRadius="full"
+              />
+              <IconButton
+                icon={<CopyIcon />}
+                borderRadius="full"
+                onClick={() => copyText(window.location.href)}
+              />
+            </Stack>
+          </Stack>
           {productData.product_stock && productData.product_stock === 1 ? (
             <>
               {productData.products_variants &&

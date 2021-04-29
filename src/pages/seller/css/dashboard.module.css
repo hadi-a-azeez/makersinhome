@@ -59,8 +59,8 @@
   color: #222154;
 }
 .iconFilled {
-  filter: invert(51%) sepia(98%) saturate(4272%) hue-rotate(122deg)
-    brightness(101%) contrast(101%);
+  filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
+    brightness(90%) contrast(94%);
 }
 .cardPlain {
   margin-top: 20px;

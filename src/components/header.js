@@ -9,7 +9,7 @@ const Header = ({ signup }) => {
     <>
       {/* Header starts here */}
       <div className={styles.header}>
-        <div className={styles.logowrapper}>
+        <div className={styles.logowrapper} onClick={() => history.push("/")}>
           <img src={logo} className={styles.logo} alt="s" />
           <h1 className={styles.saav}>Saav</h1>
         </div>
