@@ -5,6 +5,7 @@ import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
 import { IconButton, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
+import CartIcon from "../../assets/cartIconblack.svg";
 //import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
@@ -183,7 +184,30 @@ const StoreCart = (props) => {
               );
             })
         ) : (
-          <h1>No Products</h1>
+          <Stack direction="column" alignItems="center" mt="60px">
+            <img
+              src={CartIcon}
+              className={styles.cart_icon_big}
+              width="200px"
+            />
+            <Text
+              color="gray.500"
+              fontWeight="bold"
+              fontFamily="elemen"
+              fontSize="25px"
+            >
+              Your Cart Is Empty
+            </Text>
+            <Button
+              backgroundColor="#08bd80"
+              color="white"
+              onClick={() =>
+                history.push(`/store/${storeData.account_store_link}`)
+              }
+            >
+              Shop Now
+            </Button>
+          </Stack>
         )}
         {/* product item ends here */}
       </Flex>
