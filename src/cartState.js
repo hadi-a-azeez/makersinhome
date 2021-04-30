@@ -8,7 +8,7 @@ let useStore = (set, get) => ({
     //check if product already exists
     let isProductContains = get().products.some(
       (productInState) =>
-        productInState.product_id_gen == product.product_id_gen
+        productInState.product_id_gen === product.product_id_gen
     );
     if (!isProductContains)
       set((state) => ({ products: [...state.products, product] }));
@@ -20,7 +20,7 @@ let useStore = (set, get) => ({
       );
       let productAdded = get().products.filter(
         (productInState) =>
-          productInState.product_id_gen == product.product_id_gen
+          productInState.product_id_gen === product.product_id_gen
       );
       productAdded[0].product_quantity = ++productAdded[0].product_quantity;
       set((state) => ({ products: [...productsOther, ...productAdded] }));
@@ -35,7 +35,7 @@ let useStore = (set, get) => ({
   addQuantity: (product) => {
     const productIndex = get().products.findIndex(
       (productInState) =>
-        productInState.product_id_gen == product.product_id_gen
+        productInState.product_id_gen === product.product_id_gen
     );
 
     const productsArr = [...get().products];
@@ -50,7 +50,7 @@ let useStore = (set, get) => ({
   removeQuantity: (product) => {
     const productIndex = get().products.findIndex(
       (productInState) =>
-        productInState.product_id_gen == product.product_id_gen
+        productInState.product_id_gen === product.product_id_gen
     );
 
     const productsArr = [...get().products];

@@ -82,7 +82,7 @@ const Products = (props) => {
                     {item.products_images && (
                       <img
                         src={`${productImagesRoot}/min/${item.products_images[0].product_image}`}
-                        alt="image"
+                        alt="product"
                         className={styles.thumbnail_image}
                       />
                     )}

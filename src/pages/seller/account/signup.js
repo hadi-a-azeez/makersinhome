@@ -9,8 +9,6 @@ import {
   Image,
   InputGroup,
   InputLeftAddon,
-  Text,
-  Stack,
 } from "@chakra-ui/react";
 import AddToCart from "../../../assets/addtocart.svg";
 import { useForm } from "../../../components/useForm";

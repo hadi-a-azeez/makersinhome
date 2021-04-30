@@ -151,9 +151,11 @@ const StoreCart = (props) => {
                       <h1 className={styles.product_price}>
                         ₹{product.product_price}
                       </h1>
-                      <h1 className={styles.subheading}>
-                        Variant: {product.product_variant.variant_name}
-                      </h1>
+                      {product.product_variant.variant_name && (
+                        <h1 className={styles.subheading}>
+                          Variant: {product.product_variant.variant_name}
+                        </h1>
+                      )}
                       <div className={styles.quantity_container}>
                         <div
                           onClick={(e) => {

@@ -6,6 +6,8 @@ import Header from "../../components/header";
 import { Text } from "@chakra-ui/layout";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
 import { IconButton } from "@chakra-ui/button";
+import { Badge } from "@chakra-ui/layout";
+import { Stack } from "@chakra-ui/layout";
 
 const Home = () => {
   const history = useHistory();
@@ -37,22 +39,34 @@ const Home = () => {
       >
         See a Example Store
       </Text>
-
-      <IconButton
+      <Stack
+        onClick={() =>
+          window.location.replace(
+            `https://api.whatsapp.com/send?phone=919496742190&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
+          )
+        }
         position="fixed"
         bottom="20px"
         right="20px"
-        borderColor="#008aed"
-        icon={<img src={Whatsapp} width="40px" />}
-        boxSize="50px"
-        borderRadius="full"
-        onClick={() =>
-          window.location.replace(
-            `https://api.whatsapp.com/send?text=Hi%20I%20i%20have%20some%20doubts%20about%20Saav.%20%E2%9C%8B`
-          )
-        }
-      />
-      <img src={mockupmain} alt="s" className={styles.main_mockup} />
+      >
+        <IconButton
+          alignSelf="flex-end"
+          className={styles.whatsapp_button}
+          icon={<img src={Whatsapp} alt="whatsapp" width="35px" />}
+          boxSize="50px"
+          borderRadius="full"
+        />
+        <Badge
+          backgroundColor="yellow.300"
+          paddingRight="8px"
+          paddingLeft="8px"
+          borderRadius="12px"
+        >
+          {" "}
+          Message Us
+        </Badge>
+      </Stack>
+      <img src={mockupmain} alt="storedemo" className={styles.main_mockup} />
       <div>
         <div></div>
         <div></div>

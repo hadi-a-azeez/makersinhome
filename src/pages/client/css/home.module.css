@@ -59,6 +59,9 @@
   border-radius: 0.2rem;
   margin-top: 1rem;
 }
+.whatsapp_button {
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
 .sub_heading {
   color: #808080;
   font-family: "elemen";

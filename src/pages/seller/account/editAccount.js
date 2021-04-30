@@ -20,11 +20,6 @@ import {
   FormLabel,
   Box,
   useToast,
-  Select,
-  Stack,
-  Image,
-  IconButton,
-  SimpleGrid,
 } from "@chakra-ui/react";
 
 const EditAccount = () => {
