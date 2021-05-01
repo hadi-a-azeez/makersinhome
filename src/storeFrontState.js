@@ -4,16 +4,15 @@ import { getStoreProducts } from "./api/custStoreAPI";
 let useFrontStore = (set, get) => ({
   isMoreLoading: false,
   setIsMoreLoading: (val) => set((state) => ({ isMoreLoading: val })),
-
   isLastPage: false,
-
   isLoading: false,
   setIsLoading: (val) => set({ isLoading: val }),
-
   storeProducts: [],
   setStoreProducts: (productsArr) => {
     set({ storeProducts: productsArr });
   },
+  storeIdCurrent: 0,
+  setStoreIdCurrent: (value) => set({ storeIdCurrent: value }),
 
   fetchProducts: async (storeId) => {
     const resp = await getStoreProducts(

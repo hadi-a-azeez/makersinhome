@@ -29,7 +29,7 @@ const ImageModal = ({ image, isImageOpen, onImageClose }) => {
           <Stack height="100%" justifyContent="center" alignItems="center">
             <TransformWrapper>
               <TransformComponent>
-                <img src={image} style={{ width: "100vw" }} />
+                <img src={image} style={{ maxHeight: "60vh" }} />
               </TransformComponent>
             </TransformWrapper>
           </Stack>

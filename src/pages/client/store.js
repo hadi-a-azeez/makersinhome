@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useHistory, withRouter } from "react-router-dom";
-import {
-  getStoreProducts,
-  getStoreDataAll,
-  getStoreProductsPaginated,
-} from "../../api/custStoreAPI";
+import { getStoreDataAll } from "../../api/custStoreAPI";
 //import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
@@ -46,6 +42,7 @@ const Store = (props) => {
   const cartProducts = useStore((state) => state.products);
 
   const { isMoreLoading, setIsMoreLoading } = useFrontStore();
+  const { storeIdCurrent, setStoreIdCurrent } = useFrontStore();
   const { isLoading, setIsLoading } = useFrontStore();
   const { catSelected, setCatSelected } = useFrontStore();
   const { pageNo, incrementPageNo } = useFrontStore();
@@ -59,9 +56,11 @@ const Store = (props) => {
       if (storeResponse.status !== 404) {
         setStoreData(storeResponse.data.data.storeinfo);
         setStoreCategories(storeResponse.data.data.categories);
-        if (storeProducts.length < 1) {
+        if (storeIdCurrent !== storeResponse.data.data.storeinfo.id) {
+          setStoreProducts([]);
           setIsLoading(true);
           await fetchProducts(storeResponse.data.data.storeinfo.id);
+          setStoreIdCurrent(storeResponse.data.data.storeinfo.id);
           setIsLoading(false);
         }
         //update store views analytics

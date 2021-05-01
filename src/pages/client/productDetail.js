@@ -30,7 +30,7 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
 import { productImagesRoot } from "../../config";
-import { AddIcon, CopyIcon } from "@chakra-ui/icons";
+import { CopyIcon } from "@chakra-ui/icons";
 import copyText from "../../components/copyText";
 
 const ProductDetail = (props) => {
@@ -479,18 +479,25 @@ const ProductDetail = (props) => {
             </Button>
           )}
 
-          <div
-            className={styles.product_desc_container}
-            style={{ whiteSpace: "pre-wrap" }}
-          >
-            <div className={styles.product_desc_title}>Description</div>
+          {productData.product_desc && (
+            <div
+              className={styles.product_desc_container}
+              style={{ whiteSpace: "pre-wrap" }}
+            >
+              <div className={styles.product_desc_title}>Description</div>
 
-            <p className={styles.product_desc_body}>
-              {productData.product_desc}
-            </p>
-          </div>
+              <p className={styles.product_desc_body}>
+                {productData.product_desc}
+              </p>
+            </div>
+          )}
           <div className={styles.product_desc_container}>
-            <div className={styles.product_desc_title}>Seller Details</div>
+            <div
+              className={styles.product_desc_title}
+              onClick={() => history.push("/store/jungle")}
+            >
+              Seller Details
+            </div>
 
             <p className={styles.product_desc_body}>
               This item is sold by{" "}
