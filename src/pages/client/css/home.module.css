@@ -58,6 +58,9 @@
   background-color: #08bd80;
   border-radius: 0.2rem;
   margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .whatsapp_button {
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
