@@ -2,6 +2,8 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Search from "./pages/client/search";
 import Store from "./pages/client/store";
+import StoreStatus from "./pages/client/status";
+
 import StoreFavourates from "./pages/client/storeFavourates";
 import StoreCart from "./pages/client/storeCart";
 import ProductDetail from "./pages/client/productDetail";
@@ -44,6 +46,7 @@ function App() {
       >
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/status" component={StoreStatus} />
           <Route exact path="/store/:storelink" component={Store} />
           <Route exact path="/store/search/:storeId" component={Search} />
           <Route exact path="/cart/:store_id" component={StoreCart} />

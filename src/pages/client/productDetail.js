@@ -492,12 +492,7 @@ const ProductDetail = (props) => {
             </div>
           )}
           <div className={styles.product_desc_container}>
-            <div
-              className={styles.product_desc_title}
-              onClick={() => history.push("/store/jungle")}
-            >
-              Seller Details
-            </div>
+            <div className={styles.product_desc_title}>Seller Details</div>
 
             <p className={styles.product_desc_body}>
               This item is sold by{" "}
