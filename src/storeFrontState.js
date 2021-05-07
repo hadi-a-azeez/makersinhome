@@ -2,8 +2,17 @@ import create from "zustand";
 import { getStoreProducts } from "./api/custStoreAPI";
 
 let useFrontStore = (set, get) => ({
+  sortName: ["id", "desc", "Newest First"],
+  setSortName: async (val, storeId) => {
+    set({ sortName: val });
+    set({ isLoading: true });
+    set({ storeProducts: [] });
+    await get().fetchProducts(storeId);
+    set({ isLoading: false });
+  },
+
   isMoreLoading: false,
-  setIsMoreLoading: (val) => set((state) => ({ isMoreLoading: val })),
+  setIsMoreLoading: (val) => set({ isMoreLoading: val }),
   isLastPage: false,
   isLoading: false,
   setIsLoading: (val) => set({ isLoading: val }),
@@ -18,7 +27,9 @@ let useFrontStore = (set, get) => ({
     const resp = await getStoreProducts(
       storeId,
       get().catSelected,
-      get().pageNo
+      get().pageNo,
+      get().sortName[0],
+      get().sortName[1]
     );
     set({ isLastPage: resp.data.isLastPage });
     set((state) => ({

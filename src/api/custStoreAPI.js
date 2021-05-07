@@ -40,10 +40,16 @@ export const getStoreDataByIdAPI = async (userId) => {
 };
 
 //get store products by category
-export const getStoreProducts = async (userId, cat, pageNo) => {
+export const getStoreProducts = async (
+  userId,
+  cat,
+  pageNo,
+  sortName,
+  sortMode
+) => {
   const response = await axios
     .get(
-      `${apiRoot}/client/store/allproducts/${userId}/${cat}/id/desc/${pageNo}`
+      `${apiRoot}/client/store/allproducts/${userId}/${cat}/${sortName}/${sortMode}/${pageNo}`
     )
     .catch((err) => console.log(err));
   return response;

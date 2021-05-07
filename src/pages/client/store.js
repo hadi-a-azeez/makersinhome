@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
-import { SearchIcon } from "@chakra-ui/icons";
+import { ArrowDownIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import { getStoreDataAll } from "../../api/custStoreAPI";
 //import { productImagesRoot } from "../../config";
@@ -10,7 +10,16 @@ import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
 //import MenuIcon from "../../assets/bars.svg";
 
-import { SkeletonText, Text } from "@chakra-ui/react";
+import {
+  Popover,
+  PopoverCloseButton,
+  PopoverArrow,
+  PopoverTrigger,
+  SkeletonText,
+  Text,
+  PopoverContent,
+  PopoverHeader,
+} from "@chakra-ui/react";
 
 import {
   Button,
@@ -28,6 +37,7 @@ import ProductCard from "../../components/ProductCard";
 import useStore from "../../cartState";
 import { profileImagesRoot } from "../../config";
 import useFrontStore from "../../storeFrontState";
+import FocusLock from "@chakra-ui/focus-lock";
 
 const Store = (props) => {
   let history = useHistory();
@@ -48,6 +58,7 @@ const Store = (props) => {
   const { pageNo, incrementPageNo } = useFrontStore();
   const fetchProducts = useFrontStore((state) => state.fetchProducts);
   const { storeProducts, setStoreProducts } = useFrontStore();
+  const { sortName, setSortName } = useFrontStore();
 
   useEffect(() => {
     const getData = async () => {
@@ -71,12 +82,6 @@ const Store = (props) => {
     };
     getData();
   }, []);
-
-  const handleWhatsappSupport = () => {
-    window.location.replace(
-      `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
-    );
-  };
 
   const sendStoreAnalytics = async (storeId) => {
     //check if storeid is in array and date is today if not add and increment store visit
@@ -158,7 +163,14 @@ const Store = (props) => {
             <h2 className={styles.logo_name}>{storeData.account_store}</h2>
           </div>
           <div className={styles.whatsapp_support_button}>
-            <img src={Whatsapp} onClick={handleWhatsappSupport} />
+            <img
+              src={Whatsapp}
+              onClick={() =>
+                window.location.replace(
+                  `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
+                )
+              }
+            />
           </div>
         </div>
         <InputGroup
@@ -233,6 +245,82 @@ const Store = (props) => {
         {/* <div className={styles.products}> */}
         {/* product item starts here */}
         {!isLoading && !isProducts && <Text mt="40px">No Products</Text>}
+
+        <Popover>
+          {({ isOpen, onClose }) => (
+            <>
+              <PopoverTrigger>
+                <Stack
+                  alignSelf="flex-start"
+                  direction="column"
+                  mt="8px"
+                  ml="15px"
+                  spacing="0"
+                >
+                  <Button
+                    p="0px"
+                    height="18x"
+                    backgroundColor="#fff"
+                    rightIcon={<ChevronDownIcon boxSize="25px" />}
+                    fontFamily="elemen"
+                    fontSize="18px"
+                    _hover={{ bg: "#fff" }}
+                    _active={{ bg: "#fff" }}
+                    _focus={{ bg: "#fff" }}
+                  >
+                    Sort Products
+                  </Button>
+                  <Text fontSize="15px" color="#828282">
+                    {sortName[2]}
+                  </Text>
+                </Stack>
+              </PopoverTrigger>
+              <PopoverContent mt="-10px" w="180px" ml="20px">
+                <Stack direction="column" p="10px">
+                  <Text
+                    p="6px"
+                    onClick={() => {
+                      setSortName(["id", "desc", "Newest First"], storeData.id);
+                      onClose();
+                    }}
+                    fontFamily="elemen"
+                    _hover={{ bg: "#e0e0e0" }}
+                  >
+                    Newest First
+                  </Text>
+                  <Text
+                    p="6px"
+                    fontFamily="elemen"
+                    onClick={() => {
+                      setSortName(
+                        ["product_price", "asc", "Price - Low to High"],
+                        storeData.id
+                      );
+                      onClose();
+                    }}
+                    _hover={{ bg: "#e0e0e0" }}
+                  >
+                    Price - Low to High
+                  </Text>
+                  <Text
+                    p="6px"
+                    fontFamily="elemen"
+                    onClick={() => {
+                      setSortName(
+                        ["product_price", "desc", "Price - High to Low"],
+                        storeData.id
+                      );
+                      onClose();
+                    }}
+                    _hover={{ bg: "#e0e0e0" }}
+                  >
+                    Price - High to Low
+                  </Text>
+                </Stack>
+              </PopoverContent>
+            </>
+          )}
+        </Popover>
         <SimpleGrid columns={2} spacing={1} w="95%">
           {isLoading && (
             <>
