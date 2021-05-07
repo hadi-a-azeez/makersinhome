@@ -42,7 +42,9 @@ export const getStoreDataByIdAPI = async (userId) => {
 //get store products by category
 export const getStoreProducts = async (userId, cat, pageNo) => {
   const response = await axios
-    .get(`${apiRoot}/client/store/allproducts/${userId}/${cat}/${pageNo}`)
+    .get(
+      `${apiRoot}/client/store/allproducts/${userId}/${cat}/id/desc/${pageNo}`
+    )
     .catch((err) => console.log(err));
   return response;
 };
