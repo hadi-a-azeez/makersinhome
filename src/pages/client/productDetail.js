@@ -443,6 +443,7 @@ const ProductDetail = (props) => {
                 backgroundColor="#08BD80"
                 color="white"
                 fontFamily="elemen"
+                _hover={{ bg: "#048c5e" }}
               >
                 Buy On Whatsapp
               </Button>
