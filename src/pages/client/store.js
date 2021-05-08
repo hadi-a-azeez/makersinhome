@@ -62,8 +62,8 @@ const Store = (props) => {
 
   useEffect(() => {
     const getData = async () => {
+      storeProducts.length < 1 && setIsLoading(true);
       const storeResponse = await getStoreDataAll(storeLink);
-
       if (storeResponse.status !== 404) {
         setStoreData(storeResponse.data.data.storeinfo);
         setStoreCategories(storeResponse.data.data.categories);
@@ -253,7 +253,6 @@ const Store = (props) => {
                 <Stack
                   alignSelf="flex-start"
                   direction="column"
-                  mt="8px"
                   ml="15px"
                   spacing="0"
                 >
@@ -275,6 +274,7 @@ const Store = (props) => {
                   </Text>
                 </Stack>
               </PopoverTrigger>
+
               <PopoverContent mt="-10px" w="180px" ml="20px">
                 <Stack direction="column" p="10px">
                   <Text

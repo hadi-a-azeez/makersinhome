@@ -61,7 +61,6 @@ const ProductDetail = (props) => {
 
   //get product data from server
   useEffect(() => {
-    console.log(props.location.state);
     props.location.state && setProductData(props.location.state);
     console.log(props.location.state);
     const getProduct = async () => {
@@ -321,7 +320,7 @@ const ProductDetail = (props) => {
         <img src={BackIcon} width="25px" />
       </div> */}
 
-      {isLoading ? (
+      {!productData ? (
         <Stack direction="column" mt="20px" p="12px">
           <Skeleton height="30px" w="50%" />
           <Skeleton height="30px" mt="10px" w="30%" mb="18px" />
