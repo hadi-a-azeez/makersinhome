@@ -254,6 +254,7 @@ const Store = (props) => {
                   alignSelf="flex-start"
                   direction="column"
                   ml="15px"
+                  mt="10px"
                   spacing="0"
                 >
                   <Button
