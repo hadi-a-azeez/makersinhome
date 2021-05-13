@@ -12,7 +12,7 @@ import {
   addProductsVariantAPI,
   uploadProductImageAPI,
 } from "../../../api/sellerProductAPI";
-import { SmallCloseIcon, AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Input,
   Textarea,
@@ -29,6 +29,7 @@ import {
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
+import { uploadProductImageDO } from "../../../api/imageUploadAPI";
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -40,7 +41,14 @@ const AddNewProduct = (props) => {
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
   const [variantsLocal, setVariantsLocal] = useState([]);
+
+  const [newVariantIsDiscount, setNewVariantIsDiscount] = useState(false);
+  const [isProductDiscount, setIsProductDiscount] = useState(false);
+
   const [newVariant, setNewVariant] = useState("");
+  const [newVariantPrice, setNewVariantPrice] = useState("");
+  const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
+
   const toast = useToast();
 
   useEffect(() => {
@@ -54,11 +62,31 @@ const AddNewProduct = (props) => {
     fetchCategories();
   }, []);
 
+  const clearVariantNew = () => {
+    setNewVariant("");
+    setNewVariantPrice("");
+    setNewVariantIsDiscount(false);
+    setNewVariantSalePrice("");
+  };
   const deleteCompressedImage = (imageToDelete) => {
     setCompressedImages((prevImages) =>
       prevImages.filter((image) => image.name !== imageToDelete)
     );
   };
+
+  //update variant array objects keys
+  const updateVariant = (id, name, value) => {
+    const variantIndex = variantsLocal.findIndex(
+      (variantInState) => variantInState.id === id
+    );
+    const variantsArr = [...variantsLocal];
+    variantsArr[variantIndex] = {
+      ...variantsArr[variantIndex],
+      [name]: value,
+    };
+    setVariantsLocal(variantsArr);
+  };
+
   const validateFields = (formAction) => {
     if (
       product.product_price != "" &&
@@ -73,25 +101,39 @@ const AddNewProduct = (props) => {
   };
   const addProduct = async () => {
     setIsBtnLoading(true);
-    const response = await addProductAPI(product);
-    console.log(response.data);
-    const productId = response.data.data.id;
 
-    //clean up variants and add to server if any
-    if (variantsLocal.length > 0) {
-      let variantsFiltered = variantsLocal.map((variant) => ({
-        variant_name: variant.variant_name,
-        product_id: productId,
-      }));
-      await addProductsVariantAPI(variantsFiltered);
-    }
+    let imagesFiltered = compressedImages.map((img) => ({
+      product_image: img.name,
+    }));
+
+    //set regualr price to sale price if discount is off(is discount is not store in db)
+    //also removes  uuid from object
+    let variantsFiltered = variantsLocal.map((element) =>
+      element.is_discount
+        ? { ...element }
+        : { ...element, variant_sale_price: element.variant_price }
+    );
+
+    //remove is_discount and id
+    variantsFiltered = variantsFiltered.map(
+      ({ id, is_discount, ...element }) => element
+    );
+
+    //set regualr price to sale price if discount is off(is discount is not store in db)
+    const response = await addProductAPI({
+      ...product,
+      product_sale_price: isProductDiscount
+        ? product.product_sale_price
+        : product.product_price,
+      products_variants: variantsFiltered,
+      products_images: imagesFiltered,
+    });
+    console.log(product);
+
     //upload image to server if any
-    if (compressedImages.length > 0) {
-      const responseImageUpload = await uploadProductImageAPI(
-        compressedImages,
-        productId
-      );
-    }
+    if (compressedImages.length > 0)
+      await uploadProductImageDO(compressedImages);
+
     setIsBtnLoading(false);
     toast({
       title: "Product added.",
@@ -102,11 +144,9 @@ const AddNewProduct = (props) => {
       position: "bottom",
     });
     //add delay to model Completed product adding
-    setTimeout(() => history.push("/app/products/All%20Products/all"), 2000);
+    //setTimeout(() => history.push("/app/products/All%20Products/all"), 2000);
   };
-  const handleIsOnSale = () => {
-    setProduct({ ...product, product_is_sale: !product.product_is_sale });
-  };
+
   const compressImage = async (event) => {
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
@@ -243,7 +283,7 @@ const AddNewProduct = (props) => {
             <option value="DEFAULT" disabled>
               select category
             </option>
-            {categoriesArray.map((item, index) => (
+            {categoriesArray?.map((item, index) => (
               <option value={item.id} key={index}>
                 {item.cat_name}
               </option>
@@ -254,10 +294,12 @@ const AddNewProduct = (props) => {
         <FormControl w="90%" mt="4">
           <FormLabel>Discount</FormLabel>
           <Switch
-            onChange={handleIsOnSale}
+            onChange={() => {
+              setIsProductDiscount((old) => !old);
+            }}
             size="lg"
             colorScheme="green"
-            isChecked={product.product_is_sale}
+            isChecked={isProductDiscount}
           />
         </FormControl>
 
@@ -274,7 +316,7 @@ const AddNewProduct = (props) => {
               onChange={updateProduct}
             />
           </FormControl>
-          {product.product_is_sale && (
+          {isProductDiscount && (
             <FormControl w="100%">
               <Stack direction="row" justifyContent="space-between">
                 <FormLabel>Sale Price</FormLabel>
@@ -297,7 +339,7 @@ const AddNewProduct = (props) => {
               <Input
                 type="number"
                 name="product_sale_price"
-                defaultValue={product.product_sale_price}
+                value={product.product_sale_price}
                 variant="filled"
                 size="lg"
                 placeholder="sale price"
@@ -316,6 +358,7 @@ const AddNewProduct = (props) => {
                   border="1px solid #c2c2c2"
                   p="5px"
                   ml="5px"
+                  key={variant.id}
                 >
                   <Stack
                     direction="row"
@@ -323,18 +366,104 @@ const AddNewProduct = (props) => {
                     justifyContent="space-between"
                   >
                     <Text ml="10px"> {variant.variant_name}</Text>
-                    <IconButton
-                      icon={<CloseIcon />}
-                      size="sm"
-                      mr="6px"
-                      onClick={() =>
-                        setVariantsLocal((old) =>
-                          old.filter(
-                            (variantCurr) => variantCurr.id !== variant.id
-                          )
-                        )
+                    <Popup
+                      lockScroll={true}
+                      closeOnDocumentClick={false}
+                      trigger={
+                        <IconButton icon={<EditIcon />} size="sm" mr="6px" />
                       }
-                    />
+                      modal
+                      contentStyle={{ width: "80vw", borderRadius: "10px" }}
+                      nested
+                    >
+                      {(close) => (
+                        <Box p="20px">
+                          <FocusLock />
+                          <Text mb="5px" fontWeight="bold">
+                            Add Variant
+                          </Text>
+                          <FormLabel> Name</FormLabel>
+                          <Input
+                            type="text"
+                            value={variant.variant_name}
+                            onChange={(e) =>
+                              updateVariant(
+                                variant.id,
+                                "variant_name",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <FormLabel mt="10px">Discount</FormLabel>
+                          <Switch
+                            onChange={() =>
+                              updateVariant(
+                                variant.id,
+                                "is_discount",
+                                !variant.is_discount
+                              )
+                            }
+                            size="lg"
+                            colorScheme="green"
+                            isChecked={variant.is_discount}
+                          />
+                          <Stack direction="row" mt="10px">
+                            <Box>
+                              <FormLabel>Price</FormLabel>
+
+                              <Input
+                                type="number"
+                                value={variant.variant_price}
+                                onChange={(e) =>
+                                  updateVariant(
+                                    variant.id,
+                                    "variant_price",
+                                    e.target.value
+                                  )
+                                }
+                                mb="18px"
+                              />
+                            </Box>
+                            {variant.is_discount && (
+                              <Box>
+                                <FormLabel>Selling Price</FormLabel>
+
+                                <Input
+                                  type="number"
+                                  value={variant.variant_sale_price}
+                                  onChange={(e) =>
+                                    updateVariant(
+                                      variant.id,
+                                      "variant_sale_price",
+                                      e.target.value
+                                    )
+                                  }
+                                  mb="18px"
+                                />
+                              </Box>
+                            )}
+                          </Stack>
+                          <Button
+                            colorScheme="red"
+                            onClick={() => {
+                              setVariantsLocal((old) =>
+                                old.filter(
+                                  (variantCurr) => variantCurr.id !== variant.id
+                                )
+                              );
+                              close();
+                            }}
+                            mr="8px"
+                          >
+                            Delete
+                          </Button>
+                          <Button colorScheme="blue" onClick={close}>
+                            Update Variant
+                          </Button>
+                          <Stack />
+                        </Box>
+                      )}
+                    </Popup>
                   </Stack>
                 </Box>
               ))}
@@ -347,6 +476,11 @@ const AddNewProduct = (props) => {
                 Add Variant
               </Button>
             }
+            onOpen={() => {
+              setNewVariantIsDiscount(isProductDiscount);
+              setNewVariantPrice(product.product_price);
+              setNewVariantSalePrice(product.product_sale_price);
+            }}
             modal
             contentStyle={{ width: "80vw", borderRadius: "10px" }}
             nested
@@ -357,25 +491,69 @@ const AddNewProduct = (props) => {
                 <Text mb="5px" fontWeight="bold">
                   Add Variant
                 </Text>
+                <FormLabel> Name</FormLabel>
                 <Input
                   type="text"
-                  value={newVariant}
+                  value={newVariant || ""}
                   onChange={(e) => setNewVariant(e.target.value)}
-                  mt="10px"
-                  mb="18px"
                 />
-                <Button onClick={close} mr="8px">
+                <FormLabel mt="10px">Discount</FormLabel>
+                <Switch
+                  onChange={() => setNewVariantIsDiscount((old) => !old)}
+                  size="lg"
+                  colorScheme="green"
+                  isChecked={newVariantIsDiscount}
+                />
+                <Stack direction="row" mt="10px">
+                  <Box>
+                    <FormLabel>Price</FormLabel>
+
+                    <Input
+                      type="number"
+                      value={newVariantPrice || ""}
+                      onChange={(e) => setNewVariantPrice(e.target.value)}
+                      mb="18px"
+                    />
+                  </Box>
+                  {newVariantIsDiscount && (
+                    <Box>
+                      <FormLabel>Selling Price</FormLabel>
+
+                      <Input
+                        type="number"
+                        value={newVariantSalePrice || ""}
+                        onChange={(e) => setNewVariantSalePrice(e.target.value)}
+                        mb="18px"
+                      />
+                    </Box>
+                  )}
+                </Stack>
+                <Button
+                  onClick={() => {
+                    close();
+                    clearVariantNew();
+                  }}
+                  mr="8px"
+                >
                   Cancel
                 </Button>
                 <Button
                   colorScheme="blue"
                   onClick={() => {
-                    if (newVariant) {
+                    if (newVariant && newVariantPrice) {
                       setVariantsLocal((old) => [
                         ...old,
-                        { id: uuidv4(), variant_name: newVariant },
+                        {
+                          id: uuidv4(),
+                          variant_name: newVariant,
+                          is_discount: newVariantIsDiscount,
+                          variant_price: newVariantPrice,
+                          variant_sale_price: newVariantIsDiscount
+                            ? newVariantSalePrice
+                            : newVariantPrice,
+                        },
                       ]);
-                      setNewVariant("");
+                      clearVariantNew();
                       close();
                     }
                   }}

@@ -43,6 +43,7 @@ const ProductDetail = (props) => {
   const [isError, setIsError] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState("");
   const [popupImage, setPopupImage] = useState("");
+  const [priceLast, setPriceLast] = useState({ price: "_", sale: "_" });
   const {
     isOpen: isImageOpen,
     onOpen: onImageOpen,
@@ -53,16 +54,27 @@ const ProductDetail = (props) => {
   const cartProducts = useStore((state) => state.products);
   const addToCartState = useStore((state) => state.addProduct);
 
-  const {
-    onOpen: onOpenCart,
-    onClose: onCloseCart,
-    isOpen: isOpenCart,
-  } = useDisclosure();
+  useEffect(() => {
+    if (productData?.products_variants.length > 0) {
+      let minVariant = productData.products_variants?.reduce((prev, curr) =>
+        prev.variant_price < curr.variant_price ? prev : curr
+      );
+      console.log("!");
+      setPriceLast({
+        price: minVariant.variant_price,
+        sale: minVariant.variant_sale_price,
+      });
+    } else {
+      setPriceLast({
+        price: productData?.product_price,
+        sale: productData?.product_sale_price,
+      });
+    }
+  }, [productData]);
 
   //get product data from server
   useEffect(() => {
     props.location.state && setProductData(props.location.state);
-    console.log(props.location.state);
     const getProduct = async () => {
       const productResponse = await getProductDetailAPI(productId);
       !props.location.state &&
@@ -74,6 +86,19 @@ const ProductDetail = (props) => {
     getProduct();
   }, []);
 
+  const DiscountPriceText = ({ price, sale }) => {
+    return (
+      <>
+        <h1 className={styles.product_price}>₹{sale}</h1>
+        <h1 className={styles.product_price_strike}>₹{price}</h1>
+        <div className={styles.product_discount}>
+          {" "}
+          {parseInt(100 - (100 * sale) / price)}% OFF
+        </div>
+      </>
+    );
+  };
+
   const validateBuy = (callback) => {
     setIsError(false);
     if (selectedVariant !== "" || productData.products_variants.length < 1)
@@ -82,9 +107,9 @@ const ProductDetail = (props) => {
   };
 
   const addToCart = () => {
-    const productFinalPrice = productData.product_is_sale
-      ? productData.product_sale_price
-      : productData.product_price;
+    const productFinalPrice = selectedVariant
+      ? selectedVariant.variant_sale_price
+      : productData.product_sale_price;
     addToCartState({
       store_id: storeData.id,
       product_id: productData.id,
@@ -115,45 +140,20 @@ const ProductDetail = (props) => {
       ),
     });
   };
-  const whatsappBuyCart = async () => {
-    updateMessagesStarted(storeData.id);
-
-    const productsMsg = cartProducts
-      .filter((prd) => prd.store_id == storeData.id)
-      .map(
-        (item) =>
-          `• ${item.product_name} ${
-            item.product_variant && `(${item.product_variant.variant_name})`
-          }   x   ${item.product_quantity} - ₹${
-            item.product_quantity * item.product_price
-          }%0D%0A `
-      );
-    const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
-      ""
-    )}%0D%0A Total: ₹${cartProducts
-      .filter((prd) => prd.store_id == storeData.id)
-      .reduce(
-        (acc, curr) => acc + curr.product_quantity * curr.product_price,
-        0
-      )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
-    window.location.replace(
-      `https://api.whatsapp.com/send/?phone=91${storeData.account_whatsapp}&text=${whatsappMessage}`
-    );
-  };
 
   const whatsappBuy = async () => {
     updateMessagesStarted(storeData.id);
     const productsMsg = `• ${productData.product_name} ${
       selectedVariant && `(${selectedVariant.variant_name})`
     } x 1 -   ₹${
-      productData.product_is_sale
-        ? productData.product_sale_price
-        : productData.product_price
+      selectedVariant
+        ? selectedVariant.variant_sale_price
+        : productData.product_sale_price
     } %0D%0A`;
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg} %0D%0A *Total: ₹${
-      productData.product_is_sale
-        ? productData.product_sale_price
-        : productData.product_price
+      selectedVariant
+        ? selectedVariant.variant_sale_price
+        : productData.product_sale_price
     }*%0D%0A _______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
       `https://api.whatsapp.com/send/?phone=91${storeData.account_whatsapp}&text=${whatsappMessage}`
@@ -168,103 +168,27 @@ const ProductDetail = (props) => {
         image={popupImage}
       />
       <div className={styles.header}>
-        <Popover
-          placement="bottom-start"
-          isOpen={isOpenCart}
-          onOpen={onOpenCart}
-          onClose={onCloseCart}
+        <Box
+          width="60px"
+          height="60px"
+          position="fixed"
+          top="25px"
+          right="25px"
+          zIndex="1"
+          onClick={() => history.push(`/cart/${storeData.id}`)}
         >
-          <PopoverTrigger>
-            <Box
-              width="60px"
-              height="60px"
-              position="fixed"
-              top="25px"
-              right="25px"
-              zIndex="1"
-            >
-              <IconButton
-                width="60px"
-                height="60px"
-                icon={<img src={CartIconBlack} width="40px" />}
-                borderRadius="100%"
-              />
-              <div className={styles.cart_count}>
-                {cartProducts
-                  .filter((prd) => prd.store_id == storeData.id)
-                  .reduce((acc, curr) => acc + curr.product_quantity, 0)}
-              </div>
-            </Box>
-          </PopoverTrigger>
-          <PopoverContent borderRadius="20px" p="8px">
-            <PopoverArrow />
-            <PopoverCloseButton
-              m="6px"
-              borderRadius="full"
-              border="1px solid #e5e5e6"
-              size="md"
-            />
-            <PopoverHeader>
-              <Stack direction="row" justifyContent="space-between" w="85%">
-                <Text fontWeight="bold">Bag</Text>
-                <Text color="green.500">
-                  {" "}
-                  Total: ₹
-                  <b>
-                    {cartProducts
-                      .filter((prd) => prd.store_id == storeData.id)
-                      .reduce(
-                        (acc, curr) =>
-                          acc + curr.product_quantity * curr.product_price,
-                        0
-                      )}
-                  </b>
-                </Text>
-              </Stack>
-            </PopoverHeader>
-            <PopoverBody>
-              <div className={styles.cart_popup_container}>
-                {cartProducts
-                  .filter((prd) => prd.store_id == storeData.id)
-                  .map((cartProduct) => (
-                    <div
-                      className={styles.cart_popup_item}
-                      key={cartProduct.product_id_gen}
-                    >
-                      <span className={styles.cart_popup_name}>
-                        {cartProduct.product_name}
-                      </span>
-                      <span className={styles.cart_popup_variant}>
-                        {cartProduct.product_variant &&
-                          `(${cartProduct.product_variant.variant_name})`}
-                      </span>
-                      <span className={styles.cart_popup_quantity}>
-                        x {cartProduct.product_quantity}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-              <Button
-                h="42px"
-                w="100%"
-                onClick={() => history.push(`/cart/${storeData.id}`)}
-                borderRadius="25px"
-              >
-                Go To Cart
-              </Button>
-              <Button
-                h="44px"
-                borderRadius="25px"
-                w="100%"
-                mt="10px"
-                colorScheme="green"
-                onClick={whatsappBuyCart}
-              >
-                Checkout On Whatsapp
-              </Button>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
+          <IconButton
+            width="60px"
+            height="60px"
+            icon={<img src={CartIconBlack} width="40px" />}
+            borderRadius="100%"
+          />
+          <div className={styles.cart_count}>
+            {cartProducts
+              .filter((prd) => prd.store_id == storeData.id)
+              .reduce((acc, curr) => acc + curr.product_quantity, 0)}
+          </div>
+        </Box>
       </div>
 
       {!productData && (
@@ -343,29 +267,19 @@ const ProductDetail = (props) => {
           <h1 className={styles.product_name}>{productData.product_name}</h1>
           <Stack direction="row" justifyContent="space-between">
             <div className={styles.price_container}>
-              {productData.product_is_sale == 0 ? (
-                <h1 className={styles.product_price}>
-                  ₹{productData.product_price}
-                </h1>
-              ) : (
-                <>
-                  <h1 className={styles.product_price}>
-                    ₹{productData.product_sale_price}
-                  </h1>
-                  <h1 className={styles.product_price_strike}>
-                    ₹{productData.product_price}
-                  </h1>
-                  <div className={styles.product_discount}>
-                    {" "}
-                    {parseInt(
-                      100 -
-                        (100 * productData.product_sale_price) /
-                          productData.product_price
-                    )}
-                    % OFF
-                  </div>
-                </>
-              )}
+              <>
+                {selectedVariant ? (
+                  <DiscountPriceText
+                    price={selectedVariant.variant_price}
+                    sale={selectedVariant.variant_sale_price}
+                  />
+                ) : (
+                  <DiscountPriceText
+                    price={priceLast.price}
+                    sale={priceLast.sale}
+                  />
+                )}
+              </>
             </div>
             <Stack direction="row" ml="10px">
               <IconButton

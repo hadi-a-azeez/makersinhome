@@ -112,75 +112,76 @@ const StoreCart = (props) => {
             .filter((prd) => prd.store_id == storeId)
             .map((product) => {
               return (
-                <>
-                  <div className={styles.product_item} key={product.product_id}>
-                    <IconButton
-                      colorScheme="gray"
-                      borderRadius="100%"
-                      size="sm"
-                      position="absolute"
-                      right="8px"
-                      top="8px"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteCartProduct(product);
-                      }}
-                      icon={<DeleteIcon color="red.400" w={4} h={4} />}
-                    />
-                    <img
-                      src={
-                        product.product_image
-                          ? `${productImagesRoot}/min/${product.product_image}`
-                          : Placeholder
-                      }
-                      alt="img"
+                <div
+                  className={styles.product_item}
+                  key={product.product_id_gen}
+                >
+                  <IconButton
+                    colorScheme="gray"
+                    borderRadius="100%"
+                    size="sm"
+                    position="absolute"
+                    right="8px"
+                    top="8px"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCartProduct(product);
+                    }}
+                    icon={<DeleteIcon color="red.400" w={4} h={4} />}
+                  />
+                  <img
+                    src={
+                      product.product_image
+                        ? `${productImagesRoot}/min/${product.product_image}`
+                        : Placeholder
+                    }
+                    alt="img"
+                    onClick={() =>
+                      history.push(`/product/${product.product_id}`)
+                    }
+                    className={styles.product_image}
+                  />
+
+                  <div className={styles.product_details}>
+                    <h1
                       onClick={() =>
                         history.push(`/product/${product.product_id}`)
                       }
-                      className={styles.product_image}
-                    />
-
-                    <div className={styles.product_details}>
-                      <h1
-                        onClick={() =>
-                          history.push(`/product/${product.product_id}`)
-                        }
-                        className={styles.product_name}
+                      className={styles.product_name}
+                    >
+                      {product.product_name}
+                    </h1>
+                    <h1 className={styles.product_price}>
+                      ₹{product.product_price}
+                    </h1>
+                    {product.product_variant.variant_name && (
+                      <h1 className={styles.subheading}>
+                        Variant: {product.product_variant.variant_name}
+                      </h1>
+                    )}
+                    <div className={styles.quantity_container}>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeCartQuantity(product);
+                        }}
+                        className={styles.small_circle}
                       >
-                        {product.product_name}
-                      </h1>
-                      <h1 className={styles.product_price}>
-                        ₹{product.product_price}
-                      </h1>
-                      {product.product_variant.variant_name && (
-                        <h1 className={styles.subheading}>
-                          Variant: {product.product_variant.variant_name}
-                        </h1>
-                      )}
-                      <div className={styles.quantity_container}>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeCartQuantity(product);
-                          }}
-                          className={styles.small_circle}
-                        >
-                          -
-                        </div>
-                        <Text p="6px">{product.product_quantity}</Text>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addCartQuantity(product);
-                          }}
-                          className={styles.small_circle}
-                        >
-                          +
-                        </div>
+                        -
+                      </div>
+                      <Text p="6px">{product.product_quantity}</Text>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addCartQuantity(product);
+                        }}
+                        className={styles.small_circle}
+                      >
+                        +
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               );
             })
         ) : (

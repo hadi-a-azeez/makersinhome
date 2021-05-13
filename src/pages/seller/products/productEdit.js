@@ -9,7 +9,7 @@ import LabelHeader from "../../../components/labelHeader";
 import { useForm } from "../../../components/useForm";
 import imageCompression from "browser-image-compression";
 import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
-import { SmallCloseIcon, AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 
 import {
   getProductAPI,
@@ -49,20 +49,29 @@ import { Box } from "@material-ui/core";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
-import { deleteProductImageDO } from "../../../api/imageUploadAPI";
+import {
+  deleteProductImageDO,
+  uploadProductImageDO,
+} from "../../../api/imageUploadAPI";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [productImagesLocal, setProductImagesLocal] = useState([]);
-  const [serverImagesToDelete, setServerImagesToDelete] = useState([]);
-  const [variantsLocal, setVariantsLocal] = useState([]);
-  const [variantsToDelete, setVariantsToDelete] = useState([]);
+
   const [categoriesArray, setCategoriesArray] = useState([]);
-  const [newVariant, setNewVariant] = useState("");
   const [isFormError, setIsFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [isProductDiscount, setIsProductDiscount] = useState(false);
+
+  const [variantsLocal, setVariantsLocal] = useState([]);
+  const [newVariant, setNewVariant] = useState("");
+  const [newVariantPrice, setNewVariantPrice] = useState("");
+  const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
+  const [newVariantIsDiscount, setNewVariantIsDiscount] = useState(false);
+
   const cancelRef = useRef();
   const toast = useToast();
 
@@ -74,19 +83,31 @@ const ProductEdit = (props) => {
       setIsLoading(true);
       const productDetails = await getProductAPI(productId);
       setIsLoading(false);
-      setProduct(productDetails.data.data);
-      const image = productDetails.data.data.products_images;
+      //set products discount
+      console.log(productDetails, "nice");
+
+      productDetails.data.data.product_price !==
+        productDetails.data.data.product_sale_price &&
+        setIsProductDiscount(true);
+
+      // add is_discount to variants
+      let variantsModified = productDetails.data.data?.products_variants?.map(
+        (element) => ({
+          ...element,
+          is_discount: element.variant_price !== element.variant_sale_price,
+        })
+      );
+
+      setProduct({
+        ...productDetails.data.data,
+        products_variants: variantsModified,
+      });
+
       const responseCatogory = await getCategoriesAPI();
       setCategoriesArray(responseCatogory.data.data);
     };
     productLoad();
   }, []);
-
-  //flip is on product in state on switch click
-  const handleIsOnSale = () => {
-    let onSale = !product.product_is_sale;
-    setProduct({ ...product, product_is_sale: onSale ? 1 : 0 });
-  };
 
   //validate input values
   const validateFields = (formAction) => {
@@ -103,32 +124,48 @@ const ProductEdit = (props) => {
       product_sale_price: value + "",
     });
   };
+
   //update product on server on submit
   const updateProductFull = async () => {
     setIsBtnLoading(true);
 
-    //variants manipulation
-    if (variantsLocal.length > 0) {
-      await addProductsVariantAPI(variantsLocal);
-    }
-    if (variantsToDelete.length > 0) {
-      await deleteProductsVariantAPI(variantsToDelete);
-    }
-
     //check if new images are added to product if upload it to server
-    if (productImagesLocal.length > 0) {
-      const responseImage = await uploadProductImageAPI(
-        productImagesLocal,
-        productId
-      );
-    }
+    productImagesLocal.length > 0 &&
+      (await uploadProductImageDO(productImagesLocal));
 
-    if (serverImagesToDelete.length > 0) {
-      await deleteProductImagesAPI(serverImagesToDelete, productId);
-    }
-    const editedProduct = { ...product };
-    delete editedProduct.products_images;
+    //set sale price to regular if is_disocunt is on
+    let variantsFilteredOld = product.products_variants.map((element) =>
+      element.is_discount
+        ? { ...element }
+        : { ...element, variant_sale_price: element.variant_price }
+    );
 
+    //remove is_discount
+    variantsFilteredOld = variantsFilteredOld.map(
+      ({ is_discount, ...element }) => element
+    );
+
+    let variantsFilteredNew = variantsLocal.map((element) =>
+      element.is_discount
+        ? { ...element }
+        : { ...element, variant_sale_price: element.variant_price }
+    );
+
+    //remove is_discount and id
+    variantsFilteredNew = variantsFilteredNew.map(
+      ({ id, is_discount, ...element }) => element
+    );
+
+    const editedProduct = {
+      ...product,
+      product_sale_price: isProductDiscount
+        ? product.product_sale_price
+        : product.product_price,
+      products_variants_old: variantsFilteredOld,
+      products_variants_new: variantsFilteredNew,
+      products_images_new: productImagesLocal.map((img) => img.name),
+      products_images_old: product.products_images,
+    };
     const responseAPI = await updateProductAPI(editedProduct, productId);
     setIsBtnLoading(false);
     toast({
@@ -142,17 +179,37 @@ const ProductEdit = (props) => {
 
     /* history.push("/products"); */
   };
-  const updateProductStock = () => {
-    //update product stock state manually
-    let toStock = !product.product_stock;
-    setProduct({ ...product, product_stock: toStock ? 1 : 0 });
-  };
 
   //delete newly added images from state
   const deleteLocalImages = (imageToDelete) => {
     setProductImagesLocal((prevImages) =>
       prevImages.filter((image) => image.name !== imageToDelete)
     );
+  };
+
+  //update variant arra objects keys
+  const updateVariantLocal = (id, name, value) => {
+    const variantIndex = variantsLocal.findIndex(
+      (variantInState) => variantInState.id === id
+    );
+    const variantsArr = [...variantsLocal];
+    variantsArr[variantIndex] = {
+      ...variantsArr[variantIndex],
+      [name]: value,
+    };
+    setVariantsLocal(variantsArr);
+  };
+  //update variant arra objects keys
+  const updateVariantServer = (id, name, value) => {
+    const variantIndex = product.products_variants.findIndex(
+      (variantInState) => variantInState.id === id
+    );
+    const variantsArr = [...product.products_variants];
+    variantsArr[variantIndex] = {
+      ...variantsArr[variantIndex],
+      [name]: value,
+    };
+    setProduct((old) => ({ ...old, products_variants: variantsArr }));
   };
 
   //delete variants in server
@@ -162,18 +219,6 @@ const ProductEdit = (props) => {
       (variant) => variant.id !== toDeleteVariant.id
     );
     setProduct({ ...product, products_variants: newVariants });
-    console.log(toDeleteVariant);
-    setVariantsToDelete((old) => [...old, toDeleteVariant.id]);
-    console.log(variantsToDelete);
-  };
-
-  //delete newly added variants from state
-  const deleteLocalVariants = (variantToDelete) => {
-    setVariantsLocal((old) =>
-      old.filter(
-        (variant) => variant.variant_name !== variantToDelete.variant_name
-      )
-    );
   };
 
   //add images to be deleted from server to array
@@ -183,7 +228,6 @@ const ProductEdit = (props) => {
       (image) => image.id !== imageToDelete.id
     );
     setProduct({ ...product, products_images: newImages });
-    setServerImagesToDelete([...serverImagesToDelete, imageToDelete]);
   };
 
   const compressImage = async (event) => {
@@ -281,39 +325,38 @@ const ProductEdit = (props) => {
               <label htmlFor="file-upload" className={styles.customFileUpload}>
                 <AddIcon w={8} h={8} />
               </label>
-              {product.products_images &&
-                product.products_images.map((image, index) => {
-                  return (
-                    <div
+              {product?.products_images?.map((image, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      position: "relative",
+                      borderRadius: `8px`,
+                      width: "90px",
+                    }}
+                  >
+                    <Image
+                      boxSize="90px"
+                      borderRadius="8px"
+                      objectFit="cover"
+                      src={`${productImagesRoot}/min/${image.product_image}`}
                       key={index}
-                      style={{
-                        position: "relative",
-                        borderRadius: `8px`,
-                        width: "90px",
-                      }}
-                    >
-                      <Image
-                        boxSize="90px"
-                        borderRadius="8px"
-                        objectFit="cover"
-                        src={`${productImagesRoot}/min/${image.product_image}`}
-                        key={index}
-                      />
-                      <IconButton
-                        colorScheme="gray"
-                        borderRadius="100%"
-                        aria-label="Call Segun"
-                        size="sm"
-                        position="absolute"
-                        top="5px"
-                        right="3px"
-                        zIndex="8"
-                        onClick={() => deleteServerImages(image)}
-                        icon={<SmallCloseIcon color="black" w={4} h={4} />}
-                      />
-                    </div>
-                  );
-                })}
+                    />
+                    <IconButton
+                      colorScheme="gray"
+                      borderRadius="100%"
+                      aria-label="Call Segun"
+                      size="sm"
+                      position="absolute"
+                      top="5px"
+                      right="3px"
+                      zIndex="8"
+                      onClick={() => deleteServerImages(image)}
+                      icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                    />
+                  </div>
+                );
+              })}
               {productImagesLocal &&
                 productImagesLocal.map((image) => {
                   return (
@@ -391,89 +434,203 @@ const ProductEdit = (props) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl isRequired w="90%" mt="4">
-              <FormLabel>Discount</FormLabel>
-              <Switch
-                onChange={() => {
-                  handleIsOnSale();
-                }}
-                size="lg"
-                colorScheme="green"
-                isChecked={product.product_is_sale ? true : false}
-              />
-            </FormControl>
-            <Stack direction="row" w="90%" mt="4">
-              <FormControl id="product_price" isRequired w="100%">
-                <FormLabel>Product Price</FormLabel>
-                <Input
-                  type="text"
-                  name="product_price"
-                  placeholder="Price"
-                  variant="filled"
-                  defaultValue={product.product_price}
-                  onChange={updateProduct}
-                  size="lg"
-                  w="100%"
-                />
-              </FormControl>
 
-              {product.product_is_sale && (
-                <FormControl w="100%">
-                  <Stack direction="row" justifyContent="space-between">
-                    <FormLabel>Sale Price</FormLabel>
-                    {product.product_sale_price && product.product_price && (
-                      <Badge
-                        colorScheme="green"
-                        variant="solid"
-                        fontSize="14px"
-                        alignSelf="center"
-                      >
-                        {parseInt(
-                          100 -
-                            (100 * product.product_sale_price) /
-                              product.product_price
-                        )}
-                        % OFF
-                      </Badge>
-                    )}
-                  </Stack>
-                  <Input
-                    type="text"
-                    name="product_sale_price"
-                    placeholder="Price"
-                    variant="filled"
-                    defaultValue={product.product_sale_price}
-                    onChange={(e) => setSalePrice(e.target.value)}
+            {product?.products_variants?.length < 1 ? (
+              <Stack w="90%">
+                <FormControl mt="4">
+                  <FormLabel>Discount</FormLabel>
+                  <Switch
+                    onChange={() => {
+                      setIsProductDiscount((old) => !old);
+                    }}
                     size="lg"
-                    w="100%"
+                    colorScheme="green"
+                    isChecked={isProductDiscount}
                   />
                 </FormControl>
-              )}
-            </Stack>
+                <Stack direction="row" mt="4">
+                  <FormControl id="product_price" isRequired w="100%">
+                    <FormLabel>Product Price</FormLabel>
+                    <Input
+                      type="number"
+                      name="product_price"
+                      placeholder="Price"
+                      variant="filled"
+                      defaultValue={product.product_price}
+                      onChange={updateProduct}
+                      size="lg"
+                      w="100%"
+                    />
+                  </FormControl>
+
+                  {isProductDiscount && (
+                    <FormControl w="100%">
+                      <Stack direction="row" justifyContent="space-between">
+                        <FormLabel>Sale Price</FormLabel>
+                        {product.product_sale_price && product.product_price && (
+                          <Badge
+                            colorScheme="green"
+                            variant="solid"
+                            fontSize="14px"
+                            alignSelf="center"
+                          >
+                            {parseInt(
+                              100 -
+                                (100 * product.product_sale_price) /
+                                  product.product_price
+                            )}
+                            % OFF
+                          </Badge>
+                        )}
+                      </Stack>
+                      <Input
+                        type="number"
+                        name="product_sale_price"
+                        placeholder="Price"
+                        variant="filled"
+                        defaultValue={product.product_sale_price}
+                        onChange={(e) => setSalePrice(e.target.value)}
+                        size="lg"
+                        w="100%"
+                      />
+                    </FormControl>
+                  )}
+                </Stack>
+              </Stack>
+            ) : (
+              <Stack w="90%">
+                <FormControl id="product_price" isDisabled mt="10px">
+                  <FormLabel>Product Price</FormLabel>
+                  <Input
+                    type="number"
+                    variant="filled"
+                    placeholder={product.product_price}
+                    size="lg"
+                  />
+                </FormControl>
+                <Text color="red.300" fontWeight="bold">
+                  {" "}
+                  Edit Price in Variants
+                </Text>
+              </Stack>
+            )}
             <FormControl isRequired w="90%" mt="4">
               <FormLabel>Product Variants</FormLabel>
               <Flex direction="row" flexWrap="wrap">
                 {product.products_variants &&
                   product.products_variants.map((variant) => (
                     <Box
-                      ml="8px"
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
-                      mt="8px"
-                      p="3px"
+                      p="5px"
+                      ml="5px"
+                      mt="5px"
+                      key={variant.id}
                     >
                       <Stack
                         direction="row"
-                        justifyContent="space-between"
                         alignItems="center"
+                        justifyContent="space-between"
                       >
                         <Text ml="10px"> {variant.variant_name}</Text>
-                        <IconButton
-                          icon={<CloseIcon />}
-                          size="sm"
-                          mr="4px"
-                          onClick={() => deleteServerVariants(variant)}
-                        />
+                        <Popup
+                          lockScroll={true}
+                          closeOnDocumentClick={false}
+                          trigger={
+                            <IconButton
+                              icon={<EditIcon />}
+                              size="sm"
+                              mr="6px"
+                            />
+                          }
+                          modal
+                          contentStyle={{ width: "80vw", borderRadius: "10px" }}
+                          nested
+                        >
+                          {(close) => (
+                            <Box p="20px">
+                              <FocusLock />
+                              <Text mb="5px" fontWeight="bold">
+                                Add Variant
+                              </Text>
+                              <FormLabel> Name</FormLabel>
+                              <Input
+                                type="text"
+                                value={variant.variant_name}
+                                onChange={(e) =>
+                                  updateVariantServer(
+                                    variant.id,
+                                    "variant_name",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <FormLabel mt="10px">Discount</FormLabel>
+                              <Switch
+                                onChange={() =>
+                                  updateVariantServer(
+                                    variant.id,
+                                    "is_discount",
+                                    !variant.is_discount
+                                  )
+                                }
+                                size="lg"
+                                colorScheme="green"
+                                isChecked={variant.is_discount}
+                              />
+                              <Stack direction="row" mt="10px">
+                                <Box>
+                                  <FormLabel>Price</FormLabel>
+
+                                  <Input
+                                    type="number"
+                                    value={variant.variant_price}
+                                    onChange={(e) =>
+                                      updateVariantServer(
+                                        variant.id,
+                                        "variant_price",
+                                        e.target.value
+                                      )
+                                    }
+                                    mb="18px"
+                                  />
+                                </Box>
+                                {variant.is_discount && (
+                                  <Box>
+                                    <FormLabel>Selling Price</FormLabel>
+
+                                    <Input
+                                      type="number"
+                                      value={variant.variant_sale_price}
+                                      onChange={(e) =>
+                                        updateVariantServer(
+                                          variant.id,
+                                          "variant_sale_price",
+                                          e.target.value
+                                        )
+                                      }
+                                      mb="18px"
+                                    />
+                                  </Box>
+                                )}
+                              </Stack>
+                              <Button
+                                colorScheme="red"
+                                onClick={() => {
+                                  deleteServerVariants(variant);
+                                  close();
+                                }}
+                                mr="8px"
+                              >
+                                Delete
+                              </Button>
+                              <Button colorScheme="blue" onClick={close}>
+                                OK
+                              </Button>
+                              <Stack />
+                            </Box>
+                          )}
+                        </Popup>
                       </Stack>
                     </Box>
                   ))}
@@ -481,11 +638,12 @@ const ProductEdit = (props) => {
                 {variantsLocal &&
                   variantsLocal.map((variant) => (
                     <Box
-                      ml="8px"
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
                       p="5px"
-                      mt="8px"
+                      ml="5px"
+                      key={variant.id}
+                      mt="5px"
                     >
                       <Stack
                         direction="row"
@@ -493,12 +651,109 @@ const ProductEdit = (props) => {
                         justifyContent="space-between"
                       >
                         <Text ml="10px"> {variant.variant_name}</Text>
-                        <IconButton
-                          icon={<CloseIcon />}
-                          size="sm"
-                          mr="6px"
-                          onClick={() => deleteLocalVariants(variant)}
-                        />
+                        <Popup
+                          lockScroll={true}
+                          closeOnDocumentClick={false}
+                          trigger={
+                            <IconButton
+                              icon={<EditIcon />}
+                              size="sm"
+                              mr="6px"
+                            />
+                          }
+                          modal
+                          contentStyle={{ width: "80vw", borderRadius: "10px" }}
+                          nested
+                        >
+                          {(close) => (
+                            <Box p="20px">
+                              <FocusLock />
+                              <Text mb="5px" fontWeight="bold">
+                                Add Variant
+                              </Text>
+                              <FormLabel> Name</FormLabel>
+                              <Input
+                                type="text"
+                                value={variant.variant_name}
+                                onChange={(e) =>
+                                  updateVariantLocal(
+                                    variant.id,
+                                    "variant_name",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <FormLabel>Discount</FormLabel>
+                              <Switch
+                                onChange={(e) =>
+                                  updateVariantLocal(
+                                    variant.id,
+                                    "is_discount",
+                                    !variant.is_discount
+                                  )
+                                }
+                                size="lg"
+                                colorScheme="green"
+                                isChecked={variant.is_discount}
+                              />
+                              <Stack direction="row" mt="10px">
+                                <Box>
+                                  <FormLabel>Price</FormLabel>
+
+                                  <Input
+                                    type="number"
+                                    value={variant.variant_price}
+                                    onChange={(e) =>
+                                      updateVariantLocal(
+                                        variant.id,
+                                        "variant_price",
+                                        e.target.value
+                                      )
+                                    }
+                                    mb="18px"
+                                  />
+                                </Box>
+                                {variant.is_discount && (
+                                  <Box>
+                                    <FormLabel>Selling Price</FormLabel>
+
+                                    <Input
+                                      type="number"
+                                      value={variant.variant_sale_price}
+                                      onChange={(e) =>
+                                        updateVariantLocal(
+                                          variant.id,
+                                          "variant_sale_price",
+                                          e.target.value
+                                        )
+                                      }
+                                      mb="18px"
+                                    />
+                                  </Box>
+                                )}
+                              </Stack>
+                              <Button
+                                colorScheme="red"
+                                onClick={() => {
+                                  setVariantsLocal((old) =>
+                                    old.filter(
+                                      (variantCurr) =>
+                                        variantCurr.id !== variant.id
+                                    )
+                                  );
+                                  close();
+                                }}
+                                mr="8px"
+                              >
+                                Delete
+                              </Button>
+                              <Button colorScheme="blue" onClick={close}>
+                                OK
+                              </Button>
+                              <Stack />
+                            </Box>
+                          )}
+                        </Popup>
                       </Stack>
                     </Box>
                   ))}
@@ -511,6 +766,11 @@ const ProductEdit = (props) => {
                     Add Variant
                   </Button>
                 }
+                onOpen={() => {
+                  setNewVariantIsDiscount(product.is_discount);
+                  setNewVariantPrice(product.product_price);
+                  setNewVariantSalePrice(product.product_sale_price);
+                }}
                 modal
                 contentStyle={{ width: "80vw", borderRadius: "10px" }}
                 nested
@@ -521,25 +781,68 @@ const ProductEdit = (props) => {
                     <Text mb="5px" fontWeight="bold">
                       Add Variant
                     </Text>
+                    <FormLabel> Name</FormLabel>
                     <Input
                       type="text"
                       value={newVariant}
                       onChange={(e) => setNewVariant(e.target.value)}
-                      mt="10px"
-                      mb="18px"
                     />
+                    <FormLabel>Discount</FormLabel>
+                    <Switch
+                      onChange={() => setNewVariantIsDiscount((old) => !old)}
+                      size="lg"
+                      colorScheme="green"
+                      isChecked={newVariantIsDiscount}
+                    />
+
+                    <Stack direction="row" mt="10px">
+                      <Box>
+                        <FormLabel>Price</FormLabel>
+
+                        <Input
+                          type="number"
+                          value={newVariantPrice}
+                          onChange={(e) => setNewVariantPrice(e.target.value)}
+                          mb="18px"
+                        />
+                      </Box>
+                      {newVariantIsDiscount && (
+                        <Box>
+                          <FormLabel>Selling Price</FormLabel>
+
+                          <Input
+                            type="number"
+                            value={newVariantSalePrice}
+                            onChange={(e) =>
+                              setNewVariantSalePrice(e.target.value)
+                            }
+                            mb="18px"
+                          />
+                        </Box>
+                      )}
+                    </Stack>
                     <Button onClick={close} mr="8px">
                       Cancel
                     </Button>
                     <Button
                       colorScheme="blue"
                       onClick={() => {
-                        if (newVariant) {
+                        if (newVariant && newVariantPrice) {
                           setVariantsLocal((old) => [
                             ...old,
-                            { variant_name: newVariant, product_id: productId },
+                            {
+                              id: uuidv4(),
+                              product_id: product.id,
+                              variant_name: newVariant,
+                              is_discount: newVariantIsDiscount,
+                              variant_price: newVariantPrice,
+                              variant_sale_price: newVariantSalePrice,
+                            },
                           ]);
                           setNewVariant("");
+                          setNewVariantPrice("");
+                          setNewVariantSalePrice("");
+                          setNewVariantIsDiscount(false);
                           close();
                         }
                       }}
