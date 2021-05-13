@@ -8,15 +8,15 @@ import { productImagesRoot } from "../config";
 import styles from "./css/product_card.module.css";
 
 const ProductCard = ({ product }) => {
+  console.log(product);
   const history = useHistory();
   const [priceLast, setPriceLast] = useState({ price: "_", sale: "_" });
 
   useEffect(() => {
     if (product.products_variants.length > 0) {
       let minVariant = product.products_variants?.reduce((prev, curr) =>
-        prev.variant_price < curr.variant_price ? prev : curr
+        prev.variant_sale_price < curr.variant_sale_price ? prev : curr
       );
-      console.log("!");
       setPriceLast({
         price: minVariant.variant_price,
         sale: minVariant.variant_sale_price,

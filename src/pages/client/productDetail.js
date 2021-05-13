@@ -57,9 +57,8 @@ const ProductDetail = (props) => {
   useEffect(() => {
     if (productData?.products_variants.length > 0) {
       let minVariant = productData.products_variants?.reduce((prev, curr) =>
-        prev.variant_price < curr.variant_price ? prev : curr
+        prev.variant_sale_price < curr.variant_sale_price ? prev : curr
       );
-      console.log("!");
       setPriceLast({
         price: minVariant.variant_price,
         sale: minVariant.variant_sale_price,
@@ -269,10 +268,19 @@ const ProductDetail = (props) => {
             <div className={styles.price_container}>
               <>
                 {selectedVariant ? (
-                  <DiscountPriceText
-                    price={selectedVariant.variant_price}
-                    sale={selectedVariant.variant_sale_price}
-                  />
+                  selectedVariant.variant_price ===
+                  selectedVariant.variant_sale_price ? (
+                    <h1 className={styles.product_price}>
+                      ₹{selectedVariant.variant_sale_price}
+                    </h1>
+                  ) : (
+                    <DiscountPriceText
+                      price={selectedVariant.variant_price}
+                      sale={selectedVariant.variant_sale_price}
+                    />
+                  )
+                ) : priceLast.price === priceLast.sale ? (
+                  <h1 className={styles.product_price}>₹{priceLast.sale}</h1>
                 ) : (
                   <DiscountPriceText
                     price={priceLast.price}

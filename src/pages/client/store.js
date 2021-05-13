@@ -80,6 +80,7 @@ const Store = (props) => {
         setIsStoreExists(false);
       }
     };
+
     getData();
   }, []);
 
