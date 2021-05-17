@@ -161,277 +161,275 @@ const ProductDetail = (props) => {
 
   return (
     <div className={styles.container}>
-      <ImageModal
-        isImageOpen={isImageOpen}
-        onImageClose={onImageClose}
-        image={popupImage}
-      />
-      <div className={styles.header}>
-        <Box
-          width="60px"
-          height="60px"
-          position="fixed"
-          top="25px"
-          right="25px"
-          zIndex="1"
-          onClick={() => history.push(`/cart/${storeData.id}`)}
-        >
-          <IconButton
+      <div className={styles.leftGrid}>
+        <ImageModal
+          isImageOpen={isImageOpen}
+          onImageClose={onImageClose}
+          image={popupImage}
+        />
+        <div className={styles.header}>
+          <Box
             width="60px"
             height="60px"
-            icon={<img src={CartIconBlack} width="40px" />}
-            borderRadius="100%"
-          />
-          <div className={styles.cart_count}>
-            {cartProducts
-              .filter((prd) => prd.store_id == storeData.id)
-              .reduce((acc, curr) => acc + curr.product_quantity, 0)}
-          </div>
-        </Box>
-      </div>
-
-      {!productData && (
-        <div className={styles.image_slider}>
-          <Skeleton height="50vh" width="100%" borderRadius="6px" />
+            position="fixed"
+            top="25px"
+            right="25px"
+            zIndex="1"
+            onClick={() => history.push(`/cart/${storeData.id}`)}
+          >
+            <IconButton
+              width="60px"
+              height="60px"
+              icon={<img src={CartIconBlack} width="40px" />}
+              borderRadius="100%"
+            />
+            <div className={styles.cart_count}>
+              {cartProducts
+                .filter((prd) => prd.store_id == storeData.id)
+                .reduce((acc, curr) => acc + curr.product_quantity, 0)}
+            </div>
+          </Box>
         </div>
-      )}
-      <Carousel
-        className={styles.image_slider}
-        infiniteLoop
-        dynamicHeight
-        showThumbs={false}
-        showStatus={false}
-        showArrows={false}
-      >
-        {productData &&
-          productData.products_images.map((image) => {
-            return (
-              <div
-                key={image.id}
-                style={{
-                  height: "50vh",
-                  borderRadius: "6px",
-                  backgroundColor: "white",
-                }}
-                onClick={() => {
-                  setPopupImage(`${productImagesRoot}/${image.product_image}`);
-                  onImageOpen();
-                }}
-              >
-                <Image
-                  src={
-                    image.product_image ? (
+
+        {!productData && (
+          <div className={styles.image_slider}>
+            <Skeleton height="50vh" width="100%" borderRadius="6px" />
+          </div>
+        )}
+        <Carousel
+          className={styles.image_slider}
+          infiniteLoop
+          dynamicHeight
+          showThumbs={false}
+          showStatus={false}
+          showArrows={false}
+        >
+          {productData &&
+            productData.products_images.map((image) => {
+              return (
+                <div
+                  key={image.id}
+                  className={styles.image_wraper}
+                  onClick={() => {
+                    setPopupImage(
                       `${productImagesRoot}/${image.product_image}`
-                    ) : (
-                      <Skeleton height="50vh" borderRadius="6px" />
-                    )
-                  }
-                  style={{
-                    objectFit: "cover",
-                    height: "50vh",
-                    borderRadius: "6px",
-                    backgroundColor: "white",
+                    );
+                    onImageOpen();
                   }}
-                  fallback={<Skeleton height="50vh" borderRadius="6px" />}
-                />
-              </div>
-            );
-          })}
-      </Carousel>
+                >
+                  <Image
+                    src={
+                      image.product_image ? (
+                        `${productImagesRoot}/${image.product_image}`
+                      ) : (
+                        <Skeleton height="50vh" borderRadius="6px" />
+                      )
+                    }
+                    className={styles.image}
+                    fallback={<Skeleton height="50vh" borderRadius="6px" />}
+                  />
+                </div>
+              );
+            })}
+        </Carousel>
+      </div>
 
       {/* <div className={styles.button_back} onClick={() => history.goBack()}>
         <img src={BackIcon} width="25px" />
       </div> */}
 
-      {!productData ? (
-        <Stack direction="column" mt="20px" p="12px">
-          <Skeleton height="30px" w="50%" />
-          <Skeleton height="30px" mt="10px" w="30%" mb="18px" />
-          <Stack direction="row" mt="30px">
-            <Skeleton height="45px" borderRadius="48px" w="60px" mb="18px" />
-            <Skeleton
-              height="45px"
-              borderRadius="48px"
-              ml="5%"
-              w="70px"
-              mb="18px"
-            />
-            <Skeleton height="45px" borderRadius="48px" w="80px" mb="18px" />
+      {/* right grid */}
+      <div className={styles.rightGrid}>
+        {!productData ? (
+          <Stack direction="column" mt="20px" p="12px">
+            <Skeleton height="30px" w="50%" />
+            <Skeleton height="30px" mt="10px" w="30%" mb="18px" />
+            <Stack direction="row" mt="30px">
+              <Skeleton height="45px" borderRadius="48px" w="60px" mb="18px" />
+              <Skeleton
+                height="45px"
+                borderRadius="48px"
+                ml="5%"
+                w="70px"
+                mb="18px"
+              />
+              <Skeleton height="45px" borderRadius="48px" w="80px" mb="18px" />
+            </Stack>
+            <Skeleton height="60px" w="98%" borderRadius="48px" />
+            <Skeleton height="60px" mt="15px" w="98%" borderRadius="48px" />
           </Stack>
-          <Skeleton height="60px" w="98%" borderRadius="48px" />
-          <Skeleton height="60px" mt="15px" w="98%" borderRadius="48px" />
-        </Stack>
-      ) : (
-        <div className={styles.product_details_container}>
-          <h1 className={styles.product_name}>{productData.product_name}</h1>
-          <Stack direction="row" justifyContent="space-between">
-            <div className={styles.price_container}>
-              <>
-                {selectedVariant ? (
-                  selectedVariant.variant_price ===
-                  selectedVariant.variant_sale_price ? (
-                    <h1 className={styles.product_price}>
-                      ₹{selectedVariant.variant_sale_price}
-                    </h1>
+        ) : (
+          <div className={styles.product_details_container}>
+            <h1 className={styles.product_name}>{productData.product_name}</h1>
+            <Stack direction="row" justifyContent="space-between">
+              <div className={styles.price_container}>
+                <>
+                  {selectedVariant ? (
+                    selectedVariant.variant_price ===
+                    selectedVariant.variant_sale_price ? (
+                      <h1 className={styles.product_price}>
+                        ₹{selectedVariant.variant_sale_price}
+                      </h1>
+                    ) : (
+                      <DiscountPriceText
+                        price={selectedVariant.variant_price}
+                        sale={selectedVariant.variant_sale_price}
+                      />
+                    )
+                  ) : priceLast.price === priceLast.sale ? (
+                    <h1 className={styles.product_price}>₹{priceLast.sale}</h1>
                   ) : (
                     <DiscountPriceText
-                      price={selectedVariant.variant_price}
-                      sale={selectedVariant.variant_sale_price}
+                      price={priceLast.price}
+                      sale={priceLast.sale}
                     />
-                  )
-                ) : priceLast.price === priceLast.sale ? (
-                  <h1 className={styles.product_price}>₹{priceLast.sale}</h1>
-                ) : (
-                  <DiscountPriceText
-                    price={priceLast.price}
-                    sale={priceLast.sale}
-                  />
-                )}
-              </>
-            </div>
-            <Stack direction="row" ml="10px">
-              <IconButton
-                icon={
-                  <img
-                    src={Whatsapp}
-                    width="25px"
-                    onClick={() => {
-                      window.location.replace(
-                        `https://api.whatsapp.com/send/?text=Checkout this ${productData.product_name} on ${storeData.account_store} online store 🎉. %0D%0A%0D%0A ${window.location.href}`
-                      );
-                    }}
-                  />
-                }
-                borderRadius="full"
-              />
-              <IconButton
-                icon={<CopyIcon />}
-                borderRadius="full"
-                onClick={() => copyText(window.location.href)}
-              />
+                  )}
+                </>
+              </div>
+              <Stack direction="row" ml="10px">
+                <IconButton
+                  icon={
+                    <img
+                      src={Whatsapp}
+                      width="25px"
+                      onClick={() => {
+                        window.location.replace(
+                          `https://api.whatsapp.com/send/?text=Checkout this ${productData.product_name} on ${storeData.account_store} online store 🎉. %0D%0A%0D%0A ${window.location.href}`
+                        );
+                      }}
+                    />
+                  }
+                  borderRadius="full"
+                />
+                <IconButton
+                  icon={<CopyIcon />}
+                  borderRadius="full"
+                  onClick={() => copyText(window.location.href)}
+                />
+              </Stack>
             </Stack>
-          </Stack>
-          {productData.product_stock && productData.product_stock === 1 ? (
-            <>
-              {productData.products_variants &&
-                productData.products_variants.length > 0 && (
-                  <>
-                    <h3 className={styles.sub_heading}>Variants:</h3>
-                    <div className={styles.variant_container}>
-                      {productData.products_variants.map((variant) => (
-                        <div
-                          key={variant.id}
-                          className={
-                            selectedVariant.id == variant.id
-                              ? styles.variant_item_selected
-                              : styles.variant_item
-                          }
-                          onClick={() => {
-                            setIsError(false);
-                            setSelectedVariant(variant);
-                          }}
-                        >
-                          {variant.variant_name}
-                        </div>
-                      ))}
-                    </div>
-                  </>
+            {productData.product_stock && productData.product_stock === 1 ? (
+              <>
+                {productData.products_variants &&
+                  productData.products_variants.length > 0 && (
+                    <>
+                      <h3 className={styles.sub_heading}>Variants:</h3>
+                      <div className={styles.variant_container}>
+                        {productData.products_variants.map((variant) => (
+                          <div
+                            key={variant.id}
+                            className={
+                              selectedVariant.id == variant.id
+                                ? styles.variant_item_selected
+                                : styles.variant_item
+                            }
+                            onClick={() => {
+                              setIsError(false);
+                              setSelectedVariant(variant);
+                            }}
+                          >
+                            {variant.variant_name}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                {isError && (
+                  <Text
+                    mt="6px"
+                    ml="10px"
+                    color="red.500"
+                    fontSize="20px"
+                    fontFamily="elemen"
+                    className={styles.shake_horizontal}
+                  >
+                    Plese Select a option
+                  </Text>
                 )}
-              {isError && (
-                <Text
-                  mt="6px"
-                  ml="10px"
-                  color="red.500"
-                  fontSize="20px"
+                <Button
+                  alignSelf="center"
+                  size="lg"
+                  mt="20px"
+                  w="98%"
+                  borderRadius="48px"
+                  p="10px"
+                  onClick={() => validateBuy(whatsappBuy)}
+                  leftIcon={
+                    <img src={WhatsappClean} className={styles.buy_now_icon} />
+                  }
+                  h="58px"
+                  backgroundColor="#08BD80"
+                  color="white"
                   fontFamily="elemen"
-                  className={styles.shake_horizontal}
+                  _hover={{ bg: "#048c5e" }}
                 >
-                  Plese Select a option
-                </Text>
-              )}
+                  Buy On Whatsapp
+                </Button>
+                <Button
+                  mt="13px"
+                  borderRadius="48px"
+                  leftIcon={
+                    <img src={CartIconBlack} className={styles.add_cart_icon} />
+                  }
+                  alignSelf="center"
+                  size="lg"
+                  w="98%"
+                  color="#141414"
+                  h="58px"
+                  fontFamily="elemen"
+                  mb="20px"
+                  onClick={() => validateBuy(addToCart)}
+                >
+                  Add to Bag
+                </Button>
+              </>
+            ) : (
               <Button
                 alignSelf="center"
                 size="lg"
-                mt="20px"
-                w="98%"
-                borderRadius="48px"
+                w="90%"
                 p="10px"
-                onClick={() => validateBuy(whatsappBuy)}
-                leftIcon={
-                  <img src={WhatsappClean} className={styles.buy_now_icon} />
-                }
-                h="58px"
-                backgroundColor="#08BD80"
+                h="60px"
+                backgroundColor="#ff8763"
                 color="white"
                 fontFamily="elemen"
-                _hover={{ bg: "#048c5e" }}
               >
-                Buy On Whatsapp
+                Out Of Stock
               </Button>
-              <Button
-                mt="13px"
-                borderRadius="48px"
-                leftIcon={
-                  <img src={CartIconBlack} className={styles.add_cart_icon} />
-                }
-                alignSelf="center"
-                size="lg"
-                w="98%"
-                color="#141414"
-                h="58px"
-                fontFamily="elemen"
-                mb="20px"
-                onClick={() => validateBuy(addToCart)}
-              >
-                Add to Bag
-              </Button>
-            </>
-          ) : (
-            <Button
-              alignSelf="center"
-              size="lg"
-              w="90%"
-              p="10px"
-              h="60px"
-              backgroundColor="#ff8763"
-              color="white"
-              fontFamily="elemen"
-            >
-              Out Of Stock
-            </Button>
-          )}
+            )}
 
-          {productData.product_desc && (
-            <div
-              className={styles.product_desc_container}
-              style={{ whiteSpace: "pre-wrap" }}
-            >
-              <div className={styles.product_desc_title}>Description</div>
+            {productData.product_desc && (
+              <div
+                className={styles.product_desc_container}
+                style={{ whiteSpace: "pre-wrap" }}
+              >
+                <div className={styles.product_desc_title}>Description</div>
+
+                <p className={styles.product_desc_body}>
+                  {productData.product_desc}
+                </p>
+              </div>
+            )}
+            <div className={styles.product_desc_container}>
+              <div className={styles.product_desc_title}>Seller Details</div>
 
               <p className={styles.product_desc_body}>
-                {productData.product_desc}
+                This item is sold by{" "}
+                <span
+                  style={{ color: "blue" }}
+                  onClick={() =>
+                    history.push(`/store/${storeData.account_store_link}`)
+                  }
+                >
+                  {storeData.account_store}
+                </span>
+                <br />
+                {storeData.account_store_address}
               </p>
             </div>
-          )}
-          <div className={styles.product_desc_container}>
-            <div className={styles.product_desc_title}>Seller Details</div>
-
-            <p className={styles.product_desc_body}>
-              This item is sold by{" "}
-              <span
-                style={{ color: "blue" }}
-                onClick={() =>
-                  history.push(`/store/${storeData.account_store_link}`)
-                }
-              >
-                {storeData.account_store}
-              </span>
-              <br />
-              {storeData.account_store_address}
-            </p>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
