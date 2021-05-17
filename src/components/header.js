@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./css/header.module.css";
-import logo from "../assets/logo.png";
+//import logo from "../assets/logo.png";
+import logo from "../assets/ssav_logo.png";
 import { useHistory } from "react-router-dom";
 
 const Header = ({ signup }) => {
