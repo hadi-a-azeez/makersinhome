@@ -4,16 +4,18 @@
   flex-direction: column;
   /* background-color: #f7f7f7; */
   min-height: 100vh;
+  animation: pageTransition 1s ease-in forwards;
 }
-.header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  width: 100%;
-  border-bottom: 1px solid rgb(228, 228, 228);
+@keyframes pageTransition {
+  0% {
+    opacity: 0;
+    transform: translateY(5rem);
+  }
+  100% {
+    opacity: 1;
+  }
 }
+
 .logowrapper {
   display: flex;
   flex-direction: row;
@@ -38,6 +40,18 @@
   background-color: #08bd80;
   border-radius: 0.2rem;
 }
+.gridLeft {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gridRight {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main_heading {
   color: #222151;
   font-family: "elemen";
@@ -53,7 +67,6 @@
   font-family: "elemen";
   font-size: 24px;
   font-weight: 800;
-  margin-right: 5%;
   padding: 0.7rem 3rem 0.7rem 3rem;
   background-color: #08bd80;
   border-radius: 0.2rem;
@@ -65,11 +78,16 @@
 .whatsapp_button {
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+.whatsappbtn_wraper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
 .sub_heading {
   color: #808080;
   font-family: "elemen";
   font-weight: 400;
-  font-size: 30;
+  font-size: 19px;
   text-align: center;
   max-width: 30ch;
   margin-top: 0.4rem;
@@ -78,4 +96,60 @@
 .main_mockup {
   width: 90%;
   height: auto;
+}
+
+@media (min-width: 1025px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+    /* background-color: #f7f7f7; */
+    min-height: 100vh;
+    width: 100vw;
+  }
+  .main_mockup {
+    height: 80vh;
+    width: auto;
+    align-self: flex-start;
+  }
+  .gridLeft {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .gridRight {
+    width: 50%;
+    display: flex;
+    height: 90vh;
+  }
+  .main_heading {
+    font-size: 46px;
+    max-width: 90%;
+    margin-top: 15vh;
+    line-height: 3.3rem;
+  }
+  .sub_heading {
+    font-size: 26px;
+    text-align: center;
+    max-width: 70%;
+    margin-top: 0.8rem;
+    line-height: 2rem;
+  }
+  .register_btn {
+    font-size: 26px;
+    font-weight: 800;
+    padding: 1rem 4rem 1rem 4rem;
+    background-color: #08bd80;
+    border-radius: 0.2rem;
+    margin-top: 2rem;
+  }
+  .whatsappbtn_wraper {
+    position: fixed;
+    bottom: 40px;
+    right: 60px;
+  }
+  .example_link {
+    margin-top: 3rem;
+  }
 }
