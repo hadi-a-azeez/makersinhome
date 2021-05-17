@@ -62,3 +62,16 @@
   font-weight: 800;
   margin-left: 10px;
 }
+
+@media (min-width: 1025px) {
+  .product_image {
+    border-radius: 5px;
+    width: 98%;
+    margin-top: 5%;
+    height: 290px;
+    background-position: center center;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+  }
+}

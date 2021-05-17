@@ -147,40 +147,44 @@ const Store = (props) => {
         </Box>
 
         <div className={styles.store_header}>
-          <div className={styles.logo_container}>
-            <Image
-              src={
-                storeData.account_store_image
-                  ? `${profileImagesRoot}/${storeData.account_store_image}`
-                  : Placeholder
-              }
-              borderRadius="full"
-              boxSize="46px"
-              objectFit="cover"
-              fallback={
-                <Image src={Placeholder} borderRadius="full" boxSize="46px" />
-              }
-            />
-            <h2 className={styles.logo_name}>{storeData.account_store}</h2>
-          </div>
-          <div className={styles.whatsapp_support_button}>
-            <img
-              src={Whatsapp}
-              onClick={() =>
-                window.location.replace(
-                  `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
-                )
-              }
-            />
+          <div className={styles.header_container}>
+            <div className={styles.logo_container}>
+              <Image
+                src={
+                  storeData.account_store_image
+                    ? `${profileImagesRoot}/${storeData.account_store_image}`
+                    : Placeholder
+                }
+                borderRadius="full"
+                boxSize="46px"
+                objectFit="cover"
+                fallback={
+                  <Image src={Placeholder} borderRadius="full" boxSize="46px" />
+                }
+              />
+              <h2 className={styles.logo_name}>{storeData.account_store}</h2>
+            </div>
+            <div className={styles.whatsapp_support_button}>
+              <img
+                src={Whatsapp}
+                onClick={() =>
+                  window.location.replace(
+                    `https://api.whatsapp.com/send?phone=+91${storeData.account_whatsapp}&text=Hi%20I%20came%20from%20your%20store%20%E2%9C%8B`
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
         <InputGroup
-          w="92%"
+          w={{ base: "92%", lg: "40%" }}
           mb="6"
           size="lg"
           backgroundColor="white"
           borderRadius="30px"
           fontFamily="elemen"
+          alignSelf={{ lg: "flex-start" }}
+          ml={{ lg: "2.5%" }}
         >
           <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
           <Input
@@ -254,13 +258,13 @@ const Store = (props) => {
                 <Stack
                   alignSelf="flex-start"
                   direction="column"
-                  ml="15px"
-                  mt="10px"
+                  ml={{ base: "5%", lg: "3%" }}
+                  mt={{ base: "10px", lg: "20px" }}
                   spacing="0"
                 >
                   <Button
                     p="0px"
-                    height="18x"
+                    height="18px"
                     backgroundColor="#fff"
                     rightIcon={<ChevronDownIcon boxSize="25px" />}
                     fontFamily="elemen"
@@ -323,7 +327,7 @@ const Store = (props) => {
             </>
           )}
         </Popover>
-        <SimpleGrid columns={2} spacing={1} w="95%">
+        <SimpleGrid columns={{ base: 2, lg: 4 }} spacing={1} w="95%">
           {isLoading && (
             <>
               <Stack
@@ -334,7 +338,7 @@ const Store = (props) => {
                 paddingRight="5px"
               >
                 <Skeleton
-                  height="180px"
+                  height={{ base: "180px", lg: "290px" }}
                   borderRadius="5px"
                   w="98%"
                   style={{ borderRadius: "5px" }}
@@ -349,7 +353,7 @@ const Store = (props) => {
                 width="100%"
               >
                 <Skeleton
-                  height="180px"
+                  height={{ base: "180px", lg: "290px" }}
                   borderRadius="5px"
                   w="98%"
                   style={{ borderRadius: "5px" }}
@@ -364,7 +368,7 @@ const Store = (props) => {
                 width="100%"
               >
                 <Skeleton
-                  height="180px"
+                  height={{ base: "180px", lg: "290px" }}
                   borderRadius="5px"
                   w="98%"
                   style={{ borderRadius: "5px" }}

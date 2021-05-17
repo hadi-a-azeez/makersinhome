@@ -61,7 +61,7 @@ const ProductCard = ({ product }) => {
             className={styles.product_image}
             fallback={
               <Skeleton
-                height="180px"
+                height={{ base: "180px", lg: "290px" }}
                 width="98%"
                 borderRadius="5px"
                 marginTop="5%"
