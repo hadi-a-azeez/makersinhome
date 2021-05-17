@@ -10,6 +10,7 @@ import ProductDetail from "./pages/client/productDetail";
 import Home from "./pages/client/home";
 import { Stack } from "@chakra-ui/layout";
 import { CircularProgress } from "@material-ui/core";
+import InstagramImport from "./pages/seller/products/instagramImport";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -63,6 +64,7 @@ function App() {
           <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
           <Route path="/app/store_info" component={StoreInfo} />
           <Route path="/app/products" component={Products} />
+          <Route path="/app/instagram" component={InstagramImport} />
           <Route path="/app/product_edit/:id" component={ProductEdit} />
           <Route
             path="/app/products_category/:cat_name/:id"

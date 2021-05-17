@@ -1,9 +1,11 @@
 import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { apiRoot } from "../../config";
 
 const StoreStatus = () => {
+  const history = useHistory();
   const [status, setStatus] = useState(0);
   const [names, setNames] = useState("");
   useEffect(() => {
@@ -33,7 +35,14 @@ const StoreStatus = () => {
         </Heading>
         {names &&
           names.map((name) => (
-            <Text size="md" fontFamily="elemen" key={name.id}>
+            <Text
+              size="md"
+              fontFamily="elemen"
+              key={name.id}
+              onClick={() =>
+                history.push(`https://saav.in/store/${name.account_store_link}`)
+              }
+            >
               {name.account_store}
             </Text>
           ))}
