@@ -39,9 +39,7 @@ const StoreStatus = () => {
               size="md"
               fontFamily="elemen"
               key={name.id}
-              onClick={() =>
-                history.push(`https://saav.in/store/${name.account_store_link}`)
-              }
+              onClick={() => history.push(`/store/${name.account_store_link}`)}
             >
               {name.account_store}
             </Text>
