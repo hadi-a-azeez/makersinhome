@@ -39,7 +39,7 @@ const Home = () => {
             onClick={() => history.push("/store/jungle")}
             className={styles.example_link}
           >
-            See an Example Store
+            See An Example Store
           </Text>
         </div>
         <Stack
