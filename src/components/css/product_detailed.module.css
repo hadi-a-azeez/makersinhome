@@ -69,18 +69,15 @@
   height: 50vh;
   position: relative;
   margin-bottom: 10px;
-  border-radius: 6px !important;
   background-color: white !important;
 }
 .image_wraper {
   height: 50vh !important;
-  border-radius: 6px;
   background-color: white;
 }
 .image {
   object-fit: cover;
   height: 50vh;
-  border-radius: 6px;
   background-color: white;
 }
 

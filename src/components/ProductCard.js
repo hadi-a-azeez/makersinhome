@@ -8,7 +8,6 @@ import { productImagesRoot } from "../config";
 import styles from "./css/product_card.module.css";
 
 const ProductCard = ({ product }) => {
-  console.log(product);
   const history = useHistory();
   const [priceLast, setPriceLast] = useState({ price: "_", sale: "_" });
 

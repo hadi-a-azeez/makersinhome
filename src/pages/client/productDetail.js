@@ -23,6 +23,7 @@ import {
   Stack,
   Image,
 } from "@chakra-ui/react";
+import { UilShareAlt } from "@iconscout/react-unicons";
 
 import styles from "../../components/css/product_detailed.module.css";
 import { useHistory } from "react-router-dom";
@@ -30,7 +31,7 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
 import { productImagesRoot } from "../../config";
-import { CopyIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
 import copyText from "../../components/copyText";
 
 const ProductDetail = (props) => {
@@ -169,6 +170,22 @@ const ProductDetail = (props) => {
         />
         <div className={styles.header}>
           <Box
+            width="40px"
+            height="40px"
+            position="fixed"
+            top="25px"
+            left="20px"
+            zIndex="1"
+            onClick={() => history.goBack()}
+          >
+            <IconButton
+              width="40px"
+              height="40px"
+              icon={<ChevronLeftIcon boxSize="30px" />}
+              borderRadius="100%"
+            />
+          </Box>
+          <Box
             width="60px"
             height="60px"
             position="fixed"
@@ -302,9 +319,16 @@ const ProductDetail = (props) => {
                   borderRadius="full"
                 />
                 <IconButton
-                  icon={<CopyIcon />}
+                  icon={<UilShareAlt size="20" />}
                   borderRadius="full"
-                  onClick={() => copyText(window.location.href)}
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: productData.product_name,
+                        url: window.location.href,
+                      });
+                    }
+                  }}
                 />
               </Stack>
             </Stack>

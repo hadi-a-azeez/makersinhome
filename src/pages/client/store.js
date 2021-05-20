@@ -48,7 +48,6 @@ const Store = (props) => {
 
   const [isStoreExists, setIsStoreExists] = useState(true);
   const { isLastPage, setIsLastPage } = useFrontStore();
-  const [isProducts, setIsProducts] = useState(true);
   const cartProducts = useStore((state) => state.products);
 
   const { isMoreLoading, setIsMoreLoading } = useFrontStore();
@@ -247,86 +246,93 @@ const Store = (props) => {
           )}
         </div>
 
-        {/* <div className={styles.products}> */}
         {/* product item starts here */}
-        {!isLoading && !isProducts && <Text mt="40px">No Products</Text>}
 
-        <Popover>
-          {({ isOpen, onClose }) => (
-            <>
-              <PopoverTrigger>
-                <Stack
-                  alignSelf="flex-start"
-                  direction="column"
-                  ml={{ base: "5%", lg: "3%" }}
-                  mt={{ base: "10px", lg: "20px" }}
-                  spacing="0"
-                >
-                  <Button
-                    p="0px"
-                    height="18px"
-                    backgroundColor="#fff"
-                    rightIcon={<ChevronDownIcon boxSize="25px" />}
-                    fontFamily="elemen"
-                    fontSize="18px"
-                    _hover={{ bg: "#fff" }}
-                    _active={{ bg: "#fff" }}
-                    _focus={{ bg: "#fff" }}
+        {!isLoading && (
+          <Popover>
+            {({ isOpen, onClose }) => (
+              <>
+                <PopoverTrigger>
+                  <Stack
+                    alignSelf="flex-start"
+                    direction="column"
+                    ml={{ base: "5%", lg: "3%" }}
+                    mt={{ base: "10px", lg: "20px" }}
+                    spacing="0"
                   >
-                    Sort Products
-                  </Button>
-                  <Text fontSize="15px" color="#828282">
-                    {sortName[2]}
-                  </Text>
-                </Stack>
-              </PopoverTrigger>
+                    <Button
+                      p="0px"
+                      height="18px"
+                      backgroundColor="#fff"
+                      rightIcon={<ChevronDownIcon boxSize="25px" />}
+                      fontFamily="elemen"
+                      fontSize="18px"
+                      _hover={{ bg: "#fff" }}
+                      _active={{ bg: "#fff" }}
+                      _focus={{ bg: "#fff" }}
+                    >
+                      Sort Products
+                    </Button>
+                    <Text fontSize="15px" color="#828282">
+                      {sortName[2]}
+                    </Text>
+                  </Stack>
+                </PopoverTrigger>
 
-              <PopoverContent mt="-10px" w="180px" ml="20px">
-                <Stack direction="column" p="10px">
-                  <Text
-                    p="6px"
-                    onClick={() => {
-                      setSortName(["id", "desc", "Newest First"], storeData.id);
-                      onClose();
-                    }}
-                    fontFamily="elemen"
-                    _hover={{ bg: "#e0e0e0" }}
-                  >
-                    Newest First
-                  </Text>
-                  <Text
-                    p="6px"
-                    fontFamily="elemen"
-                    onClick={() => {
-                      setSortName(
-                        ["product_price", "asc", "Price - Low to High"],
-                        storeData.id
-                      );
-                      onClose();
-                    }}
-                    _hover={{ bg: "#e0e0e0" }}
-                  >
-                    Price - Low to High
-                  </Text>
-                  <Text
-                    p="6px"
-                    fontFamily="elemen"
-                    onClick={() => {
-                      setSortName(
-                        ["product_price", "desc", "Price - High to Low"],
-                        storeData.id
-                      );
-                      onClose();
-                    }}
-                    _hover={{ bg: "#e0e0e0" }}
-                  >
-                    Price - High to Low
-                  </Text>
-                </Stack>
-              </PopoverContent>
-            </>
-          )}
-        </Popover>
+                <PopoverContent mt="-10px" w="180px" ml="20px">
+                  <Stack direction="column" p="10px">
+                    <Text
+                      p="6px"
+                      onClick={() => {
+                        setSortName(
+                          ["id", "desc", "Newest First"],
+                          storeData.id
+                        );
+                        onClose();
+                      }}
+                      fontFamily="elemen"
+                      _hover={{ bg: "#e0e0e0" }}
+                    >
+                      Newest First
+                    </Text>
+                    <Text
+                      p="6px"
+                      fontFamily="elemen"
+                      onClick={() => {
+                        setSortName(
+                          ["product_sale_price", "asc", "Price - Low to High"],
+                          storeData.id
+                        );
+                        onClose();
+                      }}
+                      _hover={{ bg: "#e0e0e0" }}
+                    >
+                      Price - Low to High
+                    </Text>
+                    <Text
+                      p="6px"
+                      fontFamily="elemen"
+                      onClick={() => {
+                        setSortName(
+                          ["product_sale_price", "desc", "Price - High to Low"],
+                          storeData.id
+                        );
+                        onClose();
+                      }}
+                      _hover={{ bg: "#e0e0e0" }}
+                    >
+                      Price - High to Low
+                    </Text>
+                  </Stack>
+                </PopoverContent>
+              </>
+            )}
+          </Popover>
+        )}
+
+        {!isLoading && storeProducts.length < 1 && (
+          <Text mt="40px">No Products</Text>
+        )}
         <SimpleGrid columns={{ base: 2, lg: 4 }} spacing={1} w="95%">
           {isLoading && (
             <>
