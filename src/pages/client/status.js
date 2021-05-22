@@ -40,11 +40,11 @@ const StoreStatus = () => {
         <Box
           backgroundImage={`url(${CoinIcon})`}
           backgroundSize="150px"
-          backgroundPosition="160px 30px"
+          backgroundPosition="175px 30px"
           backgroundRepeat="no-repeat"
           p="20px"
         >
-          <Heading size="sm" fontFamily="elemen" color="gray.500">
+          <Heading size="sm" mb="5px" fontFamily="elemen" color="gray.600">
             SAAV Coin
           </Heading>
           <Heading size="4xl" fontFamily="elemen">
@@ -53,7 +53,7 @@ const StoreStatus = () => {
           <Text
             size="sm"
             fontFamily="elemen"
-            color="blakc.400"
+            color="black.400"
             fontStyle="bold"
           >
             Supply: {coinsCount}
