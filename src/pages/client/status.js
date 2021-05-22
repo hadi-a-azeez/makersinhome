@@ -3,11 +3,20 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { apiRoot } from "../../config";
+import CoinIcon from "../../assets/coinicon.png";
 
 const StoreStatus = () => {
   const history = useHistory();
   const [status, setStatus] = useState(0);
   const [names, setNames] = useState("");
+
+  const genesisDate = new Date("05/16/2021");
+  const todaysDate = new Date();
+
+  const diffTime = Math.abs(todaysDate - genesisDate);
+  const coinsCount = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * 2;
+  console.log(coinsCount);
+
   useEffect(() => {
     const getStatus = async () => {
       const response = await Axios.get(
@@ -21,6 +30,24 @@ const StoreStatus = () => {
   }, []);
   return (
     <Stack width="100%" backgroundColor="#212121" h="100vh" p="30px">
+      <Box
+        borderRadius="10px"
+        background="linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)"
+        backgroundImage={CoinIcon}
+        backgroundRepeat="no-repeat"
+        border="3px solid white"
+        p="20px"
+      >
+        <Heading size="sm" fontFamily="elemen" color="gray.500">
+          SAAV Coin
+        </Heading>
+        <Heading size="4xl" fontFamily="elemen">
+          {status ? `₹${(status / coinsCount).toFixed(2)}` : "_"}
+        </Heading>
+        <Text size="sm" fontFamily="elemen" color="blakc.400" fontStyle="bold">
+          Supply: {coinsCount}
+        </Text>
+      </Box>
       <Box borderRadius="10px" backgroundColor="#fff" p="20px">
         <Heading size="sm" fontFamily="elemen" color="gray.500">
           Store Count
