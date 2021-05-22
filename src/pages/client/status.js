@@ -33,7 +33,6 @@ const StoreStatus = () => {
       <Box
         borderRadius="10px"
         background="linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)"
-        backgroundImage={CoinIcon}
         backgroundRepeat="no-repeat"
         border="3px solid white"
         p="20px"
