@@ -31,7 +31,7 @@ const StoreStatus = () => {
   return (
     <Stack width="100%" backgroundColor="#212121" h="100vh" p="30px">
       <Box
-        backgroundImage={`linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)`}
+        background={`linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)`}
         borderRadius="10px"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
