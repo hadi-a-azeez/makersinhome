@@ -31,21 +31,34 @@ const StoreStatus = () => {
   return (
     <Stack width="100%" backgroundColor="#212121" h="100vh" p="30px">
       <Box
+        backgroundImage={`linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)`}
         borderRadius="10px"
-        background="linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)"
         backgroundRepeat="no-repeat"
+        backgroundSize="cover"
         border="3px solid white"
-        p="20px"
       >
-        <Heading size="sm" fontFamily="elemen" color="gray.500">
-          SAAV Coin
-        </Heading>
-        <Heading size="4xl" fontFamily="elemen">
-          {status ? `₹${(status / coinsCount).toFixed(2)}` : "_"}
-        </Heading>
-        <Text size="sm" fontFamily="elemen" color="blakc.400" fontStyle="bold">
-          Supply: {coinsCount}
-        </Text>
+        <Box
+          backgroundImage={`url(${CoinIcon})`}
+          backgroundSize="150px"
+          backgroundPosition="160px 30px"
+          backgroundRepeat="no-repeat"
+          p="20px"
+        >
+          <Heading size="sm" fontFamily="elemen" color="gray.500">
+            SAAV Coin
+          </Heading>
+          <Heading size="4xl" fontFamily="elemen">
+            {status ? `₹${(status / coinsCount).toFixed(2)}` : "_"}
+          </Heading>
+          <Text
+            size="sm"
+            fontFamily="elemen"
+            color="blakc.400"
+            fontStyle="bold"
+          >
+            Supply: {coinsCount}
+          </Text>
+        </Box>
       </Box>
       <Box borderRadius="10px" backgroundColor="#fff" p="20px">
         <Heading size="sm" fontFamily="elemen" color="gray.500">
