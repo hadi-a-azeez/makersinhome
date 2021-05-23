@@ -15,9 +15,8 @@
   width: 98%;
   margin-top: 5%;
   height: 180px;
-  background-position: center center;
   object-fit: cover;
-  background-repeat: no-repeat;
+  object-position: top;
   overflow: hidden;
 }
 

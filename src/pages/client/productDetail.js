@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
 import CartIconBlack from "../../assets/cartIconblack.svg";
 import WhatsappClean from "../../assets/whatsapp_clean.svg";
 import { getProductDetailAPI } from "../../api/custStoreAPI";
+
 import ImageModal from "../../components/ImageModal";
 import {
   Popover,
@@ -81,6 +81,7 @@ const ProductDetail = (props) => {
         setProductData(productResponse.data.data.product);
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
+
       setIsLoading(false);
     };
     getProduct();
@@ -207,48 +208,53 @@ const ProductDetail = (props) => {
             </div>
           </Box>
         </div>
-
         {!productData && (
           <div className={styles.image_slider}>
             <Skeleton height="50vh" width="100%" borderRadius="6px" />
           </div>
         )}
-        <Carousel
-          className={styles.image_slider}
-          infiniteLoop
-          dynamicHeight
-          showThumbs={false}
-          showStatus={false}
-          showArrows={false}
-        >
-          {productData &&
-            productData.products_images.map((image) => {
-              return (
-                <div
-                  key={image.id}
-                  className={styles.image_wraper}
-                  onClick={() => {
-                    setPopupImage(
-                      `${productImagesRoot}/${image.product_image}`
-                    );
-                    onImageOpen();
-                  }}
-                >
-                  <Image
-                    src={
-                      image.product_image ? (
-                        `${productImagesRoot}/${image.product_image}`
-                      ) : (
-                        <Skeleton height="50vh" borderRadius="6px" />
-                      )
-                    }
-                    className={styles.image}
-                    fallback={<Skeleton height="50vh" borderRadius="6px" />}
-                  />
-                </div>
-              );
-            })}
-        </Carousel>
+        <div className={styles.image_slider}>
+          {productData?.products_images.length == 1 ? (
+            <Image
+              w="100%"
+              objectFit="cover"
+              objectPosition="top"
+              onClick={() => {
+                setPopupImage(
+                  `${productImagesRoot}/${productData.products_images[0].product_image}`
+                );
+                onImageOpen();
+              }}
+              src={
+                productData.products_images[0] ? (
+                  `${productImagesRoot}/${productData.products_images[0].product_image}`
+                ) : (
+                  <Skeleton height="50vh" borderRadius="6px" />
+                )
+              }
+            />
+          ) : (
+            productData?.products_images.map((image) => (
+              <Image
+                onClick={() => {
+                  setPopupImage(`${productImagesRoot}/${image.product_image}`);
+                  onImageOpen();
+                }}
+                mr="5px"
+                w="80%"
+                objectFit="cover"
+                objectPosition="top left"
+                src={
+                  image.product_image ? (
+                    `${productImagesRoot}/${image.product_image}`
+                  ) : (
+                    <Skeleton height="50vh" borderRadius="6px" />
+                  )
+                }
+              />
+            ))
+          )}
+        </div>
       </div>
 
       {/* <div className={styles.button_back} onClick={() => history.goBack()}>

@@ -14,8 +14,8 @@ const StoreStatus = () => {
   const todaysDate = new Date();
 
   const diffTime = Math.abs(todaysDate - genesisDate);
-  const coinsCount = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) * 2;
-  console.log(coinsCount);
+  //coins supply 2 per day
+  const coinsCount = diffTime / 60000 / 720;
 
   useEffect(() => {
     const getStatus = async () => {
@@ -56,7 +56,7 @@ const StoreStatus = () => {
             color="black.400"
             fontStyle="bold"
           >
-            Supply: {coinsCount}
+            Supply: {coinsCount.toFixed(3)}
           </Text>
         </Box>
       </Box>

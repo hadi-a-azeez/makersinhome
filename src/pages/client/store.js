@@ -236,7 +236,7 @@ const Store = (props) => {
               ))}
             </>
           )}
-          {isLoading && (
+          {isLoading && storeCategories.length < 1 && (
             <>
               <Skeleton w="60px" h="40px" borderRadius="40px" ml="8px" />
               <Skeleton w="90px" h="40px" borderRadius="40px" ml="8px" />
@@ -248,7 +248,7 @@ const Store = (props) => {
 
         {/* product item starts here */}
 
-        {!isLoading && (
+        {!isLoading && storeProducts.length > 0 && (
           <Popover>
             {({ isOpen, onClose }) => (
               <>

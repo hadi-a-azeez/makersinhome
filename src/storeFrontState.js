@@ -14,7 +14,7 @@ let useFrontStore = (set, get) => ({
   isMoreLoading: false,
   setIsMoreLoading: (val) => set({ isMoreLoading: val }),
   isLastPage: false,
-  isLoading: false,
+  isLoading: true,
   setIsLoading: (val) => set({ isLoading: val }),
   storeProducts: [],
   setStoreProducts: (productsArr) => {

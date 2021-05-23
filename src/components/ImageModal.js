@@ -7,8 +7,8 @@ import {
   Img,
   ModalCloseButton,
   Stack,
+  Box,
 } from "@chakra-ui/react";
-import styles from "./css/product_detailed.module.css";
 import React, { useState, useEffect } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -17,22 +17,30 @@ const ImageModal = ({ image, isImageOpen, onImageClose }) => {
     <Modal isOpen={isImageOpen} onClose={onImageClose} size="lg" isCentered>
       <ModalOverlay />
 
-      <ModalContent w="100%" h="100vh" backgroundColor="gray.100">
+      <ModalContent w="100vw" h="100vh" backgroundColor="gray.100">
         <ModalBody>
+          <Stack height="100%" justifyContent="center" alignItems="center">
+            <TransformWrapper>
+              <TransformComponent>
+                <Box
+                  h="100vh"
+                  w="100vw"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Img src={image} maxWidth="90%" />
+                </Box>
+              </TransformComponent>
+            </TransformWrapper>
+          </Stack>
           <ModalCloseButton
-            mt="20px"
+            mt="50px"
             mr="10px"
             border="3px solid black"
             padding="20px"
             backgroundColor="#fff"
           />
-          <Stack height="100%" justifyContent="center" alignItems="center">
-            <TransformWrapper>
-              <TransformComponent>
-                <img src={image} style={{ maxHeight: "60vh" }} />
-              </TransformComponent>
-            </TransformWrapper>
-          </Stack>
         </ModalBody>
       </ModalContent>
     </Modal>
