@@ -248,6 +248,17 @@ const Store = (props) => {
 
         {/* product item starts here */}
 
+        {isLoading && (
+          <Skeleton
+            mt="10px"
+            height={{ base: "45px" }}
+            borderRadius="5px"
+            ml="4%"
+            alignSelf="flex-start"
+            w="40%"
+          />
+        )}
+
         {!isLoading && storeProducts.length > 0 && (
           <Popover>
             {({ isOpen, onClose }) => (

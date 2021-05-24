@@ -69,6 +69,7 @@ const ProductDetail = (props) => {
         sale: productData?.product_sale_price,
       });
     }
+    console.log(productData);
   }, [productData]);
 
   //get product data from server
@@ -286,166 +287,125 @@ const ProductDetail = (props) => {
             <Skeleton height="60px" mt="15px" w="98%" borderRadius="48px" />
           </Stack>
         ) : (
-          <div className={styles.product_details_container}>
-            <h1 className={styles.product_name}>{productData.product_name}</h1>
-            <Stack direction="row" justifyContent="space-between">
-              <div className={styles.price_container}>
-                <>
-                  {selectedVariant ? (
-                    selectedVariant.variant_price ===
-                    selectedVariant.variant_sale_price ? (
+          <>
+            <div className={styles.product_details_container}>
+              <h1 className={styles.product_name}>
+                {productData.product_name}
+              </h1>
+              <Stack direction="row" justifyContent="space-between">
+                <div className={styles.price_container}>
+                  <>
+                    {selectedVariant ? (
+                      selectedVariant.variant_price ===
+                      selectedVariant.variant_sale_price ? (
+                        <h1 className={styles.product_price}>
+                          ₹{selectedVariant.variant_sale_price}
+                        </h1>
+                      ) : (
+                        <DiscountPriceText
+                          price={selectedVariant.variant_price}
+                          sale={selectedVariant.variant_sale_price}
+                        />
+                      )
+                    ) : priceLast.price === priceLast.sale ? (
                       <h1 className={styles.product_price}>
-                        ₹{selectedVariant.variant_sale_price}
+                        ₹{priceLast.sale}
                       </h1>
                     ) : (
                       <DiscountPriceText
-                        price={selectedVariant.variant_price}
-                        sale={selectedVariant.variant_sale_price}
+                        price={priceLast.price}
+                        sale={priceLast.sale}
                       />
-                    )
-                  ) : priceLast.price === priceLast.sale ? (
-                    <h1 className={styles.product_price}>₹{priceLast.sale}</h1>
-                  ) : (
-                    <DiscountPriceText
-                      price={priceLast.price}
-                      sale={priceLast.sale}
-                    />
-                  )}
-                </>
-              </div>
-              <Stack direction="row" ml="10px">
-                <IconButton
-                  icon={
-                    <img
-                      src={Whatsapp}
-                      width="25px"
-                      onClick={() => {
-                        window.location.replace(
-                          `https://api.whatsapp.com/send/?text=Checkout this ${productData.product_name} on ${storeData.account_store} online store 🎉. %0D%0A%0D%0A ${window.location.href}`
-                        );
-                      }}
-                    />
-                  }
-                  borderRadius="full"
-                />
-                <IconButton
-                  icon={<UilShareAlt size="20" />}
-                  borderRadius="full"
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: productData.product_name,
-                        url: window.location.href,
-                      });
+                    )}
+                  </>
+                </div>
+                <Stack direction="row" ml="10px">
+                  <IconButton
+                    icon={
+                      <img
+                        src={Whatsapp}
+                        width="25px"
+                        onClick={() => {
+                          window.location.replace(
+                            `https://api.whatsapp.com/send/?text=Checkout this ${productData.product_name} on ${storeData.account_store} online store 🎉. %0D%0A%0D%0A ${window.location.href}`
+                          );
+                        }}
+                      />
                     }
-                  }}
-                />
+                    borderRadius="full"
+                  />
+                  <IconButton
+                    icon={<UilShareAlt size="20" />}
+                    borderRadius="full"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: productData.product_name,
+                          url: window.location.href,
+                        });
+                      }
+                    }}
+                  />
+                </Stack>
               </Stack>
-            </Stack>
-            {productData.product_stock && productData.product_stock === 1 ? (
-              <>
-                {productData.products_variants &&
-                  productData.products_variants.length > 0 && (
-                    <>
-                      <h3 className={styles.sub_heading}>Variants:</h3>
-                      <div className={styles.variant_container}>
-                        {productData.products_variants.map((variant) => (
-                          <div
-                            key={variant.id}
-                            className={
-                              selectedVariant.id == variant.id
-                                ? styles.variant_item_selected
-                                : styles.variant_item
-                            }
-                            onClick={() => {
-                              setIsError(false);
-                              setSelectedVariant(variant);
-                            }}
-                          >
-                            {variant.variant_name}
-                          </div>
-                        ))}
+              {productData?.products_variants?.length > 0 && (
+                <>
+                  <h3 className={styles.sub_heading}>Variants:</h3>
+                  <div className={styles.variant_container}>
+                    {productData.products_variants.map((variant) => (
+                      <div
+                        key={variant.id}
+                        className={
+                          selectedVariant.id == variant.id
+                            ? styles.variant_item_selected
+                            : styles.variant_item
+                        }
+                        onClick={() => {
+                          setIsError(false);
+                          setSelectedVariant(variant);
+                        }}
+                      >
+                        {variant.variant_name}
                       </div>
-                    </>
-                  )}
-                {isError && (
-                  <Text
-                    mt="6px"
-                    ml="10px"
-                    color="red.500"
-                    fontSize="20px"
-                    fontFamily="elemen"
-                    className={styles.shake_horizontal}
-                  >
-                    Plese Select a option
-                  </Text>
-                )}
-                <Button
-                  alignSelf="center"
-                  size="lg"
-                  mt="20px"
-                  w="98%"
-                  borderRadius="48px"
-                  p="10px"
-                  onClick={() => validateBuy(whatsappBuy)}
-                  leftIcon={
-                    <img src={WhatsappClean} className={styles.buy_now_icon} />
-                  }
-                  h="58px"
-                  backgroundColor="#08BD80"
-                  color="white"
+                    ))}
+                  </div>
+                </>
+              )}
+              {isError && (
+                <Text
+                  mt="6px"
+                  ml="10px"
+                  color="red.500"
+                  fontSize="20px"
                   fontFamily="elemen"
-                  _hover={{ bg: "#048c5e" }}
+                  className={styles.shake_horizontal}
                 >
-                  Buy On Whatsapp
-                </Button>
-                <Button
-                  mt="13px"
-                  borderRadius="48px"
-                  leftIcon={
-                    <img src={CartIconBlack} className={styles.add_cart_icon} />
-                  }
-                  alignSelf="center"
-                  size="lg"
-                  w="98%"
-                  color="#141414"
-                  h="58px"
-                  fontFamily="elemen"
-                  mb="20px"
-                  onClick={() => validateBuy(addToCart)}
-                >
-                  Add to Bag
-                </Button>
-              </>
-            ) : (
-              <Button
-                alignSelf="center"
-                size="lg"
-                w="90%"
-                p="10px"
-                h="60px"
-                backgroundColor="#ff8763"
-                color="white"
-                fontFamily="elemen"
-              >
-                Out Of Stock
-              </Button>
-            )}
+                  Plese Select a option
+                </Text>
+              )}
+            </div>
+            <div className={styles.divider_gray}></div>
 
-            {productData.product_desc && (
-              <div
-                className={styles.product_desc_container}
-                style={{ whiteSpace: "pre-wrap" }}
-              >
-                <div className={styles.product_desc_title}>Description</div>
+            <div
+              className={styles.product_desc_container}
+              style={{ whiteSpace: "pre-wrap" }}
+            >
+              <div className={styles.product_desc_title}>Description</div>
 
-                <p className={styles.product_desc_body}>
-                  {productData.product_desc}
-                </p>
-              </div>
-            )}
-            <div className={styles.product_desc_container}>
-              <div className={styles.product_desc_title}>Seller Details</div>
+              <p className={styles.product_desc_body}>
+                {productData.product_desc
+                  ? productData.product_desc
+                  : "No Description Available"}
+              </p>
+            </div>
+
+            <div className={styles.divider_gray}></div>
+
+            <div
+              className={styles.product_desc_container}
+              style={{ paddingBottom: "100px" }}
+            >
+              <div className={styles.product_desc_title}>About This Seller</div>
 
               <p className={styles.product_desc_body}>
                 This item is sold by{" "}
@@ -461,9 +421,65 @@ const ProductDetail = (props) => {
                 {storeData.account_store_address}
               </p>
             </div>
-          </div>
+          </>
         )}
       </div>
+      {productData?.product_stock ? (
+        <Stack
+          direction="row"
+          backgroundColor="#fff"
+          padding="5px"
+          w="100%"
+          position="fixed"
+          pb="10px"
+          bottom="0px"
+          boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        >
+          <Button
+            // leftIcon={
+            //   <img src={CartIconBlack} className={styles.add_cart_icon} />
+            // }
+            alignSelf="center"
+            fontSize="18px"
+            w="75%"
+            color="#141414"
+            h="58px"
+            fontFamily="elemen"
+            onClick={() => validateBuy(addToCart)}
+          >
+            Add to Bag
+          </Button>
+          <Button
+            alignSelf="center"
+            size="lg"
+            w="100%"
+            onClick={() => validateBuy(whatsappBuy)}
+            leftIcon={
+              <img src={WhatsappClean} className={styles.buy_now_icon} />
+            }
+            h="58px"
+            backgroundColor="#08BD80"
+            color="white"
+            fontFamily="elemen"
+            _hover={{ bg: "#048c5e" }}
+          >
+            Buy On Whatsapp
+          </Button>
+        </Stack>
+      ) : (
+        <Button
+          alignSelf="center"
+          size="lg"
+          w="90%"
+          p="10px"
+          h="60px"
+          backgroundColor="#ff8763"
+          color="white"
+          fontFamily="elemen"
+        >
+          Out Of Stock
+        </Button>
+      )}
     </div>
   );
 };
