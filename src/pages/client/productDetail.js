@@ -467,18 +467,31 @@ const ProductDetail = (props) => {
           </Button>
         </Stack>
       ) : (
-        <Button
-          alignSelf="center"
-          size="lg"
-          w="90%"
-          p="10px"
-          h="60px"
-          backgroundColor="#ff8763"
-          color="white"
-          fontFamily="elemen"
+        <Stack
+          direction="row"
+          backgroundColor="#fff"
+          padding="5px"
+          w="100%"
+          display="flex"
+          justifyContent="center"
+          position="fixed"
+          pb="10px"
+          bottom="0px"
+          boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         >
-          Out Of Stock
-        </Button>
+          <Button
+            alignSelf="center"
+            size="lg"
+            w="95%"
+            p="10px"
+            h="60px"
+            backgroundColor="#ff8763"
+            color="white"
+            fontFamily="elemen"
+          >
+            Out Of Stock
+          </Button>
+        </Stack>
       )}
     </div>
   );
