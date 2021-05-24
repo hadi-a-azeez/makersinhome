@@ -10,6 +10,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
+import LazyLoad from "react-lazyload";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const ImageModal = ({ image, isImageOpen, onImageClose }) => {
@@ -29,7 +30,7 @@ const ImageModal = ({ image, isImageOpen, onImageClose }) => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Img src={image} maxWidth="90%" />
+                  <Img src={image} maxWidth="90%" maxHeight="80%" />
                 </Box>
               </TransformComponent>
             </TransformWrapper>

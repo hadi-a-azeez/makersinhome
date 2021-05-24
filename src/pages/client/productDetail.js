@@ -25,14 +25,13 @@ import {
 } from "@chakra-ui/react";
 import { UilShareAlt } from "@iconscout/react-unicons";
 
-import styles from "../../components/css/product_detailed.module.css";
+import styles from "./css/productDetail.module.css";
 import { useHistory } from "react-router-dom";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
 import { productImagesRoot } from "../../config";
 import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
-import copyText from "../../components/copyText";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState(null);
@@ -74,6 +73,7 @@ const ProductDetail = (props) => {
 
   //get product data from server
   useEffect(() => {
+    window.scrollTo(0, 0);
     props.location.state && setProductData(props.location.state);
     const getProduct = async () => {
       const productResponse = await getProductDetailAPI(productId);
@@ -171,19 +171,22 @@ const ProductDetail = (props) => {
         />
         <div className={styles.header}>
           <Box
-            width="40px"
-            height="40px"
+            width="80px"
+            height="80px"
             position="fixed"
-            top="25px"
-            left="20px"
+            top="1px"
+            left="1px"
             zIndex="1"
+            display="grid"
+            placeItems="center"
             onClick={() => history.goBack()}
           >
             <IconButton
               width="40px"
               height="40px"
-              icon={<ChevronLeftIcon boxSize="30px" />}
+              icon={<ChevronLeftIcon boxSize="30px" color="#fff" />}
               borderRadius="100%"
+              backgroundColor="#212121"
             />
           </Box>
           <Box
@@ -213,6 +216,7 @@ const ProductDetail = (props) => {
             <Skeleton height="50vh" width="100%" borderRadius="6px" />
           </div>
         )}
+
         <div className={styles.image_slider}>
           {productData?.products_images.length == 1 ? (
             <Image
@@ -241,7 +245,7 @@ const ProductDetail = (props) => {
                   onImageOpen();
                 }}
                 mr="5px"
-                w="80%"
+                minWidth="80%"
                 objectFit="cover"
                 objectPosition="top left"
                 src={
