@@ -11,6 +11,8 @@ import Home from "./pages/client/home";
 import { Stack } from "@chakra-ui/layout";
 import { CircularProgress } from "@material-ui/core";
 import InstagramImport from "./pages/seller/products/instagramImport";
+import PasswordReset from "./pages/client/password";
+import GenPassWordLink from "./pages/client/genPasswordLink";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -46,6 +48,16 @@ function App() {
         }
       >
         <Switch>
+          <Route
+            exact
+            path="/1P9T873nMbjkC7gVdMpfKR2epYjtuD2UYA"
+            component={GenPassWordLink}
+          />
+          <Route
+            exact
+            path="/password/:phone_number/:key"
+            component={PasswordReset}
+          />
           <Route exact path="/" component={Home} />
           <Route exact path="/status" component={StoreStatus} />
           <Route exact path="/store/:storelink" component={Store} />
