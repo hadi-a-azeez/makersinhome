@@ -8,13 +8,6 @@ import { getProductDetailAPI } from "../../api/custStoreAPI";
 
 import ImageModal from "../../components/ImageModal";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverArrow,
-  PopoverCloseButton,
   Button,
   IconButton,
   useDisclosure,
@@ -31,7 +24,7 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import { Skeleton, useToast } from "@chakra-ui/react";
 import useStore from "../../cartState";
 import { productImagesRoot } from "../../config";
-import { ChevronLeftIcon, CopyIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
 
 const ProductDetail = (props) => {
   const [productData, setProductData] = useState(null);
