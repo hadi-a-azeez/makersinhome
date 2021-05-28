@@ -8,6 +8,7 @@ import { apiRoot } from "../../config.js";
 import CryptoJS from "crypto-js";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import date from "date-and-time";
 
 const PasswordReset = (props) => {
   const [password, setPassword] = useState("");
@@ -19,8 +20,12 @@ const PasswordReset = (props) => {
   ).toString(CryptoJS.enc.Utf8);
   useEffect(() => {
     const dateHashed = props.match.params.key;
+    const todaysDate = new Date();
+    const pattern = date.compile("MMM DD YYYY");
+    const formattedDate = date.format(todaysDate, pattern);
+
     const dateEncrypted = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(new Date().toLocaleDateString())
+      CryptoJS.enc.Utf8.parse(formattedDate)
     );
     dateHashed !== dateEncrypted && setIsValid(false);
   }, []);

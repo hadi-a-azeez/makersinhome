@@ -92,7 +92,11 @@ const Account = () => {
         <div className={styles.nav_container}>
           <div
             className={styles.nav_item}
-            onClick={() => (window.location = "https://wa.link/t25r2b")}
+            onClick={() =>
+              window.location.replace(
+                `https://api.whatsapp.com/send?phone=916282672467&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
+              )
+            }
           >
             <img src={WhatsappLogo} alt="w" />
             <h1>Whatsapp Support</h1>

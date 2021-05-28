@@ -6,14 +6,18 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/header";
 import CryptoJS from "crypto-js";
 import copyText from "../../components/copyText";
+import date from "date-and-time";
 
 const GenPassWordLink = () => {
   const [phone, setPhone] = useState();
   const [link, setLink] = useState();
 
-  const todaysDate = new Date().toLocaleDateString();
+  const todaysDate = new Date();
+  const pattern = date.compile("MMM DD YYYY");
+  const formattedDate = date.format(todaysDate, pattern);
+
   const dateEncrypted = CryptoJS.enc.Base64.stringify(
-    CryptoJS.enc.Utf8.parse(todaysDate)
+    CryptoJS.enc.Utf8.parse(formattedDate)
   );
 
   return (
