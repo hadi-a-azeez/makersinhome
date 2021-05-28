@@ -1,29 +1,29 @@
 @font-face {
   font-family: "elemen";
-  src: url("../../assets/fonts/circular-bold.woff");
+  src: url("../../../assets/fonts/circular-bold.woff");
   font-weight: bold;
 }
 @font-face {
   font-family: "elemen";
-  src: url("../../assets/fonts/circular-medium.woff");
+  src: url("../../../assets/fonts/circular-medium.woff");
   font-weight: medium;
 }
 @font-face {
   font-family: "elemen";
-  src: url("../../assets/fonts/circular-book.woff");
+  src: url("../../../assets/fonts/circular-book.woff");
   font-weight: normal;
 }
 @font-face {
   font-family: "helvetica-round";
-  src: url("../../assets/fonts/helvetica-rounded-bold-5871d05ead8de.otf");
+  src: url("../../../assets/fonts/helvetica-rounded-bold-5871d05ead8de.otf");
 }
 @font-face {
   font-family: "helvetica-bold";
-  src: url("../../assets/fonts/Helvetica-Bold.ttf");
+  src: url("../../../assets/fonts/Helvetica-Bold.ttf");
 }
 @font-face {
   font-family: "helvetica-regular";
-  src: url("../../assets/fonts/helvetica.ttf");
+  src: url("../../../assets/fonts/helvetica.ttf");
 }
 
 .container {
@@ -71,9 +71,7 @@
   overflow: auto;
   white-space: nowrap;
   position: relative;
-  margin-bottom: 10px;
   display: flex;
-
   background-color: white !important;
 }
 .image_wraper {
@@ -201,7 +199,7 @@
 }
 
 .add_cart_icon {
-  width: 40px;
+  width: 30px;
   filter: invert(0%) sepia(31%) saturate(2260%) hue-rotate(8deg)
     brightness(103%) contrast(80%);
   margin-bottom: 8px;
@@ -225,9 +223,10 @@
 }
 
 .product_desc_container {
-  margin-top: 10px;
-
-  margin-bottom: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .product_desc_title {
   font-weight: bold;
@@ -241,7 +240,6 @@
   font-size: 15px;
   color: #838282;
   letter-spacing: 0.7px;
-  margin-bottom: 20px;
 }
 .cart_popup_container {
   margin-bottom: 10px;
@@ -343,7 +341,12 @@
     transform: translateX(-8px);
   }
 }
+.divider_gray {
+  height: 5px;
 
+  width: 100%;
+  background-color: #fafafa;
+}
 @media (min-width: 1025px) {
   .container {
     width: 100%;
@@ -355,6 +358,7 @@
     height: 100%;
     width: 50%;
   }
+
   .rightGrid {
     height: 100%;
     width: 40%;
@@ -386,7 +390,7 @@
     background-color: white;
   }
   .product_details_container {
-    margin-top: 5rem;
+    margin-top: 5px;
   }
   .product_name {
     font-weight: 600;
