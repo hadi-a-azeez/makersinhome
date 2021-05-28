@@ -583,6 +583,7 @@ const AddNewProduct = (props) => {
         <Button
           backgroundColor="#08bd80"
           color="white"
+          colorScheme="green"
           w="90%"
           isLoading={isBtnLoading}
           loadingText="Uploading"

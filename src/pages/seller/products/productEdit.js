@@ -910,7 +910,9 @@ const ProductEdit = (props) => {
 
             <Button
               backgroundColor="#08bd80"
+              colorScheme="green"
               color="white"
+              variant="solid"
               w="90%"
               isLoading={isBtnLoading}
               loadingText="Uploading"

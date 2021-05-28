@@ -17,17 +17,21 @@ import {
   SkeletonCircle,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
 import { Switch } from "@chakra-ui/react";
 import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 import { useHistory } from "react-router-dom";
+import { CopyIcon } from "@chakra-ui/icons";
+import copyText from "../../../components/copyText";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
   const history = useHistory();
+  const toast = useToast();
 
   const shareToWhatsapp = () => {
     window.location.replace(
@@ -225,10 +229,47 @@ const Dashboard = () => {
             >
               saav.in/store/{userInfo.account_store_link}
             </Text>
-            <button className={styles.btn_whatsapp} onClick={shareToWhatsapp}>
-              <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
-              Share
-            </button>
+            {userInfo?.account_store_link && (
+              <Stack direction="row" alignItems="center">
+                <CopyIcon
+                  boxSize="25px"
+                  onClick={() => {
+                    copyText(
+                      `https://saav.in/store/${userInfo.account_store_link}`
+                    );
+                    toast({
+                      position: "bottom",
+                      duration: 1000,
+                      render: () => (
+                        <Box
+                          color="white"
+                          p={3}
+                          mb="80px"
+                          ml="30%"
+                          bg="green.500"
+                          borderRadius="30px"
+                          textAlign="center"
+                          width="140px"
+                        >
+                          Copied
+                        </Box>
+                      ),
+                    });
+                  }}
+                />
+                <button
+                  className={styles.btn_whatsapp}
+                  onClick={shareToWhatsapp}
+                >
+                  <img
+                    src={WhatsappLogo}
+                    alt="w"
+                    className={styles.whatsappicon}
+                  />
+                  Share
+                </button>
+              </Stack>
+            )}
           </Stack>
         </div>
         <BottomNavigationMenu />

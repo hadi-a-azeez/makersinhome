@@ -424,7 +424,7 @@ const ProductDetail = (props) => {
           </>
         )}
       </div>
-      {productData?.product_stock ? (
+      {productData?.product_stock !== 0 ? (
         <Stack
           direction="row"
           backgroundColor="#fff"

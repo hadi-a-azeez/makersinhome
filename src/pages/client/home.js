@@ -45,7 +45,7 @@ const Home = () => {
         <Stack
           onClick={() =>
             window.location.replace(
-              `https://api.whatsapp.com/send?phone=919496742190&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
+              `https://api.whatsapp.com/send?phone=916282672467&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
             )
           }
           className={styles.whatsappbtn_wraper}

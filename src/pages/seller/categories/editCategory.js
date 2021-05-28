@@ -21,11 +21,8 @@ import { useForm } from "../../../components/useForm";
 
 const AddNewCategory = (props) => {
   const [parentCategoriesData, setparentCategoriesData] = useState([]);
-  const [
-    singleCategoryData,
-    setSingleCategoryData,
-    updateSingleCategory,
-  ] = useForm({});
+  const [singleCategoryData, setSingleCategoryData, updateSingleCategory] =
+    useForm({});
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -130,6 +127,7 @@ const AddNewCategory = (props) => {
         </FormControl>
         <Button
           backgroundColor="#08bd80"
+          colorScheme="green"
           color="white"
           mt="4"
           size="lg"

@@ -1,4 +1,4 @@
-function copyText(textToCopy) {
+const copyText = (textToCopy) => {
   let textArea;
 
   function isOS() {
@@ -36,6 +36,6 @@ function copyText(textToCopy) {
   createTextArea(textToCopy);
   selectText();
   copyTo();
-}
+};
 
 export default copyText;

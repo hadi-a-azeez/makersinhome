@@ -124,6 +124,7 @@ const AddNewCategory = () => {
         </FormControl>
         <Button
           backgroundColor="#08bd80"
+          colorScheme="green"
           color="white"
           mt="4"
           size="lg"

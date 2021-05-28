@@ -96,11 +96,15 @@ const Products = (props) => {
                     {item.product_name}
                   </h1>
                   <Stat>
-                    <StatNumber
-                      mt="2px"
-                      fontSize="18px"
-                      fontWeight="500"
-                    >{`₹${item.product_price}`}</StatNumber>
+                    <StatNumber mt="2px" fontSize="18px" fontWeight="500">{`₹${
+                      item.products_variants.length > 0
+                        ? item.products_variants?.reduce((prev, curr) =>
+                            prev.variant_sale_price < curr.variant_sale_price
+                              ? prev.variant_sale_price
+                              : curr.variant_sale_price
+                          )
+                        : item.product_sale_price
+                    }`}</StatNumber>
                   </Stat>
                   <div className={styles.stock_block}>
                     {item.product_stock ? (

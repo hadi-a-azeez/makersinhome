@@ -1,9 +1,11 @@
-import { Box, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Box, Heading, Stack, Text, IconButton } from "@chakra-ui/react";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { apiRoot } from "../../config";
 import CoinIcon from "../../assets/coinicon.png";
+import Whatsapp from "../../assets/whatsapp_filled.svg";
+import { ArrowForwardIcon, EmailIcon } from "@chakra-ui/icons";
 
 const StoreStatus = () => {
   const history = useHistory();
@@ -74,14 +76,28 @@ const StoreStatus = () => {
         </Heading>
         {names &&
           names.map((name) => (
-            <Text
-              size="md"
-              fontFamily="elemen"
-              key={name.id}
-              onClick={() => history.push(`/store/${name.account_store_link}`)}
-            >
-              {name.account_store}
-            </Text>
+            <Stack direction="row" w="100%">
+              <Text
+                size="md"
+                fontFamily="elemen"
+                key={name.id}
+                onClick={() =>
+                  history.push(`/store/${name.account_store_link}`)
+                }
+              >
+                {name.account_store}
+              </Text>
+
+              <EmailIcon
+                boxSize="20px"
+                marginLeft="120px"
+                onClick={() =>
+                  window.location.replace(
+                    `https://api.whatsapp.com/send?phone=91${name.account_whatsapp}&text=Thanks%20for%20Joining%20Saav%20%F0%9F%98%8D.%0AIf%20you%20have%20any%20doubts%20feel%20free%20to%20message%20us%20%F0%9F%91%8D`
+                  )
+                }
+              />
+            </Stack>
           ))}
       </Box>
     </Stack>
