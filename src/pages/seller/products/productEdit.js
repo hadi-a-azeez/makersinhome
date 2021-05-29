@@ -414,7 +414,16 @@ const ProductEdit = (props) => {
               />
             </FormControl>
             <FormControl w="90%" mt="4" isRequired>
-              <FormLabel>Category</FormLabel>
+              <Stack direction="row" w="100%" justifyContent="space-between">
+                <FormLabel>Category</FormLabel>
+                <Text
+                  color="green.500"
+                  fontWeight="bold"
+                  onClick={() => history.push("/app/add_category")}
+                >
+                  Add Category
+                </Text>
+              </Stack>{" "}
               <Select
                 name="parent category"
                 name="product_cat"

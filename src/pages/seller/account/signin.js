@@ -13,14 +13,20 @@ import {
   Flex,
   Box,
   Image,
+  InputGroup,
+  InputRightElement,
+  Stack,
 } from "@chakra-ui/react";
 import AddToCart from "../../../assets/addtocart.svg";
 import { Link } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const SignIn = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [isLoginError, setIsLoginError] = useState(false);
   /*  useEffect(() => {
     localStorage.getItem('token') && history.replace('/dashboard')
@@ -77,12 +83,28 @@ const SignIn = () => {
           <FormLabel color="gray.500" fontWeight="400">
             Password
           </FormLabel>
-          <Input
-            placeholder="••••••••••••"
-            type="password"
-            size="lg"
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
+          <InputGroup size="md">
+            <Input
+              placeholder="••••••••••••"
+              type={showPassword ? "text" : "password"}
+              size="lg"
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
+            <InputRightElement height="100%" mr="5px">
+              <Stack
+                h="100%"
+                direction="column"
+                justifyContent="center"
+                onClick={() => setShowPassword((old) => !old)}
+              >
+                {showPassword ? (
+                  <ViewOffIcon boxSize="20px" />
+                ) : (
+                  <ViewIcon boxSize="20px" />
+                )}
+              </Stack>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
 
         <Button
@@ -99,6 +121,19 @@ const SignIn = () => {
           Log in
         </Button>
       </div>
+      <Text
+        onClick={() =>
+          window.location.replace(
+            `https://api.whatsapp.com/send?phone=916282672467&text=Hi%20i%20forgot%20my%20password.`
+          )
+        }
+        alignSelf="flex-end"
+        color="#008aed"
+        mr="20px"
+        mt="10px"
+      >
+        Forgot Password ?
+      </Text>
       <Flex direction="row" mt="6">
         <Text color="gray.500" isTruncated>
           Don't have an account yet?

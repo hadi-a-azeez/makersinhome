@@ -89,7 +89,7 @@ function App() {
             component={EditCategory}
           />
           <Route path="/app/categories" component={Categories} />
-          <Route path="/app/account" component={Account} />
+          <Route path="/app/settings" component={Account} />
           <Route path="/app/edit_account" component={EditAccount} />
           <Route component={() => <p>404</p>} />
         </Switch>

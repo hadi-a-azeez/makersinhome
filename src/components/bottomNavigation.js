@@ -9,8 +9,8 @@ import ProductsIcon from "../assets/layers-outline.svg";
 import ProductsIconFilled from "../assets/layersFilled.svg";
 import CategoriesIcon from "../assets/grid-outline.svg";
 import CategoriesIconFilled from "../assets/gridFilled.svg";
-import AccountIcon from "../assets/person-outline.svg";
-import AccountIconFilled from "../assets/personFilled.svg";
+import SettingsIcon from "../assets/settings-outline.svg";
+import SettingsIconFilled from "../assets/settings.svg";
 
 const BottomNavigationMenu = () => {
   const location = useLocation();
@@ -101,28 +101,28 @@ const BottomNavigationMenu = () => {
               value="categories"
             />
             <BottomNavigationAction
-              label="Account"
+              label="Settings"
               icon={
-                value == "account" ? (
+                value == "settings" ? (
                   <img
-                    src={AccountIconFilled}
+                    src={SettingsIconFilled}
                     alt="home"
                     className={styles.iconFilled}
                   />
                 ) : (
                   <img
-                    src={AccountIcon}
+                    src={SettingsIcon}
                     alt="home"
                     className={styles.iconOutlined}
                   />
                 )
               }
               className={
-                value == "account" ? styles.navItemSelected : styles.navItem
+                value == "settings" ? styles.navItemSelected : styles.navItem
               }
               component={Link}
-              to="/app/account"
-              value="account"
+              to="/app/settings"
+              value="settings"
             />
           </BottomNavigation>
         </nav>

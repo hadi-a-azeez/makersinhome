@@ -230,6 +230,7 @@ const ProductDetail = (props) => {
                   <Skeleton height="50vh" borderRadius="6px" />
                 )
               }
+              fallback={<Skeleton height="50vh" borderRadius="6px" />}
             />
           ) : (
             productData?.products_images.map((image) => (
@@ -238,10 +239,6 @@ const ProductDetail = (props) => {
                   setPopupImage(`${productImagesRoot}/${image.product_image}`);
                   onImageOpen();
                 }}
-                mr="5px"
-                minWidth="80%"
-                objectFit="cover"
-                objectPosition="top left"
                 src={
                   image.product_image ? (
                     `${productImagesRoot}/${image.product_image}`
@@ -249,6 +246,7 @@ const ProductDetail = (props) => {
                     <Skeleton height="50vh" borderRadius="6px" />
                   )
                 }
+                fallback={<Skeleton height="50vh" borderRadius="6px" />}
               />
             ))
           )}

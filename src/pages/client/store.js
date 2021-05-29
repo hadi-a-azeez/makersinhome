@@ -38,6 +38,7 @@ import useStore from "../../cartState";
 import { profileImagesRoot } from "../../config";
 import useFrontStore from "../../storeFrontState";
 import FocusLock from "@chakra-ui/focus-lock";
+import StoreShut from "./storeShut";
 
 const Store = (props) => {
   let history = useHistory();
@@ -119,7 +120,7 @@ const Store = (props) => {
 
   return isStoreExists ? (
     storeData.account_store_status === 0 ? (
-      <p>Store Is Shut</p>
+      <StoreShut storeData={storeData} />
     ) : (
       <div className={styles.container}>
         <Box

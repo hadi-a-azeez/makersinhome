@@ -3,9 +3,17 @@ import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
 import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
-import { IconButton, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import {
+  IconButton,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  Image,
+  Heading,
+} from "@chakra-ui/react";
 import Placeholder from "../../assets/placeholder.png";
-import CartIcon from "../../assets/cartIconblack.svg";
+import CartIcon from "../../assets/shopping_bag_empty.png";
 //import CartIconFilled from "../../assets/cart-filled.svg";
 import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
@@ -15,8 +23,6 @@ import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 
 const StoreCart = (props) => {
   const history = useHistory();
-  const [productsData, setProductsData] = useState([]);
-  const [isProducts, setIsProducts] = useState(true);
   const [storeData, setStoreData] = useState({});
 
   const cartProducts = useStore((state) => state.products);
@@ -185,23 +191,27 @@ const StoreCart = (props) => {
               );
             })
         ) : (
-          <Stack direction="column" alignItems="center" mt="60px">
-            <img
-              src={CartIcon}
-              className={styles.cart_icon_big}
-              width="200px"
-            />
+          <Stack direction="column" spacing="0" alignItems="center" mt="40px">
+            <Image src={CartIcon} w="70%" mb="10px" />
+            <Heading fontWeight="bold" fontFamily="elemen">
+              Cart Is Empty
+            </Heading>
             <Text
-              color="gray.500"
-              fontWeight="bold"
-              fontFamily="elemen"
-              fontSize="25px"
+              w="80%"
+              color="gray.400"
+              textAlign="center"
+              fontWeight="normal"
+              mb="20px"
             >
-              Your Cart Is Empty
+              Your cart is empty please add some products to order.
             </Text>
             <Button
-              backgroundColor="#08bd80"
-              color="white"
+              fontFamily="elemen"
+              size="lg"
+              w="60%"
+              bgColor="#08bd80"
+              textColor="#fff"
+              height="60px"
               onClick={() =>
                 history.push(`/store/${storeData.account_store_link}`)
               }
@@ -213,21 +223,23 @@ const StoreCart = (props) => {
         {/* product item ends here */}
       </Flex>
 
-      <Button
-        position="fixed"
-        bottom="35px"
-        isLoading={_.isEmpty(storeData)}
-        mt="5"
-        size="lg"
-        colorScheme="green"
-        w="90%"
-        h="60px"
-        borderRadius="48px"
-        leftIcon={<img src={Whatsapp} className={styles.whatsapp_icon} />}
-        onClick={whatsappBuy}
-      >
-        Place Order on Whatsapp
-      </Button>
+      {cartProducts.filter((prd) => prd.store_id == storeId).length > 0 && (
+        <Button
+          position="fixed"
+          bottom="35px"
+          isLoading={_.isEmpty(storeData)}
+          mt="5"
+          size="lg"
+          colorScheme="green"
+          w="90%"
+          h="60px"
+          borderRadius="48px"
+          leftIcon={<img src={Whatsapp} className={styles.whatsapp_icon} />}
+          onClick={whatsappBuy}
+        >
+          Place Order on Whatsapp
+        </Button>
+      )}
     </div>
   );
 };
