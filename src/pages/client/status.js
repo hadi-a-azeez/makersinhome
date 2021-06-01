@@ -11,6 +11,7 @@ const StoreStatus = () => {
   const history = useHistory();
   const [status, setStatus] = useState(0);
   const [names, setNames] = useState("");
+  const [viewsData, setViewsData] = useState();
 
   const genesisDate = new Date("05/16/2021");
   const todaysDate = new Date();
@@ -28,10 +29,15 @@ const StoreStatus = () => {
       setStatus(response.data.count);
       console.log(response);
     };
+    const getViews = async () => {
+      const response = await Axios.get(`${apiRoot}/client/store/status/views`);
+      setViewsData(response.data);
+    };
+    getViews();
     getStatus();
   }, []);
   return (
-    <Stack width="100%" backgroundColor="#212121" h="100vh" p="30px">
+    <Stack width="100%" backgroundColor="#212121" h="100%" p="30px">
       <Box
         background={`linear-gradient(315deg, #fec84e 0%, #ffdea8 74%)`}
         borderRadius="10px"
@@ -99,6 +105,38 @@ const StoreStatus = () => {
               />
             </Stack>
           ))}
+      </Box>
+      <Box borderRadius="10px" backgroundColor="#fff" p="20px">
+        <Heading size="sm" fontFamily="elemen" color="gray.500">
+          Total Views
+        </Heading>
+        <Heading size="4xl" fontFamily="elemen">
+          {viewsData ? viewsData.total_views : "_"}
+        </Heading>
+        <Heading size="md" color="gray.600">
+          Clicks: {viewsData ? viewsData.total_clicks : "_"}
+        </Heading>
+      </Box>
+      <Box borderRadius="10px" backgroundColor="#fff" p="20px">
+        <Heading size="sm" fontFamily="elemen" color="gray.500">
+          Top Users
+        </Heading>
+        {viewsData?.stores.slice(0, 10).map((name) => (
+          <Stack direction="row" w="100%">
+            <Text
+              size="md"
+              fontFamily="elemen"
+              key={name.id}
+              onClick={() =>
+                history.push(`/store/${name.account.account_store_link}`)
+              }
+            >
+              {name.account.account_store}
+            </Text>
+
+            <Text>{name.store_views}</Text>
+          </Stack>
+        ))}
       </Box>
     </Stack>
   );
