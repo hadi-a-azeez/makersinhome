@@ -18,6 +18,7 @@ import {
   Stack,
   Text,
   useToast,
+  Button,
 } from "@chakra-ui/react";
 import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
@@ -84,7 +85,7 @@ const Dashboard = () => {
             isChecked={userInfo.account_store_status ? true : false}
             onChange={(e) => flipStoreStatus(userInfo.id)}
           />
-          <Flex direction="row" w="90%" mt="8">
+          <Flex direction="row" w="90%" mt="5">
             <Image
               borderRadius="full"
               boxSize="80px"
@@ -102,7 +103,32 @@ const Dashboard = () => {
             </Flex>
           </Flex>
         </Box>
-        <SimpleGrid columns={2} spacing={3} w="90%" mt="-10" zIndex="1">
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          borderRadius="30px"
+          w="90%"
+          mt="-60px"
+          zIndex="1"
+          p="8px"
+          backgroundColor="#fff"
+        >
+          <Text fontWeight="500">🎉 Official Saav Sellers Group</Text>
+
+          <button
+            className={styles.btn_whatsapp}
+            onClick={() =>
+              window.location.replace(
+                `https://chat.whatsapp.com/JWEKR2kuhpR81ZGB5aa4FQ`
+              )
+            }
+          >
+            <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
+            Join Now
+          </button>
+        </Stack>
+        <SimpleGrid columns={2} spacing={3} w="90%" mt="5" zIndex="1">
           <Box
             height="100px"
             w="100%"
