@@ -129,7 +129,7 @@ const Categories = () => {
                       if (navigator.share) {
                         navigator.share({
                           title: item.cat_name,
-                          url: `https://saav.in/${userInfo.account_store_link}/${item.id}`,
+                          url: `https://saav.in/store/${userInfo.account_store_link}/${item.id}`,
                         });
                       }
                     }}
