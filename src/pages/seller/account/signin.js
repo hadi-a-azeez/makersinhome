@@ -45,14 +45,16 @@ const SignIn = () => {
 
   const signIn = async () => {
     setIsLoading(true);
-
     let response = await signinUserAPI(loginUsername, loginPassword);
-    setErrorCode(response.data.error.code);
     console.log(response);
+
     setIsLoading(false);
     // check if login detials are incorrect
-    if (!response.data.status) return setIsLoginError(true);
-    //if login details are correct remov previous data
+    if (!response.data.status) {
+      setErrorCode(response.data.error.code);
+      return setIsLoginError(true);
+    }
+    //if login details are correct remove previous data
     localStorage.removeItem("token");
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("loginExpiry", Date.now() + 1.123e9);
@@ -67,7 +69,7 @@ const SignIn = () => {
       {isLoginError && (
         <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
           <h1>
-            {errorCode === 101
+            {errorCode && errorCode === 101
               ? "This Number Isnt Registered."
               : "Your Password Is Wrong"}
           </h1>
