@@ -5,7 +5,14 @@ import { useHistory } from "react-router-dom";
 import LabelHeader from "../../../components/labelHeader";
 import imageCompression from "browser-image-compression";
 import { useForm } from "../../../components/useForm";
-import { Badge, Box, Flex, Switch, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  CircularProgress,
+  Flex,
+  Switch,
+  Text,
+} from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import {
   addProductAPI,
@@ -39,6 +46,8 @@ const AddNewProduct = (props) => {
   const defaultCatogory = props.match.params.catogory;
   const [compressedImages, setCompressedImages] = useState([]);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
+
   const [isFormError, setIsFormError] = useState(false);
   const [variantsLocal, setVariantsLocal] = useState([]);
 
@@ -148,6 +157,7 @@ const AddNewProduct = (props) => {
   };
 
   const compressImage = async (event) => {
+    setIsCompressing(true);
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     const options = {
@@ -197,6 +207,7 @@ const AddNewProduct = (props) => {
     } catch (error) {
       console.log(error);
     }
+    setIsCompressing(false);
   };
 
   return (
@@ -240,6 +251,11 @@ const AddNewProduct = (props) => {
                 />
               </div>
             ))}
+          {isCompressing && (
+            <label className={styles.customFileUpload}>
+              <CircularProgress isIndeterminate color="green.300" />
+            </label>
+          )}
         </SimpleGrid>
         <input
           type="file"
@@ -595,6 +611,7 @@ const AddNewProduct = (props) => {
           color="white"
           colorScheme="green"
           w="90%"
+          isDisabled={isCompressing}
           isLoading={isBtnLoading}
           loadingText="Uploading"
           onClick={() => validateFields(addProduct)}
