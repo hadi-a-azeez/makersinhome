@@ -44,6 +44,7 @@ import {
   Flex,
   Heading,
   Badge,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { Box } from "@material-ui/core";
 import Popup from "reactjs-popup";
@@ -57,7 +58,7 @@ import {
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
   const [productImagesLocal, setProductImagesLocal] = useState([]);
-
+  const [isCompressing, setIsCompressing] = useState(false);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isFormError, setIsFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -116,13 +117,6 @@ const ProductEdit = (props) => {
       return formAction();
     }
     setIsFormError(true);
-  };
-
-  const setSalePrice = (value) => {
-    setProduct({
-      ...product,
-      product_sale_price: value + "",
-    });
   };
 
   //update product on server on submit
@@ -231,6 +225,7 @@ const ProductEdit = (props) => {
   };
 
   const compressImage = async (event) => {
+    setIsCompressing(true);
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
     const options = {
@@ -279,6 +274,7 @@ const ProductEdit = (props) => {
     } catch (error) {
       console.log(error);
     }
+    setIsCompressing(false);
   };
 
   const handleDelete = async () => {
@@ -325,6 +321,7 @@ const ProductEdit = (props) => {
               <label htmlFor="file-upload" className={styles.customFileUpload}>
                 <AddIcon w={8} h={8} />
               </label>
+
               {product?.products_images?.map((image, index) => {
                 return (
                   <div
@@ -390,6 +387,11 @@ const ProductEdit = (props) => {
                     </div>
                   );
                 })}
+              {isCompressing && (
+                <label className={styles.customFileUpload}>
+                  <CircularProgress isIndeterminate color="green.300" />
+                </label>
+              )}
             </SimpleGrid>
             <input
               type="file"
@@ -498,7 +500,12 @@ const ProductEdit = (props) => {
                         placeholder="Price"
                         variant="filled"
                         defaultValue={product.product_sale_price}
-                        onChange={(e) => setSalePrice(e.target.value)}
+                        onChange={(e) =>
+                          setProduct({
+                            ...product,
+                            product_sale_price: e.target.value + "",
+                          })
+                        }
                         size="lg"
                         w="100%"
                       />
@@ -923,6 +930,7 @@ const ProductEdit = (props) => {
               color="white"
               variant="solid"
               w="90%"
+              isDisabled={isCompressing}
               isLoading={isBtnLoading}
               loadingText="Uploading"
               onClick={() => validateFields(updateProductFull)}

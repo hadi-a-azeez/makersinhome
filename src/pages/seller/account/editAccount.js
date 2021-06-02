@@ -20,6 +20,7 @@ import {
   FormLabel,
   Box,
   useToast,
+  Switch,
 } from "@chakra-ui/react";
 
 const EditAccount = () => {
@@ -154,6 +155,21 @@ const EditAccount = () => {
           <h1>Please fill all required details</h1>
         </Box>
       )}
+
+      <FormControl isRequired w="90%" mt="3">
+        <FormLabel>Store Status</FormLabel>
+        <Switch
+          isChecked={storeInfo.account_store_status ? true : false}
+          size="lg"
+          colorScheme="green"
+          onChange={() =>
+            setStoreInfo({
+              ...storeInfo,
+              account_store_status: !storeInfo.account_store_status,
+            })
+          }
+        />
+      </FormControl>
       <FormControl isRequired w="90%" mt="3">
         <FormLabel>Store name</FormLabel>
         <Input
@@ -188,6 +204,7 @@ const EditAccount = () => {
         isLoading={isBtnLoading}
         loadingText="Updating"
         backgroundColor="#08bd80"
+        colorScheme="green"
         color="white"
         size="lg"
         w="90%"

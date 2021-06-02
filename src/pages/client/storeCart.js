@@ -191,17 +191,17 @@ const StoreCart = (props) => {
               );
             })
         ) : (
-          <Stack direction="column" spacing="0" alignItems="center" mt="40px">
-            <Image src={CartIcon} w="70%" mb="10px" />
+          <Flex direction="column" alignItems="center" mt="40px">
+            <Image src={CartIcon} w="70%" />
             <Heading fontWeight="bold" fontFamily="elemen">
-              Cart Is Empty
+              Bag Is Empty
             </Heading>
             <Text
               w="80%"
               color="gray.400"
               textAlign="center"
               fontWeight="normal"
-              mb="20px"
+              mb="15px"
             >
               Your cart is empty please add some products to order.
             </Text>
@@ -218,7 +218,7 @@ const StoreCart = (props) => {
             >
               Shop Now
             </Button>
-          </Stack>
+          </Flex>
         )}
         {/* product item ends here */}
       </Flex>

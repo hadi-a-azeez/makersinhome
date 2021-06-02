@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { FormLabel } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Heading, Stack } from "@chakra-ui/layout";
 import React, { useState, useEffect } from "react";
 import Header from "../../components/header";
@@ -9,9 +9,12 @@ import CryptoJS from "crypto-js";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import date from "date-and-time";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const PasswordReset = (props) => {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const [isValid, setIsValid] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
@@ -59,15 +62,33 @@ const PasswordReset = (props) => {
             <FormLabel mt="20px" fontFamily="elemen" color="gray.500">
               New Password
             </FormLabel>
-            <Input
-              placeholder="Type your new password"
-              type="text"
-              name="password"
-              value={password}
-              variant="filled"
-              size="lg"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <InputGroup size="md">
+              <Input
+                placeholder="••••••••••••"
+                type={showPassword ? "text" : "password"}
+                size="lg"
+                name="password"
+                value={password}
+                variant="filled"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {password.length > 0 && (
+                <InputRightElement height="100%" mr="5px">
+                  <Stack
+                    h="100%"
+                    direction="column"
+                    justifyContent="center"
+                    onClick={() => setShowPassword((old) => !old)}
+                  >
+                    {showPassword ? (
+                      <ViewOffIcon boxSize="20px" />
+                    ) : (
+                      <ViewIcon boxSize="20px" />
+                    )}
+                  </Stack>
+                </InputRightElement>
+              )}
+            </InputGroup>
           </Box>
           <Button
             isDisabled={password.length < 6}

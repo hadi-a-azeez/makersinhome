@@ -25,6 +25,7 @@ const SignIn = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorCode, setErrorCode] = useState();
   const [showPassword, setShowPassword] = useState(false);
 
   const [isLoginError, setIsLoginError] = useState(false);
@@ -46,6 +47,7 @@ const SignIn = () => {
     setIsLoading(true);
 
     let response = await signinUserAPI(loginUsername, loginPassword);
+    setErrorCode(response.data.error.code);
     console.log(response);
     setIsLoading(false);
     // check if login detials are incorrect
@@ -64,7 +66,11 @@ const SignIn = () => {
       </div>
       {isLoginError && (
         <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
-          <h1>Please check your login details</h1>
+          <h1>
+            {errorCode === 101
+              ? "This Number Isnt Registered."
+              : "Your Password Is Wrong"}
+          </h1>
         </Box>
       )}
       <div className={styles.input_group}>
