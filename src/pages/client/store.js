@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./css/store.module.css";
 import { ArrowDownIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { useHistory, withRouter } from "react-router-dom";
+import SaavIcon from "../../assets/ssav_logo.png";
 import { getStoreDataAll } from "../../api/custStoreAPI";
 //import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
@@ -19,6 +20,8 @@ import {
   Text,
   PopoverContent,
   PopoverHeader,
+  Heading,
+  Flex,
 } from "@chakra-ui/react";
 
 import {
@@ -162,7 +165,30 @@ const Store = (props) => {
                   <Image src={Placeholder} borderRadius="full" boxSize="46px" />
                 }
               />
-              <h2 className={styles.logo_name}>{storeData.account_store}</h2>
+              <Flex ml="8px" direction="column" overflow="hidden">
+                <h2 className={styles.logo_name}>{storeData.account_store}</h2>
+                <Box
+                  mt="-10px"
+                  display="flex"
+                  flexDirection="row"
+                  onClick={() => history.push("/")}
+                  alignItems="center"
+                >
+                  <Text mr="10px" color="gray.500" fontSize="10px" mt="5px">
+                    Powered by
+                  </Text>
+                  <Image w="11px" src={SaavIcon} ml="-6px" mt="4px" />
+                  <Heading
+                    ml="1px"
+                    mt="5px"
+                    color="#636363"
+                    fontSize="12px"
+                    fontFamily="elemen"
+                  >
+                    Saav.in
+                  </Heading>
+                </Box>
+              </Flex>
             </div>
             <div className={styles.whatsapp_support_button}>
               <img
