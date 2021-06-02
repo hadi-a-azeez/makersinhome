@@ -6,6 +6,10 @@
   background-color: #f1f1f1;
   min-height: 100vh;
 }
+.text {
+  font-size: 14px;
+  font-weight: 500;
+}
 .btn {
   padding: 18px 0px;
   border-radius: 4px;

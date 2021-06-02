@@ -114,7 +114,7 @@ const Dashboard = () => {
           p="8px"
           backgroundColor="#fff"
         >
-          <Text fontWeight="500">🎉 Official Saav Sellers Group</Text>
+          <h1 className={styles.text}>🎉 Official Saav Sellers Group</h1>
 
           <button
             className={styles.btn_whatsapp}
