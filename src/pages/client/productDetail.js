@@ -235,7 +235,9 @@ const ProductDetail = (props) => {
           ) : (
             productData?.products_images.map((image) => (
               <Image
-                w="85%"
+                w="auto"
+                objectFit="cover"
+                maxW="85%"
                 mr="3px"
                 onClick={() => {
                   setPopupImage(`${productImagesRoot}/${image.product_image}`);

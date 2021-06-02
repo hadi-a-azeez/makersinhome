@@ -29,6 +29,7 @@ const Categories = () => {
   const [isLogin, setIsLogin] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [categoryDeleteId, setCategoryDeleteId] = useState(); //for accessing category id in modal
@@ -37,11 +38,12 @@ const Categories = () => {
   useEffect(() => {
     const getCategoriesData = async () => {
       setIsLoading(true);
-      const Data = await getCategoriesAPI();
-      setIsLogin(Data.data.login);
-      setCategoriesArray(Data.data.data);
+      const response = await getCategoriesAPI();
+      setIsLogin(response.data.login);
+      setCategoriesArray(response.data.data);
+      setUserInfo(response.data.user);
       setIsLoading(false);
-      console.log(Data);
+      console.log(response);
     };
     getCategoriesData();
   }, []);
@@ -120,6 +122,19 @@ const Categories = () => {
                     }}
                   >
                     Edit Category
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (navigator.share) {
+                        navigator.share({
+                          title: item.cat_name,
+                          url: `https://saav.in/${userInfo.account_store_link}/${item.id}`,
+                        });
+                      }
+                    }}
+                  >
+                    Share Category
                   </MenuItem>
                   <MenuItem
                     color="tomato"

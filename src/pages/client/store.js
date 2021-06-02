@@ -47,6 +47,7 @@ const Store = (props) => {
   let history = useHistory();
 
   const storeLink = props.match.params.storelink;
+  const categoryId = props.match.params.category_id;
   const [storeData, setStoreData] = useState({});
   const [storeCategories, setStoreCategories] = useState([]);
 
@@ -64,6 +65,7 @@ const Store = (props) => {
   const { sortName, setSortName } = useFrontStore();
 
   useEffect(() => {
+    categoryId && setCatSelected(categoryId);
     const getData = async () => {
       storeProducts.length < 1 && setIsLoading(true);
       const storeResponse = await getStoreDataAll(storeLink);
