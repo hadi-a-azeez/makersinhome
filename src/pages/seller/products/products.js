@@ -95,7 +95,7 @@ const Products = (props) => {
                   <h1 className={styles.heading_bold_product}>
                     {item.product_name}
                   </h1>
-                  <Stat>
+                  {/* <Stat>
                     <StatNumber mt="2px" fontSize="18px" fontWeight="500">{`₹${
                       item.products_variants.length > 0
                         ? item.products_variants?.reduce((prev, curr) =>
@@ -105,6 +105,19 @@ const Products = (props) => {
                           )
                         : item.product_sale_price
                     }`}</StatNumber>
+                  </Stat> */}
+                  <Stat>
+                    <StatNumber mt="2px" fontSize="18px" fontWeight="500">
+                      {`₹${
+                        item.products_variants.length > 0
+                          ? Math.min(
+                              ...item.products_variants.map(
+                                (vari) => vari.variant_sale_price
+                              )
+                            )
+                          : item.product_sale_price
+                      }`}
+                    </StatNumber>
                   </Stat>
                   <div className={styles.stock_block}>
                     {item.product_stock ? (

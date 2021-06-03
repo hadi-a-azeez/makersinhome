@@ -62,13 +62,9 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/status" component={StoreStatus} />
           <Route exact path="/payment" component={Payment} />
-
-          <Route
-            exact
-            path="/store/:storelink/:category_id?"
-            component={Store}
-          />
           <Route exact path="/store/search/:storeId" component={Search} />
+
+          <Route path="/store/:storelink/:category_id?" component={Store} />
           <Route exact path="/cart/:store_id" component={StoreCart} />
           <Route
             exact
