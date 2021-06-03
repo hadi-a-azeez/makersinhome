@@ -84,7 +84,7 @@ const Nux = ({ userInfo, countData }) => {
             <h1 className={styles.profile_heading}>
               {userInfo.account_store_image === null
                 ? "Add store image"
-                : "Great!"}
+                : "Great, You have store image"}
             </h1>
             <h1 className={styles.profile_sub_heading}>
               Your store image will be visible to your viewers
