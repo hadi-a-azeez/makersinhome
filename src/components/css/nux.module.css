@@ -1,0 +1,117 @@
+/* nux css */
+.nux_card {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  height: auto;
+  padding: 0.5rem;
+  margin-bottom: 80px;
+  margin-top: 1rem;
+  padding: 20px 0px 20px 0px;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background: white;
+}
+.card_body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.left_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+}
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #00b140;
+}
+.tick {
+  height: 1.6rem;
+  width: auto;
+  filter: invert(97%) sepia(35%) saturate(0%) hue-rotate(328deg)
+    brightness(111%) contrast(100%);
+}
+.circle > h1 {
+  color: white;
+  font-size: 19px;
+  font-weight: 500;
+}
+.circle_outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 0.2rem solid #00b140;
+}
+.circle_outline > h1 {
+  color: black;
+  font-size: 19px;
+  font-weight: 500;
+}
+.line {
+  width: 0.15rem;
+  height: 6rem;
+  background-color: #00b140;
+}
+.right_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+}
+.child_section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.profile_heading {
+  font-size: 18px;
+  font-weight: 500;
+}
+.profile_sub_heading {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3rem;
+  margin-top: 0.2rem;
+  color: rgb(100, 100, 100);
+}
+.profile_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  border-radius: 0.3rem;
+  background: #00b140;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+.profile_button_disabled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  border-radius: 0.3rem;
+  background: #c9c9c9;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+}
+.margin_top_profile {
+  margin-top: 1.7rem;
+}

@@ -8,6 +8,7 @@ import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
+import Nux from "../../../components/nux";
 
 import {
   SimpleGrid,
@@ -18,7 +19,6 @@ import {
   Stack,
   Text,
   useToast,
-  Button,
 } from "@chakra-ui/react";
 import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
@@ -31,6 +31,7 @@ import copyText from "../../../components/copyText";
 const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const toast = useToast();
 
@@ -51,17 +52,21 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     //get count of products and catgories of the current user
     const getCount = async () => {
       const response = await getCountAPI();
+      console.log(response);
       setCountData(response.data.data);
     };
     const getUser = async () => {
       const response = await getUserInfo();
+      console.log(response);
       setUserInfo(response.data.data);
     };
     getCount();
     getUser();
+    setIsLoading(false);
   }, []);
   return (
     <>
@@ -298,6 +303,7 @@ const Dashboard = () => {
             )}
           </Stack>
         </div>
+        <Nux userInfo={userInfo} countData={countData} />
         <BottomNavigationMenu />
       </div>
     </>
