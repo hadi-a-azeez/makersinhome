@@ -13,6 +13,7 @@ import { CircularProgress } from "@material-ui/core";
 import InstagramImport from "./pages/seller/products/instagramImport";
 import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
+import Payment from "./pages/payment";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -60,6 +61,8 @@ function App() {
           />
           <Route exact path="/" component={Home} />
           <Route exact path="/status" component={StoreStatus} />
+          <Route exact path="/payment" component={Payment} />
+
           <Route
             exact
             path="/store/:storelink/:category_id?"
