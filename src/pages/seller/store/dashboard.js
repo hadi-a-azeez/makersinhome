@@ -303,7 +303,11 @@ const Dashboard = () => {
             )}
           </Stack>
         </div>
-        <Nux userInfo={userInfo} countData={countData} />
+        <Nux
+          storeImage={userInfo.account_store_image}
+          catCount={countData.cat_count}
+          productCount={countData.products_count}
+        />
         <BottomNavigationMenu />
       </div>
     </>
