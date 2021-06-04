@@ -8,7 +8,7 @@ import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
 import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
-import Nux from "../../../components/nux";
+import Nux from "../../../components/nux/index";
 
 import {
   SimpleGrid,
