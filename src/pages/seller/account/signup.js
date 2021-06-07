@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styles from "../css/signup.module.css";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
+  Stack,
+  InputRightElement,
   FormControl,
   FormLabel,
   Input,
@@ -25,12 +28,12 @@ const SignUp = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const history = useHistory();
 
   const handleSignUpClick = async () => {
     let isValidate = validation();
-    console.log(isValidate);
     if (isValidate) {
       setIsLoading(true);
       const registerResponse = await axios.post(
@@ -99,13 +102,29 @@ const SignUp = () => {
           <FormLabel color="gray.500" fontWeight="400">
             Password
           </FormLabel>
-          <Input
-            type="text"
-            size="lg"
-            placeholder="••••••••••••"
-            onChange={updateRegister}
-            name="account_password"
-          />
+          <InputGroup size="md">
+            <Input
+              onChange={updateRegister}
+              name="account_password"
+              placeholder="••••••••••••"
+              type={showPassword ? "text" : "password"}
+              size="lg"
+            />
+            <InputRightElement height="100%" mr="5px">
+              <Stack
+                h="100%"
+                direction="column"
+                justifyContent="center"
+                onClick={() => setShowPassword((old) => !old)}
+              >
+                {showPassword ? (
+                  <ViewOffIcon boxSize="20px" />
+                ) : (
+                  <ViewIcon boxSize="20px" />
+                )}
+              </Stack>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
         <FormControl w="90%" mt="3">
           <FormLabel color="gray.500" fontWeight="400">

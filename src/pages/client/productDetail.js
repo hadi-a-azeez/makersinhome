@@ -108,9 +108,8 @@ const ProductDetail = (props) => {
     addToCartState({
       store_id: storeData.id,
       product_id: productData.id,
-      product_name: productData.product_name,
-      product_image: productData.products_images[0].product_image,
-      product_price: productFinalPrice,
+      ...productData,
+      valid: true,
       product_variant: selectedVariant,
       product_quantity: 1,
       //unique id for identify with reference to variant

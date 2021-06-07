@@ -11,42 +11,165 @@ import {
   Text,
   Image,
   Heading,
+  Alert,
+  AlertIcon,
+  Box,
+  Grid,
+  CircularProgress,
 } from "@chakra-ui/react";
-import Placeholder from "../../assets/placeholder.png";
+import DeepDiff from "deep-diff";
+
 import CartIcon from "../../assets/shopping_bag_empty.png";
 //import CartIconFilled from "../../assets/cart-filled.svg";
-import { getStoreDataByIdAPI } from "../../api/custStoreAPI";
+import {
+  getStoreDataByIdAPI,
+  getStoreProductsByArray,
+} from "../../api/custStoreAPI";
 import useStore from "../../cartState";
 import _ from "lodash";
 import { productImagesRoot } from "../../config";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
+import ProductCardCart from "./components/ProductCardCart";
 
 const StoreCart = (props) => {
   const history = useHistory();
   const [storeData, setStoreData] = useState({});
-
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
+  const [priceUpdatedProducts, setPriceUpdatedProducts] = useState([]);
   const cartProducts = useStore((state) => state.products);
-  const deleteCartProduct = useStore((state) => state.deleteProduct);
-  const addCartQuantity = useStore((state) => state.addQuantity);
-  const removeCartQuantity = useStore((state) => state.removeQuantity);
+  const setCartProducts = useStore((state) => state.setCartProducts);
+  const [cartProductsUpdated, setCartProductsUpdated] = useState([]);
 
   let storeId = props.match.params.store_id;
 
+  const cartActions = {
+    deleteProduct: (product) => {
+      setCartProductsUpdated((old) =>
+        old.filter((prd) => prd.product_id_gen != product.product_id_gen)
+      );
+    },
+    addQuantity: (product) => {
+      const productIndex = cartProductsUpdated.findIndex(
+        (productInState) =>
+          productInState.product_id_gen === product.product_id_gen
+      );
+
+      const productsArr = [...cartProductsUpdated];
+      productsArr[productIndex] = {
+        ...productsArr[productIndex],
+        product_quantity: ++productsArr[productIndex].product_quantity,
+      };
+
+      setCartProductsUpdated(productsArr);
+    },
+    removeQuantity: (product) => {
+      const productIndex = cartProductsUpdated.findIndex(
+        (productInState) =>
+          productInState.product_id_gen === product.product_id_gen
+      );
+
+      const productsArr = [...cartProductsUpdated];
+      if (productsArr[productIndex].product_quantity !== 1)
+        productsArr[productIndex] = {
+          ...productsArr[productIndex],
+          product_quantity: --productsArr[productIndex].product_quantity,
+        };
+
+      setCartProductsUpdated(productsArr);
+    },
+  };
   // get store details from server
   useEffect(() => {
-    const getStoreDetails = async () => {
+    const fetchAPI = async () => {
       const response = await getStoreDataByIdAPI(storeId);
       console.log(response);
       setStoreData(response.data.data);
     };
-    getStoreDetails();
+    fetchAPI();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: productsFetched } = await getStoreProductsByArray(
+        cartProducts
+          .filter((prd) => prd.store_id == storeId)
+          .map((item) => item.product_id)
+      );
+
+      if (!cartProducts[0]?.product_sale_price) {
+        return setCartProducts([]);
+      }
+
+      let mergedProducts = cartProducts
+        .filter((prd) => prd.store_id == storeId)
+        .map((item) => [
+          item,
+          productsFetched.data.find(
+            (element) => item.product_id === element.id
+          ),
+        ]);
+
+      //compare in cart and products from server
+      let filteredProducts = mergedProducts.map((item) => {
+        if (item[1] && item[1].product_stock === 1) {
+          if (item[1].products_variants.length > 0) {
+            const selectedVariant = item[1].products_variants.find(
+              (element) => element.id === item[0].product_variant.id
+            );
+            if (selectedVariant) {
+              if (
+                selectedVariant.variant_sale_price !==
+                item[0].product_variant.variant_sale_price
+              ) {
+                setPriceUpdatedProducts((old) => [
+                  ...old,
+                  {
+                    name: item[0].product_name,
+                    old: item[0].product_variant.variant_sale_price,
+                    new: selectedVariant.variant_sale_price,
+                  },
+                ]);
+              }
+              return {
+                ...item[0],
+                ...item[1],
+                product_variant: selectedVariant,
+                valid: true,
+              };
+            }
+            return { ...item[0], valid: false };
+          } else {
+            if (item[0].product_sale_price !== item[1].product_sale_price) {
+              setPriceUpdatedProducts((old) => [
+                ...old,
+                {
+                  name: item[0].product_name,
+                  old: item[0].product_sale_price,
+                  new: item[1].product_sale_price,
+                },
+              ]);
+            }
+            return { ...item[0], ...item[1], valid: true };
+          }
+        } else return { ...item[0], valid: false };
+      });
+
+      setIsCartEmpty(filteredProducts.some((item) => item.valid));
+
+      setCartProductsUpdated(filteredProducts);
+    };
+
+    cartProducts.filter((prd) => prd.store_id == storeId).length > 0 &&
+    cartProductsUpdated.length < 1
+      ? fetchData()
+      : setIsCartEmpty(true);
+  }, [cartProducts]);
 
   const whatsappBuy = async () => {
     updateMessagesStarted(storeId);
 
-    const productsMsg = cartProducts
-      .filter((prd) => prd.store_id == storeId)
+    const productsMsg = cartProductsUpdated
+      .filter((prd) => prd.valid)
       .map(
         (item) =>
           `• ${item.product_name} ${
@@ -57,8 +180,9 @@ const StoreCart = (props) => {
       );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
-    )}%0D%0A Total: ₹${cartProducts
-      .filter((prd) => prd.store_id == storeId)
+    )}%0D%0A Total: ₹${cartProductsUpdated
+      .filter((prd) => prd.valid)
+
       .reduce(
         (acc, curr) => acc + curr.product_quantity * curr.product_price,
         0
@@ -102,94 +226,53 @@ const StoreCart = (props) => {
             }}
           >
             ₹
-            {cartProducts
-              .filter((prd) => prd.store_id == storeId)
+            {cartProductsUpdated
+              .filter((prd) => prd.valid)
+
               .reduce(
-                (acc, curr) => acc + curr.product_quantity * curr.product_price,
+                (acc, curr) =>
+                  acc +
+                  curr.product_quantity *
+                    (curr.products_variants.length > 0
+                      ? curr.product_variant.variant_sale_price
+                      : curr.product_sale_price),
                 0
               )}
           </div>
         </Stack>
       </Stack>
+      {cartProductsUpdated.filter((prd) => !prd.valid).length > 0 && (
+        <Alert status="warning" w="90%" borderRadius="10px">
+          <AlertIcon />
+          Some Products which are updated is removed from cart.
+        </Alert>
+      )}
 
+      {priceUpdatedProducts?.map((item) => {
+        return (
+          <Alert status="info" w="90%" borderRadius="10px" mt="10px">
+            <AlertIcon />
+            {` The price of ${item.name} is updated from ₹${item.old} to ₹${item.new} `}
+          </Alert>
+        );
+      })}
       <Flex flexDirection="column" w="95%" mb="140px">
-        {cartProducts.filter((prd) => prd.store_id == storeId).length > 0 ? (
-          cartProducts
-            .filter((prd) => prd.store_id == storeId)
+        {cartProductsUpdated.length > 0 ? (
+          cartProductsUpdated
+            .filter((prd) => prd.valid)
             .map((product) => {
               return (
-                <div
-                  className={styles.product_item}
+                <ProductCardCart
+                  product={product}
                   key={product.product_id_gen}
-                >
-                  <IconButton
-                    colorScheme="gray"
-                    borderRadius="100%"
-                    size="sm"
-                    position="absolute"
-                    right="8px"
-                    top="8px"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteCartProduct(product);
-                    }}
-                    icon={<DeleteIcon color="red.400" w={4} h={4} />}
-                  />
-                  <img
-                    src={
-                      product.product_image
-                        ? `${productImagesRoot}/min/${product.product_image}`
-                        : Placeholder
-                    }
-                    alt="img"
-                    onClick={() =>
-                      history.push(`/product/${product.product_id}`)
-                    }
-                    className={styles.product_image}
-                  />
-
-                  <div className={styles.product_details}>
-                    <h1
-                      onClick={() =>
-                        history.push(`/product/${product.product_id}`)
-                      }
-                      className={styles.product_name}
-                    >
-                      {product.product_name}
-                    </h1>
-                    <h1 className={styles.product_price}>
-                      ₹{product.product_price}
-                    </h1>
-                    {product.product_variant.variant_name && (
-                      <h1 className={styles.subheading}>
-                        Variant: {product.product_variant.variant_name}
-                      </h1>
-                    )}
-                    <div className={styles.quantity_container}>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeCartQuantity(product);
-                        }}
-                        className={styles.small_circle}
-                      >
-                        -
-                      </div>
-                      <Text p="6px">{product.product_quantity}</Text>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addCartQuantity(product);
-                        }}
-                        className={styles.small_circle}
-                      >
-                        +
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  actions={cartActions}
+                />
               );
             })
+        ) : !isCartEmpty ? (
+          <Stack w="100%" h="80vh" justifyContent="center" alignItems="center">
+            <CircularProgress color="green.500" isIndeterminate />
+          </Stack>
         ) : (
           <Flex direction="column" alignItems="center" mt="40px">
             <Image src={CartIcon} w="70%" />
@@ -223,7 +306,7 @@ const StoreCart = (props) => {
         {/* product item ends here */}
       </Flex>
 
-      {cartProducts.filter((prd) => prd.store_id == storeId).length > 0 && (
+      {cartProductsUpdated.filter((prd) => prd.valid).length > 0 && (
         <Button
           position="fixed"
           bottom="35px"

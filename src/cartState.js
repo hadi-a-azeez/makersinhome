@@ -4,6 +4,10 @@ import _ from "lodash";
 
 let useStore = (set, get) => ({
   products: [],
+  setCartProducts: (productsNew) => {
+    set({ products: [...productsNew] });
+  },
+
   addProduct: (product) => {
     //check if product already exists
     let isProductContains = get().products.some(

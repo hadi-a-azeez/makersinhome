@@ -39,6 +39,14 @@ export const getStoreDataByIdAPI = async (userId) => {
   return response;
 };
 
+//get store products by array(multiple products)
+export const getStoreProductsByArray = async (products_id) => {
+  const response = await axios
+    .post(`${apiRoot}/client/products/array`, { products_id })
+    .catch((err) => console.log(err));
+  return response;
+};
+
 //get store products by category
 export const getStoreProducts = async (
   userId,
