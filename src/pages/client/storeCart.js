@@ -154,7 +154,7 @@ const StoreCart = (props) => {
         } else return { ...item[0], valid: false };
       });
 
-      setIsCartEmpty(filteredProducts.some((item) => item.valid));
+      setIsCartEmpty(filteredProducts.length < 1);
 
       setCartProductsUpdated(filteredProducts);
     };
@@ -175,16 +175,23 @@ const StoreCart = (props) => {
           `• ${item.product_name} ${
             item.product_variant && `(${item.product_variant.variant_name})`
           }   x   ${item.product_quantity} - ₹${
-            item.product_quantity * item.product_price
+            item.product_quantity *
+            (item.products_variants.length > 0
+              ? item.product_variant.variant_sale_price
+              : item.product_sale_price)
           }%0D%0A `
       );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
     )}%0D%0A Total: ₹${cartProductsUpdated
       .filter((prd) => prd.valid)
-
       .reduce(
-        (acc, curr) => acc + curr.product_quantity * curr.product_price,
+        (acc, curr) =>
+          acc +
+          curr.product_quantity *
+            (curr.products_variants.length > 0
+              ? curr.product_variant.variant_sale_price
+              : curr.product_sale_price),
         0
       )}%0D%0A_______________________%0D%0A%0D%0A Powered by Saav.in`;
     window.location.replace(
@@ -228,7 +235,6 @@ const StoreCart = (props) => {
             ₹
             {cartProductsUpdated
               .filter((prd) => prd.valid)
-
               .reduce(
                 (acc, curr) =>
                   acc +
@@ -244,7 +250,7 @@ const StoreCart = (props) => {
       {cartProductsUpdated.filter((prd) => !prd.valid).length > 0 && (
         <Alert status="warning" w="90%" borderRadius="10px">
           <AlertIcon />
-          Some Products which are updated is removed from cart.
+          To order please remove products that are out of stock.
         </Alert>
       )}
 
@@ -258,17 +264,16 @@ const StoreCart = (props) => {
       })}
       <Flex flexDirection="column" w="95%" mb="140px">
         {cartProductsUpdated.length > 0 ? (
-          cartProductsUpdated
-            .filter((prd) => prd.valid)
-            .map((product) => {
-              return (
-                <ProductCardCart
-                  product={product}
-                  key={product.product_id_gen}
-                  actions={cartActions}
-                />
-              );
-            })
+          cartProductsUpdated.map((product) => {
+            return (
+              <ProductCardCart
+                isDisabled={!product.valid}
+                product={product}
+                key={product.product_id_gen}
+                actions={cartActions}
+              />
+            );
+          })
         ) : !isCartEmpty ? (
           <Stack w="100%" h="80vh" justifyContent="center" alignItems="center">
             <CircularProgress color="green.500" isIndeterminate />
@@ -309,6 +314,9 @@ const StoreCart = (props) => {
       {cartProductsUpdated.filter((prd) => prd.valid).length > 0 && (
         <Button
           position="fixed"
+          isDisabled={
+            cartProductsUpdated.filter((prd) => !prd.valid).length > 0
+          }
           bottom="35px"
           isLoading={_.isEmpty(storeData)}
           mt="5"

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "../css/favourites.module.css";
 import { useHistory } from "react-router-dom";
 import useStore from "../../../cartState";
-import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, CloseIcon, DeleteIcon } from "@chakra-ui/icons";
+import { UilTimes } from "@iconscout/react-unicons";
 import Placeholder from "../../../assets/placeholder.png";
 import { IconButton, Text } from "@chakra-ui/react";
 import { productImagesRoot } from "../../../config";
 
-const ProductCardCart = ({ product, actions }) => {
+const ProductCardCart = ({ product, actions, isDisabled }) => {
   const history = useHistory();
 
   const deleteCartProduct = useStore((state) => state.deleteProduct);
@@ -27,7 +28,7 @@ const ProductCardCart = ({ product, actions }) => {
           deleteCartProduct(product);
           actions.deleteProduct(product);
         }}
-        icon={<DeleteIcon color="red.400" w={4} h={4} />}
+        icon={<UilTimes color="#f23d30" />}
       />
       <img
         src={
@@ -40,7 +41,13 @@ const ProductCardCart = ({ product, actions }) => {
         className={styles.product_image}
       />
 
-      <div className={styles.product_details}>
+      <div
+        className={
+          isDisabled
+            ? `${styles.product_details} ${styles.disabled}`
+            : styles.product_details
+        }
+      >
         <h1
           onClick={() => history.push(`/product/${product.product_id}`)}
           className={styles.product_name}
@@ -58,30 +65,42 @@ const ProductCardCart = ({ product, actions }) => {
             Variant: {product.product_variant.variant_name}
           </h1>
         )}
-        <div className={styles.quantity_container}>
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
+        {!isDisabled && (
+          <div className={styles.quantity_container}>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
 
-              removeCartQuantity(product);
-              actions.removeQuantity(product);
-            }}
-            className={styles.small_circle}
-          >
-            -
+                removeCartQuantity(product);
+                actions.removeQuantity(product);
+              }}
+              className={styles.small_circle}
+            >
+              -
+            </div>
+            <Text p="6px">{product.product_quantity}</Text>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                addCartQuantity(product);
+                actions.addQuantity(product);
+              }}
+              className={styles.small_circle}
+            >
+              +
+            </div>
           </div>
-          <Text p="6px">{product.product_quantity}</Text>
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              addCartQuantity(product);
-              actions.addQuantity(product);
-            }}
-            className={styles.small_circle}
+        )}
+        {isDisabled && (
+          <Text
+            className={styles.out_of_stock}
+            fontWeight="600"
+            fontFamily="elemen"
+            fontSize="15px"
           >
-            +
-          </div>
-        </div>
+            OUT OF STOCK
+          </Text>
+        )}
       </div>
     </div>
   );

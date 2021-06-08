@@ -631,7 +631,8 @@ const ProductEdit = (props) => {
                                 )}
                               </Stack>
                               <Button
-                                colorScheme="red"
+                                bgColor="#fff"
+                                color="red.500"
                                 onClick={() => {
                                   deleteServerVariants(variant);
                                   close();
