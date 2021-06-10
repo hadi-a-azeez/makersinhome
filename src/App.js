@@ -14,7 +14,6 @@ import InstagramImport from "./pages/seller/products/instagramImport";
 import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
 import Payment from "./pages/payment";
-import ReactGA from "react-ga";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -40,9 +39,6 @@ const ProductsByCategory = lazy(() =>
 const EditAccount = lazy(() => import("./pages/seller/account/editAccount"));
 
 const App = () => {
-  const TRACKING_ID = "G-HDNH0W018N"; // YOUR_OWN_TRACKING_ID
-  ReactGA.initialize(TRACKING_ID);
-
   return (
     <Router>
       <Suspense
