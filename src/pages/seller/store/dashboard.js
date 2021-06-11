@@ -9,6 +9,7 @@ import { getCountAPI } from "../../../api/sellerProductAPI";
 import { getUserInfo } from "../../../api/sellerAccountAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import Nux from "../../../components/nux/index";
+import PwaInstall from "../../../components/PwaInstall";
 
 import {
   SimpleGrid,
@@ -50,6 +51,11 @@ const Dashboard = () => {
     setUserInfo(modifiedUserInfo);
     console.log(response);
   };
+
+  const isInStandaloneMode = () =>
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone ||
+    document.referrer.includes("android-app://");
 
   useEffect(() => {
     setIsLoading(true);
@@ -108,6 +114,7 @@ const Dashboard = () => {
             </Flex>
           </Flex>
         </Box>
+        {!isInStandaloneMode && <PwaInstall />}
         <Stack
           direction="row"
           justifyContent="center"
