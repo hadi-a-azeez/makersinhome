@@ -41,6 +41,8 @@ const EditAccount = lazy(() => import("./pages/seller/account/editAccount"));
 const App = () => {
   useEffect(() => {
     ReactGA.initialize("UA-198507581-2");
+    ReactGA.pageview(window.location.pathname + window.location.search);
+    console.log("loaded");
   }, []);
 
   return (

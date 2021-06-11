@@ -11,6 +11,8 @@ import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
 //import MenuIcon from "../../assets/bars.svg";
 
+import ReactGA from "react-ga";
+
 import {
   Popover,
   PopoverCloseButton,
@@ -173,7 +175,13 @@ const Store = (props) => {
                   mt="-10px"
                   display="flex"
                   flexDirection="row"
-                  onClick={() => history.push("/")}
+                  onClick={() => {
+                    ReactGA.event({
+                      category: "Branding",
+                      action: `${storeLink} `,
+                    });
+                    history.push("/");
+                  }}
                   alignItems="center"
                 >
                   <Text mr="10px" color="gray.500" fontSize="10px" mt="5px">
