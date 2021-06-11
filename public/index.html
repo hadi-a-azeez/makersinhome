@@ -61,9 +61,10 @@
     <script>
       if ('serviceWorker' in navigator) {
         console.log(window.location.pathname.startsWith('/app'),"path")
-        if(window.location.pathname.startsWith('/app')){
+        if(window.location.pathname.startsWith('/app')||window.location.pathname.startsWith('/login' )){
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
+          console.log(window.location.pathname)
+          navigator.serviceWorker.register('https://saav.in/sw.js')
             .then((reg) => console.log('Success: ', reg.scope))
             .catch((err) => console.log('Failure: ', err));
         })
