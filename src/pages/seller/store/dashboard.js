@@ -114,8 +114,8 @@ const Dashboard = () => {
             </Flex>
           </Flex>
         </Box>
-        {!isInStandaloneMode && <PwaInstall />}
-        <Stack
+        <PwaInstall />
+        {/* <Stack
           direction="row"
           justifyContent="center"
           alignItems="center"
@@ -139,7 +139,7 @@ const Dashboard = () => {
             <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
             Join Now
           </button>
-        </Stack>
+        </Stack> */}
         <SimpleGrid columns={2} spacing={3} w="90%" mt="5" zIndex="1">
           <Box
             height="100px"

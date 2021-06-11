@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from "react";
 import styles from "../pages/seller/css/dashboard.module.css";
 import { Stack } from "@chakra-ui/react";
+let deferredPrompt;
 
 const PwaInstall = () => {
-  const [supportsPWA, setSupportsPWA] = useState(false);
-  const [promptInstall, setPromptInstall] = useState(null);
+  const [installable, setInstallable] = useState(false);
 
   useEffect(() => {
-    const handler = (e) => {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      console.log("we are being triggered :D");
-      setSupportsPWA(true);
-      setPromptInstall(e);
-    };
-    window.addEventListener("beforeinstallprompt", handler);
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI notify the user they can install the PWA
+      setInstallable(true);
+    });
 
-    return () => window.removeEventListener("transitionend", handler);
+    window.addEventListener("appinstalled", () => {
+      // Log install to analytics
+      console.log("INSTALL: Success");
+    });
   }, []);
 
-  const onClick = (evt) => {
-    evt.preventDefault();
-    if (!promptInstall) {
-      return;
-    }
-    promptInstall.prompt();
+  const handleInstallClick = (e) => {
+    // Hide the app provided install promotion
+    setInstallable(false);
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the install prompt");
+      } else {
+        console.log("User dismissed the install prompt");
+      }
+    });
   };
-  if (!supportsPWA) {
-    return null;
-  }
-  return (
+
+  return installable ? (
     <Stack
       direction="row"
       justifyContent="center"
@@ -42,11 +51,11 @@ const PwaInstall = () => {
     >
       <h1 className={styles.text}>🎉 Saav App Released</h1>
 
-      <button className={styles.btn_whatsapp} onClick={onClick}>
+      <button className={styles.btn_whatsapp} onClick={handleInstallClick}>
         Install Now
       </button>
     </Stack>
-  );
+  ) : null;
 };
 
 export default PwaInstall;
