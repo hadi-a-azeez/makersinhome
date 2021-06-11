@@ -1,9 +1,8 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Search from "./pages/client/search";
 import Store from "./pages/client/store";
 import StoreStatus from "./pages/client/status";
-
 import StoreFavourates from "./pages/client/storeFavourates";
 import StoreCart from "./pages/client/storeCart";
 import ProductDetail from "./pages/client/productDetail";
@@ -14,6 +13,7 @@ import InstagramImport from "./pages/seller/products/instagramImport";
 import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
 import Payment from "./pages/payment";
+import ReactGA from "react-ga";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -39,6 +39,10 @@ const ProductsByCategory = lazy(() =>
 const EditAccount = lazy(() => import("./pages/seller/account/editAccount"));
 
 const App = () => {
+  useEffect(() => {
+    ReactGA.initialize("UA-198507581-2");
+  }, []);
+
   return (
     <Router>
       <Suspense
