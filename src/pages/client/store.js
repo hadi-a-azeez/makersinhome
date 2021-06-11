@@ -9,8 +9,7 @@ import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
 import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
-//import MenuIcon from "../../assets/bars.svg";
-
+//import MenuIcon from "../../assets/bars.svg"
 import ReactGA from "react-ga";
 
 import {
