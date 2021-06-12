@@ -18,3 +18,14 @@ export const updateStoreStatusAPI = async (storeId) => {
     return error;
   }
 };
+
+export const updateStoreNotifTokenAPI = async (account_notif_token) => {
+  try {
+    const response = await axios_seller.post(`/seller/store/addnotiftoken`, {
+      account_notif_token,
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

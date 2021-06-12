@@ -14,6 +14,7 @@ import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
 import Payment from "./pages/payment";
 import ReactGA from "react-ga";
+import firebase from "./firebase";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));

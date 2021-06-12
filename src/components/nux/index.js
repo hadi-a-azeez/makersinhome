@@ -2,15 +2,36 @@ import React from "react";
 import styles from "../css/nux.module.css";
 import { useHistory } from "react-router-dom";
 import Task from "./task";
+import firebase from "../../firebase";
+import { updateStoreNotifTokenAPI } from "../../api/sellerStoreAPI";
+import ReactGA from "react-ga";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Nux = ({ storeImage, catCount, productCount }) => {
   const history = useHistory();
+
+  const requestNotification = async () => {
+    const requestResponse = await Notification.requestPermission();
+    console.log(requestResponse);
+    if (requestResponse === "granted") {
+      ReactGA.event({
+        category: "Notification",
+        action: `From NUX`,
+      });
+      const messaging = firebase.messaging();
+      const token = await messaging.getToken();
+      console.log(token);
+      const response = await updateStoreNotifTokenAPI(token);
+      console.log(response);
+    }
+  };
 
   return (
     <>
       {/* complete profile section */}
       <div className={styles.nux_card}>
-        <Task
+        {/* <Task
           isLine={true}
           isCompleted={storeImage === null ? false : true}
           number="1"
@@ -21,6 +42,18 @@ const Nux = ({ storeImage, catCount, productCount }) => {
           subHeading="Your store image will be visible to your viewers"
           btnText="Add store image"
           onClick={() => history.push("/app/edit_account")}
+        /> */}
+        <Task
+          isLine={true}
+          isCompleted={Notification.permission === "granted"}
+          number="1"
+          heading={{
+            success: "You will Get Order Notifications.",
+            incomplete: "Allow Order Notifications",
+          }}
+          subHeading="You will get notification in your phone when order is placed."
+          btnText="Allow Now"
+          onClick={requestNotification}
         />
         <Task
           isLine={true}

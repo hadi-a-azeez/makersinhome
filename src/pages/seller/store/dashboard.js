@@ -10,6 +10,7 @@ import { getUserInfo } from "../../../api/sellerAccountAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import Nux from "../../../components/nux/index";
 import PwaInstall from "../../../components/PwaInstall";
+import firebase from "../../../firebase";
 
 import {
   SimpleGrid,
@@ -52,10 +53,11 @@ const Dashboard = () => {
     console.log(response);
   };
 
-  const isInStandaloneMode = () =>
-    window.matchMedia("(display-mode: standalone)").matches ||
-    window.navigator.standalone ||
-    document.referrer.includes("android-app://");
+  const requestNotification = async () => {
+    const requestResponse = await Notification.requestPermission();
+    console.log(requestResponse);
+    const messaging = firebase.messaging();
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -88,14 +90,6 @@ const Dashboard = () => {
               : { backgroundColor: "red" }
           }
         >
-          <Switch
-            size="lg"
-            right="6"
-            top="5"
-            pos="absolute"
-            isChecked={userInfo.account_store_status ? true : false}
-            onChange={(e) => flipStoreStatus(userInfo.id)}
-          />
           <Flex direction="row" w="90%" mt="5">
             <Image
               borderRadius="full"

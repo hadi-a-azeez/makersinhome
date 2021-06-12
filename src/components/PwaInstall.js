@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "../pages/seller/css/dashboard.module.css";
 import { Stack } from "@chakra-ui/react";
+import WhatsappLogo from "../assets/logo-whatsapp.svg";
+import ReactGA from "react-ga";
+
 let deferredPrompt;
 
 const PwaInstall = () => {
@@ -23,6 +26,10 @@ const PwaInstall = () => {
   }, []);
 
   const handleInstallClick = (e) => {
+    ReactGA.event({
+      category: "PWA Install",
+      action: `Installed PWA From Dashboard `,
+    });
     // Hide the app provided install promotion
     setInstallable(false);
     // Show the install prompt
@@ -55,7 +62,33 @@ const PwaInstall = () => {
         Install Now
       </button>
     </Stack>
-  ) : null;
+  ) : (
+    <Stack
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      borderRadius="30px"
+      w="90%"
+      mt="-60px"
+      zIndex="1"
+      p="8px"
+      backgroundColor="#fff"
+    >
+      <h1 className={styles.text}>🎉 Official Saav Sellers Group</h1>
+
+      <button
+        className={styles.btn_whatsapp}
+        onClick={() =>
+          window.location.replace(
+            `https://chat.whatsapp.com/JWEKR2kuhpR81ZGB5aa4FQ`
+          )
+        }
+      >
+        <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
+        Join Now
+      </button>
+    </Stack>
+  );
 };
 
 export default PwaInstall;
