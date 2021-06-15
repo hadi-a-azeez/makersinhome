@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/favourites.module.css";
 import { useHistory } from "react-router-dom";
-import { ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import Whatsapp from "../../assets/logo-whatsapp.svg";
 import {
   IconButton,
@@ -13,11 +13,8 @@ import {
   Heading,
   Alert,
   AlertIcon,
-  Box,
-  Grid,
   CircularProgress,
 } from "@chakra-ui/react";
-import DeepDiff from "deep-diff";
 
 import CartIcon from "../../assets/shopping_bag_empty.png";
 //import CartIconFilled from "../../assets/cart-filled.svg";
