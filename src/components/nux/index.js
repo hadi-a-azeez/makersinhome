@@ -8,16 +8,15 @@ import ReactGA from "react-ga";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Nux = ({ storeImage, catCount, productCount }) => {
+const Nux = ({ storeImage, notifToken, productCount }) => {
+  console.log(notifToken, "ncfd");
   const history = useHistory();
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   const [isNotification, setIsNotification] = useState(
-    isSafari ? true : Notification.permission === "granted" ? true : false
+    notifToken === null ? true : false
   );
 
   const requestNotification = async () => {
     const requestResponse = await Notification.requestPermission();
-    console.log(requestResponse);
     if (requestResponse === "granted") {
       setIsNotification(true);
       ReactGA.event({
@@ -37,7 +36,7 @@ const Nux = ({ storeImage, catCount, productCount }) => {
       {/* complete profile section */}
       <div className={styles.nux_card}>
         <p className={styles.card_title}>Tasks</p>
-
+        {console.log(isNotification, "noy")}
         <Task
           isLine={true}
           isCompleted={isNotification}

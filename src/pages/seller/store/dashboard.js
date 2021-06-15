@@ -34,7 +34,7 @@ const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
   const [isLoading, setIsLoading] = useState(false);
-  const [isTasksCompleted, setIsTasksCompleted] = useState(true);
+  const [isTasksCompleted, setIsTasksCompleted] = useState(false);
   const history = useHistory();
   const toast = useToast();
 
@@ -56,27 +56,25 @@ const Dashboard = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    //get count of products and catgories of the current user
-    const getCount = async () => {
-      const response = await getCountAPI();
-      console.log(response);
-      setCountData(response.data.data);
+    const getDataAll = async () => {
+      //get count of products and catgories of the current user
+      const responseCount = await getCountAPI();
+      console.log(responseCount);
+      setCountData(responseCount.data.data);
+
+      const responseUser = await getUserInfo();
+      console.log(responseUser);
+      setUserInfo(responseUser.data.data);
+
+      if (
+        responseCount.data.data.products_count < 1 ||
+        responseUser.data.data.account_store_image === null ||
+        responseUser.data.data.account_notif_token === null
+      ) {
+        setIsTasksCompleted(false);
+      } else setIsTasksCompleted(true);
     };
-    const getUser = async () => {
-      const response = await getUserInfo();
-      console.log(response);
-      setUserInfo(response.data.data);
-    };
-    getCount();
-    getUser();
-    if (countData.products_count < 1 || userInfo.account_store_image === null) {
-      const isSafari = /^((?!chrome|android).)*safari/i.test(
-        navigator.userAgent
-      );
-      isSafari
-        ? setIsTasksCompleted(true)
-        : Notification?.permission !== "granted" && setIsTasksCompleted(false);
-    } else setIsTasksCompleted(true);
+    getDataAll();
     setIsLoading(false);
   }, []);
   return (
@@ -115,7 +113,7 @@ const Dashboard = () => {
         {!isTasksCompleted && (
           <Nux
             storeImage={userInfo.account_store_image}
-            catCount={countData.cat_count}
+            notifToken={userInfo.account_notif_token}
             productCount={countData.products_count}
           />
         )}
@@ -130,6 +128,7 @@ const Dashboard = () => {
           {!isTasksCompleted && (
             <Stack
               direction="column"
+              backgroundColor="#fff"
               justifyContent="center"
               alignItems="center"
               h="120px"
