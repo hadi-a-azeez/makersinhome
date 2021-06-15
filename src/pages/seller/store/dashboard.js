@@ -71,7 +71,11 @@ const Dashboard = () => {
         responseUser.data.data.account_store_image === null ||
         responseUser.data.data.account_notif_token === null
       ) {
-        setIsTasksCompleted(false);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
+
+        setIsTasksCompleted(isSafari ? true : false);
       } else setIsTasksCompleted(true);
     };
     getDataAll();
