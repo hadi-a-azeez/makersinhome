@@ -27,13 +27,14 @@ import { profileImagesRoot } from "../../../config";
 import { Switch } from "@chakra-ui/react";
 import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 import { useHistory } from "react-router-dom";
-import { CopyIcon } from "@chakra-ui/icons";
+import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import copyText from "../../../components/copyText";
 
 const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
   const [isLoading, setIsLoading] = useState(false);
+  const [isTasksCompleted, setIsTasksCompleted] = useState(true);
   const history = useHistory();
   const toast = useToast();
 
@@ -53,12 +54,6 @@ const Dashboard = () => {
     console.log(response);
   };
 
-  const requestNotification = async () => {
-    const requestResponse = await Notification.requestPermission();
-    console.log(requestResponse);
-    const messaging = firebase.messaging();
-  };
-
   useEffect(() => {
     setIsLoading(true);
     //get count of products and catgories of the current user
@@ -74,6 +69,14 @@ const Dashboard = () => {
     };
     getCount();
     getUser();
+    if (countData.products_count < 1 || userInfo.account_store_image === null) {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
+      isSafari
+        ? setIsTasksCompleted(true)
+        : Notification?.permission !== "granted" && setIsTasksCompleted(false);
+    } else setIsTasksCompleted(true);
     setIsLoading(false);
   }, []);
   return (
@@ -109,133 +112,152 @@ const Dashboard = () => {
           </Flex>
         </Box>
         <PwaInstall />
-        {/* <Stack
-          direction="row"
-          justifyContent="center"
+        {!isTasksCompleted && (
+          <Nux
+            storeImage={userInfo.account_store_image}
+            catCount={countData.cat_count}
+            productCount={countData.products_count}
+          />
+        )}
+        <Box
+          mt="30px"
+          w="100%"
+          display="flex"
           alignItems="center"
-          borderRadius="30px"
-          w="90%"
-          mt="-60px"
-          zIndex="1"
-          p="8px"
-          backgroundColor="#fff"
+          justifyContent="center"
+          flexDirection="column"
         >
-          <h1 className={styles.text}>🎉 Official Saav Sellers Group</h1>
-
-          <button
-            className={styles.btn_whatsapp}
-            onClick={() =>
-              window.location.replace(
-                `https://chat.whatsapp.com/JWEKR2kuhpR81ZGB5aa4FQ`
-              )
-            }
+          {!isTasksCompleted && (
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              h="120px"
+              borderRadius="10px"
+              p="10px"
+              w="60%"
+              position="absolute"
+              zIndex="2"
+              boxShadow="rgba(180, 181, 187, 0.2) 0px 8px 24px"
+            >
+              <LockIcon boxSize="40px" />
+              <Text textAlign="center" fontFamily="elemen">
+                Please Complete all tasks to unlock user data.
+              </Text>
+            </Stack>
+          )}
+          <SimpleGrid
+            position="relative"
+            columns={2}
+            spacing={3}
+            w="90%"
+            zIndex="1"
+            filter={isTasksCompleted ? "" : "blur(4px)"}
           >
-            <img src={WhatsappLogo} alt="w" className={styles.whatsappicon} />
-            Join Now
-          </button>
-        </Stack> */}
-        <SimpleGrid columns={2} spacing={3} w="90%" mt="5" zIndex="1">
-          <Box
-            height="100px"
-            w="100%"
-            shadow="base"
-            backgroundColor="white"
-            borderRadius="18px"
-            display="flex"
-            dir="row"
-          >
-            <Image
-              src={VisibleIcon}
-              className={styles.iconFilled}
-              width="5"
-              height="5"
-              mt="4"
-              ml="3"
-            />
-            <Flex direction="column" mt="4" ml="1">
-              <h1 className={styles.card_heading}>Store visits</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData && countData.store_views ? countData.store_views : 0}
-              </h1>
-            </Flex>
-          </Box>
-          <Box
-            height="100px"
-            w="100%"
-            shadow="base"
-            backgroundColor="white"
-            borderRadius="18px"
-            display="flex"
-            dir="row"
-          >
-            <Image
-              src={MessagesIcon}
-              className={styles.iconFilled}
-              width="5"
-              height="5"
-              mt="4"
-              ml="3"
-            />
-            <Flex direction="column" mt="4" ml="1">
-              <h1 className={styles.card_heading}>Messages Started</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData && countData.message_clicks
-                  ? countData.message_clicks
-                  : 0}
-              </h1>
-            </Flex>
-          </Box>
-          <Box
-            onClick={() => history.push("/app/products")}
-            height="100px"
-            w="100%"
-            shadow="base"
-            backgroundColor="white"
-            borderRadius="18px"
-            display="flex"
-            dir="row"
-          >
-            <Image
-              src={ProductsIcon}
-              className={styles.iconFilled}
-              width="5"
-              height="5"
-              mt="4"
-              ml="3"
-            />
-            <Flex direction="column" mt="4" ml="1">
-              <h1 className={styles.card_heading}>Products</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData && countData.products_count}
-              </h1>
-            </Flex>
-          </Box>
-          <Box
-            onClick={() => history.push("/app/categories")}
-            height="100px"
-            w="100%"
-            shadow="base"
-            backgroundColor="white"
-            borderRadius="18px"
-            display="flex"
-            dir="row"
-          >
-            <Image
-              src={CategoriesIcon}
-              className={styles.iconFilled}
-              width="7"
-              height="5"
-              mt="4"
-              ml="3"
-            />
-            <Flex direction="column" mt="4" ml="1">
-              <h1 className={styles.card_heading}>Categories</h1>
-              <h1 className={styles.card_data_bold}>
-                {countData && countData.cat_count}
-              </h1>
-            </Flex>
-          </Box>
-        </SimpleGrid>
+            <Box
+              height="100px"
+              w="100%"
+              shadow="base"
+              backgroundColor="white"
+              borderRadius="18px"
+              display="flex"
+              dir="row"
+            >
+              <Image
+                src={VisibleIcon}
+                className={styles.iconFilled}
+                width="5"
+                height="5"
+                mt="4"
+                ml="3"
+              />
+              <Flex direction="column" mt="4" ml="1">
+                <h1 className={styles.card_heading}>Store visits</h1>
+                <h1 className={styles.card_data_bold}>
+                  {countData && countData.store_views
+                    ? countData.store_views
+                    : 0}
+                </h1>
+              </Flex>
+            </Box>
+            <Box
+              height="100px"
+              w="100%"
+              shadow="base"
+              backgroundColor="white"
+              borderRadius="18px"
+              display="flex"
+              dir="row"
+            >
+              <Image
+                src={MessagesIcon}
+                className={styles.iconFilled}
+                width="5"
+                height="5"
+                mt="4"
+                ml="3"
+              />
+              <Flex direction="column" mt="4" ml="1">
+                <h1 className={styles.card_heading}>Messages Started</h1>
+                <h1 className={styles.card_data_bold}>
+                  {countData && countData.message_clicks
+                    ? countData.message_clicks
+                    : 0}
+                </h1>
+              </Flex>
+            </Box>
+            <Box
+              onClick={() => history.push("/app/products")}
+              height="100px"
+              w="100%"
+              shadow="base"
+              backgroundColor="white"
+              borderRadius="18px"
+              display="flex"
+              dir="row"
+            >
+              <Image
+                src={ProductsIcon}
+                className={styles.iconFilled}
+                width="5"
+                height="5"
+                mt="4"
+                ml="3"
+              />
+              <Flex direction="column" mt="4" ml="1">
+                <h1 className={styles.card_heading}>Products</h1>
+                <h1 className={styles.card_data_bold}>
+                  {countData && countData.products_count}
+                </h1>
+              </Flex>
+            </Box>
+            <Box
+              onClick={() => history.push("/app/categories")}
+              height="100px"
+              w="100%"
+              shadow="base"
+              backgroundColor="white"
+              borderRadius="18px"
+              display="flex"
+              dir="row"
+            >
+              <Image
+                src={CategoriesIcon}
+                className={styles.iconFilled}
+                width="7"
+                height="5"
+                mt="4"
+                ml="3"
+              />
+              <Flex direction="column" mt="4" ml="1">
+                <h1 className={styles.card_heading}>Categories</h1>
+                <h1 className={styles.card_data_bold}>
+                  {countData && countData.cat_count}
+                </h1>
+              </Flex>
+            </Box>
+          </SimpleGrid>
+        </Box>
         <div className={styles.cardPlain}>
           <h1 className={styles.cardPlainHeading}>
             Share link on Social Media
@@ -304,11 +326,7 @@ const Dashboard = () => {
             )}
           </Stack>
         </div>
-        <Nux
-          storeImage={userInfo.account_store_image}
-          catCount={countData.cat_count}
-          productCount={countData.products_count}
-        />
+
         <BottomNavigationMenu />
       </div>
     </>

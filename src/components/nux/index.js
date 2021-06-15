@@ -10,11 +10,16 @@ import { useEffect } from "react";
 
 const Nux = ({ storeImage, catCount, productCount }) => {
   const history = useHistory();
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const [isNotification, setIsNotification] = useState(
+    isSafari ? true : Notification.permission === "granted" ? true : false
+  );
 
   const requestNotification = async () => {
     const requestResponse = await Notification.requestPermission();
     console.log(requestResponse);
     if (requestResponse === "granted") {
+      setIsNotification(true);
       ReactGA.event({
         category: "Notification",
         action: `From NUX`,
@@ -31,21 +36,11 @@ const Nux = ({ storeImage, catCount, productCount }) => {
     <>
       {/* complete profile section */}
       <div className={styles.nux_card}>
-        {/* <Task
-          isLine={true}
-          isCompleted={storeImage === null ? false : true}
-          number="1"
-          heading={{
-            success: "Great, You have store image",
-            incomplete: "Add store image",
-          }}
-          subHeading="Your store image will be visible to your viewers"
-          btnText="Add store image"
-          onClick={() => history.push("/app/edit_account")}
-        /> */}
+        <p className={styles.card_title}>Tasks</p>
+
         <Task
           isLine={true}
-          isCompleted={Notification.permission === "granted"}
+          isCompleted={isNotification}
           number="1"
           heading={{
             success: "You will Get Order Notifications.",
@@ -57,6 +52,18 @@ const Nux = ({ storeImage, catCount, productCount }) => {
         />
         <Task
           isLine={true}
+          isCompleted={storeImage === null ? false : true}
+          number="1"
+          heading={{
+            success: "Great, You have store image",
+            incomplete: "Add store image",
+          }}
+          subHeading="Your store image will be visible to your viewers"
+          btnText="Add store image"
+          onClick={() => history.push("/app/edit_account")}
+        />
+        {/* <Task
+          isLine={true}
           isCompleted={catCount === 0 ? false : true}
           number="2"
           heading={{
@@ -66,7 +73,7 @@ const Nux = ({ storeImage, catCount, productCount }) => {
           subHeading="Your customers can view products in various categories"
           btnText="Add category"
           onClick={() => history.push("/app/categories")}
-        />
+        /> */}
         <Task
           isLine={false}
           isCompleted={productCount < 2 ? false : true}
