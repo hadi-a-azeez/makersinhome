@@ -49,8 +49,8 @@ const App = () => {
     <Router>
       <Suspense
         fallback={
-          <Stack w="100%" h="80vh" justifyContent="center" alignItems="center">
-            <CircularProgress color="inherit" />
+          <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
+            <CircularProgress color="#00b140" />
           </Stack>
         }
       >

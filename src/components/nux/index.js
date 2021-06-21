@@ -6,10 +6,8 @@ import firebase from "../../firebase";
 import { updateStoreNotifTokenAPI } from "../../api/sellerStoreAPI";
 import ReactGA from "react-ga";
 import { useState } from "react";
-import { useEffect } from "react";
 
 const Nux = ({ storeImage, notifToken, productCount }) => {
-  console.log(notifToken, "ncfd");
   const history = useHistory();
   const [isNotification, setIsNotification] = useState(
     notifToken === null ? true : false
@@ -36,7 +34,6 @@ const Nux = ({ storeImage, notifToken, productCount }) => {
       {/* complete profile section */}
       <div className={styles.nux_card}>
         <p className={styles.card_title}>Tasks</p>
-        {console.log(isNotification, "noy")}
         <Task
           isLine={true}
           isCompleted={isNotification}

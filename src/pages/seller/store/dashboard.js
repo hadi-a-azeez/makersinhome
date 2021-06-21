@@ -10,9 +10,9 @@ import { getUserInfo } from "../../../api/sellerAccountAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import Nux from "../../../components/nux/index";
 import PwaInstall from "../../../components/PwaInstall";
-import firebase from "../../../firebase";
 
 import {
+  CircularProgress,
   SimpleGrid,
   Box,
   Flex,
@@ -33,7 +33,7 @@ import copyText from "../../../components/copyText";
 const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isTasksCompleted, setIsTasksCompleted] = useState(false);
   const history = useHistory();
   const toast = useToast();
@@ -77,11 +77,15 @@ const Dashboard = () => {
 
         setIsTasksCompleted(isSafari ? true : false);
       } else setIsTasksCompleted(true);
+      setIsLoading(false);
     };
     getDataAll();
-    setIsLoading(false);
   }, []);
-  return (
+  return isLoading ? (
+    <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
+      <CircularProgress color="#00b140" isIndeterminate />
+    </Stack>
+  ) : (
     <>
       <div className={styles.container}>
         <Box

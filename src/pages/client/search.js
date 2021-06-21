@@ -3,6 +3,9 @@ import styles from "./css/search.module.css";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { SearchIcon } from "@chakra-ui/icons";
 import FavouritesIcon from "../../assets/heart-outline.svg";
+import Lens3D from "../../assets/lens.png";
+import EmptyBox3D from "../../assets/empty_box.png";
+
 import { productImagesRoot } from "../../config";
 import {
   SimpleGrid,
@@ -56,7 +59,7 @@ const Search = (props) => {
           left="3"
           onClick={() => history.goBack()}
         />
-        <h1 className={styles.heading}>Search in this store</h1>
+        <h1 className={styles.heading}>Search </h1>
         <InputGroup
           w="90%"
           mb="3"
@@ -76,33 +79,64 @@ const Search = (props) => {
           />
           <Input
             type="text"
-            placeholder="search in this store"
-            borderRadius="30px"
+            placeholder="Type product name"
             borderColor="white"
             onChange={(e) => setSearchValue(e.target.value)}
             autoFocus
           />
         </InputGroup>
 
-        <SimpleGrid columns={2} spacing={2} w="95%">
-          <>
-            {searchValue.length > 0 ? (
-              filteredProducts.length > 0 ? (
-                filteredProducts.map((product) => (
+        <Stack>
+          {searchValue.length > 0 ? (
+            filteredProducts.length > 0 ? (
+              <SimpleGrid columns={2} spacing={2} w="95%">
+                {filteredProducts.map((product) => (
                   <ProductCard product={product} key={product.id} />
-                ))
-              ) : isLoading ? (
-                <Stack ml="80%" mt="50px" justifyContent="center">
-                  <CircularProgress isIndeterminate color="green.300" />
-                </Stack>
-              ) : (
-                <Text>No results </Text>
-              )
+                ))}
+              </SimpleGrid>
+            ) : isLoading ? (
+              <Stack mt="50px" justifyContent="center">
+                <CircularProgress isIndeterminate color="green.300" />
+              </Stack>
             ) : (
-              <Text>Search Here</Text>
-            )}
-          </>
-        </SimpleGrid>
+              <Stack
+                width="100%"
+                direction="column"
+                width="100%"
+                alignItems="center"
+              >
+                <Image src={EmptyBox3D} mt="30px" w="50%" />
+                <Text
+                  w="70%"
+                  mt="20px"
+                  fontFamily="elemen"
+                  fontSize="28px"
+                  textAlign="center"
+                >
+                  Sorry no products found.
+                </Text>
+              </Stack>
+            )
+          ) : (
+            <Stack
+              width="100%"
+              direction="column"
+              width="100%"
+              alignItems="center"
+            >
+              <Image src={Lens3D} mt="30px" w="30%" />
+              <Text
+                w="70%"
+                mt="20px"
+                fontFamily="elemen"
+                fontSize="28px"
+                textAlign="center"
+              >
+                Search for products in this store.
+              </Text>
+            </Stack>
+          )}
+        </Stack>
       </div>
     </>
   );

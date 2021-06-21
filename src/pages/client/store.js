@@ -43,6 +43,7 @@ import { profileImagesRoot } from "../../config";
 import useFrontStore from "../../storeFrontState";
 import FocusLock from "@chakra-ui/focus-lock";
 import StoreShut from "./storeShut";
+import Store404 from "./store404";
 
 const Store = (props) => {
   let history = useHistory();
@@ -459,7 +460,7 @@ const Store = (props) => {
       </div>
     )
   ) : (
-    <p>No STore BY That Name</p>
+    <Store404 />
   );
 };
 

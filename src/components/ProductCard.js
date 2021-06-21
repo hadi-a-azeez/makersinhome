@@ -55,6 +55,7 @@ const ProductCard = ({ product }) => {
       >
         {
           <Image
+            loading="lazy"
             src={`${productImagesRoot}/min/${product?.products_images[0]?.product_image}`}
             alt="img"
             className={styles.product_image}

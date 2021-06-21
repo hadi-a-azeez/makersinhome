@@ -102,21 +102,20 @@ const ProductDetail = (props) => {
   };
 
   const addToCart = () => {
-    const productFinalPrice = selectedVariant
-      ? selectedVariant.variant_sale_price
-      : productData.product_sale_price;
-    addToCartState({
-      store_id: storeData.id,
-      product_id: productData.id,
-      ...productData,
-      valid: true,
-      product_variant: selectedVariant,
-      product_quantity: 1,
-      //unique id for identify with reference to variant
-      product_id_gen: `${productData.id}${
-        selectedVariant && selectedVariant.id
-      }`,
-    });
+    console.log(storeData, "data");
+    storeData.id &&
+      addToCartState({
+        store_id: storeData?.id,
+        product_id: productData.id,
+        ...productData,
+        valid: true,
+        product_variant: selectedVariant,
+        product_quantity: 1,
+        //unique id for identify with reference to variant
+        product_id_gen: `${productData.id}${
+          selectedVariant && selectedVariant.id
+        }`,
+      });
     toast({
       position: "top",
       duration: 1000,
@@ -214,6 +213,7 @@ const ProductDetail = (props) => {
           {productData?.products_images.length == 1 ? (
             <Image
               w="100%"
+              loading="lazy"
               objectFit="cover"
               objectPosition="top"
               onClick={() => {
@@ -234,6 +234,7 @@ const ProductDetail = (props) => {
           ) : (
             productData?.products_images.map((image) => (
               <Image
+                loading="lazy"
                 w="auto"
                 objectFit="cover"
                 maxW="85%"
@@ -430,6 +431,7 @@ const ProductDetail = (props) => {
           boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         >
           <Button
+            isDisabled={storeData === ""}
             // leftIcon={
             //   <img src={CartIconBlack} className={styles.add_cart_icon} />
             // }
@@ -444,6 +446,7 @@ const ProductDetail = (props) => {
             Add to Bag
           </Button>
           <Button
+            isDisabled={storeData === ""}
             alignSelf="center"
             size="lg"
             w="100%"
