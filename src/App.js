@@ -15,6 +15,7 @@ import GenPassWordLink from "./pages/client/genPasswordLink";
 import Payment from "./pages/payment";
 import ReactGA from "react-ga";
 import firebase from "./firebase";
+import SaavCoins from "./pages/client/saavCoins";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -100,6 +101,7 @@ const App = () => {
           <Route path="/app/categories" component={Categories} />
           <Route path="/app/settings" component={Account} />
           <Route path="/app/edit_account" component={EditAccount} />
+          <Route path="/app/coins" component={SaavCoins} />
           <Route component={() => <p>404</p>} />
         </Switch>
       </Suspense>
