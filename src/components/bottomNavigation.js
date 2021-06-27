@@ -54,11 +54,35 @@ const BottomNavigationMenu = () => {
             />
             <BottomNavigationAction
               className={
+                value == "orders" ? styles.navItemSelected : styles.navItem
+              }
+              label="Orders"
+              icon={
+                value === "orders" ? (
+                  <img
+                    src={ProductsIconFilled}
+                    alt="home"
+                    className={styles.iconFilled}
+                  />
+                ) : (
+                  <img
+                    src={ProductsIcon}
+                    alt="home"
+                    className={styles.iconOutlined}
+                  />
+                )
+              }
+              component={Link}
+              to="/app/orders/"
+              value="orders"
+            />
+            <BottomNavigationAction
+              className={
                 value == "products" ? styles.navItemSelected : styles.navItem
               }
               label="Products"
               icon={
-                value == "products" ? (
+                ["products", "categories"].includes(value) ? (
                   <img
                     src={ProductsIconFilled}
                     alt="home"
@@ -76,7 +100,7 @@ const BottomNavigationMenu = () => {
               to="/app/products/"
               value="products"
             />
-            <BottomNavigationAction
+            {/* <BottomNavigationAction
               className={
                 value == "categories" ? styles.navItemSelected : styles.navItem
               }
@@ -99,7 +123,7 @@ const BottomNavigationMenu = () => {
               component={Link}
               to="/app/categories"
               value="categories"
-            />
+            /> */}
             <BottomNavigationAction
               label="Settings"
               icon={

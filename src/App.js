@@ -16,6 +16,7 @@ import Payment from "./pages/payment";
 import ReactGA from "react-ga";
 import firebase from "./firebase";
 import SaavCoins from "./pages/client/saavCoins";
+import Orders from "./pages/seller/orders/orders";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -86,6 +87,8 @@ const App = () => {
           <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
           <Route path="/app/store_info" component={StoreInfo} />
           <Route path="/app/products" component={Products} />
+          <Route path="/app/orders" component={Orders} />
+
           <Route path="/app/instagram" component={InstagramImport} />
           <Route path="/app/product_edit/:id" component={ProductEdit} />
           <Route

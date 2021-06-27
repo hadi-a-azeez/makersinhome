@@ -213,7 +213,6 @@ const AddNewProduct = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <div style={{ marginTop: "70px" }} />
         <LabelHeader label={"Add new product"} isBackButton={true} />
         <SimpleGrid column={3} w="90%" mt="5" mb="3" columns={3} spacing="7px">
           <label htmlFor="file-upload" className={styles.customFileUpload}>

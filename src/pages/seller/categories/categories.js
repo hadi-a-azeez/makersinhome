@@ -63,7 +63,24 @@ const Categories = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Categories"} />
-        <div style={{ marginTop: "70px" }} />
+        <div className={styles.tab_parent}>
+          <div
+            onClick={() => history.push("/app/products")}
+            className={styles.tab_child}
+          >
+            Products
+          </div>
+          <div
+            className={styles.tab_child}
+            onClick={() => history.push("/app/categories")}
+            style={{
+              backgroundColor: "#ffffff",
+              borderBottom: "3px solid #08bd80",
+            }}
+          >
+            Categories
+          </div>
+        </div>
         {isLoading && (
           <>
             <Skeleton height="75px" w="90%" mt="3" />

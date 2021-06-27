@@ -113,7 +113,6 @@ const EditAccount = () => {
   return (
     <div className={styles.container}>
       <LabelHeader label={"Edit business details"} isBackButton="true" />
-      <div style={{ marginTop: "70px" }} />
       {isLoading ? (
         <div className={styles.loaderwraper}>
           <Loader

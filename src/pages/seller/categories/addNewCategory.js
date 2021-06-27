@@ -78,7 +78,6 @@ const AddNewCategory = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Add new category"} isBackButton={true} />
-        <div style={{ marginTop: "70px" }} />
         {!isValidated && (
           <Box
             borderRadius="md"
