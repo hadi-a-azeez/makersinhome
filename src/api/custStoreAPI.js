@@ -99,6 +99,29 @@ export const getProductDetailAPI = async (productId) => {
     console.log(error);
   }
 };
+//product click analytics
+export const updateProductClickAPI = async (productId) => {
+  try {
+    const response = await axios.get(
+      `${apiRoot}/client/store/analytics/productclick/${productId}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// category click analytics
+export const updateCatClickAPI = async (catId) => {
+  try {
+    const response = await axios.get(
+      `${apiRoot}/client/store/analytics/catclick/${catId}`
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //search for  products
 export const searchProductsAPI = async (storeId, searchTerm) => {

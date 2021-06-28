@@ -1,8 +1,8 @@
 import create from "zustand";
-import { getStoreProducts } from "./api/custStoreAPI";
+import { getStoreProducts, updateCatClickAPI } from "./api/custStoreAPI";
 
 let useFrontStore = (set, get) => ({
-  sortName: ["id", "desc", "Newest First"],
+  sortName: ["product_clicks", "desc", "Popular"],
   setSortName: async (val, storeId) => {
     set({ sortName: val });
     set({ isLoading: true });
@@ -42,6 +42,7 @@ let useFrontStore = (set, get) => ({
     set({ isLoading: true });
     set({ storeProducts: [] });
     set({ catSelected: cat });
+    await updateCatClickAPI(cat);
     await get().fetchProducts(storeId);
     set({ isLoading: false });
   },

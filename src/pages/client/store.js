@@ -322,13 +322,28 @@ const Store = (props) => {
                       Sort Products
                     </Button>
                     <Text fontSize="15px" color="#828282">
-                      {sortName[2]}
+                      {sortName[2].charAt(0).toUpperCase() +
+                        sortName[2].slice(1)}
                     </Text>
                   </Stack>
                 </PopoverTrigger>
 
                 <PopoverContent mt="-10px" w="180px" ml="20px">
                   <Stack direction="column" p="10px">
+                    <Text
+                      p="6px"
+                      onClick={() => {
+                        setSortName(
+                          ["product_clicks", "desc", "popular"],
+                          storeData.id
+                        );
+                        onClose();
+                      }}
+                      fontFamily="elemen"
+                      _hover={{ bg: "#e0e0e0" }}
+                    >
+                      Popular
+                    </Text>
                     <Text
                       p="6px"
                       onClick={() => {

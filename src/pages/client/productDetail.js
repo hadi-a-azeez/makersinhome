@@ -4,7 +4,10 @@ import Whatsapp from "../../assets/whatsapp_filled.svg";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import CartIconBlack from "../../assets/cartIconblack.svg";
 import WhatsappClean from "../../assets/whatsapp_clean.svg";
-import { getProductDetailAPI } from "../../api/custStoreAPI";
+import {
+  getProductDetailAPI,
+  updateProductClickAPI,
+} from "../../api/custStoreAPI";
 
 import ImageModal from "../../components/ImageModal";
 import {
@@ -68,8 +71,11 @@ const ProductDetail = (props) => {
   //get product data from server
   useEffect(() => {
     window.scrollTo(0, 0);
+    // add product click
+
     props.location.state && setProductData(props.location.state);
     const getProduct = async () => {
+      await updateProductClickAPI(productId);
       const productResponse = await getProductDetailAPI(productId);
       !props.location.state &&
         setProductData(productResponse.data.data.product);
