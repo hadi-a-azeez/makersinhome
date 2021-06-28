@@ -97,6 +97,7 @@ const StoreCart = (props) => {
         return setCartProducts([]);
       }
 
+      //merge product from server and cart for comparison
       let mergedProducts = cartProducts
         .filter((prd) => prd.store_id == storeId)
         .map((item) => [
@@ -106,9 +107,10 @@ const StoreCart = (props) => {
           ),
         ]);
 
+      console.log(mergedProducts);
       //compare in cart and products from server
       let filteredProducts = mergedProducts.map((item) => {
-        if (item[1] && item[1].product_stock === 1) {
+        if (item[1] && item[1].product_stock) {
           if (item[1].products_variants.length > 0) {
             const selectedVariant = item[1].products_variants.find(
               (element) => element.id === item[0].product_variant.id
@@ -148,7 +150,11 @@ const StoreCart = (props) => {
             }
             return { ...item[0], ...item[1], valid: true };
           }
-        } else return { ...item[0], valid: false };
+        } else {
+          console.log("here");
+
+          return { ...item[0], valid: false };
+        }
       });
 
       setIsCartEmpty(filteredProducts.length < 1);

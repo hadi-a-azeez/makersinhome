@@ -6,6 +6,9 @@ import { Link, useLocation } from "react-router-dom";
 import HomeIcon from "../assets/home-outline.svg";
 import HomeIconFilled from "../assets/homeFilled.svg";
 import ProductsIcon from "../assets/layers-outline.svg";
+import OrdersIcon from "../assets/archive-outline.svg";
+import OrdersIconFilled from "../assets/archive.svg";
+
 import ProductsIconFilled from "../assets/layersFilled.svg";
 import CategoriesIcon from "../assets/grid-outline.svg";
 import CategoriesIconFilled from "../assets/gridFilled.svg";
@@ -60,13 +63,13 @@ const BottomNavigationMenu = () => {
               icon={
                 value === "orders" ? (
                   <img
-                    src={ProductsIconFilled}
+                    src={OrdersIconFilled}
                     alt="home"
                     className={styles.iconFilled}
                   />
                 ) : (
                   <img
-                    src={ProductsIcon}
+                    src={OrdersIcon}
                     alt="home"
                     className={styles.iconOutlined}
                   />

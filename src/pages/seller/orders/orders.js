@@ -25,6 +25,7 @@ const Orders = (props) => {
   const OrderCard = () => {
     return (
       <Stack
+        onClick={() => history.push("/app/order_detailed")}
         backgroundColor="white"
         borderRadius="10px"
         w="90%"
