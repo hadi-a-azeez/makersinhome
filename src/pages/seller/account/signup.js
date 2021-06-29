@@ -141,7 +141,7 @@ const SignUp = () => {
 
         <Button
           isLoading={isLoading}
-          loadingText="Sending OTP"
+          loadingText="Creating your store"
           size="lg"
           w="90%"
           mt="7"
