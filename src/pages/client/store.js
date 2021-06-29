@@ -448,9 +448,10 @@ const Store = (props) => {
           )}
 
           {!isLoading &&
-            storeProducts.map((product) => {
+            storeProducts.map((product, i) => {
               return (
                 <ProductCard
+                  isGlow={i === 0 && product.product_clicks > 20}
                   product={product}
                   store={storeData}
                   key={product.id}

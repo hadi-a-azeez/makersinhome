@@ -1,5 +1,5 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Image } from "@chakra-ui/image";
+import { Image, Badge } from "@chakra-ui/react";
 import { Stack } from "@chakra-ui/layout";
 import { Skeleton } from "@chakra-ui/skeleton";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { productImagesRoot } from "../config";
 import styles from "./css/product_card.module.css";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, isGlow }) => {
   const history = useHistory();
   const [priceLast, setPriceLast] = useState({ price: "_", sale: "_" });
 
@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <div
-        className={styles.product_card}
+        className={`${styles.product_card}`}
         onClick={() =>
           history.push({
             pathname: `/product/${product.id}`,
@@ -53,7 +53,23 @@ const ProductCard = ({ product }) => {
         }
         key={product.id}
       >
-        {
+        <div className={isGlow && `${styles.gradient_border}`}>
+          {isGlow && (
+            <Badge
+              position="absolute"
+              bottom="0"
+              w="50%"
+              ml="25%"
+              p="2px"
+              pb="0px"
+              color="white"
+              backgroundColor="#1fe81e"
+              borderRadius="8px 8px 0px 0px"
+              textAlign="center"
+            >
+              #Trending
+            </Badge>
+          )}
           <Image
             loading="lazy"
             src={`${productImagesRoot}/min/${product?.products_images[0]?.product_image}`}
@@ -68,7 +84,7 @@ const ProductCard = ({ product }) => {
               />
             }
           />
-        }
+        </div>
         <div className={styles.product_details}>
           <div className={styles.product_name}>{product.product_name}</div>
           <div className={styles.price_container}>
