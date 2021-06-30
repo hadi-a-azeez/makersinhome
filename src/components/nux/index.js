@@ -10,7 +10,7 @@ import { useState } from "react";
 const Nux = ({ storeImage, notifToken, productCount }) => {
   const history = useHistory();
   const [isNotification, setIsNotification] = useState(
-    notifToken === null ? true : false
+    notifToken ? true : false
   );
 
   const requestNotification = async () => {
@@ -48,7 +48,7 @@ const Nux = ({ storeImage, notifToken, productCount }) => {
         />
         <Task
           isLine={true}
-          isCompleted={storeImage === null ? false : true}
+          isCompleted={!storeImage ? false : true}
           number="1"
           heading={{
             success: "Great, You have store image",
