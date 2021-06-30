@@ -68,8 +68,8 @@ const Dashboard = () => {
 
       if (
         responseCount.data.data.products_count < 1 ||
-        responseUser.data.data.account_store_image === null ||
-        responseUser.data.data.account_notif_token === null
+        !responseUser.data.data.account_store_image ||
+        !responseUser.data.data.account_notif_token
       ) {
         const isSafari = /^((?!chrome|android).)*safari/i.test(
           navigator.userAgent
