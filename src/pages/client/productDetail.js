@@ -148,7 +148,7 @@ const ProductDetail = (props) => {
       selectedVariant
         ? selectedVariant.variant_sale_price
         : productData.product_sale_price
-    } %0D%0A`;
+    } %0D%0A https://saav.in/product/${productData.id}%0D%0A  `;
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg} %0D%0A *Total: ₹${
       selectedVariant
         ? selectedVariant.variant_sale_price
