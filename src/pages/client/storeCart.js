@@ -182,7 +182,7 @@ const StoreCart = (props) => {
             (item.products_variants.length > 0
               ? item.product_variant.variant_sale_price
               : item.product_sale_price)
-          }%0D%0A `
+          }%0D%0A https://saav.in/product/${item.id}%0D%0A `
       );
     const whatsappMessage = `Hey👋 %0D%0AI want to place an order %0D%0A%0D%0A*Order*%0D%0A${productsMsg.join(
       ""
