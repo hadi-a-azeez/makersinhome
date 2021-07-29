@@ -53,7 +53,10 @@ const ProductCard = ({ product, isGlow }) => {
         }
         key={product.id}
       >
-        <div className={isGlow && `${styles.gradient_border}`}>
+        <div
+          className={isGlow && `${styles.gradient_border}`}
+          style={{ width: "100%" }}
+        >
           {isGlow && (
             <Badge
               position="absolute"
