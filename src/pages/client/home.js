@@ -30,6 +30,7 @@ const Home = () => {
           >
             Create My Store
           </button>
+
           <Text
             mt="12px"
             color="#008aed"
