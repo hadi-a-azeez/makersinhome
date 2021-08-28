@@ -80,7 +80,7 @@ const StoreCart = (props) => {
     const fetchAPI = async () => {
       const response = await getStoreDataByIdAPI(storeId);
       console.log(response);
-      setStoreData(response.data.data);
+      setStoreData(response?.data?.data);
     };
     fetchAPI();
   }, []);

@@ -85,10 +85,8 @@ const ProductEdit = (props) => {
       const productDetails = await getProductAPI(productId);
       setIsLoading(false);
       //set products discount
-      console.log(productDetails, "nice");
-
-      productDetails.data.data.product_price !==
-        productDetails.data.data.product_sale_price &&
+      productDetails?.data?.data?.product_price !==
+        productDetails?.data?.data?.product_sale_price &&
         setIsProductDiscount(true);
 
       // add is_discount to variants
@@ -599,6 +597,7 @@ const ProductEdit = (props) => {
                                   <FormLabel>Price</FormLabel>
 
                                   <Input
+                                    pattern="\d*"
                                     type="number"
                                     value={variant.variant_price}
                                     onChange={(e) =>
@@ -616,6 +615,7 @@ const ProductEdit = (props) => {
                                     <FormLabel>Selling Price</FormLabel>
 
                                     <Input
+                                      pattern="\d*"
                                       type="number"
                                       value={variant.variant_sale_price}
                                       onChange={(e) =>

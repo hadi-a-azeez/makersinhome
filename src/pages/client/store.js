@@ -77,7 +77,7 @@ const Store = (props) => {
         if (storeIdCurrent !== storeResponse.data.data.storeinfo.id) {
           setStoreProducts([]);
           setIsLoading(true);
-          await fetchProducts(storeResponse.data.data.storeinfo.id);
+          await fetchProducts(storeResponse?.data?.data?.storeinfo?.id);
           setStoreIdCurrent(storeResponse.data.data.storeinfo.id);
           setIsLoading(false);
         }

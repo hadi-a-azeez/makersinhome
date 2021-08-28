@@ -33,7 +33,6 @@ const ProductDetail = (props) => {
   const [productData, setProductData] = useState(null);
   const [storeData, setStoreData] = useState({});
   const [similarProducts, setSimilarProducts] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const productId = props.match.params.productId;
   const history = useHistory();
   const [isError, setIsError] = useState(false);
@@ -81,8 +80,6 @@ const ProductDetail = (props) => {
         setProductData(productResponse.data.data.product);
       setStoreData(productResponse.data.data.storeinfo);
       setSimilarProducts(productResponse.data.data.similarproducts);
-
-      setIsLoading(false);
     };
     getProduct();
   }, []);
@@ -216,7 +213,7 @@ const ProductDetail = (props) => {
         )}
 
         <div className={styles.image_slider}>
-          {productData?.products_images.length == 1 ? (
+          {productData?.products_images.length === 1 ? (
             <Image
               w="100%"
               loading="lazy"

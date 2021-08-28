@@ -41,7 +41,7 @@ const Search = (props) => {
   const doSearch = async () => {
     setIsLoading(true);
     const response = await searchProductsAPI(storeId, searchValue);
-    setFilteredProducts(response.data.data);
+    setFilteredProducts(response?.data?.data);
     setIsLoading(false);
     console.log(response);
   };

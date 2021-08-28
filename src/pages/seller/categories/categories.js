@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styles from "../css/categories.module.css";
 import {
   getCategoriesAPI,
@@ -26,7 +26,6 @@ import {
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 const Categories = () => {
-  const [isLogin, setIsLogin] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
@@ -39,7 +38,6 @@ const Categories = () => {
     const getCategoriesData = async () => {
       setIsLoading(true);
       const response = await getCategoriesAPI();
-      setIsLogin(response.data.login);
       setCategoriesArray(response.data.data);
       setUserInfo(response.data.user);
       setIsLoading(false);
