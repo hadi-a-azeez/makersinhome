@@ -69,13 +69,9 @@ const Dashboard = () => {
       if (
         responseCount.data.data.products_count < 1 ||
         !responseUser.data.data.account_store_image ||
-        !responseUser.data.data.account_notif_token
+        !responseUser.data.data.cat_count === 0
       ) {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(
-          navigator.userAgent
-        );
-
-        setIsTasksCompleted(isSafari ? true : false);
+        setIsTasksCompleted(false);
       } else setIsTasksCompleted(true);
       setIsLoading(false);
     };
@@ -123,6 +119,7 @@ const Dashboard = () => {
             storeImage={userInfo.account_store_image}
             notifToken={userInfo.account_notif_token}
             productCount={countData.products_count}
+            catCount={countData.cat_count}
           />
         )}
         <Box
