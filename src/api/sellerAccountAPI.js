@@ -38,15 +38,13 @@ export const getStoreInfoAPI = async () => {
 
 //upload user profile image to server
 
-export const uploadProfileImageAPI = async (imagesLocal, oldprofileimage) => {
-  console.log(imagesLocal);
-
+export const uploadProfileImageAPI = async (imageLocal, oldprofileimage) => {
   //upload image to firebase
   try {
-    await uploadStoreImageDO(imagesLocal[0]);
+    await uploadStoreImageDO(imageLocal);
     //update database
     const apiResponse = await axios_seller.post(`/seller/store/addprofile/`, {
-      profile_image: imagesLocal[0].name,
+      profile_image: imageLocal.name,
     });
     // //delete old profile image
     await deleteStoreImageDO(oldprofileimage);

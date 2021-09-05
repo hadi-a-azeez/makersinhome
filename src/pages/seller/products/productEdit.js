@@ -54,7 +54,7 @@ import {
   deleteProductImageDO,
   uploadProductImageDO,
 } from "../../../api/imageUploadAPI";
-import { productImageCompresser } from "../../../utils/productImageCompresser";
+import { productImageCompresser } from "../../../utils/imageCompresser";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "../css/editAccount.module.css";
 import Loader from "react-loader-spinner";
 import { v4 as uuidv4 } from "uuid";
-import imageCompression from "browser-image-compression";
 import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LabelHeader from "../../../components/labelHeader";
 import { useForm } from "../../../components/useForm";
@@ -22,6 +21,7 @@ import {
   useToast,
   Switch,
 } from "@chakra-ui/react";
+import { compressSingleImage } from "../../../utils/imageCompresser";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,38 +34,19 @@ const EditAccount = () => {
 
   const compressImage = async (event) => {
     //compresses image to below 1MB
-    let imagesFromInput = event.target.files;
-    let imagesCompressed = [];
-    const options = {
-      maxSizeMB: 0.1,
-      maxWidthOrHeight: 200,
-      fileType: "image/jpeg",
-      useWebWorker: true,
-    };
-    try {
-      for (let i = 0; i < imagesFromInput.length; i++) {
-        const compressedFile = await imageCompression(
-          imagesFromInput[i],
-          options
-        );
-        let imageName = uuidv4() + ".jpg";
-        console.log(compressedFile);
-        const convertedBlobFile = new File(
-          [compressedFile],
-          Date.now() + Math.floor(100000 + Math.random() * 900000) + imageName,
-          {
-            type: imagesFromInput[i].type,
-            lastModified: Date.now(),
-          }
-        );
-        imagesCompressed.push(convertedBlobFile);
+    let imageName = uuidv4() + ".jpg";
+    let profileCompressed = await compressSingleImage(
+      event.target.files[0],
+      imageName,
+      {
+        quality: 0.5,
+        maxSizeMB: 0.15,
+        maxWidth: 480,
+        maxHeight: 480,
       }
-
-      setCompreseesdImagesState(imagesCompressed);
-      setImageEdited(true);
-    } catch (error) {
-      console.log(error);
-    }
+    );
+    setCompreseesdImagesState(profileCompressed);
+    setImageEdited(true);
   };
   const validateFields = (formAction) => {
     if (storeInfo.account_store != "" && storeInfo.account_whatsapp != "") {
@@ -132,7 +113,7 @@ const EditAccount = () => {
           <img
             src={
               isImageEdited
-                ? URL.createObjectURL(compressedImagesState[0])
+                ? URL.createObjectURL(compressedImagesState)
                 : `${profileImagesRoot}/${storeInfo.account_store_image}`
             }
             alt="image"
