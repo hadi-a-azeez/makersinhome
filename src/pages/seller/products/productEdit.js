@@ -54,6 +54,7 @@ import {
   deleteProductImageDO,
   uploadProductImageDO,
 } from "../../../api/imageUploadAPI";
+import { productImageCompresser } from "../../../utils/productImageCompresser";
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
@@ -64,6 +65,7 @@ const ProductEdit = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [testCompress, setTest] = useState("");
 
   const [isProductDiscount, setIsProductDiscount] = useState(false);
 
@@ -222,50 +224,21 @@ const ProductEdit = (props) => {
     setProduct({ ...product, products_images: newImages });
   };
 
-  const compressImage = async (event) => {
+  const handleImages = async (event) => {
     setIsCompressing(true);
     //compresses image to below 1MB
     let imagesFromInput = event.target.files;
-    const options = {
-      maxSizeMB: 0.8,
-      maxWidthOrHeight: 1080,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-    };
-    const optionsMin = {
-      maxSizeMB: 0.2,
-      maxWidthOrHeight: 360,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-    };
     try {
-      for (let i = 0; i < imagesFromInput.length; i++) {
-        const compressedFile = await imageCompression(
-          imagesFromInput[i],
-          options
-        );
-        const compressedFileMin = await imageCompression(
-          imagesFromInput[i],
-          optionsMin
-        );
-
+      for (let image of imagesFromInput) {
         let imageName = uuidv4() + ".jpg";
-
-        const convertedBlobFileMin = new File([compressedFileMin], imageName, {
-          type: imagesFromInput[i].type,
-          lastModified: Date.now(),
-        });
-
-        const convertedBlobFile = new File([compressedFile], imageName, {
-          lastModified: Date.now(),
-        });
+        let compressedImages = await productImageCompresser(image, imageName);
         setProductImagesLocal((oldArray) => [
           ...oldArray,
           {
             name: imageName,
-            image: convertedBlobFile,
-            imagemin: convertedBlobFileMin,
-            imageblob: URL.createObjectURL(compressedFile),
+            image: compressedImages.normal,
+            imagemin: compressedImages.min,
+            imageblob: URL.createObjectURL(compressedImages.min),
           },
         ]);
       }
@@ -292,6 +265,7 @@ const ProductEdit = (props) => {
       />
       <div style={{ marginTop: "70px" }} />
       <div>
+        {testCompress !== "" && <img src={testCompress} />}
         {isLoading ? (
           <div className={styles.loaderwraper}>
             <Loader
@@ -395,7 +369,7 @@ const ProductEdit = (props) => {
               type="file"
               accept="image/*"
               id="file-upload"
-              onChange={(event) => compressImage(event)}
+              onChange={(event) => handleImages(event)}
               onClick={(event) => {
                 event.target.value = null;
               }}
