@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import LabelHeader from "../../../components/labelHeader";
 import { useForm } from "../../../components/useForm";
-import imageCompression from "browser-image-compression";
 import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
 import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 

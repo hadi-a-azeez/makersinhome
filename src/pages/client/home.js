@@ -3,11 +3,9 @@ import styles from "./css/home.module.css";
 import mockupmain from "../../assets/mockone.png";
 import { useHistory } from "react-router-dom";
 import Header from "../../components/header";
-import { Text } from "@chakra-ui/layout";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
-import { IconButton } from "@chakra-ui/button";
-import { Badge } from "@chakra-ui/layout";
-import { Stack } from "@chakra-ui/layout";
+
+import { Badge, Stack, IconButton, Text } from "@chakra-ui/react";
 
 const Home = () => {
   const history = useHistory();

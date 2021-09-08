@@ -3,7 +3,7 @@ import styles from "../css/addNewProduct.module.css";
 import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
 import { useHistory } from "react-router-dom";
 import LabelHeader from "../../../components/labelHeader";
-import imageCompression from "browser-image-compression";
+import { productImageCompresser } from "../../../utils/imageCompresser";
 import { useForm } from "../../../components/useForm";
 import {
   Badge,
@@ -158,49 +158,22 @@ const AddNewProduct = (props) => {
 
   const compressImage = async (event) => {
     setIsCompressing(true);
-    //compresses image to below 1MB
     let imagesFromInput = event.target.files;
-    const options = {
-      maxSizeMB: 0.8,
-      maxWidthOrHeight: 1080,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-    };
-    const optionsMin = {
-      maxSizeMB: 0.2,
-      maxWidthOrHeight: 360,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-    };
+
     try {
       //image name notchangin
-      for (let i = 0; i < imagesFromInput.length; i++) {
-        const compressedFile = await imageCompression(
-          imagesFromInput[i],
-          options
-        );
-        const compressedFileMin = await imageCompression(
-          imagesFromInput[i],
-          optionsMin
-        );
+      for (let image of imagesFromInput) {
         //generate uuid for images
         let imageName = uuidv4() + ".jpg";
-        const convertedBlobFile = new File([compressedFile], imageName, {
-          type: imagesFromInput[i].type,
-          lastModified: Date.now(),
-        });
-        const convertedBlobFileMin = new File([compressedFileMin], imageName, {
-          type: imagesFromInput[i].type,
-          lastModified: Date.now(),
-        });
+        let compressedImages = await productImageCompresser(image, imageName);
 
         setCompressedImages((oldArray) => [
           ...oldArray,
           {
             name: imageName,
-            image: convertedBlobFile,
-            imagemin: convertedBlobFileMin,
-            imageblob: URL.createObjectURL(compressedFile),
+            image: compressedImages.normal,
+            imagemin: compressedImages.min,
+            imageblob: URL.createObjectURL(compressedImages.min),
           },
         ]);
       }
