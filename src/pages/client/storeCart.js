@@ -24,7 +24,6 @@ import {
 } from "../../api/custStoreAPI";
 import useStore from "../../cartState";
 import _ from "lodash";
-import { productImagesRoot } from "../../config";
 import { updateMessagesStarted } from "../../api/custAnalyticsAPI";
 import ProductCardCart from "./components/ProductCardCart";
 
@@ -99,7 +98,7 @@ const StoreCart = (props) => {
 
       //merge product from server and cart for comparison
       let mergedProducts = cartProducts
-        .filter((prd) => prd.store_id == storeId)
+        ?.filter((prd) => prd.store_id == storeId)
         .map((item) => [
           item,
           productsFetched.data.find(
@@ -304,7 +303,7 @@ const StoreCart = (props) => {
               textColor="#fff"
               height="60px"
               onClick={() =>
-                history.push(`/store/${storeData.account_store_link}`)
+                history.push(`/store/${storeData?.account_store_link}`)
               }
             >
               Shop Now

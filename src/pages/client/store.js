@@ -71,18 +71,18 @@ const Store = (props) => {
     const getData = async () => {
       storeProducts.length < 1 && setIsLoading(true);
       const storeResponse = await getStoreDataAll(storeLink);
-      if (storeResponse.status !== 404) {
-        setStoreData(storeResponse.data.data.storeinfo);
-        setStoreCategories(storeResponse.data.data.categories);
-        if (storeIdCurrent !== storeResponse.data.data.storeinfo.id) {
+      if (storeResponse.status) {
+        setStoreData(storeResponse.data.storeinfo);
+        setStoreCategories(storeResponse.data.categories);
+        if (storeIdCurrent !== storeResponse.data.storeinfo.id) {
           setStoreProducts([]);
           setIsLoading(true);
-          await fetchProducts(storeResponse?.data?.data?.storeinfo?.id);
-          setStoreIdCurrent(storeResponse.data.data.storeinfo.id);
+          await fetchProducts(storeResponse?.data?.storeinfo?.id);
+          setStoreIdCurrent(storeResponse.data.storeinfo.id);
           setIsLoading(false);
         }
         //update store views analytics
-        await sendStoreAnalytics(storeResponse.data.data.storeinfo.id);
+        await sendStoreAnalytics(storeResponse.data.storeinfo.id);
       } else {
         setIsStoreExists(false);
       }

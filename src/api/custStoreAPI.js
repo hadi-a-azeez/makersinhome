@@ -7,11 +7,9 @@ export const getStoreDataAll = async (storeLink) => {
     const response = await axios.get(
       `${apiRoot}/client/storehomepage/${storeLink}`
     );
-    return response;
+    return { status: true, data: response.data.data };
   } catch (error) {
-    if (error.response.status == 404) {
-      return error.response;
-    }
+    return { status: false, error: error.response };
   }
 };
 

@@ -59,17 +59,14 @@ const Dashboard = () => {
     const getDataAll = async () => {
       //get count of products and catgories of the current user
       const responseCount = await getCountAPI();
-      console.log(responseCount);
-      setCountData(responseCount.data.data);
-
+      setCountData(responseCount?.data?.data);
       const responseUser = await getUserInfo();
-      console.log(responseUser);
-      setUserInfo(responseUser.data.data);
+      setUserInfo(responseUser?.data?.data);
 
       if (
-        responseCount.data.data.products_count < 1 ||
-        !responseUser.data.data.account_store_image ||
-        !responseUser.data.data.cat_count === 0
+        responseCount?.data.data.products_count < 1 ||
+        !responseUser?.data.data.account_store_image ||
+        !responseUser?.data.data.cat_count === 0
       ) {
         setIsTasksCompleted(false);
       } else setIsTasksCompleted(true);

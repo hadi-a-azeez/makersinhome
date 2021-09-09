@@ -36,7 +36,7 @@ const EditAccount = () => {
     //compresses image to below 1MB
     let imageName = uuidv4() + ".jpg";
     let profileCompressed = await compressSingleImage(
-      event.target.files[0],
+      event.target?.files[0],
       imageName,
       {
         quality: 0.5,

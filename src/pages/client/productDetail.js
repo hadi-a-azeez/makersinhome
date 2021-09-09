@@ -64,22 +64,20 @@ const ProductDetail = (props) => {
         sale: productData?.product_sale_price,
       });
     }
-    console.log(productData);
   }, [productData]);
 
   //get product data from server
   useEffect(() => {
     window.scrollTo(0, 0);
     // add product click
-
-    props.location.state && setProductData(props.location.state);
+    props.location.state && setProductData(props.location?.state);
     const getProduct = async () => {
       await updateProductClickAPI(productId);
       const productResponse = await getProductDetailAPI(productId);
       !props.location.state &&
-        setProductData(productResponse.data.data.product);
-      setStoreData(productResponse.data.data.storeinfo);
-      setSimilarProducts(productResponse.data.data.similarproducts);
+        setProductData(productResponse?.data?.data.product);
+      setStoreData(productResponse?.data?.data.storeinfo);
+      setSimilarProducts(productResponse?.data?.data.similarproducts);
     };
     getProduct();
   }, []);
@@ -99,13 +97,12 @@ const ProductDetail = (props) => {
 
   const validateBuy = (callback) => {
     setIsError(false);
-    if (selectedVariant !== "" || productData.products_variants.length < 1)
+    if (selectedVariant !== "" || productData?.products_variants.length < 1)
       callback();
     else setIsError(true);
   };
 
   const addToCart = () => {
-    console.log(storeData, "data");
     storeData.id &&
       addToCartState({
         store_id: storeData?.id,
@@ -350,7 +347,7 @@ const ProductDetail = (props) => {
                 <>
                   <h3 className={styles.sub_heading}>Variants:</h3>
                   <div className={styles.variant_container}>
-                    {productData.products_variants.map((variant) => (
+                    {productData?.products_variants.map((variant) => (
                       <div
                         key={variant.id}
                         className={

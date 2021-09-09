@@ -54,7 +54,7 @@ const ProductCard = ({ product, isGlow }) => {
         key={product.id}
       >
         <div
-          className={isGlow && `${styles.gradient_border}`}
+          className={isGlow ? `${styles.gradient_border}` : undefined}
           style={{ width: "100%" }}
         >
           {isGlow && (

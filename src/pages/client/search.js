@@ -34,7 +34,7 @@ const Search = (props) => {
     if (searchValue == "") {
       setFilteredProducts([]);
     } else {
-      doSearch();
+      storeId && doSearch();
     }
   }, [searchValue]);
 
@@ -87,8 +87,8 @@ const Search = (props) => {
         </InputGroup>
 
         <Stack>
-          {searchValue.length > 0 ? (
-            filteredProducts.length > 0 ? (
+          {searchValue?.length > 0 ? (
+            filteredProducts?.length > 0 ? (
               <SimpleGrid columns={2} spacing={2} w="95%">
                 {filteredProducts.map((product) => (
                   <ProductCard product={product} key={product.id} />
