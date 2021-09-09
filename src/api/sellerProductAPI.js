@@ -31,31 +31,8 @@ export const updateProductAPI = async (product, id) => {
   console.log(product);
   try {
     const response = await axios_seller.put(`/seller/products/${id}`, product);
-    console.log(response);
     return response;
   } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
-
-//Delete Product Images
-export const deleteProductImagesAPI = async (images, pid) => {
-  console.log(images);
-
-  const imagesToDelete = { images_delete: images };
-  try {
-    const response = await axios_seller.post(
-      `/seller/products/imageDelete/${pid}`,
-      imagesToDelete
-    );
-    //delete image from firebase storage
-    //delete from firebase storage
-    await deleteProductImageDO(images);
-
-    return response;
-  } catch (error) {
-    console.log(error);
     return error;
   }
 };

@@ -16,8 +16,6 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import {
   addProductAPI,
-  addProductsVariantAPI,
-  uploadProductImageAPI,
 } from "../../../api/sellerProductAPI";
 import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {

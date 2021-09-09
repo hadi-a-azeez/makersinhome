@@ -13,11 +13,7 @@ import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   getProductAPI,
   updateProductAPI,
-  deleteProductImagesAPI,
   deleteProductAPI,
-  uploadProductImageAPI,
-  addProductsVariantAPI,
-  deleteProductsVariantAPI,
 } from "../../../api/sellerProductAPI";
 import {
   AlertDialog,

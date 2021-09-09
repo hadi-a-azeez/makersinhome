@@ -44,16 +44,6 @@ const Dashboard = () => {
     );
   };
 
-  const flipStoreStatus = async (storeId) => {
-    const response = await updateStoreStatusAPI(storeId);
-    const modifiedUserInfo = {
-      ...userInfo,
-      account_store_status: !userInfo.account_store_status,
-    };
-    setUserInfo(modifiedUserInfo);
-    console.log(response);
-  };
-
   useEffect(() => {
     setIsLoading(true);
     const getDataAll = async () => {
@@ -61,6 +51,7 @@ const Dashboard = () => {
       const responseCount = await getCountAPI();
       setCountData(responseCount?.data?.data);
       const responseUser = await getUserInfo();
+      console.log(responseUser);
       setUserInfo(responseUser?.data?.data);
 
       if (
