@@ -4,12 +4,10 @@ import { ArrowDownIcon, ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import SaavIcon from "../../assets/ssav_logo.png";
 import { getStoreDataAll } from "../../api/custStoreAPI";
-//import { productImagesRoot } from "../../config";
 import { updateStoreViews } from "../../api/custAnalyticsAPI";
 import Whatsapp from "../../assets/whatsapp_filled.svg";
 import Placeholder from "../../assets/placeholder.png";
 import CartIcon from "../../assets/cartIcon.svg";
-//import MenuIcon from "../../assets/bars.svg"
 import ReactGA from "react-ga";
 
 import {
@@ -44,6 +42,7 @@ import useFrontStore from "../../storeFrontState";
 import FocusLock from "@chakra-ui/focus-lock";
 import StoreShut from "./storeShut";
 import Store404 from "./store404";
+import { DateTime } from "luxon";
 
 const Store = (props) => {
   let history = useHistory();
@@ -92,36 +91,23 @@ const Store = (props) => {
   }, []);
 
   const sendStoreAnalytics = async (storeId) => {
-    //check if storeid is in array and date is today if not add and increment store visit
-    const todayDate = "22/04/2021";
-    const visits = JSON.parse(localStorage.getItem("visits"));
-    if (visits) {
-      if (visits.date !== todayDate) {
-        localStorage.removeItem("visits");
+    const todayDate = DateTime.now().setZone("Asia/Kolkata").toISODate();
+    let visits = await JSON.parse(localStorage.getItem("visits"));
+
+    if (visits?.date === todayDate) {
+      if (!visits.array.includes(storeId)) {
         await updateStoreViews(storeId);
         localStorage.setItem(
           "visits",
-          JSON.stringify({ array: [storeId], date: todayDate })
+          JSON.stringify({ array: [...visits.array, storeId], date: todayDate })
         );
-      } else {
-        const isVisited = visits.array.some((visit) => visit === storeId);
-        if (!isVisited) {
-          await updateStoreViews(storeId);
-          localStorage.setItem(
-            "visits",
-            JSON.stringify({
-              array: [...visits.array, storeId],
-              date: todayDate,
-            })
-          );
-        }
       }
     } else {
-      await updateStoreViews(storeId);
       localStorage.setItem(
         "visits",
         JSON.stringify({ array: [storeId], date: todayDate })
       );
+      await updateStoreViews(storeId);
     }
   };
 
