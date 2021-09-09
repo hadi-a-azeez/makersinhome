@@ -131,7 +131,7 @@ const StoreStatus = () => {
                 history.push(`/store/${name.account.account_store_link}`)
               }
             >
-              {name.account.account_store}
+              {name?.user?.account_store}
             </Text>
 
             <Text>{name.store_views}</Text>
