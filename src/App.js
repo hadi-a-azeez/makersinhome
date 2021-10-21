@@ -1,12 +1,10 @@
 import React, { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Search from "./pages/client/search";
-import Store from "./pages/client/store";
-import StoreStatus from "./pages/client/status";
-import StoreFavourates from "./pages/client/storeFavourates";
-import StoreCart from "./pages/client/storeCart";
-import ProductDetail from "./pages/client/productDetail";
-import Home from "./pages/client/home";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { Stack } from "@chakra-ui/layout";
 import { CircularProgress } from "@material-ui/core";
 import InstagramImport from "./pages/seller/products/instagramImport";
@@ -14,7 +12,6 @@ import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
 import Payment from "./pages/payment";
 import ReactGA from "react-ga";
-import firebase from "./firebase";
 
 const Signup = lazy(() => import("./pages/seller/account/signup"));
 const SignIn = lazy(() => import("./pages/seller/account/signin"));
@@ -65,19 +62,9 @@ const App = () => {
             path="/password/:phone_number/:key"
             component={PasswordReset}
           />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/status" component={StoreStatus} />
-          <Route exact path="/payment" component={Payment} />
-          <Route exact path="/store/search/:storeId" component={Search} />
+          <Route exact path="/" render={() => <Redirect to="/login" />} />
 
-          <Route path="/store/:storelink/:category_id?" component={Store} />
-          <Route exact path="/cart/:store_id" component={StoreCart} />
-          <Route
-            exact
-            path="/store-favourates/:store_id"
-            component={StoreFavourates}
-          />
-          <Route path="/product/:productId" component={ProductDetail} />
+          <Route exact path="/payment" component={Payment} />
 
           {/* seller routes */}
           <Route path="/signup" component={Signup} />

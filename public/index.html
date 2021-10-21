@@ -12,14 +12,14 @@
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://saav.in/">
+<meta property="og:url" content="https://app.saav.in/">
 <meta property="og:title" content="Saav - Create Your FREE Web Store">
 <meta property="og:description" content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
 <meta property="og:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://saav.in/">
+<meta property="twitter:url" content="https://app.saav.in/">
 <meta property="twitter:title" content="Saav - Create Your FREE Web Store">
 <meta property="twitter:description" content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
 <meta property="twitter:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
@@ -66,7 +66,7 @@
         if(window.location.pathname.startsWith('/app')||window.location.pathname.startsWith('/login' )){
         window.addEventListener('load', () => {
           console.log(window.location.pathname)
-          navigator.serviceWorker.register('https://saav.in/sw.js')
+          navigator.serviceWorker.register('https://app.saav.in/sw.js')
             .then((reg) => console.log('Success: ', reg.scope))
             .catch((err) => console.log('Failure: ', err));
         })
