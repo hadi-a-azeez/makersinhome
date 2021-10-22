@@ -50,7 +50,6 @@ const Products = (props) => {
     <>
       <div className={styles.container}>
         <LabelHeader label={productsCatName} isBackButton />
-        <div style={{ marginTop: "70px" }} />
         {isLoading && (
           <>
             <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />

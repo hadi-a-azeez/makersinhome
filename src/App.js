@@ -20,6 +20,7 @@ const AddNewProduct = lazy(() =>
 );
 const StoreInfo = lazy(() => import("./pages/seller/store/storeInfo"));
 const Products = lazy(() => import("./pages/seller/products/products"));
+const Links = lazy(() => import("./pages/seller/links"));
 const ProductEdit = lazy(() => import("./pages/seller/products/productEdit"));
 const Dashboard = lazy(() => import("./pages/seller/store/dashboard"));
 
@@ -72,6 +73,7 @@ const App = () => {
           <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
           <Route path="/app/store_info" component={StoreInfo} />
           <Route path="/app/products" component={Products} />
+          <Route path="/app/links" component={Links} />
           <Route path="/app/instagram" component={InstagramImport} />
           <Route path="/app/product_edit/:id" component={ProductEdit} />
           <Route

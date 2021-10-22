@@ -258,7 +258,6 @@ const ProductEdit = (props) => {
         isRightIcon={true}
         iconAction={() => setIsOpen(true)}
       />
-      <div style={{ marginTop: "70px" }} />
       <div>
         {testCompress !== "" && <img src={testCompress} />}
         {isLoading ? (

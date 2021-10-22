@@ -17,6 +17,20 @@
   justify-content: center;
   color: white;
 }
+.tab_parent {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #dadada;
+  height: 40px;
+}
+.tab_child {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .card {
   width: 90%;
   height: auto;

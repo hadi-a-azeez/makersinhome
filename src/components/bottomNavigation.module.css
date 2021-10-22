@@ -3,6 +3,17 @@
   align-items: center;
   flex-direction: column;
 }
+
+.button__badge {
+  background-color: #fa3e3e;
+  color: white;
+  padding: 1px 4px;
+  font-size: 8px;
+  border-radius: 50%;
+  position: absolute; /* Position the badge within the relatively positioned button */
+  right: 0;
+  top: 0 px;
+}
 .bottom_nav {
   border-top: 0.5px solid rgba(0, 0, 0, 0.2);
   position: fixed;

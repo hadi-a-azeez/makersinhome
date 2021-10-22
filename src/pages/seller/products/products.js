@@ -47,8 +47,25 @@ const Products = (props) => {
   return (
     <>
       <div className={styles.container}>
-        <LabelHeader label="All Products" />
-        <div style={{ marginTop: "70px" }} />
+        <LabelHeader label="Products" />
+        <div className={styles.tab_parent}>
+          <div
+            onClick={() => history.push("/app/products")}
+            className={styles.tab_child}
+            style={{
+              backgroundColor: "#ffffff",
+              borderBottom: "3px solid #08bd80",
+            }}
+          >
+            Products
+          </div>
+          <div
+            className={styles.tab_child}
+            onClick={() => history.push("/app/categories")}
+          >
+            Categories
+          </div>
+        </div>
         {isLoading && (
           <>
             <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />

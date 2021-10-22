@@ -7,10 +7,11 @@ import HomeIcon from "../assets/home-outline.svg";
 import HomeIconFilled from "../assets/homeFilled.svg";
 import ProductsIcon from "../assets/layers-outline.svg";
 import ProductsIconFilled from "../assets/layersFilled.svg";
-import CategoriesIcon from "../assets/grid-outline.svg";
-import CategoriesIconFilled from "../assets/gridFilled.svg";
-import SettingsIcon from "../assets/settings-outline.svg";
+import LinkInBioIcon from "../assets/albums-outline.svg";
+import LinkInBioIconFilled from "../assets/albums.svg";
+import SettingsIcon from "../assets/settings-outline.svg"; //ionicons
 import SettingsIconFilled from "../assets/settings.svg";
+import Links from "../pages/seller/links";
 
 const BottomNavigationMenu = () => {
   const location = useLocation();
@@ -54,6 +55,34 @@ const BottomNavigationMenu = () => {
             />
             <BottomNavigationAction
               className={
+                value == "links" ? styles.navItemSelected : styles.navItem
+              }
+              label="Links"
+              icon={
+                value == "links" ? (
+                  <img
+                    src={LinkInBioIconFilled}
+                    alt="home"
+                    className={styles.iconFilled}
+                  />
+                ) : (
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={LinkInBioIcon}
+                      alt="home"
+                      className={styles.iconOutlined}
+                    />
+                    <span className={styles.button__badge}>&nbsp;</span>
+                  </div>
+                )
+              }
+              component={Link}
+              to="/app/links/"
+              value="links"
+            />
+
+            <BottomNavigationAction
+              className={
                 value == "products" ? styles.navItemSelected : styles.navItem
               }
               label="Products"
@@ -76,30 +105,7 @@ const BottomNavigationMenu = () => {
               to="/app/products/"
               value="products"
             />
-            <BottomNavigationAction
-              className={
-                value == "categories" ? styles.navItemSelected : styles.navItem
-              }
-              label="Categories"
-              icon={
-                value == "categories" ? (
-                  <img
-                    src={CategoriesIconFilled}
-                    alt="home"
-                    className={styles.iconFilled}
-                  />
-                ) : (
-                  <img
-                    src={CategoriesIcon}
-                    alt="home"
-                    className={styles.iconOutlined}
-                  />
-                )
-              }
-              component={Link}
-              to="/app/categories"
-              value="categories"
-            />
+
             <BottomNavigationAction
               label="Settings"
               icon={
