@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Stack, Button, Heading, Image, Text, Box } from "@chakra-ui/react";
 
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
 
-const LinkItem = ({ index, item }) => {
+const LinkItem = ({ index, item, setIsDrawer }) => {
   return (
     <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
       {(provided) => (
@@ -26,6 +26,7 @@ const LinkItem = ({ index, item }) => {
             alignItems="center"
             minWidth="85%"
             maxWidth="85%"
+            onClick={() => setIsDrawer(true)}
           >
             <Image w="25%" p="15px" pr="2px" src={item.image} />
             <Stack

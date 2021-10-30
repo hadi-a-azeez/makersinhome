@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
 import { useHistory } from "react-router-dom";
-import { Stack, Button, Heading, Box, Text } from "@chakra-ui/react";
+import { Stack, Button, Heading, Box, Input } from "@chakra-ui/react";
 import LabelHeader from "../../../components/labelHeader";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { produce } from "immer";
 import LinkItem from "../../../components/LinkItem";
+import DrawerMain from "../../../components/DrawerMain";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isDrawer, setIsDrawer] = useState(false);
+  const [isTitleDrawer, setIsTitleDrawer] = useState(false);
+
   let history = useHistory();
   const [links, setLinks] = useState([
     {
@@ -72,6 +76,7 @@ const Links = () => {
               color="white"
               size="lg"
               w="70%"
+              onClick={() => setIsDrawer(true)}
             >
               Add Link
             </Button>
@@ -88,7 +93,12 @@ const Links = () => {
                 {(provided) => (
                   <Box {...provided.droppableProps} ref={provided.innerRef}>
                     {links.map((item, i) => (
-                      <LinkItem item={item} key={item.id} index={i} />
+                      <LinkItem
+                        item={item}
+                        key={item.id}
+                        index={i}
+                        setIsDrawer={setIsDrawer}
+                      />
                     ))}
                   </Box>
                 )}
@@ -96,6 +106,36 @@ const Links = () => {
             }
           </DragDropContext>
         </Stack>
+        <DrawerMain isDrawer={isDrawer} setIsDrawer={setIsDrawer}>
+          <Stack spacing="10px">
+            <Input placeholder="Title" />
+            <Input placeholder="Link" />
+            <Button
+              style={{ marginTop: "20px", marginBottom: "15px" }}
+              colorScheme="blue"
+              backgroundColor="#08BD80"
+              alignSelf="flex-end"
+              w="120px"
+            >
+              Save
+            </Button>
+          </Stack>
+        </DrawerMain>
+        <DrawerMain isDrawer={isDrawer} setIsDrawer={setIsDrawer}>
+          <Stack spacing="10px">
+            <Input placeholder="Title" />
+            <Input placeholder="Link" />
+            <Button
+              style={{ marginTop: "20px", marginBottom: "15px" }}
+              colorScheme="blue"
+              backgroundColor="#08BD80"
+              alignSelf="flex-end"
+              w="120px"
+            >
+              Save
+            </Button>
+          </Stack>
+        </DrawerMain>
         <BottomNavigationMenu />
       </div>
     </>
