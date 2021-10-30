@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Stack, Button, Heading, Box, Text } from "@chakra-ui/react";
 import LabelHeader from "../../../components/labelHeader";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { produce } from "immer";
 import LinkItem from "../../../components/LinkItem";
 
