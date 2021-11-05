@@ -8,54 +8,65 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { produce } from "immer";
 import LinkItem from "../../../components/LinkItem";
 import DrawerMain from "../../../components/DrawerMain";
+import {
+  addLink,
+  getLinksAPI,
+  reorderLinks,
+} from "../../../api/sellerLinksAPI";
+import { v4 as uuidv4 } from "uuid";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isDrawer, setIsDrawer] = useState(false);
+  const [isFetchingLink, setIsFetchingLink] = useState(true);
+
+  const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
 
+  const [linkName, setLinkName] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+  const [links, setLinks] = useState([]);
+
   let history = useHistory();
-  const [links, setLinks] = useState([
-    {
-      id: 1,
-      title: "Link 1",
-      url: "https://www.google.comssssssssssssssssssssssss",
-      image: "https://picsum.photos/200",
-      position: 1,
-    },
-    {
-      id: 2,
-      title: "Link 2",
-      url: "https://www.google.com",
-      image: "https://picsum.photos/200",
-      position: 2,
-    },
-    {
-      id: 3,
-      title: "Link 3",
-      url: "https://www.google.com",
-      image: "https://picsum.photos/200",
-      position: 3,
-    },
-  ]);
 
   useEffect(() => {
-    let newLinks = links.map((link) => {
-      return { ...link, position: links.indexOf(link) + 1 };
-    });
-    console.log(newLinks);
-  }, [links]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await getLinksAPI();
+      if (response.data.data) setLinks(response.data.data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
 
-  const reorder = (sourceIndex, destinationIndex) => {
-    setLinks(
-      produce(links, (draft) => {
-        const [removed] = draft.splice(sourceIndex, 1);
-        draft.splice(destinationIndex, 0, removed);
-      })
-    );
+  const updateLinks = async (linksUpdated) => {
+    //remove id and add position
+    let newLinks = linksUpdated?.map((link, index) => ({
+      ...link,
+      position: index + 1,
+    }));
+    const response = await reorderLinks({
+      links: newLinks,
+    });
+
+    console.log(response, "updateeeed");
+  };
+
+  const addNewLink = async (link) => {
+    // setLinks([...links, link]);
+    let { id, ...newLink } = link;
+    const response = await addLink({ link: newLink });
+    setLinks((old) => [...old, response.data.data]);
+  };
+
+  const reorder = async (sourceIndex, destinationIndex) => {
+    let newLinks = produce(links, (draft) => {
+      const [removed] = draft.splice(sourceIndex, 1);
+      draft.splice(destinationIndex, 0, removed);
+    });
+    setLinks(newLinks);
+    await updateLinks(newLinks);
   };
   const onDragEnd = (result) => {
-    console.log("called");
     //dropped outside the list
     if (!result.destination) {
       return;
@@ -76,11 +87,16 @@ const Links = () => {
               color="white"
               size="lg"
               w="70%"
-              onClick={() => setIsDrawer(true)}
+              onClick={() => setIsLinkDrawer(true)}
             >
               Add Link
             </Button>
-            <Button backgroundColor="white" size="lg" w="30%">
+            <Button
+              backgroundColor="white"
+              size="lg"
+              w="30%"
+              onClick={() => setIsTitleDrawer(true)}
+            >
               + Title
             </Button>
           </Stack>
@@ -91,13 +107,17 @@ const Links = () => {
             {
               <Droppable droppableId="droppable">
                 {(provided) => (
-                  <Box {...provided.droppableProps} ref={provided.innerRef}>
-                    {links.map((item, i) => (
+                  <Box
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    mb="100px"
+                  >
+                    {links?.map((item, i) => (
                       <LinkItem
                         item={item}
                         key={item.id}
                         index={i}
-                        setIsDrawer={setIsDrawer}
+                        setIsDrawer={setIsLinkDrawer}
                       />
                     ))}
                   </Box>
@@ -106,25 +126,54 @@ const Links = () => {
             }
           </DragDropContext>
         </Stack>
-        <DrawerMain isDrawer={isDrawer} setIsDrawer={setIsDrawer}>
+        <DrawerMain
+          isDrawer={isLinkDrawer}
+          setIsDrawer={setIsLinkDrawer}
+          title="Add New Link"
+        >
           <Stack spacing="10px">
-            <Input placeholder="Title" />
-            <Input placeholder="Link" />
+            <Input
+              placeholder="Name"
+              value={linkName}
+              onChange={(e) => setLinkName(e.target.value)}
+            />
+            <Input
+              placeholder="Link"
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+            />
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
               colorScheme="blue"
               backgroundColor="#08BD80"
               alignSelf="flex-end"
               w="120px"
+              onClick={() => {
+                linkName &&
+                  linkUrl &&
+                  addNewLink({
+                    id: uuidv4(),
+                    name: linkName,
+                    url: linkUrl,
+                    type: "LINK",
+                    position:
+                      links.length > 0 ? links.length + 2 : links.length + 1,
+                  });
+                setIsLinkDrawer(false);
+              }}
             >
               Save
             </Button>
           </Stack>
         </DrawerMain>
-        <DrawerMain isDrawer={isDrawer} setIsDrawer={setIsDrawer}>
+        <DrawerMain
+          isDrawer={isTitleDrawer}
+          setIsDrawer={setIsTitleDrawer}
+          title="Add New Title"
+        >
           <Stack spacing="10px">
-            <Input placeholder="Title" />
-            <Input placeholder="Link" />
+            <Input placeholder="Heading" />
+
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
               colorScheme="blue"

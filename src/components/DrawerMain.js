@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 
-const DrawerMain = ({ isDrawer, setIsDrawer, onSave, children }) => {
+const DrawerMain = ({ isDrawer, setIsDrawer, onSave, children, title }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const closeDrawer = () => {
@@ -38,7 +38,7 @@ const DrawerMain = ({ isDrawer, setIsDrawer, onSave, children }) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Add new link</DrawerHeader>
+          <DrawerHeader>{title}</DrawerHeader>
 
           <DrawerBody>{children}</DrawerBody>
         </DrawerContent>

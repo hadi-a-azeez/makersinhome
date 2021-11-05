@@ -28,12 +28,13 @@ const LinkItem = ({ index, item, setIsDrawer }) => {
             maxWidth="85%"
             onClick={() => setIsDrawer(true)}
           >
-            <Image w="25%" p="15px" pr="2px" src={item.image} />
+            {item.image && <Image w="25%" pr="2px" src={item.image} />}
             <Stack
               direction="column"
               spacing="0"
               justifyContent="center"
               w="65%"
+              p="15px"
             >
               <Heading
                 size="md"
@@ -41,7 +42,7 @@ const LinkItem = ({ index, item, setIsDrawer }) => {
                 textOverflow="ellipsis"
                 overflow="hidden"
               >
-                {item.title}
+                {item.name}
               </Heading>
               <Text
                 whiteSpace="nowrap"
