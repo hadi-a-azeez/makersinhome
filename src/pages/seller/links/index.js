@@ -17,13 +17,10 @@ import { v4 as uuidv4 } from "uuid";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetchingLink, setIsFetchingLink] = useState(true);
-
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
 
-  const [linkName, setLinkName] = useState("");
-  const [linkUrl, setLinkUrl] = useState("");
+  const [linkNew, setLinkNew] = useState({ name: "", url: "" });
   const [links, setLinks] = useState([]);
 
   let history = useHistory();
@@ -52,9 +49,7 @@ const Links = () => {
   };
 
   const addNewLink = async (link) => {
-    // setLinks([...links, link]);
-    let { id, ...newLink } = link;
-    const response = await addLink({ link: newLink });
+    const response = await addLink({ link });
     setLinks((old) => [...old, response.data.data]);
   };
 
@@ -120,6 +115,7 @@ const Links = () => {
                         setIsDrawer={setIsLinkDrawer}
                       />
                     ))}
+                    {provided.placeholder}
                   </Box>
                 )}
               </Droppable>
@@ -134,13 +130,19 @@ const Links = () => {
           <Stack spacing="10px">
             <Input
               placeholder="Name"
-              value={linkName}
-              onChange={(e) => setLinkName(e.target.value)}
+              value={linkNew.name}
+              onChange={(e) => {
+                let name = e.target.value;
+                setLinkNew((old) => ({ ...old, name }));
+              }}
             />
             <Input
               placeholder="Link"
-              value={linkUrl}
-              onChange={(e) => setLinkUrl(e.target.value)}
+              value={linkNew.url}
+              onChange={(e) => {
+                let url = e.target.value;
+                setLinkNew((old) => ({ ...old, url }));
+              }}
             />
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
@@ -149,15 +151,13 @@ const Links = () => {
               alignSelf="flex-end"
               w="120px"
               onClick={() => {
-                linkName &&
-                  linkUrl &&
+                linkNew.name &&
+                  linkNew.url &&
                   addNewLink({
-                    id: uuidv4(),
-                    name: linkName,
-                    url: linkUrl,
                     type: "LINK",
                     position:
                       links.length > 0 ? links.length + 2 : links.length + 1,
+                    ...linkNew,
                   });
                 setIsLinkDrawer(false);
               }}
