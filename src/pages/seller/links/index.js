@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
 import { useHistory } from "react-router-dom";
-import { Stack, Button, Heading, Box, Input } from "@chakra-ui/react";
+import {
+  Stack,
+  Button,
+  Heading,
+  Box,
+  Input,
+  InputRightElement,
+  InputGroup,
+} from "@chakra-ui/react";
 import LabelHeader from "../../../components/labelHeader";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -13,7 +21,6 @@ import {
   getLinksAPI,
   reorderLinks,
 } from "../../../api/sellerLinksAPI";
-import { v4 as uuidv4 } from "uuid";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -126,6 +133,7 @@ const Links = () => {
           isDrawer={isLinkDrawer}
           setIsDrawer={setIsLinkDrawer}
           title="Add New Link"
+          onDrawerClose={() => setLinkNew({ name: "", url: "" })}
         >
           <Stack spacing="10px">
             <Input
@@ -136,14 +144,29 @@ const Links = () => {
                 setLinkNew((old) => ({ ...old, name }));
               }}
             />
-            <Input
-              placeholder="Link"
-              value={linkNew.url}
-              onChange={(e) => {
-                let url = e.target.value;
-                setLinkNew((old) => ({ ...old, url }));
-              }}
-            />
+            <InputGroup size="lg">
+              <Input
+                pr="30%"
+                size="lg"
+                placeholder="Link"
+                value={linkNew.url}
+                onChange={(e) => {
+                  let url = e.target.value;
+                  setLinkNew((old) => ({ ...old, url }));
+                }}
+              />
+              <InputRightElement width="30%">
+                <Button
+                  size="sm"
+                  onClick={async () => {
+                    let url = await navigator.clipboard.readText();
+                    setLinkNew((old) => ({ ...old, url }));
+                  }}
+                >
+                  Paste
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
               colorScheme="blue"
@@ -170,9 +193,17 @@ const Links = () => {
           isDrawer={isTitleDrawer}
           setIsDrawer={setIsTitleDrawer}
           title="Add New Title"
+          onDrawerClose={() => setLinkNew({ name: "", url: "" })}
         >
           <Stack spacing="10px">
-            <Input placeholder="Heading" />
+            <Input
+              size="lg"
+              placeholder="Heading"
+              onChange={(e) => {
+                let name = e.target.value;
+                setLinkNew((old) => ({ ...old, name }));
+              }}
+            />
 
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
@@ -180,6 +211,17 @@ const Links = () => {
               backgroundColor="#08BD80"
               alignSelf="flex-end"
               w="120px"
+              onClick={() => {
+                linkNew.name &&
+                  addNewLink({
+                    type: "HEADING",
+                    position:
+                      links.length > 0 ? links.length + 2 : links.length + 1,
+                    name: linkNew.name,
+                    url: "",
+                  });
+                setIsTitleDrawer(false);
+              }}
             >
               Save
             </Button>

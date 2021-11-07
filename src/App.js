@@ -5,8 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Stack } from "@chakra-ui/layout";
-import { CircularProgress } from "@material-ui/core";
+import { Stack, CircularProgress } from "@chakra-ui/react";
 import InstagramImport from "./pages/seller/products/instagramImport";
 import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
@@ -48,7 +47,7 @@ const App = () => {
       <Suspense
         fallback={
           <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
-            <CircularProgress color="#00b140" />
+            <CircularProgress isIndeterminate color="#00b140" />
           </Stack>
         }
       >

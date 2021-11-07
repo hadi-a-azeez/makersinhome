@@ -37,10 +37,11 @@ const LinkItem = ({ index, item, setIsDrawer }) => {
               p="15px"
             >
               <Heading
-                size="md"
+                size={item.type == "HEADING" ? "md" : "sm"}
                 whiteSpace="nowrap"
                 textOverflow="ellipsis"
                 overflow="hidden"
+                fontWeight={item.type == "HEADING" ? "bold" : "medium"}
               >
                 {item.name}
               </Heading>

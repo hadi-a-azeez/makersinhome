@@ -13,11 +13,19 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 
-const DrawerMain = ({ isDrawer, setIsDrawer, onSave, children, title }) => {
+const DrawerMain = ({
+  isDrawer,
+  setIsDrawer,
+  onSave,
+  children,
+  title,
+  onDrawerClose,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const closeDrawer = () => {
     setIsDrawer(false);
+    onDrawerClose && onDrawerClose();
     onClose();
   };
 
