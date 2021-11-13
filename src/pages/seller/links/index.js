@@ -9,6 +9,7 @@ import {
   Input,
   InputRightElement,
   InputGroup,
+  Select,
 } from "@chakra-ui/react";
 import LabelHeader from "../../../components/labelHeader";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
@@ -27,10 +28,19 @@ const Links = () => {
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
 
-  const [linkNew, setLinkNew] = useState({ name: "", url: "" });
+  const [linkNew, setLinkNeww] = useState({
+    name: "",
+    url: "",
+    type: "LINK",
+  });
   const [links, setLinks] = useState([]);
 
   let history = useHistory();
+
+  const setLinkNew = (val) => {
+    console.log(val);
+    setLinkNeww(val);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +61,34 @@ const Links = () => {
     const response = await reorderLinks({
       links: newLinks,
     });
-
-    console.log(response, "updateeeed");
   };
+
+  const linkTypes = [
+    {
+      name: "Link",
+      value: "LINK",
+      placeholder: "https://www.example.com",
+    },
+    {
+      name: "Message Whatsapp",
+      value: "MESSAGE_WHATSAPP",
+      placeholder: "Whatsapp Number",
+      type: "number",
+      defaultTitle: "Message On Whatsapp",
+    },
+    {
+      name: "Call Mobile",
+      value: "CALL_MOBILE",
+      placeholder: "Mobile Number",
+      type: "number",
+      defaultTitle: "Call On Mobile",
+    },
+    {
+      name: "Saav Store",
+      value: "SAAV_STORE",
+      defaultTitle: "Shop Our Products",
+    },
+  ];
 
   const addNewLink = async (link) => {
     const response = await addLink({ link });
@@ -133,40 +168,66 @@ const Links = () => {
           isDrawer={isLinkDrawer}
           setIsDrawer={setIsLinkDrawer}
           title="Add New Link"
-          onDrawerClose={() => setLinkNew({ name: "", url: "" })}
+          onDrawerClose={() => setLinkNew({ name: "", url: "", type: "LINK" })}
         >
           <Stack spacing="10px">
+            <p>Type</p>
+            <Select
+              mb="10px"
+              label="Link Type"
+              name="linkType"
+              value={linkNew.type}
+              onChange={(e) => {
+                setLinkNew({
+                  ...linkNew,
+                  name: linkTypes.find((type) => type.value === e.target.value)
+                    ?.defaultTitle,
+                  type: e.target.value,
+                });
+              }}
+            >
+              {linkTypes.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
+            </Select>
             <Input
-              placeholder="Name"
+              placeholder="Title"
               value={linkNew.name}
               onChange={(e) => {
                 let name = e.target.value;
                 setLinkNew((old) => ({ ...old, name }));
               }}
             />
-            <InputGroup size="lg">
-              <Input
-                pr="30%"
-                size="lg"
-                placeholder="Link"
-                value={linkNew.url}
-                onChange={(e) => {
-                  let url = e.target.value;
-                  setLinkNew((old) => ({ ...old, url }));
-                }}
-              />
-              <InputRightElement width="30%">
-                <Button
-                  size="sm"
-                  onClick={async () => {
-                    let url = await navigator.clipboard.readText();
+            {linkNew?.type !== "SAAV_STORE" && (
+              <InputGroup size="lg">
+                <Input
+                  pr="30%"
+                  size="lg"
+                  placeholder={
+                    linkTypes.find((item) => item.value === linkNew.type)
+                      ?.placeholder
+                  }
+                  value={linkNew.url}
+                  onChange={(e) => {
+                    let url = e.target.value;
                     setLinkNew((old) => ({ ...old, url }));
                   }}
-                >
-                  Paste
-                </Button>
-              </InputRightElement>
-            </InputGroup>
+                />
+                <InputRightElement width="30%">
+                  <Button
+                    size="sm"
+                    onClick={async () => {
+                      let url = await navigator.clipboard.readText();
+                      setLinkNew((old) => ({ ...old, url }));
+                    }}
+                  >
+                    Paste
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            )}
             <Button
               style={{ marginTop: "20px", marginBottom: "15px" }}
               colorScheme="blue"
@@ -177,7 +238,6 @@ const Links = () => {
                 linkNew.name &&
                   linkNew.url &&
                   addNewLink({
-                    type: "LINK",
                     position:
                       links.length > 0 ? links.length + 2 : links.length + 1,
                     ...linkNew,
@@ -193,7 +253,7 @@ const Links = () => {
           isDrawer={isTitleDrawer}
           setIsDrawer={setIsTitleDrawer}
           title="Add New Title"
-          onDrawerClose={() => setLinkNew({ name: "", url: "" })}
+          onDrawerClose={() => setLinkNew({ name: "", url: "", type: "LINK" })}
         >
           <Stack spacing="10px">
             <Input
