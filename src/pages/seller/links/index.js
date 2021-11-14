@@ -28,7 +28,7 @@ const Links = () => {
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
 
-  const [linkNew, setLinkNeww] = useState({
+  const [linkNew, setLinkNew] = useState({
     name: "",
     url: "",
     type: "LINK",
@@ -36,11 +36,6 @@ const Links = () => {
   const [links, setLinks] = useState([]);
 
   let history = useHistory();
-
-  const setLinkNew = (val) => {
-    console.log(val);
-    setLinkNeww(val);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +76,7 @@ const Links = () => {
       value: "CALL_MOBILE",
       placeholder: "Mobile Number",
       type: "number",
-      defaultTitle: "Call On Mobile",
+      defaultTitle: "Call Us",
     },
     {
       name: "Saav Store",
@@ -235,14 +230,18 @@ const Links = () => {
               alignSelf="flex-end"
               w="120px"
               onClick={() => {
-                linkNew.name &&
-                  linkNew.url &&
+                if (
+                  linkNew.type === "SAAV_STORE"
+                    ? linkNew.name
+                    : linkNew.name && linkNew.url
+                ) {
                   addNewLink({
                     position:
                       links.length > 0 ? links.length + 2 : links.length + 1,
                     ...linkNew,
                   });
-                setIsLinkDrawer(false);
+                  setIsLinkDrawer(false);
+                }
               }}
             >
               Save
