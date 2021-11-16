@@ -10,6 +10,7 @@ import {
   InputRightElement,
   InputGroup,
   Select,
+  Text,
 } from "@chakra-ui/react";
 import LabelHeader from "../../../components/labelHeader";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
@@ -22,11 +23,13 @@ import {
   getLinksAPI,
   reorderLinks,
 } from "../../../api/sellerLinksAPI";
+import { updateSettings } from "../../../api/sellerAccountAPI";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState("");
 
   const [linkNew, setLinkNew] = useState({
     name: "",
@@ -35,13 +38,24 @@ const Links = () => {
   });
   const [links, setLinks] = useState([]);
 
+  const linksThemes = [
+    { id: "summer", name: "Summer" },
+    { id: "saav_x_nasim", name: "Saav X Nasim" },
+    { id: "retro", name: "Retro" },
+    { id: "neon_nights", name: "Neon Nights" },
+  ];
+
   let history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       const response = await getLinksAPI();
-      if (response.data.data) setLinks(response.data.data);
+      if (response.data.data) {
+        setLinks(response.data.data.links);
+        console.log(response.data.data.user_settings);
+        setSelectedTheme(response.data.data.user_settings.links_theme);
+      }
       setIsLoading(false);
     };
     fetchData();
@@ -53,10 +67,18 @@ const Links = () => {
       ...link,
       position: index + 1,
     }));
-    const response = await reorderLinks({
+    await reorderLinks({
       links: newLinks,
     });
   };
+
+  const updateSelectedTheme = async (theme) => {
+    const response = await updateSettings({ links_theme: theme });
+  };
+
+  useEffect(() => {
+    updateSelectedTheme(selectedTheme);
+  }, [selectedTheme]);
 
   const linkTypes = [
     {
@@ -111,7 +133,37 @@ const Links = () => {
     <>
       <div className={styles.container}>
         <LabelHeader label="Links" />
+
         <Stack w="100%" pl="6%" pr="6%" direction="column">
+          <Heading pt="20px" size="md" alignSelf="flex-start">
+            Theme
+          </Heading>
+          <Stack direction="row" mb="10px" overflow="auto" whiteSpace="nowrap">
+            {linksThemes.map((item) => (
+              <Stack
+                key={item.id}
+                border={
+                  selectedTheme === item.id
+                    ? "3px solid #08BD80"
+                    : "1px solid grey"
+                }
+                borderRadius="5px"
+                padding="5px"
+                backgroundColor="white"
+                h="50px"
+                justifyContent="center"
+                alignItems="center"
+                paddingLeft="10px"
+                paddingRight="10px"
+                onClick={() => {
+                  setSelectedTheme(item.id);
+                }}
+              >
+                <Text>{item.name}</Text>
+              </Stack>
+            ))}
+          </Stack>
+
           <Stack direction="row" mt="8">
             <Button
               backgroundColor="#08bd80"
@@ -132,7 +184,7 @@ const Links = () => {
               + Title
             </Button>
           </Stack>
-          <Heading pt="20px" size="lg">
+          <Heading pt="20px" size="md">
             My links
           </Heading>
           <DragDropContext onDragEnd={onDragEnd}>

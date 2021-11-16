@@ -28,6 +28,15 @@ export const getUserInfo = async () => {
   }
 };
 
+export const updateSettings = async (values) => {
+  try {
+    const response = await axios_seller.post(`/seller/settings`, values);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 //get info about user store
 
 export const getStoreInfoAPI = async () => {
