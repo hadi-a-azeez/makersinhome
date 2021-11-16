@@ -123,6 +123,11 @@ const Links = () => {
     setLinks((old) => [...old, response.data.data]);
   };
 
+  const addNewTitle = async (link) => {
+    const response = await addLink({ link });
+    setLinks((old) => [...old, response.data.data]);
+  };
+
   const reorder = async (sourceIndex, destinationIndex) => {
     let newLinks = produce(links, (draft) => {
       const [removed] = draft.splice(sourceIndex, 1);
@@ -335,7 +340,7 @@ const Links = () => {
               w="120px"
               onClick={() => {
                 linkNew.name &&
-                  addNewLink({
+                  addNewTitle({
                     type: "HEADING",
                     position:
                       links.length > 0 ? links.length + 2 : links.length + 1,
