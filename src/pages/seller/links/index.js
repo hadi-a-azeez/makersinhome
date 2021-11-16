@@ -54,7 +54,9 @@ const Links = () => {
       if (response.data.data) {
         setLinks(response.data.data.links);
         console.log(response.data.data.user_settings);
-        setSelectedTheme(response.data.data.user_settings.links_theme);
+        response?.data?.data?.user_settings?.links_theme
+          ? setSelectedTheme(response?.data?.data?.user_settings?.links_theme)
+          : setSelectedTheme("summer");
       }
       setIsLoading(false);
     };
