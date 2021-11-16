@@ -40,9 +40,9 @@ const Links = () => {
 
   const linksThemes = [
     { id: "summer", name: "Summer" },
-    { id: "saav_x_nasim", name: "Saav X Nasim" },
+    { id: "saav_x_nasim", name: "Saav x Nasim" },
     { id: "retro", name: "Retro" },
-    { id: "neon_nights", name: "Neon Nights" },
+    { id: "neon_nights", name: "Saav x Ahmed" },
   ];
 
   let history = useHistory();
@@ -53,7 +53,6 @@ const Links = () => {
       const response = await getLinksAPI();
       if (response.data.data) {
         setLinks(response.data.data.links);
-        console.log(response.data.data.user_settings);
         response?.data?.data?.user_settings?.links_theme
           ? setSelectedTheme(response?.data?.data?.user_settings?.links_theme)
           : setSelectedTheme("summer");
@@ -87,6 +86,10 @@ const Links = () => {
       name: "Link",
       value: "LINK",
       placeholder: "https://www.example.com",
+      formatter: (val) => {
+        if (!/^https?:\/\//i.test(val)) return "http://" + val;
+        return val;
+      },
     },
     {
       name: "Message Whatsapp",
@@ -94,6 +97,7 @@ const Links = () => {
       placeholder: "Whatsapp Number",
       type: "number",
       defaultTitle: "Message On Whatsapp",
+      formatter: (val) => `https://api.whatsapp.com/send?phone=${val}`,
     },
     {
       name: "Call Mobile",
@@ -101,16 +105,21 @@ const Links = () => {
       placeholder: "Mobile Number",
       type: "number",
       defaultTitle: "Call Us",
+      formatter: (val) => `tel:${val}`,
     },
     {
       name: "Saav Store",
       value: "SAAV_STORE",
       defaultTitle: "Shop Our Products",
+      formatter: (val) => `https://saav.in/store/${val}`,
     },
   ];
 
   const addNewLink = async (link) => {
-    const response = await addLink({ link });
+    let url = linkTypes
+      .find((item) => item.value === link.type)
+      .formatter(link.url);
+    const response = await addLink({ link: { ...link, url } });
     setLinks((old) => [...old, response.data.data]);
   };
 
