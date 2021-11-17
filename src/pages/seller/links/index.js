@@ -1,36 +1,28 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/products.module.css";
-import { useHistory } from "react-router-dom";
-import {
-  Stack,
-  Button,
-  Heading,
-  Box,
-  Input,
-  InputRightElement,
-  InputGroup,
-  Select,
-  Text,
-} from "@chakra-ui/react";
-import LabelHeader from "../../../components/labelHeader";
-import BottomNavigationMenu from "../../../components/bottomNavigation";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { Box, Button, Heading, Stack, Text } from "@chakra-ui/react";
 import { produce } from "immer";
-import LinkItem from "../../../components/LinkItem";
-import DrawerMain from "../../../components/DrawerMain";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { useHistory } from "react-router-dom";
+import { updateSettings } from "../../../api/sellerAccountAPI";
 import {
   addLink,
   getLinksAPI,
   reorderLinks,
 } from "../../../api/sellerLinksAPI";
-import { updateSettings } from "../../../api/sellerAccountAPI";
+import BottomNavigationMenu from "../../../components/bottomNavigation";
+import LabelHeader from "../../../components/labelHeader";
+import LinkItem from "../../../components/LinkItem";
+import styles from "../css/products.module.css";
+import Drawers from "./Drawers";
 
 const Links = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditDrawer, setIsEditDrawer] = useState(false);
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState("");
-
+  const [selectedEditLink, setSelectedEditLink] = useState("");
+  const [userData, setUserData] = useState("");
   const [linkNew, setLinkNew] = useState({
     name: "",
     url: "",
@@ -56,6 +48,10 @@ const Links = () => {
         response?.data?.data?.user_settings?.links_theme
           ? setSelectedTheme(response?.data?.data?.user_settings?.links_theme)
           : setSelectedTheme("summer");
+        setUserData({
+          settings: response.data.data?.user_settings,
+          info: response.data.data?.account_info,
+        });
       }
       setIsLoading(false);
     };
@@ -74,12 +70,8 @@ const Links = () => {
   };
 
   const updateSelectedTheme = async (theme) => {
-    const response = await updateSettings({ links_theme: theme });
+    await updateSettings({ links_theme: theme });
   };
-
-  useEffect(() => {
-    updateSelectedTheme(selectedTheme);
-  }, [selectedTheme]);
 
   const linkTypes = [
     {
@@ -111,19 +103,12 @@ const Links = () => {
       name: "Saav Store",
       value: "SAAV_STORE",
       defaultTitle: "Shop Our Products",
-      formatter: (val) => `https://saav.in/store/${val}`,
+      formatter: () =>
+        `https://saav.in/store/${userData?.info.account_store_link}`,
     },
   ];
 
   const addNewLink = async (link) => {
-    let url = linkTypes
-      .find((item) => item.value === link.type)
-      .formatter(link.url);
-    const response = await addLink({ link: { ...link, url } });
-    setLinks((old) => [...old, response.data.data]);
-  };
-
-  const addNewTitle = async (link) => {
     const response = await addLink({ link });
     setLinks((old) => [...old, response.data.data]);
   };
@@ -171,8 +156,9 @@ const Links = () => {
                 alignItems="center"
                 paddingLeft="10px"
                 paddingRight="10px"
-                onClick={() => {
+                onClick={async () => {
                   setSelectedTheme(item.id);
+                  await updateSelectedTheme(item.id);
                 }}
               >
                 <Text>{item.name}</Text>
@@ -217,7 +203,8 @@ const Links = () => {
                         item={item}
                         key={item.id}
                         index={i}
-                        setIsDrawer={setIsLinkDrawer}
+                        setIsDrawer={setIsEditDrawer}
+                        setSelectedEditLink={setSelectedEditLink}
                       />
                     ))}
                     {provided.placeholder}
@@ -227,133 +214,22 @@ const Links = () => {
             }
           </DragDropContext>
         </Stack>
-        <DrawerMain
-          isDrawer={isLinkDrawer}
-          setIsDrawer={setIsLinkDrawer}
-          title="Add New Link"
-          onDrawerClose={() => setLinkNew({ name: "", url: "", type: "LINK" })}
-        >
-          <Stack spacing="10px">
-            <p>Type</p>
-            <Select
-              mb="10px"
-              label="Link Type"
-              name="linkType"
-              value={linkNew.type}
-              onChange={(e) => {
-                setLinkNew({
-                  ...linkNew,
-                  name: linkTypes.find((type) => type.value === e.target.value)
-                    ?.defaultTitle,
-                  type: e.target.value,
-                });
-              }}
-            >
-              {linkTypes.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.name}
-                </option>
-              ))}
-            </Select>
-            <Input
-              placeholder="Title"
-              value={linkNew.name}
-              onChange={(e) => {
-                let name = e.target.value;
-                setLinkNew((old) => ({ ...old, name }));
-              }}
-            />
-            {linkNew?.type !== "SAAV_STORE" && (
-              <InputGroup size="lg">
-                <Input
-                  pr="30%"
-                  size="lg"
-                  placeholder={
-                    linkTypes.find((item) => item.value === linkNew.type)
-                      ?.placeholder
-                  }
-                  value={linkNew.url}
-                  onChange={(e) => {
-                    let url = e.target.value;
-                    setLinkNew((old) => ({ ...old, url }));
-                  }}
-                />
-                <InputRightElement width="30%">
-                  <Button
-                    size="sm"
-                    onClick={async () => {
-                      let url = await navigator.clipboard.readText();
-                      setLinkNew((old) => ({ ...old, url }));
-                    }}
-                  >
-                    Paste
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            )}
-            <Button
-              style={{ marginTop: "20px", marginBottom: "15px" }}
-              colorScheme="blue"
-              backgroundColor="#08BD80"
-              alignSelf="flex-end"
-              w="120px"
-              onClick={() => {
-                if (
-                  linkNew.type === "SAAV_STORE"
-                    ? linkNew.name
-                    : linkNew.name && linkNew.url
-                ) {
-                  addNewLink({
-                    position:
-                      links.length > 0 ? links.length + 2 : links.length + 1,
-                    ...linkNew,
-                  });
-                  setIsLinkDrawer(false);
-                }
-              }}
-            >
-              Save
-            </Button>
-          </Stack>
-        </DrawerMain>
-        <DrawerMain
-          isDrawer={isTitleDrawer}
-          setIsDrawer={setIsTitleDrawer}
-          title="Add New Title"
-          onDrawerClose={() => setLinkNew({ name: "", url: "", type: "LINK" })}
-        >
-          <Stack spacing="10px">
-            <Input
-              size="lg"
-              placeholder="Heading"
-              onChange={(e) => {
-                let name = e.target.value;
-                setLinkNew((old) => ({ ...old, name }));
-              }}
-            />
-
-            <Button
-              style={{ marginTop: "20px", marginBottom: "15px" }}
-              colorScheme="blue"
-              backgroundColor="#08BD80"
-              alignSelf="flex-end"
-              w="120px"
-              onClick={() => {
-                linkNew.name &&
-                  addNewTitle({
-                    type: "HEADING",
-                    position:
-                      links.length > 0 ? links.length + 2 : links.length + 1,
-                    name: linkNew.name,
-                    url: "",
-                  });
-                setIsTitleDrawer(false);
-              }}
-            >
-              Save
-            </Button>
-          </Stack>
-        </DrawerMain>
+        <Drawers
+          setIsEditDrawer={setIsEditDrawer}
+          isLinkDrawer={isLinkDrawer}
+          setIsLinkDrawer={setIsLinkDrawer}
+          setLinkNew={setLinkNew}
+          linkNew={linkNew}
+          linkTypes={linkTypes}
+          addNewLink={addNewLink}
+          links={links}
+          setLinks={setLinks}
+          isTitleDrawer={isTitleDrawer}
+          isEditDrawer={isEditDrawer}
+          setIsTitleDrawer={setIsTitleDrawer}
+          setSelectedEditLink={setSelectedEditLink}
+          selectedEditLink={selectedEditLink}
+        />
         <BottomNavigationMenu />
       </div>
     </>

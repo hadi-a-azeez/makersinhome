@@ -5,7 +5,7 @@ import { Stack, Button, Heading, Image, Text, Box } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
 
-const LinkItem = ({ index, item, setIsDrawer }) => {
+const LinkItem = ({ index, item, setIsDrawer, setSelectedEditLink }) => {
   return (
     <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
       {(provided) => (
@@ -26,7 +26,10 @@ const LinkItem = ({ index, item, setIsDrawer }) => {
             alignItems="center"
             minWidth="85%"
             maxWidth="85%"
-            onClick={() => setIsDrawer(true)}
+            onClick={() => {
+              setSelectedEditLink(item);
+              setIsDrawer(true);
+            }}
           >
             {item.image && <Image w="25%" pr="2px" src={item.image} />}
             <Stack
