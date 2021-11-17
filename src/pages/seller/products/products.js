@@ -68,9 +68,9 @@ const Products = (props) => {
         </div>
         {isLoading && (
           <>
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+            <Skeleton height="100px" w="90%" mt="3" borderRadius="6px" />
+            <Skeleton height="100px" w="90%" mt="3" borderRadius="6px" />
+            <Skeleton height="100px" w="90%" mt="3" borderRadius="6px" />
           </>
         )}
         {/* card one */}

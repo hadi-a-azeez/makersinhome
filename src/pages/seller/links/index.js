@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Stack, Text, Skeleton } from "@chakra-ui/react";
 import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -198,15 +198,38 @@ const Links = () => {
                     ref={provided.innerRef}
                     mb="100px"
                   >
-                    {links?.map((item, i) => (
-                      <LinkItem
-                        item={item}
-                        key={item.id}
-                        index={i}
-                        setIsDrawer={setIsEditDrawer}
-                        setSelectedEditLink={setSelectedEditLink}
-                      />
-                    ))}
+                    {!isLoading ? (
+                      links.map((item, i) => (
+                        <LinkItem
+                          item={item}
+                          key={item.id}
+                          index={i}
+                          setIsDrawer={setIsEditDrawer}
+                          setSelectedEditLink={setSelectedEditLink}
+                        />
+                      ))
+                    ) : (
+                      <>
+                        <Skeleton
+                          height="50px"
+                          w="100%"
+                          mt="3"
+                          borderRadius="6px"
+                        />
+                        <Skeleton
+                          height="50px"
+                          w="100%"
+                          mt="3"
+                          borderRadius="6px"
+                        />
+                        <Skeleton
+                          height="80px"
+                          w="100%"
+                          mt="3"
+                          borderRadius="6px"
+                        />
+                      </>
+                    )}
                     {provided.placeholder}
                   </Box>
                 )}
