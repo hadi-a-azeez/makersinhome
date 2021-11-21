@@ -1,12 +1,12 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Button,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Select,
   Stack,
-  IconButton,
 } from "@chakra-ui/react";
 import React from "react";
 import { deleteLinkAPI, updateLinkAPI } from "../../../api/sellerLinksAPI";

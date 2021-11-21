@@ -3,7 +3,6 @@ import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useHistory } from "react-router-dom";
-import { updateSettings } from "../../../api/sellerAccountAPI";
 import {
   addLink,
   getLinksAPI,
@@ -11,7 +10,6 @@ import {
 } from "../../../api/sellerLinksAPI";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import LinkItem from "../../../components/LinkItem";
-import styles from "../css/products.module.css";
 import Drawers from "./Drawers";
 
 const Links = () => {
@@ -59,10 +57,6 @@ const Links = () => {
     await reorderLinks({
       links: newLinks,
     });
-  };
-
-  const updateSelectedTheme = async (theme) => {
-    await updateSettings({ links_theme: theme });
   };
 
   const linkTypes = [
@@ -123,99 +117,97 @@ const Links = () => {
   };
 
   return (
-    <>
-      <div className={styles.container}>
-        <Stack w="100%" pl="6%" pr="6%" direction="column">
-          <Stack direction="row" mt="8">
-            <Button
-              backgroundColor="#08bd80"
-              colorScheme="green"
-              color="white"
-              size="lg"
-              w="70%"
-              onClick={() => setIsLinkDrawer(true)}
-            >
-              Add Link
-            </Button>
-            <Button
-              backgroundColor="white"
-              size="lg"
-              w="30%"
-              onClick={() => setIsTitleDrawer(true)}
-            >
-              + Title
-            </Button>
-          </Stack>
-          <Heading pt="20px" size="md">
-            My links
-          </Heading>
-          <DragDropContext onDragEnd={onDragEnd}>
-            {
-              <Droppable droppableId="droppable">
-                {(provided) => (
-                  <Box
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    mb="100px"
-                  >
-                    {!isLoading ? (
-                      links.map((item, i) => (
-                        <LinkItem
-                          item={item}
-                          key={item.id}
-                          index={i}
-                          setIsDrawer={setIsEditDrawer}
-                          setSelectedEditLink={setSelectedEditLink}
-                        />
-                      ))
-                    ) : (
-                      <>
-                        <Skeleton
-                          height="50px"
-                          w="100%"
-                          mt="3"
-                          borderRadius="6px"
-                        />
-                        <Skeleton
-                          height="50px"
-                          w="100%"
-                          mt="3"
-                          borderRadius="6px"
-                        />
-                        <Skeleton
-                          height="80px"
-                          w="100%"
-                          mt="3"
-                          borderRadius="6px"
-                        />
-                      </>
-                    )}
-                    {provided.placeholder}
-                  </Box>
-                )}
-              </Droppable>
-            }
-          </DragDropContext>
+    <Box bgColor="#f1f1f1">
+      <Stack w="100%" pl="6%" pr="6%" direction="column">
+        <Stack direction="row" mt="8">
+          <Button
+            backgroundColor="#08bd80"
+            colorScheme="green"
+            color="white"
+            size="lg"
+            w="70%"
+            onClick={() => setIsLinkDrawer(true)}
+          >
+            Add Link
+          </Button>
+          <Button
+            backgroundColor="white"
+            size="lg"
+            w="30%"
+            onClick={() => setIsTitleDrawer(true)}
+          >
+            + Title
+          </Button>
         </Stack>
-        <Drawers
-          setIsEditDrawer={setIsEditDrawer}
-          isLinkDrawer={isLinkDrawer}
-          setIsLinkDrawer={setIsLinkDrawer}
-          setLinkNew={setLinkNew}
-          linkNew={linkNew}
-          linkTypes={linkTypes}
-          addNewLink={addNewLink}
-          links={links}
-          setLinks={setLinks}
-          isTitleDrawer={isTitleDrawer}
-          isEditDrawer={isEditDrawer}
-          setIsTitleDrawer={setIsTitleDrawer}
-          setSelectedEditLink={setSelectedEditLink}
-          selectedEditLink={selectedEditLink}
-        />
-        <BottomNavigationMenu />
-      </div>
-    </>
+        <Heading pt="20px" size="md">
+          My links
+        </Heading>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <Box
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  mb="100px"
+                >
+                  {!isLoading ? (
+                    links.map((item, i) => (
+                      <LinkItem
+                        item={item}
+                        key={item.id}
+                        index={i}
+                        setIsDrawer={setIsEditDrawer}
+                        setSelectedEditLink={setSelectedEditLink}
+                      />
+                    ))
+                  ) : (
+                    <>
+                      <Skeleton
+                        height="50px"
+                        w="100%"
+                        mt="3"
+                        borderRadius="6px"
+                      />
+                      <Skeleton
+                        height="50px"
+                        w="100%"
+                        mt="3"
+                        borderRadius="6px"
+                      />
+                      <Skeleton
+                        height="80px"
+                        w="100%"
+                        mt="3"
+                        borderRadius="6px"
+                      />
+                    </>
+                  )}
+                  {provided.placeholder}
+                </Box>
+              )}
+            </Droppable>
+          }
+        </DragDropContext>
+      </Stack>
+      <Drawers
+        setIsEditDrawer={setIsEditDrawer}
+        isLinkDrawer={isLinkDrawer}
+        setIsLinkDrawer={setIsLinkDrawer}
+        setLinkNew={setLinkNew}
+        linkNew={linkNew}
+        linkTypes={linkTypes}
+        addNewLink={addNewLink}
+        links={links}
+        setLinks={setLinks}
+        isTitleDrawer={isTitleDrawer}
+        isEditDrawer={isEditDrawer}
+        setIsTitleDrawer={setIsTitleDrawer}
+        setSelectedEditLink={setSelectedEditLink}
+        selectedEditLink={selectedEditLink}
+      />
+      <BottomNavigationMenu />
+    </Box>
   );
 };
 

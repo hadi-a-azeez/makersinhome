@@ -1,6 +1,7 @@
-import { TabList, TabPanels, TabPanel, Tabs, Tab } from "@chakra-ui/tabs";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import React from "react";
 import LabelHeader from "../../../components/labelHeader";
+import Design from "./Design";
 import Links from "./Links";
 const LinksMain = () => {
   return (
@@ -13,11 +14,11 @@ const LinksMain = () => {
         </TabList>
 
         <TabPanels>
-          <TabPanel padding="0" m="0">
+          <TabPanel padding="0">
             <Links />
           </TabPanel>
-          <TabPanel>
-            <p>two!</p>
+          <TabPanel p="0">
+            <Design />
           </TabPanel>
         </TabPanels>
       </Tabs>
