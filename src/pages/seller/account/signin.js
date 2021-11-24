@@ -71,7 +71,9 @@ const SignIn = () => {
           <h1>
             {errorCode && errorCode === 101
               ? "This Number Isnt Registered."
-              : "Your Password Is Wrong"}
+              : errorCode === 102
+              ? "Your Password Is Wrong"
+              : "Your account is deactivated"}
           </h1>
         </Box>
       )}
