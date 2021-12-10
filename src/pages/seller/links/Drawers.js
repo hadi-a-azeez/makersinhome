@@ -18,7 +18,6 @@ const Drawers = ({
   isLinkDrawer,
   setLinkNew,
   linkNew,
-  linkTypes,
   addNewLink,
   links,
   isTitleDrawer,
@@ -27,15 +26,55 @@ const Drawers = ({
   selectedEditLink,
   setIsTitleDrawer,
   setLinks,
+  setIsLoading,
+  isLoading,
+  userData,
 }) => {
+  const linkTypes = [
+    {
+      name: "Link",
+      value: "LINK",
+      placeholder: "https://www.example.com",
+      formatter: (val) => {
+        if (!/^https?:\/\//i.test(val)) return "http://" + val;
+        return val;
+      },
+    },
+    {
+      name: "Message Whatsapp",
+      value: "MESSAGE_WHATSAPP",
+      placeholder: "Whatsapp Number",
+      type: "number",
+      defaultTitle: "Message On Whatsapp",
+      formatter: (val) => `https://api.whatsapp.com/send?phone=${val}`,
+    },
+    {
+      name: "Call Mobile",
+      value: "CALL_MOBILE",
+      placeholder: "Mobile Number",
+      type: "number",
+      defaultTitle: "Call Us",
+      formatter: (val) => `tel:${val}`,
+    },
+    {
+      name: "Saav Store",
+      value: "SAAV_STORE",
+      defaultTitle: "Shop Our Products",
+      formatter: () =>
+        `https://saav.in/store/${userData?.info.account_store_link}`,
+    },
+  ];
+
   const updateLink = async (link) => {
     await updateLinkAPI({ link });
     setLinks((old) => old.map((l) => (l.id === link.id ? link : l)));
   };
 
   const deleteLink = async (id) => {
+    setIsLoading("DELETE_LINK");
     await deleteLinkAPI(id);
     setLinks((old) => old.filter((l) => l.id !== id));
+    setIsLoading("");
     setIsEditDrawer(false);
   };
 
@@ -108,6 +147,7 @@ const Drawers = ({
             </InputGroup>
           )}
           <Button
+            isLoading={isLoading === "ADD_LINK"}
             style={{ marginTop: "20px", marginBottom: "15px" }}
             colorScheme="blue"
             backgroundColor="#08BD80"
@@ -119,11 +159,13 @@ const Drawers = ({
                   ? linkNew.name
                   : linkNew.name && linkNew.url
               ) {
+                setIsLoading("ADD_LINK");
                 addNewLink({
                   position:
                     links.length > 0 ? links.length + 2 : links.length + 1,
                   ...linkNew,
                 });
+                setIsLoading("");
                 setIsLinkDrawer(false);
               }
             }}
@@ -141,23 +183,6 @@ const Drawers = ({
         onDrawerClose={() => setSelectedEditLink("")}
       >
         <Stack spacing="10px">
-          <p>Type</p>
-          <Select
-            mb="10px"
-            label="Link Type"
-            name="linkType"
-            value={selectedEditLink.type}
-            onChange={(e) => {
-              let type = e.target.value;
-              setSelectedEditLink((old) => ({ ...old, type }));
-            }}
-          >
-            {linkTypes.map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.name}
-              </option>
-            ))}
-          </Select>
           <Input
             placeholder="Title"
             value={selectedEditLink?.name}
@@ -169,61 +194,67 @@ const Drawers = ({
               }));
             }}
           />
-          {linkNew?.type !== "SAAV_STORE" && (
-            <InputGroup size="lg">
-              <Input
-                pr="30%"
-                size="lg"
-                placeholder={
-                  linkTypes.find((item) => item.value === linkNew.type)
-                    ?.placeholder
-                }
-                value={selectedEditLink.url}
-                onChange={(e) => {
-                  let url = e.target.value;
-                  setSelectedEditLink((old) => ({
-                    ...old,
-                    url,
-                  }));
-                }}
-              />
-              <InputRightElement width="30%">
-                <Button
-                  size="sm"
-                  onClick={async () => {
-                    let url = await navigator.clipboard.readText();
-                    setSelectedEditLink((old) => ({ ...old, url }));
+          {selectedEditLink?.type !== "SAAV_STORE" ||
+            (selectedEditLink?.type === "HEADING" && (
+              <InputGroup size="lg">
+                <Input
+                  pr="30%"
+                  size="lg"
+                  placeholder={
+                    linkTypes.find((item) => item.value === linkNew.type)
+                      ?.placeholder
+                  }
+                  value={selectedEditLink.url}
+                  onChange={(e) => {
+                    let url = e.target.value;
+                    setSelectedEditLink((old) => ({
+                      ...old,
+                      url,
+                    }));
                   }}
-                >
-                  Paste
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          )}
+                />
+                <InputRightElement width="30%">
+                  <Button
+                    size="sm"
+                    onClick={async () => {
+                      let url = await navigator.clipboard.readText();
+                      setSelectedEditLink((old) => ({ ...old, url }));
+                    }}
+                  >
+                    Paste
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            ))}
           <Stack direction="row" justify="space-between" padding="10px">
             <IconButton
+              isLoading={isLoading === "DELETE_LINK"}
               icon={<DeleteIcon color="red.500" />}
               onClick={() => deleteLink(selectedEditLink.id)}
             />
             <Button
+              isLoading={isLoading === "UPDATE_LINK"}
               colorScheme="blue"
               backgroundColor="#08BD80"
               alignSelf="flex-end"
               w="120px"
               onClick={async () => {
                 if (
-                  selectedEditLink.type === "SAAV_STORE"
+                  selectedEditLink.type === "SAAV_STORE" ||
+                  selectedEditLink.type === "HEADING"
                     ? selectedEditLink.name
                     : selectedEditLink.name && selectedEditLink.url
                 ) {
+                  setIsLoading("UPDATE_LINK");
                   await updateLink({
                     ...selectedEditLink,
                   });
+                  setIsLoading(null);
                   setIsEditDrawer(false);
                 }
               }}
             >
-              Save
+              Update
             </Button>
           </Stack>
         </Stack>
@@ -247,21 +278,25 @@ const Drawers = ({
           />
 
           <Button
+            isLoading={isLoading === "ADD_TITLE"}
             style={{ marginTop: "20px", marginBottom: "15px" }}
             colorScheme="blue"
             backgroundColor="#08BD80"
             alignSelf="flex-end"
             w="120px"
-            onClick={() => {
-              linkNew.name &&
-                addNewLink({
+            onClick={async () => {
+              if (linkNew.name) {
+                setIsLoading("ADD_TITLE");
+                await addNewLink({
                   type: "HEADING",
                   position:
                     links.length > 0 ? links.length + 2 : links.length + 1,
                   name: linkNew.name,
                   url: "",
                 });
-              setIsTitleDrawer(false);
+                setIsLoading(null);
+                setIsTitleDrawer(false);
+              }
             }}
           >
             Save

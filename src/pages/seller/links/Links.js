@@ -1,20 +1,19 @@
-import { Box, Button, Heading, Skeleton, Stack, Image } from "@chakra-ui/react";
+import { Box, Button, Heading, Image, Skeleton, Stack } from "@chakra-ui/react";
 import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import EmptyLinksImage from "../../../assets/empty_links.png";
-import { useHistory } from "react-router-dom";
 import {
   addLink,
   getLinksAPI,
   reorderLinks,
 } from "../../../api/sellerLinksAPI";
+import EmptyLinksImage from "../../../assets/empty_links.png";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 import LinkItem from "../../../components/LinkItem";
 import Drawers from "./Drawers";
 
 const Links = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState("MAIN");
   const [isEditDrawer, setIsEditDrawer] = useState(false);
   const [isLinkDrawer, setIsLinkDrawer] = useState(false);
   const [isTitleDrawer, setIsTitleDrawer] = useState(false);
@@ -28,11 +27,9 @@ const Links = () => {
   });
   const [links, setLinks] = useState([]);
 
-  let history = useHistory();
-
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      setIsLoading("MAIN");
       const response = await getLinksAPI();
       if (response.data.data) {
         setLinks(response.data.data.links);
@@ -44,7 +41,7 @@ const Links = () => {
           info: response.data.data?.account_info,
         });
       }
-      setIsLoading(false);
+      setIsLoading(null);
     };
     fetchData();
   }, []);
@@ -59,41 +56,6 @@ const Links = () => {
       links: newLinks,
     });
   };
-
-  const linkTypes = [
-    {
-      name: "Link",
-      value: "LINK",
-      placeholder: "https://www.example.com",
-      formatter: (val) => {
-        if (!/^https?:\/\//i.test(val)) return "http://" + val;
-        return val;
-      },
-    },
-    {
-      name: "Message Whatsapp",
-      value: "MESSAGE_WHATSAPP",
-      placeholder: "Whatsapp Number",
-      type: "number",
-      defaultTitle: "Message On Whatsapp",
-      formatter: (val) => `https://api.whatsapp.com/send?phone=${val}`,
-    },
-    {
-      name: "Call Mobile",
-      value: "CALL_MOBILE",
-      placeholder: "Mobile Number",
-      type: "number",
-      defaultTitle: "Call Us",
-      formatter: (val) => `tel:${val}`,
-    },
-    {
-      name: "Saav Store",
-      value: "SAAV_STORE",
-      defaultTitle: "Shop Our Products",
-      formatter: () =>
-        `https://saav.in/store/${userData?.info.account_store_link}`,
-    },
-  ];
 
   const addNewLink = async (link) => {
     const response = await addLink({ link });
@@ -152,7 +114,7 @@ const Links = () => {
                   ref={provided.innerRef}
                   mb="100px"
                 >
-                  {!isLoading ? (
+                  {isLoading !== "MAIN" ? (
                     links.map((item, i) => (
                       <LinkItem
                         item={item}
@@ -184,7 +146,7 @@ const Links = () => {
                       />
                     </>
                   )}
-                  {!isLoading && links.length === 0 && (
+                  {isLoading !== "MAIN" && links.length === 0 && (
                     <Stack direction="column" alignItems="center" mt="30px">
                       <Image src={EmptyLinksImage} w="60%" />
                       <Heading pt="20px" size="md" pb="20px" color="#3b3b3b">
@@ -210,12 +172,12 @@ const Links = () => {
         </DragDropContext>
       </Stack>
       <Drawers
+        userData={userData}
         setIsEditDrawer={setIsEditDrawer}
         isLinkDrawer={isLinkDrawer}
         setIsLinkDrawer={setIsLinkDrawer}
         setLinkNew={setLinkNew}
         linkNew={linkNew}
-        linkTypes={linkTypes}
         addNewLink={addNewLink}
         links={links}
         setLinks={setLinks}
@@ -224,6 +186,8 @@ const Links = () => {
         setIsTitleDrawer={setIsTitleDrawer}
         setSelectedEditLink={setSelectedEditLink}
         selectedEditLink={selectedEditLink}
+        setIsLoading={setIsLoading}
+        isLoading={isLoading}
       />
       <BottomNavigationMenu />
     </Box>

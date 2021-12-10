@@ -1,7 +1,17 @@
-import { Heading, Stack, Text, Box, SimpleGrid } from "@chakra-ui/react";
+import {
+  Heading,
+  Stack,
+  Text,
+  Box,
+  SimpleGrid,
+  Badge,
+  IconButton,
+} from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
 import React, { useState, useEffect } from "react";
 import { updateSettings } from "../../../api/sellerAccountAPI";
 import { getLinksAPI } from "../../../api/sellerLinksAPI";
+
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 const Design = () => {
@@ -10,10 +20,18 @@ const Design = () => {
   const [userData, setUserData] = useState("");
 
   const linksThemes = [
-    { id: "summer", name: "Summer" },
-    { id: "saav_x_nasim", name: "Saav x Nasim" },
-    { id: "retro", name: "Retro" },
-    { id: "neon_nights", name: "Saav x Ahmed" },
+    { id: "summer", name: "Summer", image: "https://saav.in/links/summer.jpg" },
+    {
+      id: "saav_x_nasim",
+      name: "Saav x Nasim",
+      image: "https://saav.in/links/saav_x_nasim.png",
+    },
+    { id: "retro", name: "Retro", color: "#F1EDE2" },
+    {
+      id: "neon_nights",
+      name: "Neon Nights",
+      image: "https://c.tenor.com/9014ZFGozAcAAAAM/no-sleep.gif",
+    },
   ];
 
   useEffect(() => {
@@ -46,24 +64,35 @@ const Design = () => {
       <SimpleGrid position="relative" columns={2} spacing={3}>
         {linksThemes.map((item) => (
           <Stack
+            position="relative"
+            border={selectedTheme === item.id ? "4px solid #08BD80" : ""}
             key={item.id}
-            border={
-              selectedTheme === item.id ? "3px solid #08BD80" : "1px solid grey"
-            }
             borderRadius="5px"
             padding="5px"
             backgroundColor="white"
-            h="50px"
+            h="150px"
             justifyContent="center"
             alignItems="center"
             paddingLeft="10px"
+            boxShadow="#fff 0px 2px 8px 0px;"
             paddingRight="10px"
+            bg={item.image ? "url(" + item.image + ")" : item.color}
             onClick={async () => {
               setSelectedTheme(item.id);
               await updateSelectedTheme(item.id);
             }}
           >
             <Text>{item.name}</Text>
+            {selectedTheme === item.id && (
+              <IconButton
+                bg="#08BD80"
+                icon={<CheckIcon color="#fff" w="100%" />}
+                borderRadius="50%"
+                position="absolute"
+                top="4px"
+                left="8px"
+              />
+            )}
           </Stack>
         ))}
       </SimpleGrid>
