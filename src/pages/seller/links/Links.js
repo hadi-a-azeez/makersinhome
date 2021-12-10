@@ -1,7 +1,8 @@
-import { Box, Button, Heading, Skeleton, Stack } from "@chakra-ui/react";
+import { Box, Button, Heading, Skeleton, Stack, Image } from "@chakra-ui/react";
 import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import EmptyLinksImage from "../../../assets/empty_links.png";
 import { useHistory } from "react-router-dom";
 import {
   addLink,
@@ -117,7 +118,7 @@ const Links = () => {
   };
 
   return (
-    <Box bgColor="#f1f1f1">
+    <Box bgColor="#f1f1f1" minH="100vh">
       <Stack w="100%" pl="6%" pr="6%" direction="column">
         <Stack direction="row" mt="8">
           <Button
@@ -182,6 +183,24 @@ const Links = () => {
                         borderRadius="6px"
                       />
                     </>
+                  )}
+                  {!isLoading && links.length === 0 && (
+                    <Stack direction="column" alignItems="center" mt="30px">
+                      <Image src={EmptyLinksImage} w="60%" />
+                      <Heading pt="20px" size="md" pb="20px" color="#3b3b3b">
+                        No Links Added!
+                      </Heading>
+                      <Button
+                        backgroundColor="#08bd80"
+                        colorScheme="green"
+                        color="white"
+                        size="lg"
+                        w="70%"
+                        onClick={() => setIsLinkDrawer(true)}
+                      >
+                        Add New Link
+                      </Button>
+                    </Stack>
                   )}
                   {provided.placeholder}
                 </Box>

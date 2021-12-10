@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-
-import { Stack, Button, Heading, Image, Text, Box } from "@chakra-ui/react";
-
 import { DragHandleIcon } from "@chakra-ui/icons";
+import { Box, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 const LinkItem = ({ index, item, setIsDrawer, setSelectedEditLink }) => {
