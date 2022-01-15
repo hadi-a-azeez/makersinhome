@@ -9,16 +9,21 @@ import {
   Input,
   Button,
   Box,
-  Image,
   InputGroup,
   InputLeftAddon,
 } from "@chakra-ui/react";
-import AddToCart from "../../../assets/addtocart.svg";
 import { useForm } from "../../../components/useForm";
 import { apiRoot } from "../../../config";
 import axios from "axios";
-import Header from "../../../components/header";
 import { useHistory } from "react-router-dom";
+import AuthPageLayout from "../../../layouts/Auth/Login";
+import tw, { styled } from "twin.macro";
+
+const Container = styled.div`
+  ${tw`flex flex-col gap-3`}
+  width: 90%;
+`;
+const HeadingContainer = tw.div`w-full flex justify-center items-center`;
 
 const SignUp = () => {
   const [register, setRegister, updateRegister] = useForm({
@@ -69,21 +74,20 @@ const SignUp = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Header />
-      <div className={styles.heading_block}>
-        <h1 className={styles.heading_normal}>Create your own</h1>
-        <h1 className={styles.heading_bold}>&nbsp;FREE</h1>
-        <h1 className={styles.heading_normal}>&nbsp;store.</h1>
-      </div>
-      {errorMessage.length > 1 && (
-        <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
-          <h1>{errorMessage}</h1>
-        </Box>
-      )}
+    <AuthPageLayout>
+      <Container>
+        <HeadingContainer>
+          <h1 className={styles.heading_normal}>Create your own</h1>
+          <h1 className={styles.heading_bold}>&nbsp;FREE</h1>
+          <h1 className={styles.heading_normal}>&nbsp;store.</h1>
+        </HeadingContainer>
+        {errorMessage.length > 1 && (
+          <Box borderRadius="md" bg="tomato" color="white" p="3" w="100%">
+            <h1>{errorMessage}</h1>
+          </Box>
+        )}
 
-      <div className={styles.input_group}>
-        <FormControl w="90%" mt="3">
+        <FormControl w="100%">
           <FormLabel color="gray.500" fontWeight="400">
             Mobile No
           </FormLabel>
@@ -98,7 +102,7 @@ const SignUp = () => {
             />
           </InputGroup>
         </FormControl>
-        <FormControl w="90%" mt="3">
+        <FormControl w="100%">
           <FormLabel color="gray.500" fontWeight="400">
             Password
           </FormLabel>
@@ -126,7 +130,7 @@ const SignUp = () => {
             </InputRightElement>
           </InputGroup>
         </FormControl>
-        <FormControl w="90%" mt="3">
+        <FormControl w="100%">
           <FormLabel color="gray.500" fontWeight="400">
             Store name
           </FormLabel>
@@ -143,8 +147,7 @@ const SignUp = () => {
           isLoading={isLoading}
           loadingText="Creating your store"
           size="lg"
-          w="90%"
-          mt="7"
+          w="100%"
           pt="8"
           pb="8"
           fontFamily="elemen"
@@ -153,10 +156,8 @@ const SignUp = () => {
         >
           Complete Sign Up
         </Button>
-      </div>
-
-      <Image src={AddToCart} width="70%" mt="8" />
-    </div>
+      </Container>
+    </AuthPageLayout>
   );
 };
 
