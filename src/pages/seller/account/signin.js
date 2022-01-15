@@ -74,7 +74,14 @@ const SignIn = () => {
           <Heading className={styles.heading_bold_big}>Log in to Saav</Heading>
         </HeadingContainer>
         {isLoginError && (
-          <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
+          <Box
+            borderRadius="md"
+            bg="tomato"
+            color="white"
+            p="3"
+            w="100%"
+            mb="3"
+          >
             <h1>
               {errorCode && errorCode === 101
                 ? "This Number Isnt Registered."
