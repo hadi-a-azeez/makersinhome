@@ -43,8 +43,8 @@ const Item = styled.div`
 const Icon = styled.img`
   width: 28px;
   height: 28px;
-  filter: invert(25%) sepia(9%) saturate(20%) hue-rotate(316deg) brightness(93%)
-    contrast(90%);
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(354deg)
+    brightness(105%) contrast(101%);
   ${({ selected }) =>
     selected &&
     `filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)

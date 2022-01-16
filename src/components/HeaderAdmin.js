@@ -28,6 +28,9 @@ const Image2 = styled.div`
   ${tw`bg-gray-200 rounded-full`}
   width: 20px;
   height: 20px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const HeaderAdmin = () => {

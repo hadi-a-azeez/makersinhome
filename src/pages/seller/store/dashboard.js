@@ -29,9 +29,9 @@ import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 import { useHistory } from "react-router-dom";
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import copyText from "../../../components/copyText";
-import DashboardPageLayout from "../../../layouts/Seller/Dashboard";
 import tw, { styled } from "twin.macro";
 import MetricsCard from "../../../components/MetricsCard";
+import SellerPageLayout from "../../../layouts/Seller";
 
 const Container = styled.div`
   ${tw`flex flex-col items-center w-full bg-gray-100`}
@@ -79,7 +79,7 @@ const Dashboard = () => {
     </Stack>
   ) : (
     <>
-      <DashboardPageLayout>
+      <SellerPageLayout>
         <Container>
           {/* <Box
             className={styles.topdiv}
@@ -253,7 +253,7 @@ const Dashboard = () => {
             </Stack>
           </div>
         </Container>
-      </DashboardPageLayout>
+      </SellerPageLayout>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
-import HeaderAdmin from "../../../components/HeaderAdmin";
-import Navigation from "../../../components/Navigation";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Navigation from "../../components/Navigation";
 
 const Container = styled.div`
   ${tw`flex-1 grid`}
@@ -15,7 +15,7 @@ const LeftContainer = tw.div``;
 
 const RightContainer = tw.div`relative h-full flex flex-col justify-center items-center`;
 
-const DashboardPageLayout = (props) => {
+const SellerPageLayout = (props) => {
   const { children } = props || {};
 
   return (
@@ -31,4 +31,4 @@ const DashboardPageLayout = (props) => {
   );
 };
 
-export default DashboardPageLayout;
+export default SellerPageLayout;
