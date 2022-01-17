@@ -6,8 +6,7 @@ import {
   deleteCategoryAPI,
 } from "../../../api/sellerCategoryAPI";
 import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../../../components/labelHeader";
-import Ellipse from "../../../assets/ellipse_outline.svg";
+
 import {
   Box,
   Menu,
@@ -23,7 +22,33 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
-import BottomNavigationMenu from "../../../components/bottomNavigation";
+import tw, { styled } from "twin.macro";
+import SellerPageLayout from "../../../layouts/Seller";
+import CategoryCard from "../../../components/CategoryCard";
+
+const Container = styled.div`
+  ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
+  min-height: 100vh;
+`;
+
+const CategoriesContainer = styled.div`
+  ${tw`w-full grid gap-4`}
+  grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  ${tw`flex flex-row justify-end items-end w-full py-2`}
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 100px;
+    width: 100%;
+    ${tw`justify-center`}
+    z-index: 1000;
+  }
+`;
 
 const Categories = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -58,10 +83,18 @@ const Categories = () => {
   };
 
   return (
-    <>
-      <div className={styles.container}>
-        <LabelHeader label={"Categories"} />
-        <div style={{ marginTop: "70px" }} />
+    <SellerPageLayout>
+      <Container>
+        <ButtonContainer>
+          <Button
+            onClick={() => history.push("/app/add_category")}
+            bgColor="#08bd80"
+            textColor="#fff"
+            paddingY={3}
+          >
+            ADD PRODUCT
+          </Button>
+        </ButtonContainer>
         {isLoading && (
           <>
             <Skeleton height="75px" w="90%" mt="3" />
@@ -69,85 +102,15 @@ const Categories = () => {
             <Skeleton height="75px" w="90%" mt="3" />
           </>
         )}
-        {categoriesArray.length > 0 &&
-          categoriesArray.map((item, index) => (
-            <Box
-              w="90%"
-              h="auto"
-              mt="10px"
-              position="relative"
-              backgroundColor="white"
-              key={index}
-              borderWidth="1px"
-              borderRadius="lg"
-              onClick={() =>
-                history.push(
-                  `/app/products_category/${item.cat_name}/${item.id}`
-                )
-              }
-            >
-              <h1 className={styles.heading_bold}>{item.cat_name}</h1>
-              <h1 className={styles.heading_normal}>
-                {item.product_count < 1 ? "No" : item.product_count} Products
-              </h1>
-              <Menu>
-                <MenuButton
-                  position="absolute"
-                  top="3"
-                  right="3"
-                  bg="white"
-                  as={Button}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    console.log("button clicked");
-                  }}
-                >
-                  <img
-                    src={Ellipse}
-                    alt="w"
-                    style={{
-                      width: "22px",
-                      height: "22px",
-                      alignSelf: "center",
-                    }}
-                  />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      history.push(`/app/edit_category/${item.id}`);
-                    }}
-                  >
-                    Edit Category
-                  </MenuItem>
-                  <MenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (navigator.share) {
-                        navigator.share({
-                          title: item.cat_name,
-                          url: `https://saav.in/store/${userInfo.account_store_link}/${item.id}`,
-                        });
-                      }
-                    }}
-                  >
-                    Share Category
-                  </MenuItem>
-                  <MenuItem
-                    color="tomato"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOpen(true);
-                      setCategoryDeleteId(item.id);
-                    }}
-                  >
-                    Delete Category
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Box>
-          ))}
+        <CategoriesContainer>
+          {categoriesArray.length > 0 &&
+            categoriesArray.map((item, index) => (
+              <CategoryCard
+                category={item.cat_name}
+                count={item.product_count}
+              />
+            ))}
+        </CategoriesContainer>
         <AlertDialog
           isOpen={isOpen}
           leastDestructiveRef={cancelRef}
@@ -174,29 +137,8 @@ const Categories = () => {
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
-
-        {/* <Link to="/add_category" className={styles.btn}>
-          ADD CATEGORIES
-        </Link> */}
-        <Button
-          onClick={() => history.push("/app/add_category")}
-          position="fixed"
-          zIndex="1000"
-          mb="70"
-          bottom="0"
-          size="lg"
-          w="90%"
-          bgColor="#08bd80"
-          textColor="#fff"
-          height="60px"
-        >
-          ADD CATEGORIES
-        </Button>
-
-        <div className={styles.blank}></div>
-        <BottomNavigationMenu />
-      </div>
-    </>
+      </Container>
+    </SellerPageLayout>
   );
 };
 

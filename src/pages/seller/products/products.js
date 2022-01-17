@@ -79,7 +79,6 @@ const Products = (props) => {
           </Button>
         </ButtonContainer>
 
-        {/* card one */}
         <ProductsContainer>
           {!isLoading ? (
             productsArray.map((item, index) => (
@@ -100,7 +99,6 @@ const Products = (props) => {
             </>
           )}
         </ProductsContainer>
-        {/* card one ends here */}
         {productsArray.length === 0 && !isLoading && (
           <>
             <img src={Empty} className={styles.emptyImage} />
@@ -110,24 +108,6 @@ const Products = (props) => {
             </h1>
           </>
         )}
-
-        {/* <Link to="/add_product" className={styles.btn}>
-          ADD PRODUCTS
-        </Link> */}
-        {/* <Button
-          onClick={() => history.push("/app/add_product")}
-          position="fixed"
-          zIndex="1000"
-          mb="70"
-          bottom="0"
-          size="lg"
-          w="90%"
-          bgColor="#08bd80"
-          textColor="#fff"
-          height="60px"
-        >
-          ADD PRODUCTS
-        </Button> */}
         <div className={styles.blank}></div>
       </Container>
     </SellerPageLayout>
