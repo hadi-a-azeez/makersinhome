@@ -3,4 +3,4 @@ export const productImagesRoot =
 export const profileImagesRoot =
   "https://saav.sgp1.cdn.digitaloceanspaces.com/profile-images";
 
-export const apiRoot = "https://saav.shop/api";
+export const apiRoot = "https://api.saav.shop/api";
