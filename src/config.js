@@ -1,6 +1,6 @@
 export const productImagesRoot =
-  "https://saav.sgp1.cdn.digitaloceanspaces.com/product-images";
+  "https://saav-s3-bucket.s3.ap-south-1.amazonaws.com/product-images";
 export const profileImagesRoot =
-  "https://saav.sgp1.cdn.digitaloceanspaces.com/profile-images";
+  "https://saav-s3-bucket.s3.ap-south-1.amazonaws.com/profile-images";
 
 export const apiRoot = "https://api.saav.shop/api";
