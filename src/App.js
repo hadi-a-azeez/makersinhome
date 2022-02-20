@@ -5,8 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Stack } from "@chakra-ui/layout";
-import { CircularProgress } from "@material-ui/core";
+import { Stack, CircularProgress } from "@chakra-ui/react";
 import InstagramImport from "./pages/seller/products/instagramImport";
 import PasswordReset from "./pages/client/password";
 import GenPassWordLink from "./pages/client/genPasswordLink";
@@ -20,6 +19,7 @@ const AddNewProduct = lazy(() =>
 );
 const StoreInfo = lazy(() => import("./pages/seller/store/storeInfo"));
 const Products = lazy(() => import("./pages/seller/products/products"));
+const Links = lazy(() => import("./pages/seller/links"));
 const ProductEdit = lazy(() => import("./pages/seller/products/productEdit"));
 const Dashboard = lazy(() => import("./pages/seller/store/dashboard"));
 
@@ -47,7 +47,7 @@ const App = () => {
       <Suspense
         fallback={
           <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
-            <CircularProgress color="#00b140" />
+            <CircularProgress isIndeterminate color="#00b140" />
           </Stack>
         }
       >
@@ -72,6 +72,7 @@ const App = () => {
           <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
           <Route path="/app/store_info" component={StoreInfo} />
           <Route path="/app/products" component={Products} />
+          <Route path="/app/links" component={Links} />
           <Route path="/app/instagram" component={InstagramImport} />
           <Route path="/app/product_edit/:id" component={ProductEdit} />
           <Route

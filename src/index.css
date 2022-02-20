@@ -25,3 +25,6 @@
   font-family: "helvetica-regular";
   src: url("./assets/fonts/helvetica.ttf");
 }
+::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

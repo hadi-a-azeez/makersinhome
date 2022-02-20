@@ -80,7 +80,6 @@ const AddNewCategory = (props) => {
     <>
       <div className={styles.container}>
         <LabelHeader label={"Edit Category"} isBackButton={true} />
-        <div style={{ marginTop: "70px" }} />
         {!isValidated && (
           <Box
             borderRadius="md"

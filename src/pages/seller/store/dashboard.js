@@ -24,8 +24,6 @@ import {
 } from "@chakra-ui/react";
 import Placeholder from "../.../../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
-import { Switch } from "@chakra-ui/react";
-import { updateStoreStatusAPI } from "../../../api/sellerStoreAPI";
 import { useHistory } from "react-router-dom";
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import copyText from "../../../components/copyText";
@@ -65,260 +63,263 @@ const Dashboard = () => {
     };
     getDataAll();
   }, []);
-  return isLoading ? (
-    <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
-      <CircularProgress color="#00b140" isIndeterminate />
-    </Stack>
-  ) : (
+  return (
     <>
       <div className={styles.container}>
-        <Box
-          className={styles.topdiv}
-          shadow="md"
-          d="flex"
-          justifyContent="center"
-          style={
-            userInfo.account_store_status
-              ? { backgroundColor: "#08bd80" }
-              : { backgroundColor: "red" }
-          }
-        >
-          <Flex direction="row" w="90%" mt="5">
-            <Image
-              borderRadius="full"
-              boxSize="80px"
-              fallback={<SkeletonCircle size="20" />}
-              src={
-                userInfo.account_store_image
-                  ? `${profileImagesRoot}/${userInfo.account_store_image}`
-                  : Placeholder
-              }
-              alt="Segun Adebayo"
-            />
-            <Flex direction="column" ml="4" mt="2">
-              <h1 className={styles.welcome}>Welcome back,</h1>
-              <h1 className={styles.shopname}>{userInfo.account_store}</h1>
-            </Flex>
-          </Flex>
-        </Box>
-        <PwaInstall />
-        {!isTasksCompleted && (
-          <Nux
-            storeImage={userInfo.account_store_image}
-            notifToken={userInfo.account_notif_token}
-            productCount={countData.products_count}
-            catCount={countData.cat_count}
-          />
-        )}
-        <Box
-          mt="30px"
-          w="100%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-        >
-          {!isTasksCompleted && (
-            <Stack
-              direction="column"
-              backgroundColor="#fff"
-              justifyContent="center"
-              alignItems="center"
-              h="120px"
-              borderRadius="10px"
-              p="10px"
-              w="60%"
-              position="absolute"
-              zIndex="2"
-              boxShadow="rgba(180, 181, 187, 0.2) 0px 8px 24px"
-            >
-              <LockIcon boxSize="40px" />
-              <Text textAlign="center" fontFamily="elemen">
-                Please Complete all tasks to unlock user data.
-              </Text>
-            </Stack>
-          )}
-          <SimpleGrid
-            position="relative"
-            columns={2}
-            spacing={3}
-            w="90%"
-            zIndex="1"
-            filter={isTasksCompleted ? "" : "blur(4px)"}
-          >
-            <Box
-              height="100px"
-              w="100%"
-              shadow="base"
-              backgroundColor="white"
-              borderRadius="18px"
-              display="flex"
-              dir="row"
-            >
-              <Image
-                src={VisibleIcon}
-                className={styles.iconFilled}
-                width="5"
-                height="5"
-                mt="4"
-                ml="3"
-              />
-              <Flex direction="column" mt="4" ml="1">
-                <h1 className={styles.card_heading}>Store visits</h1>
-                <h1 className={styles.card_data_bold}>
-                  {countData && countData.store_views
-                    ? countData.store_views
-                    : 0}
-                </h1>
-              </Flex>
-            </Box>
-            <Box
-              height="100px"
-              w="100%"
-              shadow="base"
-              backgroundColor="white"
-              borderRadius="18px"
-              display="flex"
-              dir="row"
-            >
-              <Image
-                src={MessagesIcon}
-                className={styles.iconFilled}
-                width="5"
-                height="5"
-                mt="4"
-                ml="3"
-              />
-              <Flex direction="column" mt="4" ml="1">
-                <h1 className={styles.card_heading}>Messages Started</h1>
-                <h1 className={styles.card_data_bold}>
-                  {countData && countData.message_clicks
-                    ? countData.message_clicks
-                    : 0}
-                </h1>
-              </Flex>
-            </Box>
-            <Box
-              onClick={() => history.push("/app/products")}
-              height="100px"
-              w="100%"
-              shadow="base"
-              backgroundColor="white"
-              borderRadius="18px"
-              display="flex"
-              dir="row"
-            >
-              <Image
-                src={ProductsIcon}
-                className={styles.iconFilled}
-                width="5"
-                height="5"
-                mt="4"
-                ml="3"
-              />
-              <Flex direction="column" mt="4" ml="1">
-                <h1 className={styles.card_heading}>Products</h1>
-                <h1 className={styles.card_data_bold}>
-                  {countData && countData.products_count}
-                </h1>
-              </Flex>
-            </Box>
-            <Box
-              onClick={() => history.push("/app/categories")}
-              height="100px"
-              w="100%"
-              shadow="base"
-              backgroundColor="white"
-              borderRadius="18px"
-              display="flex"
-              dir="row"
-            >
-              <Image
-                src={CategoriesIcon}
-                className={styles.iconFilled}
-                width="7"
-                height="5"
-                mt="4"
-                ml="3"
-              />
-              <Flex direction="column" mt="4" ml="1">
-                <h1 className={styles.card_heading}>Categories</h1>
-                <h1 className={styles.card_data_bold}>
-                  {countData && countData.cat_count}
-                </h1>
-              </Flex>
-            </Box>
-          </SimpleGrid>
-        </Box>
-        <div className={styles.cardPlain}>
-          <h1 className={styles.cardPlainHeading}>
-            Share link on Social Media
-          </h1>
-          <h1 className={styles.cardPlainSubHeading}>
-            Your customers can visit your online store and see your products
-            from this link
-          </h1>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            ml="6px"
-            alignItems="center"
-          >
-            <Text
-              color="#028ccc"
-              textTransform="lowercase"
-              onClick={() =>
-                window.open(
-                  `https://saav.in/store/${userInfo.account_store_link}`
-                )
-              }
-            >
-              saav.in/store/{userInfo.account_store_link}
-            </Text>
-            {userInfo?.account_store_link && (
-              <Stack direction="row" alignItems="center">
-                <CopyIcon
-                  boxSize="25px"
-                  onClick={() => {
-                    copyText(
-                      `https://saav.in/store/${userInfo.account_store_link}`
-                    );
-                    toast({
-                      position: "bottom",
-                      duration: 1000,
-                      render: () => (
-                        <Box
-                          color="white"
-                          p={3}
-                          mb="80px"
-                          ml="30%"
-                          bg="green.500"
-                          borderRadius="30px"
-                          textAlign="center"
-                          width="140px"
-                        >
-                          Copied
-                        </Box>
-                      ),
-                    });
-                  }}
-                />
-                <button
-                  className={styles.btn_whatsapp}
-                  onClick={shareToWhatsapp}
-                >
-                  <img
-                    src={WhatsappLogo}
-                    alt="w"
-                    className={styles.whatsappicon}
-                  />
-                  Share
-                </button>
-              </Stack>
-            )}
+        {isLoading ? (
+          <Stack w="100%" h="100vh" justifyContent="center" alignItems="center">
+            <CircularProgress color="#00b140" isIndeterminate />
           </Stack>
-        </div>
-
+        ) : (
+          <>
+            <Box
+              className={styles.topdiv}
+              shadow="md"
+              d="flex"
+              justifyContent="center"
+              style={
+                userInfo.account_store_status
+                  ? { backgroundColor: "#08bd80" }
+                  : { backgroundColor: "red" }
+              }
+            >
+              <Flex direction="row" w="90%" mt="5">
+                <Image
+                  borderRadius="full"
+                  boxSize="80px"
+                  fallback={<SkeletonCircle size="20" />}
+                  src={
+                    userInfo.account_store_image
+                      ? `${profileImagesRoot}/${userInfo.account_store_image}`
+                      : Placeholder
+                  }
+                  alt="Segun Adebayo"
+                />
+                <Flex direction="column" ml="4" mt="2">
+                  <h1 className={styles.welcome}>Welcome back,</h1>
+                  <h1 className={styles.shopname}>{userInfo.account_store}</h1>
+                </Flex>
+              </Flex>
+            </Box>
+            <PwaInstall />
+            {!isTasksCompleted && (
+              <Nux
+                storeImage={userInfo.account_store_image}
+                notifToken={userInfo.account_notif_token}
+                productCount={countData.products_count}
+                catCount={countData.cat_count}
+              />
+            )}
+            <Box
+              mt="30px"
+              w="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              flexDirection="column"
+            >
+              {!isTasksCompleted && (
+                <Stack
+                  direction="column"
+                  backgroundColor="#fff"
+                  justifyContent="center"
+                  alignItems="center"
+                  h="120px"
+                  borderRadius="10px"
+                  p="10px"
+                  w="60%"
+                  position="absolute"
+                  zIndex="2"
+                  boxShadow="rgba(180, 181, 187, 0.2) 0px 8px 24px"
+                >
+                  <LockIcon boxSize="40px" />
+                  <Text textAlign="center" fontFamily="elemen">
+                    Please Complete all tasks to unlock user data.
+                  </Text>
+                </Stack>
+              )}
+              <SimpleGrid
+                position="relative"
+                columns={2}
+                spacing={3}
+                w="90%"
+                zIndex="1"
+                filter={isTasksCompleted ? "" : "blur(4px)"}
+              >
+                <Box
+                  height="100px"
+                  w="100%"
+                  shadow="base"
+                  backgroundColor="white"
+                  borderRadius="18px"
+                  display="flex"
+                  dir="row"
+                >
+                  <Image
+                    src={VisibleIcon}
+                    className={styles.iconFilled}
+                    width="5"
+                    height="5"
+                    mt="4"
+                    ml="3"
+                  />
+                  <Flex direction="column" mt="4" ml="1">
+                    <h1 className={styles.card_heading}>Store visits</h1>
+                    <h1 className={styles.card_data_bold}>
+                      {countData && countData.store_views
+                        ? countData.store_views
+                        : 0}
+                    </h1>
+                  </Flex>
+                </Box>
+                <Box
+                  height="100px"
+                  w="100%"
+                  shadow="base"
+                  backgroundColor="white"
+                  borderRadius="18px"
+                  display="flex"
+                  dir="row"
+                >
+                  <Image
+                    src={MessagesIcon}
+                    className={styles.iconFilled}
+                    width="5"
+                    height="5"
+                    mt="4"
+                    ml="3"
+                  />
+                  <Flex direction="column" mt="4" ml="1">
+                    <h1 className={styles.card_heading}>Messages Started</h1>
+                    <h1 className={styles.card_data_bold}>
+                      {countData && countData.message_clicks
+                        ? countData.message_clicks
+                        : 0}
+                    </h1>
+                  </Flex>
+                </Box>
+                <Box
+                  onClick={() => history.push("/app/products")}
+                  height="100px"
+                  w="100%"
+                  shadow="base"
+                  backgroundColor="white"
+                  borderRadius="18px"
+                  display="flex"
+                  dir="row"
+                >
+                  <Image
+                    src={ProductsIcon}
+                    className={styles.iconFilled}
+                    width="5"
+                    height="5"
+                    mt="4"
+                    ml="3"
+                  />
+                  <Flex direction="column" mt="4" ml="1">
+                    <h1 className={styles.card_heading}>Products</h1>
+                    <h1 className={styles.card_data_bold}>
+                      {countData && countData.products_count}
+                    </h1>
+                  </Flex>
+                </Box>
+                <Box
+                  onClick={() => history.push("/app/categories")}
+                  height="100px"
+                  w="100%"
+                  shadow="base"
+                  backgroundColor="white"
+                  borderRadius="18px"
+                  display="flex"
+                  dir="row"
+                >
+                  <Image
+                    src={CategoriesIcon}
+                    className={styles.iconFilled}
+                    width="7"
+                    height="5"
+                    mt="4"
+                    ml="3"
+                  />
+                  <Flex direction="column" mt="4" ml="1">
+                    <h1 className={styles.card_heading}>Categories</h1>
+                    <h1 className={styles.card_data_bold}>
+                      {countData && countData.cat_count}
+                    </h1>
+                  </Flex>
+                </Box>
+              </SimpleGrid>
+            </Box>
+            <div className={styles.cardPlain}>
+              <h1 className={styles.cardPlainHeading}>
+                Share link on Social Media
+              </h1>
+              <h1 className={styles.cardPlainSubHeading}>
+                Your customers can visit your online store and see your products
+                from this link
+              </h1>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                ml="6px"
+                alignItems="center"
+              >
+                <Text
+                  color="#028ccc"
+                  textTransform="lowercase"
+                  onClick={() =>
+                    window.open(
+                      `https://saav.in/store/${userInfo.account_store_link}`
+                    )
+                  }
+                >
+                  saav.in/store/{userInfo.account_store_link}
+                </Text>
+                {userInfo?.account_store_link && (
+                  <Stack direction="row" alignItems="center">
+                    <CopyIcon
+                      boxSize="25px"
+                      onClick={() => {
+                        copyText(
+                          `https://saav.in/store/${userInfo.account_store_link}`
+                        );
+                        toast({
+                          position: "bottom",
+                          duration: 1000,
+                          render: () => (
+                            <Box
+                              color="white"
+                              p={3}
+                              mb="80px"
+                              ml="30%"
+                              bg="green.500"
+                              borderRadius="30px"
+                              textAlign="center"
+                              width="140px"
+                            >
+                              Copied
+                            </Box>
+                          ),
+                        });
+                      }}
+                    />
+                    <button
+                      className={styles.btn_whatsapp}
+                      onClick={shareToWhatsapp}
+                    >
+                      <img
+                        src={WhatsappLogo}
+                        alt="w"
+                        className={styles.whatsappicon}
+                      />
+                      Share
+                    </button>
+                  </Stack>
+                )}
+              </Stack>
+            </div>
+          </>
+        )}
         <BottomNavigationMenu />
       </div>
     </>

@@ -6,6 +6,19 @@
   background-color: #f1f1f1;
   min-height: 100vh;
 }
+.tab_parent {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #dadada;
+  height: 40px;
+}
+.tab_child {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .btn {
   position: fixed;
   bottom: 0;
