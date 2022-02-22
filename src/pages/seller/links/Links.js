@@ -1,4 +1,16 @@
-import { Box, Button, Heading, Image, Skeleton, Stack } from "@chakra-ui/react";
+import { CopyIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  Heading,
+  IconButton,
+  Image,
+  Skeleton,
+  Stack,
+  Text,
+  useClipboard,
+  useToast,
+} from "@chakra-ui/react";
 import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -9,6 +21,7 @@ import {
 } from "../../../api/sellerLinksAPI";
 import EmptyLinksImage from "../../../assets/empty_links.png";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
+import copyText from "../../../components/copyText";
 import LinkItem from "../../../components/LinkItem";
 import Drawers from "./Drawers";
 
@@ -26,6 +39,8 @@ const Links = () => {
     type: "LINK",
   });
   const [links, setLinks] = useState([]);
+
+  const toast = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,16 +87,55 @@ const Links = () => {
   };
   const onDragEnd = (result) => {
     //dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-
+    if (!result.destination) return;
     reorder(result.source.index, result.destination.index);
   };
 
   return (
     <Box bgColor="#f1f1f1" minH="100vh">
       <Stack w="100%" pl="6%" pr="6%" direction="column">
+        <Stack
+          mt="15px"
+          mb="15px"
+          bgColor="#fff"
+          borderRadius="10px"
+          h="50px"
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          border="2px solid #08BD80"
+        >
+          <Text fontSize="20px" fontWeight="600">
+            {`saav.in/links/${userData?.info?.account_store_link}`}
+          </Text>
+          <IconButton
+            onClick={() => {
+              copyText(
+                `https://saav.in/links/${userData.info.account_store_link}`
+              );
+              toast({
+                position: "bottom",
+                duration: 1000,
+                render: () => (
+                  <Box
+                    color="white"
+                    p={3}
+                    mb="80px"
+                    ml="30%"
+                    bg="green.500"
+                    borderRadius="30px"
+                    textAlign="center"
+                    width="140px"
+                  >
+                    Copied👍
+                  </Box>
+                ),
+              });
+            }}
+            background="transparent"
+            icon={<CopyIcon h="20px" w="20px" />}
+          />
+        </Stack>
         <Stack direction="row" mt="8">
           <Button
             backgroundColor="#08bd80"
