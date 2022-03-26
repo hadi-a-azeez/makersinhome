@@ -17,6 +17,7 @@ import {
   getCategoriesAPI,
 } from "../../../api/sellerCategoryAPI";
 import CategoryCard from "../../../components/CategoryCard";
+import LabelHeader from "../../../components/labelHeader";
 import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/categories.module.css";
 

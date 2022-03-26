@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   getProductsApi,
   updateProductStock,
 } from "../../../api/sellerProductAPI";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Empty from "../../../assets/empty.svg";
-import { Button, Skeleton } from "@chakra-ui/react";
+import {
+  Button,
+  Skeleton,
+  Stat,
+  StatNumber,
+  Switch,
+  Box,
+} from "@chakra-ui/react";
 import SellerPageLayout from "../../../layouts/Seller";
+import Placeholder from "../../../assets/placeholder.png";
 import tw, { styled } from "twin.macro";
 import ProductCard from "../../../components/ProductsCardSeller";
 import { getProductImage, getProductPrice } from "../../../utils/product.util";
+import LabelHeader from "../../../components/labelHeader";
+import { productImagesRoot } from "../../../config";
 
 const Container = styled.div`
   ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
