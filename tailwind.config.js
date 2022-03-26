@@ -10,9 +10,11 @@ module.exports = {
       colors: {
         electric: "#db00ff",
         ribbon: "#0047ff",
+        primary: "#08bd80",
       },
       gridTemplateColumns: {
         authContainer: "3fr 3fr",
+        dashboardContainer: "200px 1fr",
       },
     },
   },
