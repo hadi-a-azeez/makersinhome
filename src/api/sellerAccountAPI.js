@@ -1,6 +1,6 @@
 import axios from "axios";
-import axios_seller from "./axios-seller";
 import { apiRoot } from "../config";
+import axios_seller from "./axios-seller";
 import { deleteStoreImageDO, uploadStoreImageDO } from "./imageUploadAPI";
 
 //sign in user

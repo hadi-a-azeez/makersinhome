@@ -1,22 +1,19 @@
+import { CheckIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Heading,
+  IconButton,
+  SimpleGrid,
   Stack,
   Text,
-  Box,
-  SimpleGrid,
-  Badge,
-  IconButton,
 } from "@chakra-ui/react";
-import { CheckIcon } from "@chakra-ui/icons";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { updateSettings } from "../../../api/sellerAccountAPI";
 import { getLinksAPI } from "../../../api/sellerLinksAPI";
-
 import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 const Design = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState("");
 
   const linksThemes = [
@@ -36,7 +33,6 @@ const Design = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       const response = await getLinksAPI();
       if (response.data.data) {
         response?.data?.data?.user_settings?.links_theme
@@ -47,7 +43,6 @@ const Design = () => {
           info: response.data.data?.account_info,
         });
       }
-      setIsLoading(false);
     };
     fetchData();
   }, []);

@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import styles from "./bottomNavigation.module.css";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import LinkInBioIcon from "../assets/albums-outline.svg";
+import LinkInBioIconFilled from "../assets/albums.svg";
 import HomeIcon from "../assets/home-outline.svg";
 import HomeIconFilled from "../assets/homeFilled.svg";
 import ProductsIcon from "../assets/layers-outline.svg";
 import ProductsIconFilled from "../assets/layersFilled.svg";
-import LinkInBioIcon from "../assets/albums-outline.svg";
-import LinkInBioIconFilled from "../assets/albums.svg";
 import SettingsIcon from "../assets/settings-outline.svg"; //ionicons
 import SettingsIconFilled from "../assets/settings.svg";
-import Links from "../pages/seller/links";
+import styles from "./bottomNavigation.module.css";
 
 const BottomNavigationMenu = () => {
   const location = useLocation();
