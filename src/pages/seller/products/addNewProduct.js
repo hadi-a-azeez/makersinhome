@@ -16,6 +16,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { addProductAPI } from "../../../api/sellerProductAPI";
 import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import SellerPageLayout from "../../../layouts/Seller";
 import {
   Input,
   Textarea,
@@ -33,6 +34,12 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
 import { uploadProductImageDO } from "../../../api/imageUploadAPI";
+import tw, { styled } from "twin.macro";
+
+const Container = styled.div`
+  ${tw`flex flex-col items-center bg-white w-full p-4`}
+  min-height: 100vh;
+`;
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -180,9 +187,8 @@ const AddNewProduct = (props) => {
   };
 
   return (
-    <>
-      <div className={styles.container}>
-        <LabelHeader label={"Add new product"} isBackButton={true} />
+    <SellerPageLayout label={"Add new product"} isBackButton={true}>
+      <Container>
         <SimpleGrid column={3} w="90%" mt="5" mb="3" columns={3} spacing="7px">
           <label htmlFor="file-upload" className={styles.customFileUpload}>
             <AddIcon w={8} h={8} />
@@ -261,7 +267,7 @@ const AddNewProduct = (props) => {
 
           <Select
             name="parent category"
-            name="product_cat"
+            // name="product_cat"
             id="parentcategory"
             value={
               product.product_cat
@@ -589,8 +595,8 @@ const AddNewProduct = (props) => {
         >
           Add Product
         </Button>
-      </div>
-    </>
+      </Container>
+    </SellerPageLayout>
   );
 };
 

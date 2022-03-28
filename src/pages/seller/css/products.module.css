@@ -158,3 +158,9 @@
   color: #838a9d;
   text-align: center;
 }
+
+@media (min-width: 768px) {
+  .tab_parent {
+    display: none;
+  }
+}

@@ -79,27 +79,25 @@ const Categories = () => {
 
   return (
     <SellerPageLayout>
-      <Container>
-        <LabelHeader label={"Categories"} />
-        <div className={styles.tab_parent}>
-          <div
-            onClick={() => history.push("/app/products")}
-            className={styles.tab_child}
-          >
-            Products
-          </div>
-          <div
-            className={styles.tab_child}
-            onClick={() => history.push("/app/categories")}
-            style={{
-              backgroundColor: "#ffffff",
-              borderBottom: "3px solid #08bd80",
-            }}
-          >
-            Categories
-          </div>
+      <div className={styles.tab_parent}>
+        <div
+          onClick={() => history.push("/app/products")}
+          className={styles.tab_child}
+        >
+          Products
         </div>
-
+        <div
+          className={styles.tab_child}
+          onClick={() => history.push("/app/categories")}
+          style={{
+            backgroundColor: "#ffffff",
+            borderBottom: "3px solid #08bd80",
+          }}
+        >
+          Categories
+        </div>
+      </div>
+      <Container>
         <ButtonContainer>
           <Button
             onClick={() => history.push("/app/add_category")}
@@ -107,24 +105,26 @@ const Categories = () => {
             textColor="#fff"
             paddingY={3}
           >
-            ADD PRODUCT
+            ADD CATEGORY
           </Button>
         </ButtonContainer>
-        {isLoading && (
-          <>
-            <Skeleton height="75px" w="90%" mt="3" />
-            <Skeleton height="75px" w="90%" mt="3" />
-            <Skeleton height="75px" w="90%" mt="3" />
-          </>
-        )}
+
         <CategoriesContainer>
-          {categoriesArray.length > 0 &&
+          {!isLoading ? (
+            categoriesArray.length > 0 &&
             categoriesArray.map((item, index) => (
               <CategoryCard
                 category={item.cat_name}
                 count={item.product_count}
               />
-            ))}
+            ))
+          ) : (
+            <>
+              <Skeleton height="75px" w="90%" mt="3" />
+              <Skeleton height="75px" w="90%" mt="3" />
+              <Skeleton height="75px" w="90%" mt="3" />
+            </>
+          )}
         </CategoriesContainer>
         <AlertDialog
           isOpen={isOpen}

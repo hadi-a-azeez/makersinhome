@@ -93,10 +93,10 @@ const Dashboard = () => {
           <PwaInstall />
           {!isTasksCompleted && (
             <Nux
-              storeImage={userInfo.account_store_image}
-              notifToken={userInfo.account_notif_token}
-              productCount={countData.products_count}
-              catCount={countData.cat_count}
+              storeImage={userInfo?.account_store_image}
+              notifToken={userInfo?.account_notif_token}
+              productCount={countData?.products_count}
+              catCount={countData?.cat_count}
             />
           )}
           <Box
@@ -183,11 +183,11 @@ const Dashboard = () => {
                 textTransform="lowercase"
                 onClick={() =>
                   window.open(
-                    `https://saav.in/store/${userInfo.account_store_link}`
+                    `https://saav.in/store/${userInfo?.account_store_link}`
                   )
                 }
               >
-                saav.in/store/{userInfo.account_store_link}
+                saav.in/store/{userInfo?.account_store_link}
               </Text>
               {userInfo?.account_store_link && (
                 <Stack direction="row" alignItems="center">
@@ -195,7 +195,7 @@ const Dashboard = () => {
                     boxSize="25px"
                     onClick={() => {
                       copyText(
-                        `https://saav.in/store/${userInfo.account_store_link}`
+                        `https://saav.in/store/${userInfo?.account_store_link}`
                       );
                       toast({
                         position: "bottom",

@@ -1,6 +1,7 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
 import HeaderAdmin from "../../components/HeaderAdmin";
+import LabelHeader from "../../components/labelHeader";
 import Navigation from "../../components/Navigation";
 
 const Container = styled.div`
@@ -16,15 +17,28 @@ const LeftContainer = tw.div``;
 const RightContainer = tw.div`relative h-full flex flex-col justify-center items-center`;
 
 const SellerPageLayout = (props) => {
-  const { children } = props || {};
+  const {
+    children,
+    label,
+    isBackButton,
+    isRightIcon,
+    iconAction,
+    className = "",
+  } = props || {};
 
   return (
-    <Container>
+    <Container className={className}>
       <LeftContainer>
         <Navigation />
       </LeftContainer>
       <RightContainer>
-        <HeaderAdmin />
+        {/* <HeaderAdmin /> */}
+        <LabelHeader
+          label={label}
+          isBackButton={isBackButton}
+          isRightIcon={isRightIcon}
+          iconAction={iconAction}
+        />
         {children}
       </RightContainer>
     </Container>

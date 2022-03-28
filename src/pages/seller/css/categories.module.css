@@ -84,3 +84,9 @@
   justify-content: center;
   color: black;
 }
+
+@media (min-width: 768px) {
+  .tab_parent {
+    display: none;
+  }
+}
