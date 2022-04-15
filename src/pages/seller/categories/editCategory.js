@@ -18,6 +18,13 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useForm } from "../../../components/useForm";
+import SellerPageLayout from "../../../layouts/Seller";
+import tw, { styled } from "twin.macro";
+
+const Container = styled.div`
+  ${tw`flex flex-col items-center bg-white w-full p-4`}
+  min-height: 100vh;
+`;
 
 const AddNewCategory = (props) => {
   const [parentCategoriesData, setparentCategoriesData] = useState([]);
@@ -78,67 +85,69 @@ const AddNewCategory = (props) => {
 
   return (
     <>
-      <div className={styles.container}>
-        <LabelHeader label={"Edit Category"} isBackButton={true} />
-        {!isValidated && (
-          <Box
-            borderRadius="md"
-            bg="tomato"
-            color="white"
-            p="3"
-            w="90%"
-            mb="3"
-            mt="4"
-          >
-            {errorMessage}
-          </Box>
-        )}
-        <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Parent category</FormLabel>
-          <Select
-            name="cat_parent"
-            variant="filled"
-            size="lg"
-            value={singleCategoryData.cat_parent || ""}
-            onChange={updateSingleCategory}
-          >
-            <option value="DEFAULT" disabled>
-              parent category
-            </option>
-            {parentCategoriesData.map((item, index) => (
-              <option value={item.id} key={index}>
-                {item.cat_name}
+      <SellerPageLayout label="Edit Category">
+        <Container>
+          <LabelHeader label={"Edit Category"} isBackButton={true} />
+          {!isValidated && (
+            <Box
+              borderRadius="md"
+              bg="tomato"
+              color="white"
+              p="3"
+              w="90%"
+              mb="3"
+              mt="4"
+            >
+              {errorMessage}
+            </Box>
+          )}
+          <FormControl isRequired w="90%" mt="4">
+            <FormLabel>Parent category</FormLabel>
+            <Select
+              name="cat_parent"
+              variant="filled"
+              size="lg"
+              value={singleCategoryData.cat_parent || ""}
+              onChange={updateSingleCategory}
+            >
+              <option value="DEFAULT" disabled>
+                parent category
               </option>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Category Name</FormLabel>
-          <Input
-            type="text"
-            variant="filled"
+              {parentCategoriesData.map((item, index) => (
+                <option value={item.id} key={index}>
+                  {item.cat_name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl isRequired w="90%" mt="4">
+            <FormLabel>Category Name</FormLabel>
+            <Input
+              type="text"
+              variant="filled"
+              size="lg"
+              name="cat_name"
+              value={singleCategoryData.cat_name || ""}
+              placeholder="Category name"
+              onChange={updateSingleCategory}
+            />
+          </FormControl>
+          <Button
+            backgroundColor="#08bd80"
+            colorScheme="green"
+            color="white"
+            mt="4"
             size="lg"
-            name="cat_name"
-            value={singleCategoryData.cat_name || ""}
-            placeholder="Category name"
-            onChange={updateSingleCategory}
-          />
-        </FormControl>
-        <Button
-          backgroundColor="#08bd80"
-          colorScheme="green"
-          color="white"
-          mt="4"
-          size="lg"
-          w="90%"
-          isLoading={isLoading}
-          onClick={handleSubmit}
-        >
-          UPDATE CATEGORY
-        </Button>
+            w="90%"
+            isLoading={isLoading}
+            onClick={handleSubmit}
+          >
+            UPDATE CATEGORY
+          </Button>
 
-        <div className={styles.blank}></div>
-      </div>
+          <div className={styles.blank}></div>
+        </Container>
+      </SellerPageLayout>
     </>
   );
 };

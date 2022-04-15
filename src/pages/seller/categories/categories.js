@@ -16,8 +16,7 @@ import {
   deleteCategoryAPI,
   getCategoriesAPI,
 } from "../../../api/sellerCategoryAPI";
-import CategoryCard from "../../../components/CategoryCard";
-import LabelHeader from "../../../components/labelHeader";
+import CategoryCard from "./CategoryCard";
 import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/categories.module.css";
 
@@ -61,19 +60,16 @@ const Categories = () => {
       setCategoriesArray(response.data.data);
       setUserInfo(response.data.user);
       setIsLoading(false);
-      console.log(response);
     };
     getCategoriesData();
   }, []);
 
   const handleDeleteClick = async () => {
-    console.log(categoryDeleteId);
     const result = await deleteCategoryAPI(categoryDeleteId);
     const modifiedCategoryArray = categoriesArray.filter(
       (category) => category.id !== categoryDeleteId
     );
     setCategoriesArray(modifiedCategoryArray);
-    console.log(result);
     setIsOpen(false);
   };
 
@@ -114,8 +110,10 @@ const Categories = () => {
             categoriesArray.length > 0 &&
             categoriesArray.map((item, index) => (
               <CategoryCard
-                category={item.cat_name}
-                count={item.product_count}
+                item={item}
+                setIsOpen={setIsOpen}
+                setCategoryDeleteId={setCategoryDeleteId}
+                userInfo={userInfo}
               />
             ))
           ) : (

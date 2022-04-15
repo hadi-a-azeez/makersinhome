@@ -16,6 +16,13 @@ import {
   Select,
   Box,
 } from "@chakra-ui/react";
+import SellerPageLayout from "../../../layouts/Seller";
+import tw, { styled } from "twin.macro";
+
+const Container = styled.div`
+  ${tw`flex flex-col items-center bg-white w-full p-4`}
+  min-height: 100vh;
+`;
 
 const AddNewCategory = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -76,66 +83,67 @@ const AddNewCategory = () => {
 
   return (
     <>
-      <div className={styles.container}>
-        <LabelHeader label={"Add new category"} isBackButton={true} />
-        {!isValidated && (
-          <Box
-            borderRadius="md"
-            bg="tomato"
-            color="white"
-            p="3"
-            w="90%"
-            mb="3"
-            mt="4"
-          >
-            {errorMessage}
-          </Box>
-        )}
-        <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Parent category</FormLabel>
-          <Select
-            name="parent category"
-            id="parentcategory"
-            variant="filled"
-            size="lg"
-            defaultValue={"DEFAULT"}
-            onChange={(e) => handleCategoryClick(e.target.value)}
-          >
-            <option value="DEFAULT" disabled>
-              parent category
-            </option>
-            {categoriesArray.map((item, index) => (
-              <option value={item.id} key={index}>
-                {item.cat_name}
+      <SellerPageLayout label="Add Category">
+        <Container>
+          {!isValidated && (
+            <Box
+              borderRadius="md"
+              bg="tomato"
+              color="white"
+              p="3"
+              w="90%"
+              mb="3"
+              mt="4"
+            >
+              {errorMessage}
+            </Box>
+          )}
+          <FormControl isRequired w="90%" mt="4">
+            <FormLabel>Parent category</FormLabel>
+            <Select
+              name="parent category"
+              id="parentcategory"
+              variant="filled"
+              size="lg"
+              defaultValue={"DEFAULT"}
+              onChange={(e) => handleCategoryClick(e.target.value)}
+            >
+              <option value="DEFAULT" disabled>
+                parent category
               </option>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl isRequired w="90%" mt="4">
-          <FormLabel>Category Name</FormLabel>
-          <Input
-            type="text"
-            variant="filled"
+              {categoriesArray.map((item, index) => (
+                <option value={item.id} key={index}>
+                  {item.cat_name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl isRequired w="90%" mt="4">
+            <FormLabel>Category Name</FormLabel>
+            <Input
+              type="text"
+              variant="filled"
+              size="lg"
+              placeholder="Category name"
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+          </FormControl>
+          <Button
+            backgroundColor="#08bd80"
+            colorScheme="green"
+            color="white"
+            mt="4"
             size="lg"
-            placeholder="Category name"
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
-        </FormControl>
-        <Button
-          backgroundColor="#08bd80"
-          colorScheme="green"
-          color="white"
-          mt="4"
-          size="lg"
-          w="90%"
-          isLoading={isLoading}
-          onClick={handleSubmit}
-        >
-          ADD CATEGORY
-        </Button>
+            w="90%"
+            isLoading={isLoading}
+            onClick={handleSubmit}
+          >
+            ADD CATEGORY
+          </Button>
 
-        <div className={styles.blank}></div>
-      </div>
+          <div className={styles.blank}></div>
+        </Container>
+      </SellerPageLayout>
     </>
   );
 };

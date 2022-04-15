@@ -50,6 +50,13 @@ import {
   uploadProductImageDO,
 } from "../../../api/imageUploadAPI";
 import { productImageCompresser } from "../../../utils/imageCompresser";
+import SellerPageLayout from "../../../layouts/Seller";
+import tw, { styled } from "twin.macro";
+
+const Container = styled.div`
+  ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
+  min-height: 100vh;
+`;
 
 const ProductEdit = (props) => {
   const [product, setProduct, updateProduct] = useForm([]);
@@ -252,91 +259,61 @@ const ProductEdit = (props) => {
 
   return (
     <>
-      <LabelHeader
-        label={"Update product"}
+      <SellerPageLayout
+        label="Update Product"
         isBackButton={true}
         isRightIcon={true}
         iconAction={() => setIsOpen(true)}
-      />
-      <div>
-        {testCompress !== "" && <img src={testCompress} />}
-        {isLoading ? (
-          <div className={styles.loaderwraper}>
-            <Loader
-              type="Oval"
-              color="#00b140"
-              height={50}
-              width={50}
-              visible={isLoading}
-            />
-          </div>
-        ) : (
-          <div></div>
-        )}
+      >
+        <Container>
+          {testCompress !== "" && <img src={testCompress} />}
+          {isLoading ? (
+            <div className={styles.loaderwraper}>
+              <Loader
+                type="Oval"
+                color="#00b140"
+                height={50}
+                width={50}
+                visible={isLoading}
+              />
+            </div>
+          ) : (
+            <div></div>
+          )}
 
-        {!isLoading && (
-          <div className={styles.container}>
-            <SimpleGrid
-              column={3}
-              w="90%"
-              mt="5"
-              mb="3"
-              columns={3}
-              spacing="7px"
-            >
-              <label htmlFor="file-upload" className={styles.customFileUpload}>
-                <AddIcon w={8} h={8} />
-              </label>
+          {!isLoading && (
+            <div className={styles.container}>
+              <SimpleGrid
+                column={3}
+                w="90%"
+                mt="5"
+                mb="3"
+                columns={3}
+                spacing="7px"
+              >
+                <label
+                  htmlFor="file-upload"
+                  className={styles.customFileUpload}
+                >
+                  <AddIcon w={8} h={8} />
+                </label>
 
-              {product?.products_images?.map((image, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      position: "relative",
-                      borderRadius: `8px`,
-                      width: "90px",
-                    }}
-                  >
-                    <Image
-                      boxSize="90px"
-                      borderRadius="8px"
-                      objectFit="cover"
-                      src={`${productImagesRoot}/min/${image.product_image}`}
-                      key={index}
-                    />
-                    <IconButton
-                      colorScheme="gray"
-                      borderRadius="100%"
-                      aria-label="Call Segun"
-                      size="sm"
-                      position="absolute"
-                      top="5px"
-                      right="3px"
-                      zIndex="8"
-                      onClick={() => deleteServerImages(image)}
-                      icon={<SmallCloseIcon color="black" w={4} h={4} />}
-                    />
-                  </div>
-                );
-              })}
-              {productImagesLocal &&
-                productImagesLocal.map((image) => {
+                {product?.products_images?.map((image, index) => {
                   return (
                     <div
-                      key={image.name}
+                      key={index}
                       style={{
                         position: "relative",
                         borderRadius: `8px`,
+                        width: "90px",
                       }}
                     >
                       <Image
                         boxSize="90px"
                         borderRadius="8px"
                         objectFit="cover"
-                        src={image.imageblob}
-                        key={image.name}
-                        onClick={() => deleteLocalImages(image.name)}
+                        src={`${productImagesRoot}/min/${image.product_image}`}
+                        key={index}
                       />
                       <IconButton
                         colorScheme="gray"
@@ -345,514 +322,552 @@ const ProductEdit = (props) => {
                         size="sm"
                         position="absolute"
                         top="5px"
-                        right="22px"
+                        right="3px"
                         zIndex="8"
-                        onClick={() => deleteLocalImages(image.name)}
+                        onClick={() => deleteServerImages(image)}
                         icon={<SmallCloseIcon color="black" w={4} h={4} />}
                       />
                     </div>
                   );
                 })}
-              {isCompressing && (
-                <label className={styles.customFileUpload}>
-                  <CircularProgress isIndeterminate color="green.300" />
-                </label>
-              )}
-            </SimpleGrid>
-            <input
-              type="file"
-              accept="image/*"
-              id="file-upload"
-              onChange={(event) => handleImages(event)}
-              onClick={(event) => {
-                event.target.value = null;
-              }}
-              multiple
-            />
-            <FormControl id="product_name" isRequired w="90%">
-              <FormLabel>Product Name</FormLabel>
-              <Input
-                type="text"
-                name="product_name"
-                placeholder="Product name"
-                variant="filled"
-                defaultValue={product.product_name}
-                onChange={updateProduct}
-                size="lg"
+                {productImagesLocal &&
+                  productImagesLocal.map((image) => {
+                    return (
+                      <div
+                        key={image.name}
+                        style={{
+                          position: "relative",
+                          borderRadius: `8px`,
+                        }}
+                      >
+                        <Image
+                          boxSize="90px"
+                          borderRadius="8px"
+                          objectFit="cover"
+                          src={image.imageblob}
+                          key={image.name}
+                          onClick={() => deleteLocalImages(image.name)}
+                        />
+                        <IconButton
+                          colorScheme="gray"
+                          borderRadius="100%"
+                          aria-label="Call Segun"
+                          size="sm"
+                          position="absolute"
+                          top="5px"
+                          right="22px"
+                          zIndex="8"
+                          onClick={() => deleteLocalImages(image.name)}
+                          icon={<SmallCloseIcon color="black" w={4} h={4} />}
+                        />
+                      </div>
+                    );
+                  })}
+                {isCompressing && (
+                  <label className={styles.customFileUpload}>
+                    <CircularProgress isIndeterminate color="green.300" />
+                  </label>
+                )}
+              </SimpleGrid>
+              <input
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                onChange={(event) => handleImages(event)}
+                onClick={(event) => {
+                  event.target.value = null;
+                }}
+                multiple
               />
-            </FormControl>
-            <FormControl w="90%" mt="4" isRequired>
-              <Stack direction="row" w="100%" justifyContent="space-between">
-                <FormLabel>Category</FormLabel>
-                <Text
-                  color="green.500"
-                  fontWeight="bold"
-                  onClick={() => history.push("/app/add_category")}
+              <FormControl id="product_name" isRequired w="90%">
+                <FormLabel>Product Name</FormLabel>
+                <Input
+                  type="text"
+                  name="product_name"
+                  placeholder="Product name"
+                  variant="filled"
+                  defaultValue={product.product_name}
+                  onChange={updateProduct}
+                  size="lg"
+                />
+              </FormControl>
+              <FormControl w="90%" mt="4" isRequired>
+                <Stack direction="row" w="100%" justifyContent="space-between">
+                  <FormLabel>Category</FormLabel>
+                  <Text
+                    color="green.500"
+                    fontWeight="bold"
+                    onClick={() => history.push("/app/add_category")}
+                  >
+                    Add Category
+                  </Text>
+                </Stack>{" "}
+                <Select
+                  name="parent category"
+                  id="parentcategory"
+                  variant="filled"
+                  size="lg"
+                  value={!product.product_cat ? "DEFAULT" : product.product_cat}
+                  onChange={updateProduct}
                 >
-                  Add Category
-                </Text>
-              </Stack>{" "}
-              <Select
-                name="parent category"
-                name="product_cat"
-                id="parentcategory"
-                variant="filled"
-                size="lg"
-                value={!product.product_cat ? "DEFAULT" : product.product_cat}
-                onChange={updateProduct}
-              >
-                <option value="DEFAULT" disabled>
-                  select category
-                </option>
-                {categoriesArray.map((item, index) => (
-                  <option value={item.id} key={index}>
-                    {item.cat_name}
+                  <option value="DEFAULT" disabled>
+                    select category
                   </option>
-                ))}
-              </Select>
-            </FormControl>
+                  {categoriesArray.map((item, index) => (
+                    <option value={item.id} key={index}>
+                      {item.cat_name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-            {product?.products_variants?.length < 1 ? (
-              <Stack w="90%">
-                <FormControl mt="4">
-                  <FormLabel>Discount</FormLabel>
-                  <Switch
-                    onChange={() => {
-                      setIsProductDiscount((old) => !old);
-                    }}
-                    size="lg"
-                    colorScheme="green"
-                    isChecked={isProductDiscount}
-                  />
-                </FormControl>
-                <Stack direction="row" mt="4">
-                  <FormControl id="product_price" isRequired w="100%">
-                    <FormLabel>Product Price</FormLabel>
-                    <Input
-                      type="number"
-                      name="product_price"
-                      placeholder="Price"
-                      variant="filled"
-                      defaultValue={product.product_price}
-                      onChange={updateProduct}
+              {product?.products_variants?.length < 1 ? (
+                <Stack w="90%">
+                  <FormControl mt="4">
+                    <FormLabel>Discount</FormLabel>
+                    <Switch
+                      onChange={() => {
+                        setIsProductDiscount((old) => !old);
+                      }}
                       size="lg"
-                      w="100%"
+                      colorScheme="green"
+                      isChecked={isProductDiscount}
                     />
                   </FormControl>
-
-                  {isProductDiscount && (
-                    <FormControl w="100%">
-                      <Stack direction="row" justifyContent="space-between">
-                        <FormLabel>Sale Price</FormLabel>
-                        {product.product_sale_price && product.product_price && (
-                          <Badge
-                            colorScheme="green"
-                            variant="solid"
-                            fontSize="14px"
-                            alignSelf="center"
-                          >
-                            {parseInt(
-                              100 -
-                                (100 * product.product_sale_price) /
-                                  product.product_price
-                            )}
-                            % OFF
-                          </Badge>
-                        )}
-                      </Stack>
+                  <Stack direction="row" mt="4">
+                    <FormControl id="product_price" isRequired w="100%">
+                      <FormLabel>Product Price</FormLabel>
                       <Input
                         type="number"
-                        name="product_sale_price"
+                        name="product_price"
                         placeholder="Price"
                         variant="filled"
-                        defaultValue={product.product_sale_price}
-                        onChange={(e) =>
-                          setProduct({
-                            ...product,
-                            product_sale_price: e.target.value + "",
-                          })
-                        }
+                        defaultValue={product.product_price}
+                        onChange={updateProduct}
                         size="lg"
                         w="100%"
                       />
                     </FormControl>
-                  )}
-                </Stack>
-              </Stack>
-            ) : (
-              <Stack w="90%">
-                <FormControl id="product_price" isDisabled mt="10px">
-                  <FormLabel>Product Price</FormLabel>
-                  <Input
-                    type="number"
-                    variant="filled"
-                    placeholder={product.product_price}
-                    size="lg"
-                  />
-                </FormControl>
-                <Text color="red.300" fontWeight="bold">
-                  {" "}
-                  Edit Price in Variants
-                </Text>
-              </Stack>
-            )}
-            <FormControl isRequired w="90%" mt="4">
-              <FormLabel>Product Variants</FormLabel>
-              <Flex direction="row" flexWrap="wrap">
-                {product.products_variants &&
-                  product.products_variants.map((variant) => (
-                    <Box
-                      borderRadius="5px"
-                      border="1px solid #c2c2c2"
-                      p="5px"
-                      ml="5px"
-                      mt="5px"
-                      key={variant.id}
-                    >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Text ml="10px"> {variant.variant_name}</Text>
-                        <Popup
-                          lockScroll={true}
-                          closeOnDocumentClick={false}
-                          trigger={
-                            <IconButton
-                              icon={<EditIcon />}
-                              size="sm"
-                              mr="6px"
-                            />
-                          }
-                          modal
-                          contentStyle={{ width: "80vw", borderRadius: "10px" }}
-                          nested
-                        >
-                          {(close) => (
-                            <Box p="20px">
-                              <FocusLock />
-                              <Text mb="5px" fontWeight="bold">
-                                Add Variant
-                              </Text>
-                              <FormLabel> Name</FormLabel>
-                              <Input
-                                type="text"
-                                value={variant.variant_name}
-                                onChange={(e) =>
-                                  updateVariantServer(
-                                    variant.id,
-                                    "variant_name",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <FormLabel mt="10px">Discount</FormLabel>
-                              <Switch
-                                onChange={() =>
-                                  updateVariantServer(
-                                    variant.id,
-                                    "is_discount",
-                                    !variant.is_discount
-                                  )
-                                }
-                                size="lg"
-                                colorScheme="green"
-                                isChecked={variant.is_discount}
-                              />
-                              <Stack direction="row" mt="10px">
-                                <Box>
-                                  <FormLabel>Price</FormLabel>
 
-                                  <Input
-                                    pattern="\d*"
-                                    type="number"
-                                    value={variant.variant_price}
-                                    onChange={(e) =>
-                                      updateVariantServer(
-                                        variant.id,
-                                        "variant_price",
-                                        e.target.value
-                                      )
-                                    }
-                                    mb="18px"
-                                  />
-                                </Box>
-                                {variant.is_discount && (
+                    {isProductDiscount && (
+                      <FormControl w="100%">
+                        <Stack direction="row" justifyContent="space-between">
+                          <FormLabel>Sale Price</FormLabel>
+                          {product.product_sale_price && product.product_price && (
+                            <Badge
+                              colorScheme="green"
+                              variant="solid"
+                              fontSize="14px"
+                              alignSelf="center"
+                            >
+                              {parseInt(
+                                100 -
+                                  (100 * product.product_sale_price) /
+                                    product.product_price
+                              )}
+                              % OFF
+                            </Badge>
+                          )}
+                        </Stack>
+                        <Input
+                          type="number"
+                          name="product_sale_price"
+                          placeholder="Price"
+                          variant="filled"
+                          defaultValue={product.product_sale_price}
+                          onChange={(e) =>
+                            setProduct({
+                              ...product,
+                              product_sale_price: e.target.value + "",
+                            })
+                          }
+                          size="lg"
+                          w="100%"
+                        />
+                      </FormControl>
+                    )}
+                  </Stack>
+                </Stack>
+              ) : (
+                <Stack w="90%">
+                  <FormControl id="product_price" isDisabled mt="10px">
+                    <FormLabel>Product Price</FormLabel>
+                    <Input
+                      type="number"
+                      variant="filled"
+                      placeholder={product.product_price}
+                      size="lg"
+                    />
+                  </FormControl>
+                  <Text color="red.300" fontWeight="bold">
+                    {" "}
+                    Edit Price in Variants
+                  </Text>
+                </Stack>
+              )}
+              <FormControl isRequired w="90%" mt="4">
+                <FormLabel>Product Variants</FormLabel>
+                <Flex direction="row" flexWrap="wrap">
+                  {product.products_variants &&
+                    product.products_variants.map((variant) => (
+                      <Box
+                        borderRadius="5px"
+                        border="1px solid #c2c2c2"
+                        p="5px"
+                        ml="5px"
+                        mt="5px"
+                        key={variant.id}
+                      >
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Text ml="10px"> {variant.variant_name}</Text>
+                          <Popup
+                            lockScroll={true}
+                            closeOnDocumentClick={false}
+                            trigger={
+                              <IconButton
+                                icon={<EditIcon />}
+                                size="sm"
+                                mr="6px"
+                              />
+                            }
+                            modal
+                            contentStyle={{
+                              width: "80vw",
+                              borderRadius: "10px",
+                            }}
+                            nested
+                          >
+                            {(close) => (
+                              <Box p="20px">
+                                <FocusLock />
+                                <Text mb="5px" fontWeight="bold">
+                                  Add Variant
+                                </Text>
+                                <FormLabel> Name</FormLabel>
+                                <Input
+                                  type="text"
+                                  value={variant.variant_name}
+                                  onChange={(e) =>
+                                    updateVariantServer(
+                                      variant.id,
+                                      "variant_name",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                <FormLabel mt="10px">Discount</FormLabel>
+                                <Switch
+                                  onChange={() =>
+                                    updateVariantServer(
+                                      variant.id,
+                                      "is_discount",
+                                      !variant.is_discount
+                                    )
+                                  }
+                                  size="lg"
+                                  colorScheme="green"
+                                  isChecked={variant.is_discount}
+                                />
+                                <Stack direction="row" mt="10px">
                                   <Box>
-                                    <FormLabel>Selling Price</FormLabel>
+                                    <FormLabel>Price</FormLabel>
 
                                     <Input
                                       pattern="\d*"
                                       type="number"
-                                      value={variant.variant_sale_price}
+                                      value={variant.variant_price}
                                       onChange={(e) =>
                                         updateVariantServer(
                                           variant.id,
-                                          "variant_sale_price",
+                                          "variant_price",
                                           e.target.value
                                         )
                                       }
                                       mb="18px"
                                     />
                                   </Box>
-                                )}
-                              </Stack>
-                              <Button
-                                bgColor="#fff"
-                                color="red.500"
-                                onClick={() => {
-                                  deleteServerVariants(variant);
-                                  close();
-                                }}
-                                mr="8px"
-                              >
-                                Delete
-                              </Button>
-                              <Button colorScheme="blue" onClick={close}>
-                                OK
-                              </Button>
-                              <Stack />
-                            </Box>
-                          )}
-                        </Popup>
-                      </Stack>
-                    </Box>
-                  ))}
+                                  {variant.is_discount && (
+                                    <Box>
+                                      <FormLabel>Selling Price</FormLabel>
 
-                {variantsLocal &&
-                  variantsLocal.map((variant) => (
-                    <Box
-                      borderRadius="5px"
-                      border="1px solid #c2c2c2"
-                      p="5px"
-                      ml="5px"
-                      key={variant.id}
-                      mt="5px"
-                    >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
+                                      <Input
+                                        pattern="\d*"
+                                        type="number"
+                                        value={variant.variant_sale_price}
+                                        onChange={(e) =>
+                                          updateVariantServer(
+                                            variant.id,
+                                            "variant_sale_price",
+                                            e.target.value
+                                          )
+                                        }
+                                        mb="18px"
+                                      />
+                                    </Box>
+                                  )}
+                                </Stack>
+                                <Button
+                                  bgColor="#fff"
+                                  color="red.500"
+                                  onClick={() => {
+                                    deleteServerVariants(variant);
+                                    close();
+                                  }}
+                                  mr="8px"
+                                >
+                                  Delete
+                                </Button>
+                                <Button colorScheme="blue" onClick={close}>
+                                  OK
+                                </Button>
+                                <Stack />
+                              </Box>
+                            )}
+                          </Popup>
+                        </Stack>
+                      </Box>
+                    ))}
+
+                  {variantsLocal &&
+                    variantsLocal.map((variant) => (
+                      <Box
+                        borderRadius="5px"
+                        border="1px solid #c2c2c2"
+                        p="5px"
+                        ml="5px"
+                        key={variant.id}
+                        mt="5px"
                       >
-                        <Text ml="10px"> {variant.variant_name}</Text>
-                        <Popup
-                          lockScroll={true}
-                          closeOnDocumentClick={false}
-                          trigger={
-                            <IconButton
-                              icon={<EditIcon />}
-                              size="sm"
-                              mr="6px"
-                            />
-                          }
-                          modal
-                          contentStyle={{ width: "80vw", borderRadius: "10px" }}
-                          nested
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
                         >
-                          {(close) => (
-                            <Box p="20px">
-                              <FocusLock />
-                              <Text mb="5px" fontWeight="bold">
-                                Add Variant
-                              </Text>
-                              <FormLabel> Name</FormLabel>
-                              <Input
-                                type="text"
-                                value={variant.variant_name}
-                                onChange={(e) =>
-                                  updateVariantLocal(
-                                    variant.id,
-                                    "variant_name",
-                                    e.target.value
-                                  )
-                                }
+                          <Text ml="10px"> {variant.variant_name}</Text>
+                          <Popup
+                            lockScroll={true}
+                            closeOnDocumentClick={false}
+                            trigger={
+                              <IconButton
+                                icon={<EditIcon />}
+                                size="sm"
+                                mr="6px"
                               />
-                              <FormLabel>Discount</FormLabel>
-                              <Switch
-                                onChange={(e) =>
-                                  updateVariantLocal(
-                                    variant.id,
-                                    "is_discount",
-                                    !variant.is_discount
-                                  )
-                                }
-                                size="lg"
-                                colorScheme="green"
-                                isChecked={variant.is_discount}
-                              />
-                              <Stack direction="row" mt="10px">
-                                <Box>
-                                  <FormLabel>Price</FormLabel>
-
-                                  <Input
-                                    type="number"
-                                    value={variant.variant_price}
-                                    onChange={(e) =>
-                                      updateVariantLocal(
-                                        variant.id,
-                                        "variant_price",
-                                        e.target.value
-                                      )
-                                    }
-                                    mb="18px"
-                                  />
-                                </Box>
-                                {variant.is_discount && (
+                            }
+                            modal
+                            contentStyle={{
+                              width: "80vw",
+                              borderRadius: "10px",
+                            }}
+                            nested
+                          >
+                            {(close) => (
+                              <Box p="20px">
+                                <FocusLock />
+                                <Text mb="5px" fontWeight="bold">
+                                  Add Variant
+                                </Text>
+                                <FormLabel> Name</FormLabel>
+                                <Input
+                                  type="text"
+                                  value={variant.variant_name}
+                                  onChange={(e) =>
+                                    updateVariantLocal(
+                                      variant.id,
+                                      "variant_name",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                <FormLabel>Discount</FormLabel>
+                                <Switch
+                                  onChange={(e) =>
+                                    updateVariantLocal(
+                                      variant.id,
+                                      "is_discount",
+                                      !variant.is_discount
+                                    )
+                                  }
+                                  size="lg"
+                                  colorScheme="green"
+                                  isChecked={variant.is_discount}
+                                />
+                                <Stack direction="row" mt="10px">
                                   <Box>
-                                    <FormLabel>Selling Price</FormLabel>
+                                    <FormLabel>Price</FormLabel>
 
                                     <Input
                                       type="number"
-                                      value={variant.variant_sale_price}
+                                      value={variant.variant_price}
                                       onChange={(e) =>
                                         updateVariantLocal(
                                           variant.id,
-                                          "variant_sale_price",
+                                          "variant_price",
                                           e.target.value
                                         )
                                       }
                                       mb="18px"
                                     />
                                   </Box>
-                                )}
-                              </Stack>
-                              <Button
-                                colorScheme="red"
-                                onClick={() => {
-                                  setVariantsLocal((old) =>
-                                    old.filter(
-                                      (variantCurr) =>
-                                        variantCurr.id !== variant.id
-                                    )
-                                  );
-                                  close();
-                                }}
-                                mr="8px"
-                              >
-                                Delete
-                              </Button>
-                              <Button colorScheme="blue" onClick={close}>
-                                OK
-                              </Button>
-                              <Stack />
-                            </Box>
-                          )}
-                        </Popup>
-                      </Stack>
-                    </Box>
-                  ))}
-              </Flex>
-              <Popup
-                lockScroll={true}
-                closeOnDocumentClick={false}
-                trigger={
-                  <Button mt="10px" colorScheme="blue">
-                    Add Variant
-                  </Button>
-                }
-                onOpen={() => {
-                  setNewVariantIsDiscount(product.is_discount);
-                  setNewVariantPrice(product.product_price);
-                  setNewVariantSalePrice(product.product_sale_price);
-                }}
-                modal
-                contentStyle={{ width: "80vw", borderRadius: "10px" }}
-                nested
-              >
-                {(close) => (
-                  <Box p="20px">
-                    <FocusLock />
-                    <Text mb="5px" fontWeight="bold">
-                      Add Variant
-                    </Text>
-                    <FormLabel> Name</FormLabel>
-                    <Input
-                      type="text"
-                      value={newVariant}
-                      onChange={(e) => setNewVariant(e.target.value)}
-                    />
-                    <FormLabel>Discount</FormLabel>
-                    <Switch
-                      onChange={() => setNewVariantIsDiscount((old) => !old)}
-                      size="lg"
-                      colorScheme="green"
-                      isChecked={newVariantIsDiscount}
-                    />
+                                  {variant.is_discount && (
+                                    <Box>
+                                      <FormLabel>Selling Price</FormLabel>
 
-                    <Stack direction="row" mt="10px">
-                      <Box>
-                        <FormLabel>Price</FormLabel>
-
-                        <Input
-                          type="number"
-                          value={newVariantPrice}
-                          onChange={(e) => setNewVariantPrice(e.target.value)}
-                          mb="18px"
-                        />
+                                      <Input
+                                        type="number"
+                                        value={variant.variant_sale_price}
+                                        onChange={(e) =>
+                                          updateVariantLocal(
+                                            variant.id,
+                                            "variant_sale_price",
+                                            e.target.value
+                                          )
+                                        }
+                                        mb="18px"
+                                      />
+                                    </Box>
+                                  )}
+                                </Stack>
+                                <Button
+                                  colorScheme="red"
+                                  onClick={() => {
+                                    setVariantsLocal((old) =>
+                                      old.filter(
+                                        (variantCurr) =>
+                                          variantCurr.id !== variant.id
+                                      )
+                                    );
+                                    close();
+                                  }}
+                                  mr="8px"
+                                >
+                                  Delete
+                                </Button>
+                                <Button colorScheme="blue" onClick={close}>
+                                  OK
+                                </Button>
+                                <Stack />
+                              </Box>
+                            )}
+                          </Popup>
+                        </Stack>
                       </Box>
-                      {newVariantIsDiscount && (
+                    ))}
+                </Flex>
+                <Popup
+                  lockScroll={true}
+                  closeOnDocumentClick={false}
+                  trigger={
+                    <Button mt="10px" colorScheme="blue">
+                      Add Variant
+                    </Button>
+                  }
+                  onOpen={() => {
+                    setNewVariantIsDiscount(product.is_discount);
+                    setNewVariantPrice(product.product_price);
+                    setNewVariantSalePrice(product.product_sale_price);
+                  }}
+                  modal
+                  contentStyle={{ width: "80vw", borderRadius: "10px" }}
+                  nested
+                >
+                  {(close) => (
+                    <Box p="20px">
+                      <FocusLock />
+                      <Text mb="5px" fontWeight="bold">
+                        Add Variant
+                      </Text>
+                      <FormLabel> Name</FormLabel>
+                      <Input
+                        type="text"
+                        value={newVariant}
+                        onChange={(e) => setNewVariant(e.target.value)}
+                      />
+                      <FormLabel>Discount</FormLabel>
+                      <Switch
+                        onChange={() => setNewVariantIsDiscount((old) => !old)}
+                        size="lg"
+                        colorScheme="green"
+                        isChecked={newVariantIsDiscount}
+                      />
+
+                      <Stack direction="row" mt="10px">
                         <Box>
-                          <FormLabel>Selling Price</FormLabel>
+                          <FormLabel>Price</FormLabel>
 
                           <Input
                             type="number"
-                            value={newVariantSalePrice}
-                            onChange={(e) =>
-                              setNewVariantSalePrice(e.target.value)
-                            }
+                            value={newVariantPrice}
+                            onChange={(e) => setNewVariantPrice(e.target.value)}
                             mb="18px"
                           />
                         </Box>
-                      )}
-                    </Stack>
-                    <Button onClick={close} mr="8px">
-                      Cancel
-                    </Button>
-                    <Button
-                      colorScheme="blue"
-                      onClick={() => {
-                        if (newVariant && newVariantPrice) {
-                          setVariantsLocal((old) => [
-                            ...old,
-                            {
-                              id: uuidv4(),
-                              product_id: product.id,
-                              variant_name: newVariant,
-                              is_discount: newVariantIsDiscount,
-                              variant_price: newVariantPrice,
-                              variant_sale_price: newVariantSalePrice,
-                            },
-                          ]);
-                          setNewVariant("");
-                          setNewVariantPrice("");
-                          setNewVariantSalePrice("");
-                          setNewVariantIsDiscount(false);
-                          close();
-                        }
-                      }}
-                    >
-                      Add Variant
-                    </Button>
-                    <Stack />
-                  </Box>
-                )}
-              </Popup>
-            </FormControl>
-            <FormControl id="description" w="90%" mt="4">
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                type="textarea"
-                name="product_desc"
-                placeholder="Description"
-                variant="filled"
-                defaultValue={product.product_desc}
-                rows="4"
-                onChange={updateProduct}
-                whiteSpace="pre-wrap"
-              />
-            </FormControl>
-            {/* <FormControl id="description" w="90%" mt="4px">
+                        {newVariantIsDiscount && (
+                          <Box>
+                            <FormLabel>Selling Price</FormLabel>
+
+                            <Input
+                              type="number"
+                              value={newVariantSalePrice}
+                              onChange={(e) =>
+                                setNewVariantSalePrice(e.target.value)
+                              }
+                              mb="18px"
+                            />
+                          </Box>
+                        )}
+                      </Stack>
+                      <Button onClick={close} mr="8px">
+                        Cancel
+                      </Button>
+                      <Button
+                        colorScheme="blue"
+                        onClick={() => {
+                          if (newVariant && newVariantPrice) {
+                            setVariantsLocal((old) => [
+                              ...old,
+                              {
+                                id: uuidv4(),
+                                product_id: product.id,
+                                variant_name: newVariant,
+                                is_discount: newVariantIsDiscount,
+                                variant_price: newVariantPrice,
+                                variant_sale_price: newVariantSalePrice,
+                              },
+                            ]);
+                            setNewVariant("");
+                            setNewVariantPrice("");
+                            setNewVariantSalePrice("");
+                            setNewVariantIsDiscount(false);
+                            close();
+                          }
+                        }}
+                      >
+                        Add Variant
+                      </Button>
+                      <Stack />
+                    </Box>
+                  )}
+                </Popup>
+              </FormControl>
+              <FormControl id="description" w="90%" mt="4">
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  type="textarea"
+                  name="product_desc"
+                  placeholder="Description"
+                  variant="filled"
+                  defaultValue={product.product_desc}
+                  rows="4"
+                  onChange={updateProduct}
+                  whiteSpace="pre-wrap"
+                />
+              </FormControl>
+              {/* <FormControl id="description" w="90%" mt="4px">
               <FormLabel>Stock</FormLabel>
               <Switch
                 size="lg"
@@ -862,56 +877,59 @@ const ProductEdit = (props) => {
                 onChange={updateProductStock}
               />
             </FormControl> */}
-            {isFormError && (
-              <h1 style={{ color: "red" }}>Please fill all required details</h1>
-            )}
-            <AlertDialog
-              isCentered
-              isOpen={isOpen}
-              leastDestructiveRef={cancelRef}
-              onClose={() => setIsOpen(false)}
-            >
-              <AlertDialogOverlay>
-                <AlertDialogContent w="90%">
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Delete Product
-                  </AlertDialogHeader>
+              {isFormError && (
+                <h1 style={{ color: "red" }}>
+                  Please fill all required details
+                </h1>
+              )}
+              <AlertDialog
+                isCentered
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={() => setIsOpen(false)}
+              >
+                <AlertDialogOverlay>
+                  <AlertDialogContent w="90%">
+                    <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                      Delete Product
+                    </AlertDialogHeader>
 
-                  <AlertDialogBody>
-                    Are you sure? You can't undo this action afterwards.
-                  </AlertDialogBody>
+                    <AlertDialogBody>
+                      Are you sure? You can't undo this action afterwards.
+                    </AlertDialogBody>
 
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button colorScheme="red" onClick={handleDelete} ml={3}>
-                      Delete
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialogOverlay>
-            </AlertDialog>
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
+                        Cancel
+                      </Button>
+                      <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                        Delete
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialogOverlay>
+              </AlertDialog>
 
-            <Button
-              backgroundColor="#08bd80"
-              colorScheme="green"
-              color="white"
-              variant="solid"
-              w="90%"
-              isDisabled={isCompressing}
-              isLoading={isBtnLoading}
-              loadingText="Uploading"
-              onClick={() => validateFields(updateProductFull)}
-              size="lg"
-              mt="15px"
-            >
-              Update product
-            </Button>
-            <div style={{ marginTop: `70px` }}></div>
-          </div>
-        )}
-      </div>
+              <Button
+                backgroundColor="#08bd80"
+                colorScheme="green"
+                color="white"
+                variant="solid"
+                w="90%"
+                isDisabled={isCompressing}
+                isLoading={isBtnLoading}
+                loadingText="Uploading"
+                onClick={() => validateFields(updateProductFull)}
+                size="lg"
+                mt="15px"
+              >
+                Update product
+              </Button>
+              <div style={{ marginTop: `70px` }}></div>
+            </div>
+          )}
+        </Container>
+      </SellerPageLayout>
     </>
   );
 };

@@ -1,9 +1,10 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
 import Switch from "react-switch";
+import { useHistory } from "react-router-dom";
 
 const Card = styled.div`
-  ${tw`w-full grid bg-white rounded-lg shadow-lg p-4 gap-2`}
+  ${tw`w-full grid bg-white rounded-lg shadow-lg p-4 gap-2 cursor-pointer`}
   height: auto;
   grid-template-columns: 100px 1fr;
 `;
@@ -35,8 +36,9 @@ const StockText = styled.h3`
 `;
 
 const ProductCard = ({ title, image, stock, price, id, onStockToggle }) => {
+  const history = useHistory();
   return (
-    <Card key={id}>
+    <Card key={id} onClick={() => history.push(`/app/product_edit/${id}`)}>
       <Image src={image} alt="product" />
       <ContentContainer>
         <Title>{title}</Title>

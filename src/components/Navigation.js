@@ -12,7 +12,7 @@ import SettingsIconFilled from "../assets/settings.svg";
 
 const Container = styled.div`
   ${tw`z-10 w-full grid bg-gray-900`}
-  height: 80px;
+  height: 60px;
   grid-template-columns: repeat(4, 1fr);
   position: fixed;
   bottom: 0;
@@ -41,8 +41,8 @@ const Item = styled.div`
 `;
 
 const Icon = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(354deg)
     brightness(105%) contrast(101%);
   ${({ selected }) =>
