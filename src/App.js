@@ -11,6 +11,7 @@ import PasswordReset from "./pages/client/password";
 import Payment from "./pages/payment";
 import Account from "./pages/seller/account/account";
 import EditAccount from "./pages/seller/account/editAccount";
+import EditSettings from "./pages/seller/account/editSettings";
 import SignIn from "./pages/seller/account/signin";
 import Signup from "./pages/seller/account/signup";
 import AddNewCategory from "./pages/seller/categories/addNewCategory";
@@ -70,6 +71,7 @@ const App = () => {
         <Route path="/app/categories" component={Categories} />
         <Route path="/app/settings" component={Account} />
         <Route path="/app/edit_account" component={EditAccount} />
+        <Route path="/app/edit_settings" component={EditSettings} />
         <Route component={() => <p>404</p>} />
       </Switch>
     </Router>

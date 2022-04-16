@@ -10,6 +10,18 @@ export const updateStoreAPI = async (storeInfo) => {
   }
 };
 
+export const updateStoreSettingsAPI = async (payload) => {
+  try {
+    const ProductsData = await axios_seller.put(
+      `/seller/store/settings`,
+      payload
+    );
+    return ProductsData;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const updateStoreStatusAPI = async (storeId) => {
   try {
     const response = await axios_seller.put(`/seller/store/status/${storeId}`);
