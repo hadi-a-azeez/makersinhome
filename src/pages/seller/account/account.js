@@ -26,6 +26,9 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
+import StoreFrontIcon from "../../../assets/storefront-outline.svg";
+import SettingsIcon from "../../../assets/settings-outline.svg";
+
 import ContactUs from "../../../assets/call_outline.svg";
 import AboutUs from "../../../assets/about_outline.svg";
 import LogOut from "../../../assets/logout_outline.svg";
@@ -67,7 +70,7 @@ const Account = () => {
                 : Placeholder
             }
             borderRadius="full"
-            boxSize="80px"
+            boxSize="60px"
             objectFit="cover"
             fallback={<SkeletonCircle size="20" />}
           />
@@ -84,13 +87,22 @@ const Account = () => {
             ) : (
               <SkeletonText noOfLines={1} height="20px" />
             )}
-            <Link to="/app/edit_account" className={styles.link}>
-              Edit store details
-            </Link>
           </Flex>
         </Flex>
         <hr style={{ height: "1px", width: "80%" }} />
         <div className={styles.nav_container}>
+          <Link to="/app/edit_account" className={styles.link}>
+            <div className={styles.nav_item}>
+              <img src={StoreFrontIcon} alt="w" />
+              <h1>Edit Store Info</h1>
+            </div>
+          </Link>
+          <Link to="/app/edit_settings" className={styles.link}>
+            <div className={styles.nav_item}>
+              <img src={SettingsIcon} alt="w" />
+              <h1>Store Settings</h1>
+            </div>
+          </Link>
           <div
             className={styles.nav_item}
             onClick={() =>

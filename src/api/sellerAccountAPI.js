@@ -41,7 +41,6 @@ export const updateSettings = async (values) => {
 
 export const getStoreInfoAPI = async () => {
   let response = await axios_seller.get(`/seller/store`);
-  console.log(response);
   return response;
 };
 
