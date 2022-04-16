@@ -20,11 +20,7 @@ import {
 import { useForm } from "../../../components/useForm";
 import SellerPageLayout from "../../../layouts/Seller";
 import tw, { styled } from "twin.macro";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-white w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const AddNewCategory = (props) => {
   const [parentCategoriesData, setparentCategoriesData] = useState([]);
@@ -71,8 +67,8 @@ const AddNewCategory = (props) => {
       const response = await updateCatogoriesAPI(singleCategoryData);
       setIsLoading(false);
       toast({
-        title: "Product added.",
-        description: "Product added successfully.",
+        title: "Category Updated.",
+        description: "Category updated successfully.",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -85,9 +81,8 @@ const AddNewCategory = (props) => {
 
   return (
     <>
-      <SellerPageLayout label="Edit Category">
+      <SellerPageLayout label="Edit Category" isBackButton={true}>
         <Container>
-          <LabelHeader label={"Edit Category"} isBackButton={true} />
           {!isValidated && (
             <Box
               borderRadius="md"

@@ -35,11 +35,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import FocusLock from "@chakra-ui/focus-lock";
 import SellerPageLayout from "../../../layouts/Seller";
 import tw, { styled } from "twin.macro";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});
@@ -61,9 +57,9 @@ const Account = () => {
   }, []);
 
   return (
-    <SellerPageLayout>
+    <SellerPageLayout label="Settings">
       <Container>
-        <Flex direction="row" w="85%" mt="3" mb="3">
+        <Flex direction="row" w="100%" mt="3" mb="3">
           <Image
             src={
               storeInfo.account_store_image

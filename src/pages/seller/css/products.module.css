@@ -145,6 +145,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  min-height: 100vh;
+  width: 100%;
 }
 .emptyImage {
   width: 60%;

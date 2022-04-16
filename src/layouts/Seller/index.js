@@ -8,10 +8,10 @@ const Container = styled.div`
   min-width: 100vw;
   min-height: 100vh;
   @media (min-width: 768px) {
-    grid-template-columns: 200px 3fr;
+    grid-template-columns: 300px 3fr;
   }
 `;
-const LeftContainer = tw.div``;
+const LeftContainer = styled.div``;
 
 const RightContainer = tw.div`relative h-full flex flex-col justify-center items-center`;
 

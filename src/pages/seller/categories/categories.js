@@ -19,11 +19,7 @@ import {
 import CategoryCard from "./CategoryCard";
 import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/categories.module.css";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const CategoriesContainer = styled.div`
   ${tw`w-full grid gap-4`}
@@ -74,7 +70,7 @@ const Categories = () => {
   };
 
   return (
-    <SellerPageLayout>
+    <SellerPageLayout label="Categories">
       <div className={styles.tab_parent}>
         <div
           onClick={() => history.push("/app/products")}

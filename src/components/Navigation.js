@@ -11,8 +11,26 @@ import SettingsIcon from "../assets/settings-outline.svg";
 import SettingsIconFilled from "../assets/settings.svg";
 
 const Container = styled.div`
-  ${tw`z-10 w-full grid bg-gray-900`}
-  height: 60px;
+  ${tw`w-full bg-gray-100 lg:min-h-screen sm:h-auto z-10`}
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  @media (min-width: 768px) {
+    position: relative;
+    bottom: auto;
+    max-height: 100vh;
+    position: fixed;
+    left: 0;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+`;
+
+const NavContainer = styled.div`
+  ${tw` w-full grid place-items-center`}
+  height: 70px;
   grid-template-columns: repeat(4, 1fr);
   position: fixed;
   bottom: 0;
@@ -20,14 +38,13 @@ const Container = styled.div`
     padding: 1.5rem;
     position: relative;
     bottom: auto;
-    width: 100%;
     max-height: 100vh;
     position: fixed;
     left: 0;
     z-index: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.8rem;
     height: 100%;
   }
 `;
@@ -37,14 +54,15 @@ const Item = styled.div`
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: 20px 1fr;
+    gap: 1rem;
   }
 `;
 
 const Icon = styled.img`
   width: 22px;
   height: 22px;
-  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(354deg)
-    brightness(105%) contrast(101%);
+  filter: invert(14%) sepia(49%) saturate(0%) hue-rotate(236deg) brightness(91%)
+    contrast(94%);
   ${({ selected }) =>
     selected &&
     `filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
@@ -52,8 +70,21 @@ const Icon = styled.img`
 `;
 
 const Text = styled.h1`
-  ${tw`text-base font-normal text-white`}
+  ${tw`text-base font-normal text-gray-500`}
   ${({ selected }) => selected && tw`text-primary font-bold`}
+`;
+
+const ProfileContainer = styled.div`
+  ${tw`w-full flex flex-row  items-center p-4 gap-3 hidden`}
+  @media (min-width: 768px) {
+    display: flex;
+  }
+`;
+
+const ProfilePicture = styled.div`
+  ${tw`bg-white rounded-full shadow-lg`}
+  width: 40px;
+  height: 40px;
 `;
 
 const NavItem = ({ to, icon, iconFilled, label, selected }) => {
@@ -102,9 +133,15 @@ const Navigation = () => {
 
   return (
     <Container>
-      {nav.map((item) => (
-        <NavItem {...item} />
-      ))}
+      <ProfileContainer>
+        <ProfilePicture></ProfilePicture>
+        <h1 className="font-sm font-semibold text-gray-400">User name</h1>
+      </ProfileContainer>
+      <NavContainer>
+        {nav.map((item) => (
+          <NavItem {...item} />
+        ))}
+      </NavContainer>
     </Container>
   );
 };

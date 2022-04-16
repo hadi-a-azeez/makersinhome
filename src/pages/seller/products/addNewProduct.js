@@ -35,11 +35,7 @@ import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
 import { uploadProductImageDO } from "../../../api/imageUploadAPI";
 import tw, { styled } from "twin.macro";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-white w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const AddNewProduct = (props) => {
   const history = useHistory();

@@ -4,7 +4,7 @@ import Switch from "react-switch";
 import { useHistory } from "react-router-dom";
 
 const Card = styled.div`
-  ${tw`w-full grid bg-white rounded-lg shadow-lg p-4 gap-2 cursor-pointer`}
+  ${tw`w-full grid bg-gray-100 rounded-lg p-4 gap-2 cursor-pointer`}
   height: auto;
   grid-template-columns: 100px 1fr;
 `;

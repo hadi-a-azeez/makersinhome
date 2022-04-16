@@ -18,11 +18,7 @@ import {
 } from "@chakra-ui/react";
 import SellerPageLayout from "../../../layouts/Seller";
 import tw, { styled } from "twin.macro";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-white w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const AddNewCategory = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -83,7 +79,7 @@ const AddNewCategory = () => {
 
   return (
     <>
-      <SellerPageLayout label="Add Category">
+      <SellerPageLayout label="Add Category" isBackButton={true}>
         <Container>
           {!isValidated && (
             <Box

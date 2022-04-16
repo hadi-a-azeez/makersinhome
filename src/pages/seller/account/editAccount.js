@@ -22,6 +22,9 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { compressSingleImage } from "../../../utils/imageCompresser";
+import SellerPageLayout from "../../../layouts/Seller";
+import tw, { styled } from "twin.macro";
+import { Container } from "../../../components/Container";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -92,109 +95,110 @@ const EditAccount = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <LabelHeader label={"Edit business details"} isBackButton="true" />
-      {isLoading ? (
-        <div className={styles.loaderwraper}>
-          <Loader
-            type="Oval"
-            color="#00b140"
-            height={50}
-            width={50}
-            visible={isLoading}
-          />
+    <SellerPageLayout label="Edit business details" isBackButton={true}>
+      <Container>
+        {isLoading ? (
+          <div className={styles.loaderwraper}>
+            <Loader
+              type="Oval"
+              color="#00b140"
+              height={50}
+              width={50}
+              visible={isLoading}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
+        <div className={styles.image_block}>
+          <div className={styles.thumbnail}>
+            <img
+              src={
+                isImageEdited
+                  ? URL.createObjectURL(compressedImagesState)
+                  : `${profileImagesRoot}/${storeInfo.account_store_image}`
+              }
+              alt="image"
+              className={styles.thumbnail_image}
+            />
+          </div>
         </div>
-      ) : (
-        <div></div>
-      )}
-      <div className={styles.image_block}>
-        <div className={styles.thumbnail}>
-          <img
-            src={
-              isImageEdited
-                ? URL.createObjectURL(compressedImagesState)
-                : `${profileImagesRoot}/${storeInfo.account_store_image}`
+
+        <input
+          type="file"
+          accept="image/*"
+          id="file-upload"
+          onChange={(event) => compressImage(event)}
+        />
+        <label htmlFor="file-upload" className={styles.link}>
+          Update store image
+        </label>
+        {isFormError && (
+          <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
+            <h1>Please fill all required details</h1>
+          </Box>
+        )}
+
+        <FormControl isRequired w="90%" mt="3">
+          <FormLabel>Store Status</FormLabel>
+          <Switch
+            isChecked={storeInfo.account_store_status ? true : false}
+            size="lg"
+            colorScheme="green"
+            onChange={() =>
+              setStoreInfo({
+                ...storeInfo,
+                account_store_status: !storeInfo.account_store_status,
+              })
             }
-            alt="image"
-            className={styles.thumbnail_image}
           />
-        </div>
-      </div>
-
-      <input
-        type="file"
-        accept="image/*"
-        id="file-upload"
-        onChange={(event) => compressImage(event)}
-      />
-      <label htmlFor="file-upload" className={styles.link}>
-        Update store image
-      </label>
-      {isFormError && (
-        <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
-          <h1>Please fill all required details</h1>
-        </Box>
-      )}
-
-      <FormControl isRequired w="90%" mt="3">
-        <FormLabel>Store Status</FormLabel>
-        <Switch
-          isChecked={storeInfo.account_store_status ? true : false}
-          size="lg"
+        </FormControl>
+        <FormControl isRequired w="90%" mt="3">
+          <FormLabel>Store name</FormLabel>
+          <Input
+            variant="filled"
+            name="account_store"
+            size="lg"
+            value={storeInfo.account_store || ""}
+            onChange={updateStoreInfo}
+          />
+        </FormControl>
+        <FormControl isRequired w="90%" mt="4">
+          <FormLabel>Whatsapp Number</FormLabel>
+          <Input
+            variant="filled"
+            name="account_whatsapp"
+            size="lg"
+            value={storeInfo.account_whatsapp || ""}
+            onChange={updateStoreInfo}
+          />
+        </FormControl>
+        <FormControl w="90%" mt="4">
+          <FormLabel>Address</FormLabel>
+          <Textarea
+            rows="3"
+            variant="filled"
+            name="account_store_address"
+            value={storeInfo.account_store_address || ""}
+            onChange={updateStoreInfo}
+          />
+        </FormControl>
+        <Button
+          isLoading={isBtnLoading}
+          loadingText="Updating"
+          backgroundColor="#08bd80"
           colorScheme="green"
-          onChange={() =>
-            setStoreInfo({
-              ...storeInfo,
-              account_store_status: !storeInfo.account_store_status,
-            })
-          }
-        />
-      </FormControl>
-      <FormControl isRequired w="90%" mt="3">
-        <FormLabel>Store name</FormLabel>
-        <Input
-          variant="filled"
-          name="account_store"
+          color="white"
           size="lg"
-          value={storeInfo.account_store || ""}
-          onChange={updateStoreInfo}
-        />
-      </FormControl>
-      <FormControl isRequired w="90%" mt="4">
-        <FormLabel>Whatsapp Number</FormLabel>
-        <Input
-          variant="filled"
-          name="account_whatsapp"
-          size="lg"
-          value={storeInfo.account_whatsapp || ""}
-          onChange={updateStoreInfo}
-        />
-      </FormControl>
-      <FormControl w="90%" mt="4">
-        <FormLabel>Address</FormLabel>
-        <Textarea
-          rows="3"
-          variant="filled"
-          name="account_store_address"
-          value={storeInfo.account_store_address || ""}
-          onChange={updateStoreInfo}
-        />
-      </FormControl>
-      <Button
-        isLoading={isBtnLoading}
-        loadingText="Updating"
-        backgroundColor="#08bd80"
-        colorScheme="green"
-        color="white"
-        size="lg"
-        w="90%"
-        mt="3"
-        mb="20"
-        onClick={() => validateFields(updateStore)}
-      >
-        Update Store Info
-      </Button>
-    </div>
+          w="90%"
+          mt="3"
+          mb="20"
+          onClick={() => validateFields(updateStore)}
+        >
+          Update Store Info
+        </Button>
+      </Container>
+    </SellerPageLayout>
   );
 };
 

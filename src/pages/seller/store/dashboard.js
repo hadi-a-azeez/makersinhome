@@ -18,7 +18,7 @@ import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/dashboard.module.css";
 
 const Container = styled.div`
-  ${tw`flex flex-col items-center w-full bg-gray-100`}
+  ${tw`flex flex-col items-center w-full bg-white`}
   min-height: 100vh;
 `;
 
@@ -59,7 +59,7 @@ const Dashboard = () => {
   }, []);
   return (
     <>
-      <SellerPageLayout>
+      <SellerPageLayout label="Home">
         <Container>
           {/* <Box
             className={styles.topdiv}

@@ -7,25 +7,12 @@ import {
 } from "../../../api/sellerProductAPI";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Empty from "../../../assets/empty.svg";
-import {
-  Button,
-  Skeleton,
-  Stat,
-  StatNumber,
-  Switch,
-  Box,
-} from "@chakra-ui/react";
+import { Button, Skeleton } from "@chakra-ui/react";
 import SellerPageLayout from "../../../layouts/Seller";
-import Placeholder from "../../../assets/placeholder.png";
 import tw, { styled } from "twin.macro";
 import ProductCard from "../../../components/ProductsCardSeller";
 import { getProductImage, getProductPrice } from "../../../utils/product.util";
-import { productImagesRoot } from "../../../config";
-
-const Container = styled.div`
-  ${tw`flex flex-col items-center bg-gray-100 w-full p-4`}
-  min-height: 100vh;
-`;
+import { Container } from "../../../components/Container";
 
 const ProductsContainer = styled.div`
   ${tw`w-full grid gap-4`}

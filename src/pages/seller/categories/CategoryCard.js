@@ -5,7 +5,7 @@ import Ellipse from "../../../assets/ellipse_outline.svg";
 import { useHistory } from "react-router-dom";
 
 const Card = styled.div`
-  ${tw`w-full grid bg-white rounded-lg shadow-lg p-4 gap-2 relative`}
+  ${tw`w-full grid bg-gray-100 rounded-lg  p-4 gap-2 relative`}
   height: auto;
   grid-template-columns: 1fr 30px;
 `;
@@ -40,7 +40,7 @@ const CategoryCard = ({ item, setIsOpen, setCategoryDeleteId, userInfo }) => {
           position="absolute"
           top="3"
           right="3"
-          bg="white"
+          bg="gray"
           as={Button}
           onClick={(e) => {
             e.stopPropagation();
