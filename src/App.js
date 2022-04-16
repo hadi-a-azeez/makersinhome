@@ -24,6 +24,7 @@ import Products from "./pages/seller/products/products";
 import ProductsByCategory from "./pages/seller/products/productsByCategory";
 import Dashboard from "./pages/seller/store/dashboard";
 import StoreInfo from "./pages/seller/store/storeInfo";
+import { UserContextProvider } from "./utils/useUser";
 
 const App = () => {
   useEffect(() => {
@@ -51,25 +52,27 @@ const App = () => {
         {/* seller routes */}
         <Route path="/signup" component={Signup} />
         <Route exact path="/login" component={SignIn} />
-        <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
-        <Route path="/app/store_info" component={StoreInfo} />
-        <Route path="/app/products" component={Products} />
-        <Route path="/app/links" component={Links} />
-        <Route path="/app/instagram" component={InstagramImport} />
-        <Route path="/app/product_edit/:id" component={ProductEdit} />
-        <Route
-          path="/app/products_category/:cat_name/:id"
-          component={ProductsByCategory}
-        />
-        <Route path="/app/dashboard" component={Dashboard} />
-        <Route path="/app/add_category" component={AddNewCategory} />
-        <Route
-          path="/app/edit_category/:category_id"
-          component={EditCategory}
-        />
-        <Route path="/app/categories" component={Categories} />
-        <Route path="/app/settings" component={Account} />
-        <Route path="/app/edit_account" component={EditAccount} />
+        <UserContextProvider>
+          <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
+          <Route path="/app/store_info" component={StoreInfo} />
+          <Route path="/app/products" component={Products} />
+          <Route path="/app/links" component={Links} />
+          <Route path="/app/instagram" component={InstagramImport} />
+          <Route path="/app/product_edit/:id" component={ProductEdit} />
+          <Route
+            path="/app/products_category/:cat_name/:id"
+            component={ProductsByCategory}
+          />
+          <Route path="/app/dashboard" component={Dashboard} />
+          <Route path="/app/add_category" component={AddNewCategory} />
+          <Route
+            path="/app/edit_category/:category_id"
+            component={EditCategory}
+          />
+          <Route path="/app/categories" component={Categories} />
+          <Route path="/app/settings" component={Account} />
+          <Route path="/app/edit_account" component={EditAccount} />
+        </UserContextProvider>
         <Route component={() => <p>404</p>} />
       </Switch>
     </Router>

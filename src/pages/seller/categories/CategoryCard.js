@@ -5,7 +5,7 @@ import Ellipse from "../../../assets/ellipse_outline.svg";
 import { useHistory } from "react-router-dom";
 
 const Card = styled.div`
-  ${tw`w-full grid bg-gray-100 rounded-lg  p-4 gap-2 relative`}
+  ${tw`w-full grid bg-gray-100 rounded-lg  p-4 gap-2 relative cursor-pointer`}
   height: auto;
   grid-template-columns: 1fr 30px;
 `;
@@ -30,7 +30,10 @@ const CategoryCard = ({ item, setIsOpen, setCategoryDeleteId, userInfo }) => {
     id = "",
   } = item || {};
   return (
-    <Card key={category}>
+    <Card
+      key={category}
+      onClick={() => history.push(`/app/products_category/${category}/${id}`)}
+    >
       <ContentContainer>
         <Title>{category}</Title>
         <CountText>{`${count} product${count > 1 ? "s" : ""} `}</CountText>

@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { productImagesRoot } from "../../../config";
-import Switch from "react-switch";
 import {
   getProductsApi,
   updateProductStock,
 } from "../../../api/sellerProductAPI";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../../../components/labelHeader";
-import { Box, StatNumber, Stat, Button, Skeleton } from "@chakra-ui/react";
+import { Button, Skeleton } from "@chakra-ui/react";
+import SellerPageLayout from "../../../layouts/Seller";
+import { Container } from "../../../components/Container";
+import { getProductImage, getProductPrice } from "../../../utils/product.util";
+import ProductCard from "../../../components/ProductsCardSeller";
+import { ProductsContainer } from "./products";
+import tw, { styled } from "twin.macro";
+
+const ButtonContainer = styled.div`
+  ${tw`flex flex-row justify-end items-end w-full py-2`}
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 100px;
+    width: 100%;
+    ${tw`justify-center`}
+    z-index: 1000;
+  }
+`;
 
 const Products = (props) => {
   const productsCat = props.match.params.id;
@@ -48,95 +61,43 @@ const Products = (props) => {
 
   return (
     <>
-      <div className={styles.container}>
-        <LabelHeader label={productsCatName} isBackButton />
-        {isLoading && (
-          <>
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-            <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-          </>
-        )}
-        {/* card one */}
-        {!isLoading &&
-          productsArray.map((item, index) => (
-            <Link
-              to={`/app/product_edit/${item.id}`}
-              key={item.id}
-              className={styles.link}
+      <SellerPageLayout label={productsCatName} isBackButton>
+        <Container>
+          <ButtonContainer>
+            <Button
+              onClick={() => history.push("/app/add_product")}
+              bgColor="#08bd80"
+              textColor="#fff"
+              paddingY={3}
             >
-              <Box
-                w="90%"
-                h="auto"
-                d="flex"
-                dir="row"
-                mt="10px"
-                backgroundColor="white"
-                borderWidth="1px"
-                borderRadius="lg"
-              >
-                <div className={styles.image_block}>
-                  <div className={styles.thumbnail}>
-                    {/* images are returned with image name and id with it seperated by : */}
-                    {item.products_images && (
-                      <img
-                        src={`${productImagesRoot}/min/${item.products_images[0].product_image}`}
-                        alt="product"
-                        className={styles.thumbnail_image}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className={styles.product_details}>
-                  <h1 className={styles.heading_bold_product}>
-                    {item.product_name}
-                  </h1>
-                  <Stat>
-                    <StatNumber
-                      mt="2px"
-                      fontSize="18px"
-                      fontWeight="500"
-                    >{`₹${item.product_price}`}</StatNumber>
-                  </Stat>
-                  <div className={styles.stock_block}>
-                    {item.product_stock ? (
-                      <h1 className={styles.heading_instock}>In stock</h1>
-                    ) : (
-                      <h1 className={styles.heading_outstock}>Out of stock</h1>
-                    )}
-                    <div className={styles.toggle}>
-                      <Switch
-                        id={index.toString()}
-                        onChange={flipProductStock}
-                        checked={item.product_stock ? true : false}
-                        onColor="#00b140"
-                        width={36}
-                        height={21}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </Box>
-            </Link>
-          ))}
-        {/* card one ends here */}
-
-        <Button
-          onClick={() => history.push("/app/add_product")}
-          position="fixed"
-          zIndex="1000"
-          mb="10"
-          bottom="0"
-          size="lg"
-          w="90%"
-          bgColor="#08bd80"
-          textColor="#fff"
-          height="60px"
-        >
-          ADD PRODUCTS
-        </Button>
-        <div className={styles.blank}></div>
-      </div>
+              ADD PRODUCT
+            </Button>
+          </ButtonContainer>
+          {isLoading && (
+            <>
+              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+            </>
+          )}
+          {/* card one */}
+          <ProductsContainer>
+            {!isLoading &&
+              productsArray.map((item, index) => (
+                <ProductCard
+                  title={item.product_name}
+                  image={getProductImage(item.products_images)}
+                  price={getProductPrice(item)}
+                  stock={item.product_stock}
+                  id={item.id}
+                  onStockToggle={flipProductStock}
+                />
+              ))}
+            {/* card one ends here */}
+          </ProductsContainer>
+          <div className={styles.blank}></div>
+        </Container>
+      </SellerPageLayout>
     </>
   );
 };

@@ -10,9 +10,8 @@ const MetricsCard = ({ title, value, icon, link }) => {
       onClick={() => history.push(link)}
       height="100px"
       w="100%"
-      shadow="md"
-      backgroundColor="white"
-      borderRadius="18px"
+      backgroundColor="#f3f4f6"
+      borderRadius="7px"
       display="flex"
       dir="row"
     >

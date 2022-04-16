@@ -26,7 +26,7 @@ const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
   const [isLoading, setIsLoading] = useState(true);
-  const [isTasksCompleted, setIsTasksCompleted] = useState(false);
+  const [isTasksCompleted, setIsTasksCompleted] = useState(true);
   const history = useHistory();
   const toast = useToast();
 

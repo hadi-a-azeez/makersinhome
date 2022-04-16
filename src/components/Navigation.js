@@ -9,6 +9,9 @@ import CategoriesIcon from "../assets/grid-outline.svg";
 import CategoriesIconFilled from "../assets/gridFilled.svg";
 import SettingsIcon from "../assets/settings-outline.svg";
 import SettingsIconFilled from "../assets/settings.svg";
+import { useUser } from "../utils/useUser";
+import { profileImagesRoot } from "../config";
+import Placeholder from "../assets/person-outline.svg";
 
 const Container = styled.div`
   ${tw`w-full bg-gray-100 lg:min-h-screen sm:h-auto z-10`}
@@ -16,6 +19,7 @@ const Container = styled.div`
   position: fixed;
   bottom: 0;
   @media (min-width: 768px) {
+    width: 300px;
     position: relative;
     bottom: auto;
     max-height: 100vh;
@@ -35,13 +39,11 @@ const NavContainer = styled.div`
   position: fixed;
   bottom: 0;
   @media (min-width: 768px) {
+    place-items: start;
+    width: auto;
     padding: 1.5rem;
     position: relative;
     bottom: auto;
-    max-height: 100vh;
-    position: fixed;
-    left: 0;
-    z-index: 0;
     display: flex;
     flex-direction: column;
     gap: 1.8rem;
@@ -53,7 +55,7 @@ const Item = styled.div`
   ${tw`flex flex-col justify-center items-center h-full gap-2`}
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: 20px 1fr;
+    grid-template-columns: 30px 1fr;
     gap: 1rem;
   }
 `;
@@ -67,6 +69,10 @@ const Icon = styled.img`
     selected &&
     `filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
     brightness(90%) contrast(94%);`}
+  @media (min-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const Text = styled.h1`
@@ -81,8 +87,8 @@ const ProfileContainer = styled.div`
   }
 `;
 
-const ProfilePicture = styled.div`
-  ${tw`bg-white rounded-full shadow-lg`}
+const ProfilePicture = styled.img`
+  ${tw`bg-white rounded-full `}
   width: 40px;
   height: 40px;
 `;
@@ -99,6 +105,7 @@ const NavItem = ({ to, icon, iconFilled, label, selected }) => {
 };
 
 const Navigation = () => {
+  const { user } = useUser();
   const pathname = useLocation().pathname.split("/")[2];
   const nav = [
     {
@@ -134,8 +141,17 @@ const Navigation = () => {
   return (
     <Container>
       <ProfileContainer>
-        <ProfilePicture></ProfilePicture>
-        <h1 className="font-sm font-semibold text-gray-400">User name</h1>
+        <ProfilePicture
+          src={
+            user?.account_store_image
+              ? `${profileImagesRoot}/${user.account_store_image}`
+              : Placeholder
+          }
+          alt="profile"
+        />
+        <h1 className="text-base font-normal text-gray-500">
+          {user?.account_store}
+        </h1>
       </ProfileContainer>
       <NavContainer>
         {nav.map((item) => (

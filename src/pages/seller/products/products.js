@@ -14,7 +14,7 @@ import ProductCard from "../../../components/ProductsCardSeller";
 import { getProductImage, getProductPrice } from "../../../utils/product.util";
 import { Container } from "../../../components/Container";
 
-const ProductsContainer = styled.div`
+export const ProductsContainer = styled.div`
   ${tw`w-full grid gap-4`}
   grid-template-columns: repeat(3, 1fr);
   @media (max-width: 768px) {
@@ -63,26 +63,25 @@ const Products = (props) => {
 
   return (
     <SellerPageLayout label="Products">
-      <Container>
-        <div className={styles.tab_parent}>
-          <div
-            onClick={() => history.push("/app/products")}
-            className={styles.tab_child}
-            style={{
-              backgroundColor: "#ffffff",
-              borderBottom: "3px solid #08bd80",
-            }}
-          >
-            Products
-          </div>
-          <div
-            className={styles.tab_child}
-            onClick={() => history.push("/app/categories")}
-          >
-            Categories
-          </div>
+      <div className={styles.tab_parent}>
+        <div
+          onClick={() => history.push("/app/products")}
+          className={styles.tab_child}
+          style={{
+            backgroundColor: "#ffffff",
+            borderBottom: "3px solid #08bd80",
+          }}
+        >
+          Products
         </div>
-
+        <div
+          className={styles.tab_child}
+          onClick={() => history.push("/app/categories")}
+        >
+          Categories
+        </div>
+      </div>
+      <Container>
         <ButtonContainer>
           <Button
             onClick={() => history.push("/app/add_product")}
@@ -103,7 +102,7 @@ const Products = (props) => {
                 price={getProductPrice(item)}
                 stock={item.product_stock}
                 id={item.id}
-                // onStockToggle={flipProductStock}
+                onStockToggle={flipProductStock}
               />
             ))
           ) : (

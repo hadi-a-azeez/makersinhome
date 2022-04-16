@@ -11,7 +11,7 @@ export const getProductImage = (images = []) => {
 
 export const getProductPrice = (product = {}) => {
   return `₹${
-    product?.products_variants.length > 0
+    product?.products_variants?.length > 0
       ? Math.min(
           ...product?.products_variants.map(
             (variant) => variant?.variant_sale_price
