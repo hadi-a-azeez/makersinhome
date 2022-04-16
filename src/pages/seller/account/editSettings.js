@@ -31,9 +31,11 @@ const EditAccount = () => {
       let {
         data: { data: storeData },
       } = await getStoreInfoAPI();
-      if (storeData.settings.lemgth > 0)
+      console.log(storeData);
+      if (storeData.settings.length > 0) {
+        console.log("here");
         setStoreSettingsData(storeData.settings[0]);
-      else setStoreSettingsData({ show_outofstock: false });
+      } else setStoreSettingsData({ show_outofstock: false });
       setIsLoading(false);
     };
     getStoreInfo();
@@ -79,7 +81,7 @@ const EditAccount = () => {
       <FormControl isRequired w="90%" mt="20px">
         <FormLabel>Show Out Of Stock Products</FormLabel>
         <Switch
-          isChecked={storeSettingsData?.show_outofstock}
+          isChecked={storeSettingsData?.show_outofstock ? true : false}
           size="lg"
           colorScheme="green"
           onChange={() =>
