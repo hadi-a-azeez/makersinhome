@@ -20,6 +20,7 @@ import CategoryCard from "./CategoryCard";
 import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/categories.module.css";
 import { Container } from "../../../components/Container";
+import AddNewCategoryDrawer from "./addCategoryModel";
 
 const CategoriesContainer = styled.div`
   ${tw`w-full grid gap-4`}
@@ -48,6 +49,7 @@ const Categories = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoryDeleteId, setCategoryDeleteId] = useState(); //for accessing category id in modal
   const cancelRef = useRef();
+  const [isAddCategoryDrawerOpen, setIsAddCategoryDrawerOpen] = useState(false);
 
   useEffect(() => {
     const getCategoriesData = async () => {
@@ -71,6 +73,10 @@ const Categories = () => {
 
   return (
     <SellerPageLayout label="Categories">
+      <AddNewCategoryDrawer
+        isDrawerOpen={isAddCategoryDrawerOpen}
+        setIsDrawerOpen={setIsAddCategoryDrawerOpen}
+      />
       <div className={styles.tab_parent}>
         <div
           onClick={() => history.push("/app/products")}
@@ -92,7 +98,7 @@ const Categories = () => {
       <Container>
         <ButtonContainer>
           <Button
-            onClick={() => history.push("/app/add_category")}
+            onClick={() => setIsAddCategoryDrawerOpen(true)}
             bgColor="#08bd80"
             textColor="#fff"
             paddingY={3}

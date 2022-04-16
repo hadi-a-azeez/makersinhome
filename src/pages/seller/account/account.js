@@ -72,7 +72,6 @@ const Account = () => {
             borderRadius="full"
             boxSize="60px"
             objectFit="cover"
-            fallback={<SkeletonCircle size="20" />}
           />
           <Flex direction="column" mt="3" ml="3">
             {storeInfo.account_store ? (

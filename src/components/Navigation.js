@@ -78,7 +78,7 @@ const Icon = styled.img`
 `;
 
 const Text = styled.h1`
-  ${tw`text-base font-normal text-gray-500`}
+  ${tw`lg:text-base sm:text-xs font-normal text-gray-500`}
   ${({ selected }) => selected && tw`text-primary font-bold`}
 `;
 

@@ -15,16 +15,14 @@ const LeftContainer = styled.div``;
 
 const RightContainer = tw.div`relative h-full flex flex-col justify-center items-center`;
 
-const SellerPageLayout = (props) => {
-  const {
-    children,
-    label,
-    isBackButton,
-    isRightIcon,
-    iconAction,
-    className = "",
-  } = props || {};
-
+const SellerPageLayout = ({
+  children,
+  label,
+  isBackButton,
+  isRightIcon,
+  iconAction,
+  className = "",
+}) => {
   return (
     <Container className={className}>
       <LeftContainer>

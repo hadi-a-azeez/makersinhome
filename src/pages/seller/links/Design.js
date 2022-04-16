@@ -56,7 +56,11 @@ const Design = () => {
       <Heading pt="15px" size="md" alignSelf="flex-start" pb="10px">
         Theme
       </Heading>
-      <SimpleGrid position="relative" columns={{ sm: 2, lg: 3 }} spacing={3}>
+      <SimpleGrid
+        position="relative"
+        columns={{ base: 2, md: 2, lg: 3 }}
+        spacing={3}
+      >
         {linksThemes.map((item) => (
           <Stack
             position="relative"
@@ -65,7 +69,7 @@ const Design = () => {
             borderRadius="5px"
             padding="5px"
             backgroundColor="white"
-            h={{ sm: "150px", lg: "300px" }}
+            h={{ base: "150px", lg: "300px" }}
             justifyContent="center"
             alignItems="center"
             paddingLeft="10px"

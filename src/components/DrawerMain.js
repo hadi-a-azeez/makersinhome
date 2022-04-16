@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -22,6 +22,10 @@ const DrawerMain = ({
   onDrawerClose,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+  function handleWindowSizeChange() {
+    if (window.innerWidth < 600) setIsMobile(true);
+  }
 
   const closeDrawer = () => {
     setIsDrawer(false);
@@ -32,13 +36,19 @@ const DrawerMain = ({
   useEffect(() => {
     if (isDrawer) onOpen();
     else closeDrawer();
+    //get screen size
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
   }, [isDrawer]);
 
   return (
     <>
       <Drawer
         isOpen={isOpen}
-        placement="bottom"
+        placement={isMobile ? "bottom" : "right"}
+        size={isMobile ? "sm" : "md"}
         onClose={closeDrawer}
         blockScrollOnMount={true}
         closeOnOverlayClick={false}

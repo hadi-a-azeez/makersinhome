@@ -10,7 +10,9 @@ import React, { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { getStoreInfoAPI, updateSettings } from "../../../api/sellerAccountAPI";
+import { Container } from "../../../components/Container";
 import LabelHeader from "../../../components/labelHeader";
+import SellerPageLayout from "../../../layouts/Seller";
 import styles from "../css/editAccount.module.css";
 
 const EditAccount = () => {
@@ -56,57 +58,58 @@ const EditAccount = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <LabelHeader label={"Store Settings"} isBackButton="true" />
-      {isLoading ? (
-        <div className={styles.loaderwraper}>
-          <Loader
-            type="Oval"
-            color="#00b140"
-            height={50}
-            width={50}
-            visible={isLoading}
+    <SellerPageLayout label="Store Settings" isBackButton={true}>
+      <Container>
+        {isLoading ? (
+          <div className={styles.loaderwraper}>
+            <Loader
+              type="Oval"
+              color="#00b140"
+              height={50}
+              width={50}
+              visible={isLoading}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
+
+        {isFormError && (
+          <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
+            <h1>Please fill all required details</h1>
+          </Box>
+        )}
+
+        <FormControl isRequired w="90%" mt="20px">
+          <FormLabel>Show Out Of Stock Products</FormLabel>
+          <Switch
+            isChecked={storeSettingsData?.show_outofstock ? true : false}
+            size="lg"
+            colorScheme="green"
+            onChange={() =>
+              setStoreSettingsData((old) => ({
+                ...old,
+                show_outofstock: !old.show_outofstock,
+              }))
+            }
           />
-        </div>
-      ) : (
-        <div></div>
-      )}
+        </FormControl>
 
-      {isFormError && (
-        <Box borderRadius="md" bg="tomato" color="white" p="3" w="90%" mb="3">
-          <h1>Please fill all required details</h1>
-        </Box>
-      )}
-
-      <FormControl isRequired w="90%" mt="20px">
-        <FormLabel>Show Out Of Stock Products</FormLabel>
-        <Switch
-          isChecked={storeSettingsData?.show_outofstock ? true : false}
-          size="lg"
+        <Button
+          isLoading={isBtnLoading}
+          loadingText="Updating"
+          backgroundColor="#08bd80"
           colorScheme="green"
-          onChange={() =>
-            setStoreSettingsData((old) => ({
-              ...old,
-              show_outofstock: !old.show_outofstock,
-            }))
-          }
-        />
-      </FormControl>
-
-      <Button
-        isLoading={isBtnLoading}
-        loadingText="Updating"
-        backgroundColor="#08bd80"
-        colorScheme="green"
-        color="white"
-        size="lg"
-        w="90%"
-        mt="20px"
-        onClick={() => validateFields(updateStore)}
-      >
-        Update Store Info
-      </Button>
-    </div>
+          color="white"
+          size="lg"
+          w="90%"
+          mt="20px"
+          onClick={() => validateFields(updateStore)}
+        >
+          Update Store Info
+        </Button>
+      </Container>
+    </SellerPageLayout>
   );
 };
 
