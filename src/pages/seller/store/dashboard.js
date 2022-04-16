@@ -129,7 +129,7 @@ const Dashboard = () => {
             )}
             <SimpleGrid
               position="relative"
-              columns={{ sm: 2, md: 3, lg: 4 }}
+              columns={2}
               spacing={3}
               w="90%"
               zIndex="1"

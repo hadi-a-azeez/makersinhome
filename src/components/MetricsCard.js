@@ -8,12 +8,13 @@ const MetricsCard = ({ title, value, icon, link }) => {
   return (
     <Box
       onClick={() => history.push(link)}
-      height="100px"
+      height="110px"
       w="100%"
       backgroundColor="#f3f4f6"
       borderRadius="7px"
       display="flex"
       dir="row"
+      padding="4px"
     >
       <Image
         src={icon}

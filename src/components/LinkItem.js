@@ -10,9 +10,9 @@ const LinkItem = ({ index, item, setIsDrawer, setSelectedEditLink }) => {
         <Stack
           spacing="0"
           key={item.id}
-          background="white"
           direction="row"
           borderRadius="6px"
+          background="#f4f5f6"
           mb="10px"
           ref={provided.innerRef}
           {...provided.draggableProps}

@@ -8,7 +8,6 @@ export const UserContextProvider = ({ children }) => {
 
   const setUserData = async () => {
     const responseUser = await getUserInfo();
-    console.log(responseUser);
     setUser(responseUser?.data?.data);
   };
 

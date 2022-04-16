@@ -53,8 +53,8 @@ const Categories = () => {
     const getCategoriesData = async () => {
       setIsLoading(true);
       const response = await getCategoriesAPI();
-      setCategoriesArray(response.data.data);
-      setUserInfo(response.data.user);
+      setCategoriesArray(response?.data?.data);
+      setUserInfo(response?.data?.user);
       setIsLoading(false);
     };
     getCategoriesData();
@@ -114,9 +114,9 @@ const Categories = () => {
             ))
           ) : (
             <>
-              <Skeleton height="75px" w="90%" mt="3" />
-              <Skeleton height="75px" w="90%" mt="3" />
-              <Skeleton height="75px" w="90%" mt="3" />
+              <Skeleton height="75px" w="100%" mt="3" />
+              <Skeleton height="75px" w="100%" mt="3" />
+              <Skeleton height="75px" w="100%" mt="3" />
             </>
           )}
         </CategoriesContainer>

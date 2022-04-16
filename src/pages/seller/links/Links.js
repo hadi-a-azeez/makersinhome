@@ -21,6 +21,7 @@ import {
 } from "../../../api/sellerLinksAPI";
 import EmptyLinksImage from "../../../assets/empty_links.png";
 import BottomNavigationMenu from "../../../components/bottomNavigation";
+import { Container } from "../../../components/Container";
 import copyText from "../../../components/copyText";
 import LinkItem from "../../../components/LinkItem";
 import Drawers from "./Drawers";
@@ -92,7 +93,7 @@ const Links = () => {
   };
 
   return (
-    <Box bgColor="#f1f1f1" minH="100vh">
+    <Container>
       <Stack w="100%" pl="6%" pr="6%" direction="column">
         <Stack
           mt="15px"
@@ -148,7 +149,7 @@ const Links = () => {
             Add Link
           </Button>
           <Button
-            backgroundColor="white"
+            backgroundColor="gray"
             size="lg"
             w="30%"
             onClick={() => setIsTitleDrawer(true)}
@@ -243,8 +244,7 @@ const Links = () => {
         setIsLoading={setIsLoading}
         isLoading={isLoading}
       />
-      <BottomNavigationMenu />
-    </Box>
+    </Container>
   );
 };
 

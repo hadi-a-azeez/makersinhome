@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 import HomeIcon from "../assets/home-outline.svg";
@@ -12,6 +12,8 @@ import SettingsIconFilled from "../assets/settings.svg";
 import { useUser } from "../utils/useUser";
 import { profileImagesRoot } from "../config";
 import Placeholder from "../assets/person-outline.svg";
+import LinkInBioIcon from "../assets/albums-outline.svg";
+import LinkInBioIconFilled from "../assets/albums.svg";
 
 const Container = styled.div`
   ${tw`w-full bg-gray-100 lg:min-h-screen sm:h-auto z-10`}
@@ -93,7 +95,27 @@ const ProfilePicture = styled.img`
   height: 40px;
 `;
 
-const NavItem = ({ to, icon, iconFilled, label, selected }) => {
+const NavItem = ({
+  to,
+  icon,
+  iconFilled,
+  label,
+  selected,
+  smHidden = false,
+}) => {
+  //checking the device
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+  function handleWindowSizeChange() {
+    if (window.innerWidth < 600) setIsMobile(true);
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+  //hiding navs in mobile
+  if (isMobile && smHidden) return null;
   return (
     <Link to={to}>
       <Item>
@@ -123,11 +145,19 @@ const Navigation = () => {
       selected: pathname === "products",
     },
     {
+      to: "/app/links",
+      icon: LinkInBioIcon,
+      iconFilled: LinkInBioIconFilled,
+      label: "Links",
+      selected: pathname === "links",
+    },
+    {
       to: "/app/categories",
       icon: CategoriesIcon,
       iconFilled: CategoriesIconFilled,
       label: "Categories",
       selected: pathname === "categories",
+      smHidden: true,
     },
     {
       to: "/app/settings",
