@@ -346,7 +346,7 @@ const AddNewProduct = (props) => {
             </FormControl>
           )}
         </Stack>
-        <FormControl w="90%" mt="4">
+        {/* <FormControl w="90%" mt="4">
           <FormLabel>Total Available Items</FormLabel>
           <Input
             type="number"
@@ -356,7 +356,7 @@ const AddNewProduct = (props) => {
             placeholder="Enter quantity"
             onChange={updateProduct}
           />
-        </FormControl>
+        </FormControl> */}
         <FormControl w="90%" mt="4">
           <FormLabel>Product Variants</FormLabel>
           <Flex direction="row" flexWrap="wrap">
@@ -538,7 +538,7 @@ const AddNewProduct = (props) => {
                     </Box>
                   )}
                 </Stack>
-                <FormControl mt="4" mb="5">
+                {/* <FormControl mt="4" mb="5">
                   <FormLabel>Total Available Items</FormLabel>
                   <Input
                     type="text"
@@ -548,7 +548,7 @@ const AddNewProduct = (props) => {
                     width="50%"
                     onChange={updateProduct}
                   />
-                </FormControl>
+                </FormControl> */}
                 <Button
                   onClick={() => {
                     close();
