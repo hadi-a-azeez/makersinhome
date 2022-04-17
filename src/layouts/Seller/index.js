@@ -13,7 +13,9 @@ const Container = styled.div`
 `;
 const LeftContainer = styled.div``;
 
-const RightContainer = tw.div`relative h-full flex flex-col justify-center items-center`;
+const RightContainer = styled.div`
+  ${tw`relative h-full flex flex-col justify-center items-center`}
+`;
 
 const SellerPageLayout = ({
   children,

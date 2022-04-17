@@ -28,3 +28,16 @@
 ::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+.product-card {
+  /* ${tw`w-full grid bg-gray-100 rounded-lg p-4 gap-2 cursor-pointer`} */
+  width: "100%";
+  display: grid;
+  background-color: rgb(243, 244, 246);
+  border-radius: 7px;
+  padding: 10px;
+  cursor: pointer;
+  gap: 10px;
+  height: "auto;";
+  grid-template-columns: 100px 1fr;
+}

@@ -16,7 +16,7 @@ import LinkInBioIcon from "../assets/albums-outline.svg";
 import LinkInBioIconFilled from "../assets/albums.svg";
 
 const Container = styled.div`
-  ${tw`w-full bg-gray-100 lg:min-h-screen sm:h-auto z-10`}
+  ${tw`w-full bg-white lg:min-h-screen sm:h-auto z-10 border-t `}
   height: 70px;
   position: fixed;
   bottom: 0;
@@ -31,6 +31,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
+    background: rgb(243, 244, 246);
   }
 `;
 
@@ -54,7 +55,7 @@ const NavContainer = styled.div`
 `;
 
 const Item = styled.div`
-  ${tw`flex flex-col justify-center items-center h-full gap-2`}
+  ${tw`flex flex-col justify-center items-center h-full gap-1`}
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: 30px 1fr;
@@ -63,8 +64,8 @@ const Item = styled.div`
 `;
 
 const Icon = styled.img`
-  width: 22px;
-  height: 22px;
+  width: 27px;
+  height: 27px;
   filter: invert(14%) sepia(49%) saturate(0%) hue-rotate(236deg) brightness(91%)
     contrast(94%);
   ${({ selected }) =>
@@ -79,7 +80,11 @@ const Icon = styled.img`
 
 const Text = styled.h1`
   ${tw`lg:text-base sm:text-xs font-normal text-gray-500`}
-  ${({ selected }) => selected && tw`text-primary font-bold`}
+  font-size: 12px;
+  ${({ selected }) => selected && tw`text-primary font-semibold`}
+  @media (min-width: 768px) {
+    font-size: 17px;
+  }
 `;
 
 const ProfileContainer = styled.div`

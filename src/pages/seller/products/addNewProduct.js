@@ -36,6 +36,7 @@ import FocusLock from "@chakra-ui/focus-lock";
 import { uploadProductImageDO } from "../../../api/imageUploadAPI";
 import tw, { styled } from "twin.macro";
 import { Container } from "../../../components/Container";
+import AddNewCategoryDrawer from "../categories/addCategoryModel";
 
 const AddNewProduct = (props) => {
   const history = useHistory();
@@ -56,6 +57,7 @@ const AddNewProduct = (props) => {
   const [newVariant, setNewVariant] = useState("");
   const [newVariantPrice, setNewVariantPrice] = useState("");
   const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const toast = useToast();
 
@@ -255,7 +257,7 @@ const AddNewProduct = (props) => {
             <Text
               color="green.500"
               fontWeight="bold"
-              onClick={() => history.push("/app/add_category")}
+              onClick={() => setIsCategoryModalOpen(true)}
             >
               Add Category
             </Text>
@@ -344,6 +346,17 @@ const AddNewProduct = (props) => {
             </FormControl>
           )}
         </Stack>
+        <FormControl w="90%" mt="4">
+          <FormLabel>Total Available Items</FormLabel>
+          <Input
+            type="number"
+            name="total_quantity"
+            variant="filled"
+            size="lg"
+            placeholder="Enter quantity"
+            onChange={updateProduct}
+          />
+        </FormControl>
         <FormControl w="90%" mt="4">
           <FormLabel>Product Variants</FormLabel>
           <Flex direction="row" flexWrap="wrap">
@@ -490,6 +503,7 @@ const AddNewProduct = (props) => {
                 <FormLabel> Name</FormLabel>
                 <Input
                   type="text"
+                  variant="filled"
                   value={newVariant || ""}
                   onChange={(e) => setNewVariant(e.target.value)}
                 />
@@ -507,8 +521,8 @@ const AddNewProduct = (props) => {
                     <Input
                       type="number"
                       value={newVariantPrice || ""}
+                      variant="filled"
                       onChange={(e) => setNewVariantPrice(e.target.value)}
-                      mb="18px"
                     />
                   </Box>
                   {newVariantIsDiscount && (
@@ -518,12 +532,23 @@ const AddNewProduct = (props) => {
                       <Input
                         type="number"
                         value={newVariantSalePrice || ""}
+                        variant="filled"
                         onChange={(e) => setNewVariantSalePrice(e.target.value)}
-                        mb="18px"
                       />
                     </Box>
                   )}
                 </Stack>
+                <FormControl mt="4" mb="5">
+                  <FormLabel>Total Available Items</FormLabel>
+                  <Input
+                    type="text"
+                    name="product_name"
+                    variant="filled"
+                    placeholder="Enter quantity"
+                    width="50%"
+                    onChange={updateProduct}
+                  />
+                </FormControl>
                 <Button
                   onClick={() => {
                     close();
@@ -592,6 +617,10 @@ const AddNewProduct = (props) => {
           Add Product
         </Button>
       </Container>
+      <AddNewCategoryDrawer
+        isDrawerOpen={isCategoryModalOpen}
+        setIsDrawerOpen={setIsCategoryModalOpen}
+      />
     </SellerPageLayout>
   );
 };

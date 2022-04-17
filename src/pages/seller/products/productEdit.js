@@ -50,6 +50,7 @@ import { productImageCompresser } from "../../../utils/imageCompresser";
 import SellerPageLayout from "../../../layouts/Seller";
 import tw, { styled } from "twin.macro";
 import { Container } from "../../../components/Container";
+import AddNewCategoryDrawer from "../categories/addCategoryModel";
 
 const ImageGrid = styled.div`
   ${tw`grid gap-2 mb-2`}
@@ -75,6 +76,7 @@ const ProductEdit = (props) => {
   const [newVariantPrice, setNewVariantPrice] = useState("");
   const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
   const [newVariantIsDiscount, setNewVariantIsDiscount] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const cancelRef = useRef();
   const toast = useToast();
@@ -388,7 +390,7 @@ const ProductEdit = (props) => {
                   color="green.500"
                   fontWeight="bold"
                   cursor="pointer"
-                  onClick={() => history.push("/app/add_category")}
+                  onClick={() => setIsCategoryModalOpen(true)}
                 >
                   Add Category
                 </Text>
@@ -917,6 +919,10 @@ const ProductEdit = (props) => {
             <div style={{ marginTop: `70px` }}></div>
           </Container>
         )}
+        <AddNewCategoryDrawer
+          isDrawerOpen={isCategoryModalOpen}
+          setIsDrawerOpen={setIsCategoryModalOpen}
+        />
       </SellerPageLayout>
     </>
   );

@@ -59,8 +59,7 @@ const Products = (props) => {
       return product;
     });
     setProductsArray(newProductsArray);
-    setProductsArray(newProductsArray);
-    let response = await updateProductStock(parseInt(id));
+    await updateProductStock(parseInt(id));
   };
 
   return (
@@ -97,7 +96,7 @@ const Products = (props) => {
 
         <ProductsContainer>
           {!isLoading ? (
-            productsArray.map((item, index) => (
+            productsArray.map((item) => (
               <ProductCard
                 title={item.product_name}
                 image={getProductImage(item.products_images)}

@@ -1,13 +1,13 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
 import Switch from "react-switch";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Card = styled.div`
-  ${tw`w-full grid bg-gray-100 rounded-lg p-4 gap-2 cursor-pointer`}
-  height: auto;
-  grid-template-columns: 100px 1fr;
-`;
+// const Card = styled.div`
+//   ${tw`w-full grid bg-gray-100 rounded-lg p-4 gap-2 cursor-pointer`}
+//   height: auto;
+//   grid-template-columns: 100px 1fr;
+// `;
 
 const Image = styled.img`
   width: 100px;
@@ -32,13 +32,13 @@ const BottomContainer = styled.div`
 
 const StockText = styled.h3`
   ${tw`text-sm font-normal text-primary`}
-  ${(stock) => (stock ? tw`text-primary` : tw`text-red-500`)}
+  ${({ stock }) =>
+    stock ? tw`text-green-500` : tw`text-red-500` || tw`text-gray-500`}
 `;
 
 const ProductCard = ({ title, image, stock, price, id, onStockToggle }) => {
-  const history = useHistory();
   return (
-    <Card key={id} onClick={() => history.push(`/app/product_edit/${id}`)}>
+    <Link key={id} to={`/app/product_edit/${id}`} className="product-card">
       <Image src={image} alt="product" />
       <ContentContainer>
         <Title>{title}</Title>
@@ -57,7 +57,7 @@ const ProductCard = ({ title, image, stock, price, id, onStockToggle }) => {
           />
         </BottomContainer>
       </ContentContainer>
-    </Card>
+    </Link>
   );
 };
 

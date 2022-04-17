@@ -94,7 +94,7 @@ const Links = () => {
 
   return (
     <Container>
-      <Stack w="100%" pl="6%" pr="6%" direction="column">
+      <Stack w={{ base: "100%", lg: "70%" }} pl="6%" pr="6%" direction="column">
         <Stack
           mt="15px"
           mb="15px"
