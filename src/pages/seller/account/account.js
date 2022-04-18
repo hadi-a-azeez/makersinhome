@@ -5,7 +5,6 @@ import LabelHeader from "../../../components/labelHeader";
 import { getStoreInfoAPI } from "../../../api/sellerAccountAPI";
 import Placeholder from "../../../assets/placeholder.png";
 import { profileImagesRoot } from "../../../config";
-import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 import {
   Button,

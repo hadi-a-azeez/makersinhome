@@ -1,56 +1,54 @@
-import React, { useEffect, useState, useRef } from "react";
-import styles from "../css/productDetailed.module.css";
-import { productImagesRoot } from "../../../config";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { useHistory } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import LabelHeader from "../../../components/labelHeader";
-import { useForm } from "../../../components/useForm";
-import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
-import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-
-import {
-  getProductAPI,
-  updateProductAPI,
-  deleteProductAPI,
-} from "../../../api/sellerProductAPI";
+import FocusLock from "@chakra-ui/focus-lock";
+import { AddIcon, EditIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
   AlertDialog,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogContent,
   AlertDialogOverlay,
-  Input,
-  Textarea,
+  Badge,
+  Box,
   Button,
+  CircularProgress,
+  Flex,
   FormControl,
   FormLabel,
-  Switch,
-  useToast,
+  IconButton,
+  Image,
+  Input,
   Select,
   Stack,
-  Image,
-  IconButton,
+  Switch,
   Text,
-  Flex,
-  Badge,
-  CircularProgress,
+  Textarea,
+  useToast,
 } from "@chakra-ui/react";
-import { Box } from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import FocusLock from "@chakra-ui/focus-lock";
+import tw, { styled } from "twin.macro";
+import { v4 as uuidv4 } from "uuid";
 import {
   deleteProductImageDO,
   uploadProductImageDO,
 } from "../../../api/imageUploadAPI";
-import { productImageCompresser } from "../../../utils/imageCompresser";
-import SellerPageLayout from "../../../layouts/Seller";
-import tw, { styled } from "twin.macro";
+import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
+import {
+  deleteProductAPI,
+  getProductAPI,
+  updateProductAPI,
+} from "../../../api/sellerProductAPI";
 import { Container } from "../../../components/Container";
+import { useForm } from "../../../components/useForm";
+import { productImagesRoot } from "../../../config";
+import SellerPageLayout from "../../../layouts/Seller";
+import { productImageCompresser } from "../../../utils/imageCompresser";
 import AddNewCategoryDrawer from "../categories/addCategoryModel";
+import styles from "../css/productDetailed.module.css";
 
 const ImageGrid = styled.div`
   ${tw`grid gap-2 mb-2`}

@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { updateSettings } from "../../../api/sellerAccountAPI";
 import { getLinksAPI } from "../../../api/sellerLinksAPI";
-import BottomNavigationMenu from "../../../components/bottomNavigation";
 
 const Design = () => {
   const [selectedTheme, setSelectedTheme] = useState("");

@@ -50,11 +50,11 @@ const Products = (props) => {
   }, []);
 
   //in stock,out of stock update
-  const flipProductStock = async (a, e, id) => {
-    e.stopPropagation();
+  const flipProductStock = async (stock, event, id) => {
+    event.stopPropagation();
     const newProductsArray = productsArray.map((product) => {
       if (product.id === id) {
-        product.product_stock = a;
+        product.product_stock = stock;
       }
       return product;
     });

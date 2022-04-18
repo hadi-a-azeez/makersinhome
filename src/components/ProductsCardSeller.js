@@ -10,16 +10,15 @@ import { Link } from "react-router-dom";
 // `;
 
 const Image = styled.img`
-  width: 100px;
-  height: 100px;
+  ${tw`h-24 w-24 rounded-md`}
 `;
 
 const ContentContainer = styled.div`
-  ${tw`flex flex-col gap-2`}
+  ${tw`flex flex-col gap-2 relative`}
 `;
 
 const Title = styled.h3`
-  ${tw`text-sm font-normal text-gray-800`}
+  ${tw`text-sm font-normal text-gray-800 capitalize`}
 `;
 
 const Price = styled.h3`
@@ -27,7 +26,7 @@ const Price = styled.h3`
 `;
 
 const BottomContainer = styled.div`
-  ${tw`flex flex-row justify-between`}
+  ${tw` absolute bottom-0 absolute m-auto left-0 right-0 flex flex-row justify-between`}
 `;
 
 const StockText = styled.h3`
@@ -47,13 +46,16 @@ const ProductCard = ({ title, image, stock, price, id, onStockToggle }) => {
           <StockText stock={stock}>
             {stock ? "In Stock" : "Out Of Stock"}
           </StockText>
+          {/* chakra ui switch has many errors */}
           <Switch
             onChange={onStockToggle}
             checked={stock ? true : false}
-            onColor="#00b140"
+            onColor="#38A169"
             width={36}
             height={21}
             id={id}
+            checkedIcon={false}
+            uncheckedIcon={false}
           />
         </BottomContainer>
       </ContentContainer>

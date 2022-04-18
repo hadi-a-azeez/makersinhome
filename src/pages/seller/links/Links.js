@@ -8,7 +8,6 @@ import {
   Skeleton,
   Stack,
   Text,
-  useClipboard,
   useToast,
 } from "@chakra-ui/react";
 import { produce } from "immer";
@@ -20,7 +19,6 @@ import {
   reorderLinks,
 } from "../../../api/sellerLinksAPI";
 import EmptyLinksImage from "../../../assets/empty_links.png";
-import BottomNavigationMenu from "../../../components/bottomNavigation";
 import { Container } from "../../../components/Container";
 import copyText from "../../../components/copyText";
 import LinkItem from "../../../components/LinkItem";
