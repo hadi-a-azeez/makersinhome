@@ -85,7 +85,7 @@ const ProductCard = ({
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              if (stock && inventory_count > 1) onOpen();
+              if (stock && inventory_count > 0) onOpen();
               else if (inventory_count < 1) {
                 toast({
                   title: "Update stock in product details",
