@@ -50,16 +50,16 @@ const Products = (props) => {
   }, []);
 
   //in stock,out of stock update
-  const flipProductStock = async (stock, event, id) => {
-    event.stopPropagation();
+  const flipProductStock = async (stock, type, id) => {
     const newProductsArray = productsArray.map((product) => {
       if (product.id === id) {
-        product.product_stock = stock;
+        if (type === "stock") product.product_inventory_count = 0;
+        if (type === "visible") product.product_stock = !stock;
       }
       return product;
     });
     setProductsArray(newProductsArray);
-    await updateProductStock(parseInt(id));
+    await updateProductStock(parseInt(id), type);
   };
 
   return (
@@ -104,6 +104,7 @@ const Products = (props) => {
                 stock={item.product_stock}
                 id={item.id}
                 onStockToggle={flipProductStock}
+                inventory_count={item.product_inventory_count}
               />
             ))
           ) : (

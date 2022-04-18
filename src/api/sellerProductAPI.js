@@ -74,10 +74,10 @@ export const getCategoryProducts = async (id) => {
 };
 
 //flip product stock status
-export const updateProductStock = async (productId) => {
+export const updateProductStock = async (productId, type = "visible") => {
   try {
     const response = await axios_seller.put(
-      `/seller/products/stock/${productId}`
+      `/seller/products/stock/${type}/${productId}`
     );
     return response;
   } catch (error) {

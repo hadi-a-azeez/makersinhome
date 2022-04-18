@@ -91,7 +91,6 @@ const ProductEdit = (props) => {
       productDetails?.data?.data?.product_price !==
         productDetails?.data?.data?.product_sale_price &&
         setIsProductDiscount(true);
-
       // add is_discount to variants
       let variantsModified = productDetails.data.data?.products_variants?.map(
         (element) => ({
@@ -478,6 +477,19 @@ const ProductEdit = (props) => {
                     </FormControl>
                   )}
                 </Stack>
+                <FormControl id="product_price" isRequired w="100%">
+                  <FormLabel>Product Stock</FormLabel>
+                  <Input
+                    type="number"
+                    name="product_inventory_count"
+                    placeholder="Stock"
+                    variant="filled"
+                    defaultValue={product.product_inventory_count}
+                    onChange={updateProduct}
+                    size="lg"
+                    w="100%"
+                  />
+                </FormControl>
               </Stack>
             ) : (
               <Stack w="90%">
@@ -494,37 +506,47 @@ const ProductEdit = (props) => {
                   {" "}
                   Edit Price in Variants
                 </Text>
+                <FormControl id="product_inventory_count" isDisabled mt="10px">
+                  <FormLabel>Product Stock</FormLabel>
+                  <Input
+                    type="number"
+                    variant="filled"
+                    placeholder={product.product_inventory_count}
+                    size="lg"
+                  />
+                </FormControl>
+                <Text color="red.300" fontWeight="bold">
+                  {" "}
+                  Edit Stock in Variants
+                </Text>
               </Stack>
             )}
+
             <FormControl isRequired w="90%" mt="4">
               <FormLabel>Product Variants</FormLabel>
-              <Flex direction="row" flexWrap="wrap">
+              <Flex direction="row" flexWrap="wrap" mb="5px">
                 {product.products_variants &&
                   product.products_variants.map((variant) => (
                     <Box
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
-                      p="5px"
-                      ml="5px"
-                      mt="5px"
+                      p="15px"
+                      ml="10px"
+                      mt="10px"
                       key={variant.id}
                     >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Text ml="10px"> {variant.variant_name}</Text>
+                      <Stack>
+                        <Text>
+                          Name: <b>{variant.variant_name}</b>
+                        </Text>
+                        <Text>
+                          Price: <b>₹{variant.variant_price}</b>
+                        </Text>
+
                         <Popup
                           lockScroll={true}
                           closeOnDocumentClick={false}
-                          trigger={
-                            <IconButton
-                              icon={<EditIcon />}
-                              size="sm"
-                              mr="6px"
-                            />
-                          }
+                          trigger={<Button w="100%">Edit</Button>}
                           modal
                           contentStyle={{
                             width: "80vw",
@@ -536,7 +558,7 @@ const ProductEdit = (props) => {
                             <Box p="20px">
                               <FocusLock />
                               <Text mb="5px" fontWeight="bold">
-                                Add Variant
+                                Edit Variant
                               </Text>
                               <FormLabel> Name</FormLabel>
                               <Input
@@ -550,6 +572,7 @@ const ProductEdit = (props) => {
                                   )
                                 }
                               />
+
                               <FormLabel mt="10px">Discount</FormLabel>
                               <Switch
                                 onChange={() =>
@@ -566,7 +589,6 @@ const ProductEdit = (props) => {
                               <Stack direction="row" mt="10px">
                                 <Box>
                                   <FormLabel>Price</FormLabel>
-
                                   <Input
                                     pattern="\d*"
                                     type="number"
@@ -584,7 +606,6 @@ const ProductEdit = (props) => {
                                 {variant.is_discount && (
                                   <Box>
                                     <FormLabel>Selling Price</FormLabel>
-
                                     <Input
                                       pattern="\d*"
                                       type="number"
@@ -601,19 +622,32 @@ const ProductEdit = (props) => {
                                   </Box>
                                 )}
                               </Stack>
+                              <FormLabel>Stock</FormLabel>
+                              <Input
+                                type="number"
+                                value={variant.variant_inventory_count}
+                                onChange={(e) =>
+                                  updateVariantServer(
+                                    variant.id,
+                                    "variant_inventory_count",
+                                    e.target.value
+                                  )
+                                }
+                                mb="18px"
+                              />
                               <Button
-                                bgColor="#fff"
-                                color="red.500"
+                                colorScheme="red"
                                 onClick={() => {
                                   deleteServerVariants(variant);
                                   close();
                                 }}
                                 mr="8px"
+                                sty
                               >
                                 Delete
                               </Button>
                               <Button colorScheme="blue" onClick={close}>
-                                OK
+                                Ok
                               </Button>
                               <Stack />
                             </Box>
