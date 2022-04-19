@@ -85,10 +85,7 @@ const ProductCard = ({
         <Title>{title}</Title>
         <Price>{price}</Price>
         <BottomContainer>
-          <StockText
-            stock={stock}
-            inventory_count={() => productInventoryCount()}
-          >
+          <StockText stock={stock} inventory_count={productInventoryCount()}>
             {!stock
               ? "Hidden"
               : productInventoryCount() < 1
@@ -97,14 +94,14 @@ const ProductCard = ({
           </StockText>
           {/* chakra ui switch has many errors */}
           <Switch
-            isChecked={stock && inventory_count > 0}
+            isChecked={stock && productInventoryCount() > 0}
             colorScheme="green"
             size="md"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              if (stock && inventory_count > 0) onOpen();
-              else if (inventory_count < 1) {
+              if (stock && productInventoryCount() > 0) onOpen();
+              else if (productInventoryCount() < 1) {
                 toast({
                   title: "Update stock in product details",
                   status: "warning",
