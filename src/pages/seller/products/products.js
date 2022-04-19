@@ -53,7 +53,15 @@ const Products = (props) => {
   const flipProductStock = async (stock, type, id) => {
     const newProductsArray = productsArray.map((product) => {
       if (product.id === id) {
-        if (type === "stock") product.product_inventory_count = 0;
+        if (type === "stock") {
+          product.product_inventory_count = 0;
+          product.products_variants = product.products_variants.map(
+            (variant) => {
+              variant.variant_inventory_count = 0;
+              return variant;
+            }
+          );
+        }
         if (type === "visible") product.product_stock = !stock;
       }
       return product;
