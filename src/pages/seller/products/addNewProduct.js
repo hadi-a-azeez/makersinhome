@@ -57,6 +57,8 @@ const AddNewProduct = (props) => {
   const [newVariant, setNewVariant] = useState("");
   const [newVariantPrice, setNewVariantPrice] = useState("");
   const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
+  const [newVariantInventoryCount, setNewVariantInventoryCount] = useState("");
+
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const toast = useToast();
@@ -77,6 +79,7 @@ const AddNewProduct = (props) => {
     setNewVariantPrice("");
     setNewVariantIsDiscount(false);
     setNewVariantSalePrice("");
+    setNewVariantInventoryCount("");
   };
   const deleteCompressedImage = (imageToDelete) => {
     setCompressedImages((prevImages) =>
@@ -138,7 +141,6 @@ const AddNewProduct = (props) => {
       products_variants: variantsFiltered,
       products_images: imagesFiltered,
     });
-    console.log(product);
 
     //upload image to server if any
     if (compressedImages.length > 0)
@@ -344,17 +346,17 @@ const AddNewProduct = (props) => {
             </FormControl>
           )}
         </Stack>
-        {/* <FormControl w="90%" mt="4">
-          <FormLabel>Total Available Items</FormLabel>
+        <FormControl w="90%" mt="4">
+          <FormLabel>Product Stock</FormLabel>
           <Input
             type="number"
-            name="total_quantity"
+            name="product_inventory_count"
             variant="filled"
             size="lg"
             placeholder="Enter quantity"
             onChange={updateProduct}
           />
-        </FormControl> */}
+        </FormControl>
         <FormControl w="90%" mt="4">
           <FormLabel>Product Variants</FormLabel>
           <Flex direction="row" flexWrap="wrap">
@@ -417,7 +419,6 @@ const AddNewProduct = (props) => {
                           <Stack direction="row" mt="10px">
                             <Box>
                               <FormLabel>Price</FormLabel>
-
                               <Input
                                 type="number"
                                 value={variant.variant_price}
@@ -434,7 +435,6 @@ const AddNewProduct = (props) => {
                             {variant.is_discount && (
                               <Box>
                                 <FormLabel>Selling Price</FormLabel>
-
                                 <Input
                                   type="number"
                                   value={variant.variant_sale_price}
@@ -450,6 +450,19 @@ const AddNewProduct = (props) => {
                               </Box>
                             )}
                           </Stack>
+                          <FormLabel> Stock Count</FormLabel>
+                          <Input
+                            mb="10px"
+                            type="text"
+                            value={variant.variant_inventory_count}
+                            onChange={(e) =>
+                              updateVariant(
+                                variant.id,
+                                "variant_inventory_count",
+                                e.target.value
+                              )
+                            }
+                          />
                           <Button
                             colorScheme="red"
                             onClick={() => {
@@ -515,7 +528,6 @@ const AddNewProduct = (props) => {
                 <Stack direction="row" mt="10px">
                   <Box>
                     <FormLabel>Price</FormLabel>
-
                     <Input
                       type="number"
                       value={newVariantPrice || ""}
@@ -526,7 +538,6 @@ const AddNewProduct = (props) => {
                   {newVariantIsDiscount && (
                     <Box>
                       <FormLabel>Selling Price</FormLabel>
-
                       <Input
                         type="number"
                         value={newVariantSalePrice || ""}
@@ -536,17 +547,19 @@ const AddNewProduct = (props) => {
                     </Box>
                   )}
                 </Stack>
-                {/* <FormControl mt="4" mb="5">
-                  <FormLabel>Total Available Items</FormLabel>
+                <FormControl mt="4" mb="5">
+                  <FormLabel>Stock Count</FormLabel>
                   <Input
                     type="text"
-                    name="product_name"
+                    name="variant_inventory_count"
                     variant="filled"
                     placeholder="Enter quantity"
-                    width="50%"
-                    onChange={updateProduct}
+                    value={newVariantInventoryCount || ""}
+                    onChange={(e) =>
+                      setNewVariantInventoryCount(e.target.value)
+                    }
                   />
-                </FormControl> */}
+                </FormControl>
                 <Button
                   onClick={() => {
                     close();
@@ -567,6 +580,7 @@ const AddNewProduct = (props) => {
                           variant_name: newVariant,
                           is_discount: newVariantIsDiscount,
                           variant_price: newVariantPrice,
+                          variant_inventory_count: newVariantInventoryCount,
                           variant_sale_price: newVariantIsDiscount
                             ? newVariantSalePrice
                             : newVariantPrice,

@@ -105,6 +105,7 @@ const Products = (props) => {
                 id={item.id}
                 onStockToggle={flipProductStock}
                 inventory_count={item.product_inventory_count}
+                products_variants={item.products_variants}
               />
             ))
           ) : (

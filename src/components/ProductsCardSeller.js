@@ -60,9 +60,24 @@ const ProductCard = ({
   price,
   id,
   onStockToggle,
+  products_variants,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  const productInventoryCount = () => {
+    let product_variants_inventory_count = null;
+    if (products_variants?.length > 0) {
+      product_variants_inventory_count = products_variants.reduce(
+        (prev, curr) => prev + parseInt(curr.variant_inventory_count),
+        0
+      );
+    }
+    if (product_variants_inventory_count !== null)
+      return product_variants_inventory_count;
+    else return inventory_count;
+  };
+
   return (
     <Link key={id} to={`/app/product_edit/${id}`} className="product-card">
       <Image src={image} alt="product" />
@@ -70,12 +85,15 @@ const ProductCard = ({
         <Title>{title}</Title>
         <Price>{price}</Price>
         <BottomContainer>
-          <StockText stock={stock} inventory_count={inventory_count}>
+          <StockText
+            stock={stock}
+            inventory_count={() => productInventoryCount()}
+          >
             {!stock
               ? "Hidden"
-              : inventory_count < 1
+              : productInventoryCount() < 1
               ? "Out Of Stock"
-              : `In stock: ${inventory_count}`}
+              : `In stock: ${productInventoryCount()}`}
           </StockText>
           {/* chakra ui switch has many errors */}
           <Switch

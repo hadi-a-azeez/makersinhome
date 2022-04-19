@@ -70,10 +70,13 @@ const ProductEdit = (props) => {
   const [isProductDiscount, setIsProductDiscount] = useState(false);
 
   const [variantsLocal, setVariantsLocal] = useState([]);
+
   const [newVariant, setNewVariant] = useState("");
   const [newVariantPrice, setNewVariantPrice] = useState("");
   const [newVariantSalePrice, setNewVariantSalePrice] = useState("");
   const [newVariantIsDiscount, setNewVariantIsDiscount] = useState(false);
+  const [newVariantInventoryCount, setNewVariantInventoryCount] = useState("");
+
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   const cancelRef = useRef();
@@ -661,27 +664,22 @@ const ProductEdit = (props) => {
                     <Box
                       borderRadius="5px"
                       border="1px solid #c2c2c2"
-                      p="5px"
-                      ml="5px"
+                      p="15px"
+                      ml="10px"
+                      mt="10px"
                       key={variant.id}
-                      mt="5px"
                     >
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                      >
-                        <Text ml="10px"> {variant.variant_name}</Text>
+                      <Stack>
+                        <Text>
+                          Name: <b>{variant.variant_name}</b>
+                        </Text>
+                        <Text>
+                          Price: <b>₹{variant.variant_price}</b>
+                        </Text>
                         <Popup
                           lockScroll={true}
                           closeOnDocumentClick={false}
-                          trigger={
-                            <IconButton
-                              icon={<EditIcon />}
-                              size="sm"
-                              mr="6px"
-                            />
-                          }
+                          trigger={<Button w="100%">Edit</Button>}
                           modal
                           contentStyle={{
                             width: "80vw",
@@ -756,6 +754,19 @@ const ProductEdit = (props) => {
                                   </Box>
                                 )}
                               </Stack>
+                              <FormLabel>Stock Count</FormLabel>
+                              <Input
+                                mb="10px"
+                                type="number"
+                                value={variant.variant_inventory_count}
+                                onChange={(e) =>
+                                  updateVariantLocal(
+                                    variant.id,
+                                    "variant_inventory_count",
+                                    e.target.value
+                                  )
+                                }
+                              />
                               <Button
                                 colorScheme="red"
                                 onClick={() => {
@@ -845,6 +856,15 @@ const ProductEdit = (props) => {
                         </Box>
                       )}
                     </Stack>
+                    <FormLabel> Stock Count</FormLabel>
+                    <Input
+                      mb="10px"
+                      type="number"
+                      value={newVariantInventoryCount}
+                      onChange={(e) =>
+                        setNewVariantInventoryCount(e.target.value)
+                      }
+                    />
                     <Button onClick={close} mr="8px">
                       Cancel
                     </Button>
@@ -861,11 +881,13 @@ const ProductEdit = (props) => {
                               is_discount: newVariantIsDiscount,
                               variant_price: newVariantPrice,
                               variant_sale_price: newVariantSalePrice,
+                              variant_inventory_count: newVariantInventoryCount,
                             },
                           ]);
                           setNewVariant("");
                           setNewVariantPrice("");
                           setNewVariantSalePrice("");
+                          setNewVariantInventoryCount("");
                           setNewVariantIsDiscount(false);
                           close();
                         }
@@ -891,16 +913,7 @@ const ProductEdit = (props) => {
                 whiteSpace="pre-wrap"
               />
             </FormControl>
-            {/* <FormControl id="description" w="90%" mt="4px">
-              <FormLabel>Stock</FormLabel>
-              <Switch
-                size="lg"
-                colorScheme="green"
-                mb="4px"
-                isChecked={product.product_stock ? true : false}
-                onChange={updateProductStock}
-              />
-            </FormControl> */}
+
             {isFormError && (
               <h1 style={{ color: "red" }}>Please fill all required details</h1>
             )}
