@@ -264,9 +264,7 @@ const AddNewProduct = (props) => {
           </Stack>
 
           <Select
-            name="parent category"
-            // name="product_cat"
-            id="parentcategory"
+            name="product_cat"
             value={
               product.product_cat
                 ? product.product_cat

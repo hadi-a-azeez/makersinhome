@@ -393,8 +393,7 @@ const ProductEdit = (props) => {
                 </Text>
               </Stack>{" "}
               <Select
-                name="parent category"
-                id="parentcategory"
+                name="product_cat"
                 variant="filled"
                 size="lg"
                 value={!product.product_cat ? "DEFAULT" : product.product_cat}
