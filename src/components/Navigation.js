@@ -150,13 +150,6 @@ const Navigation = () => {
       selected: pathname === "products",
     },
     {
-      to: "/app/links",
-      icon: LinkInBioIcon,
-      iconFilled: LinkInBioIconFilled,
-      label: "Links",
-      selected: pathname === "links",
-    },
-    {
       to: "/app/categories",
       icon: CategoriesIcon,
       iconFilled: CategoriesIconFilled,
@@ -164,6 +157,14 @@ const Navigation = () => {
       selected: pathname === "categories",
       smHidden: true,
     },
+    {
+      to: "/app/links",
+      icon: LinkInBioIcon,
+      iconFilled: LinkInBioIconFilled,
+      label: "Links",
+      selected: pathname === "links",
+    },
+
     {
       to: "/app/settings",
       icon: SettingsIcon,

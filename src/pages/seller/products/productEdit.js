@@ -1,5 +1,10 @@
 import FocusLock from "@chakra-ui/focus-lock";
-import { AddIcon, EditIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  DeleteIcon,
+  EditIcon,
+  SmallCloseIcon,
+} from "@chakra-ui/icons";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -107,11 +112,15 @@ const ProductEdit = (props) => {
         products_variants: variantsModified,
       });
 
-      const responseCatogory = await getCategoriesAPI();
-      setCategoriesArray(responseCatogory.data.data);
+      await fetchCategories();
     };
     productLoad();
   }, []);
+
+  const fetchCategories = async () => {
+    const responseCatogory = await getCategoriesAPI();
+    setCategoriesArray(responseCatogory.data.data);
+  };
 
   //validate input values
   const validateFields = (formAction) => {
@@ -263,8 +272,15 @@ const ProductEdit = (props) => {
       <SellerPageLayout
         label="Update Product"
         isBackButton={true}
-        isRightIcon={true}
-        iconAction={() => setIsOpen(true)}
+        rightIcon={
+          <IconButton
+            aria-label="BackButton"
+            colorScheme="white"
+            color="black"
+            icon={<DeleteIcon w={6} h={6} color="red.500" />}
+            onClick={() => setIsOpen(true)}
+          />
+        }
       >
         {testCompress !== "" && <img src={testCompress} />}
         {isLoading ? (
@@ -966,6 +982,7 @@ const ProductEdit = (props) => {
         <AddNewCategoryDrawer
           isDrawerOpen={isCategoryModalOpen}
           setIsDrawerOpen={setIsCategoryModalOpen}
+          fetchCategories={fetchCategories}
         />
       </SellerPageLayout>
     </>

@@ -64,15 +64,16 @@ const AddNewProduct = (props) => {
   const toast = useToast();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      //get catogories of the current user to display on product category section
-      const response = await getCategoriesAPI();
-      setCategoriesArray(response.data.data);
-      //adding default category to state
-      if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
-    };
     fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    //get catogories of the current user to display on product category section
+    const response = await getCategoriesAPI();
+    setCategoriesArray(response.data.data);
+    //adding default category to state
+    if (defaultCatogory) setProduct({ product_cat: defaultCatogory });
+  };
 
   const clearVariantNew = () => {
     setNewVariant("");
@@ -630,6 +631,7 @@ const AddNewProduct = (props) => {
         </Button>
       </Container>
       <AddNewCategoryDrawer
+        fetchCategories={fetchCategories}
         isDrawerOpen={isCategoryModalOpen}
         setIsDrawerOpen={setIsCategoryModalOpen}
       />

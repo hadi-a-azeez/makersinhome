@@ -21,8 +21,7 @@ const SellerPageLayout = ({
   children,
   label,
   isBackButton,
-  isRightIcon,
-  iconAction,
+  rightIcon,
   className = "",
 }) => {
   return (
@@ -35,8 +34,7 @@ const SellerPageLayout = ({
         <LabelHeader
           label={label}
           isBackButton={isBackButton}
-          isRightIcon={isRightIcon}
-          iconAction={iconAction}
+          rightIcon={rightIcon}
         />
         {children}
       </RightContainer>

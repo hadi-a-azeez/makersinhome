@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/products.module.css";
-import { Link, useHistory } from "react-router-dom";
+import { Button, Skeleton } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { useHistory } from "react-router-dom";
+import tw, { styled } from "twin.macro";
 import {
   getProductsApi,
   updateProductStock,
 } from "../../../api/sellerProductAPI";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Empty from "../../../assets/empty.svg";
-import { Button, Skeleton } from "@chakra-ui/react";
-import SellerPageLayout from "../../../layouts/Seller";
-import tw, { styled } from "twin.macro";
-import ProductCard from "../../../components/ProductsCardSeller";
-import { getProductImage, getProductPrice } from "../../../utils/product.util";
 import { Container } from "../../../components/Container";
+import ProductCard from "../../../components/ProductsCardSeller";
+import SellerPageLayout from "../../../layouts/Seller";
+import isMobile from "../../../utils/isMobile";
+import { getProductImage, getProductPrice } from "../../../utils/product.util";
+import styles from "../css/products.module.css";
 
 export const ProductsContainer = styled.div`
-  ${tw`w-full grid gap-4`}
+  ${tw`w-full grid gap-4 `}
   grid-template-columns: repeat(3, 1fr);
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -23,7 +24,7 @@ export const ProductsContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  ${tw`flex flex-row justify-end items-end w-full py-2`}
+  ${tw`flex flex-row justify-end items-end w-full py-2 `}
   @media (max-width: 768px) {
     position: fixed;
     bottom: 100px;
@@ -31,9 +32,12 @@ const ButtonContainer = styled.div`
     ${tw`justify-center`}
     z-index: 1000;
   }
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
-const Products = (props) => {
+const Products = () => {
   const [productsArray, setProductsArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
@@ -71,7 +75,21 @@ const Products = (props) => {
   };
 
   return (
-    <SellerPageLayout label="Products">
+    <SellerPageLayout
+      label="Products"
+      rightIcon={
+        !isMobile && (
+          <Button
+            onClick={() => history.push("/app/add_product")}
+            bgColor="#08bd80"
+            textColor="#fff"
+            paddingY={3}
+          >
+            ADD PRODUCT
+          </Button>
+        )
+      }
+    >
       <div className={styles.tab_parent}>
         <div
           onClick={() => history.push("/app/products")}

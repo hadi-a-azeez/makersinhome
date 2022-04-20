@@ -6,10 +6,10 @@ import {
   CloseIcon,
   DeleteIcon,
 } from "@chakra-ui/icons";
-import { IconButton, Button } from "@chakra-ui/react";
+import { IconButton, Button, Box } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
-const LabelHeader = ({ label, isBackButton, isRightIcon, iconAction }) => {
+const LabelHeader = ({ label, isBackButton, rightIcon = null }) => {
   const history = useHistory();
   return (
     <div className={styles.header}>
@@ -26,17 +26,7 @@ const LabelHeader = ({ label, isBackButton, isRightIcon, iconAction }) => {
       )}
 
       <h1 className={styles.label}>{label}</h1>
-      {isRightIcon && (
-        <IconButton
-          aria-label="BackButton"
-          position="absolute"
-          right="20px"
-          colorScheme="white"
-          color="black"
-          icon={<DeleteIcon w={6} h={6} color="red.500" />}
-          onClick={iconAction}
-        />
-      )}
+      <div style={{ position: "absolute", right: "15px" }}> {rightIcon}</div>
     </div>
   );
 };

@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/addNewCategory.module.css";
-
-import { useHistory } from "react-router-dom";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import {
   addCatogoriesAPI,
   getParentCategoriesApi,
 } from "../../../api/sellerCategoryAPI";
-import {
-  Input,
-  Button,
-  FormControl,
-  FormLabel,
-  useToast,
-  Select,
-  Box,
-} from "@chakra-ui/react";
-import { Container } from "../../../components/Container";
 import DrawerMain from "../../../components/DrawerMain";
+import styles from "../css/addNewCategory.module.css";
 
-const AddNewCategoryDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
+const AddNewCategoryDrawer = ({
+  isDrawerOpen,
+  setIsDrawerOpen,
+  fetchCategories,
+}) => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [selected, setSelected] = useState([]);
   const [newCategory, setNewCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isValidated, setIsValidated] = useState(true);
-  let history = useHistory();
   const toast = useToast();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const AddNewCategoryDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
     let isValidate = validation();
     if (isValidate) {
       setIsLoading(true);
-      const response = await addCatogoriesAPI(newCategory, selected);
+      await addCatogoriesAPI(newCategory, selected);
       setIsLoading(false);
       toast({
         title: "New Category added.",
@@ -70,8 +70,8 @@ const AddNewCategoryDrawer = ({ isDrawerOpen, setIsDrawerOpen }) => {
         isClosable: true,
         position: "bottom",
       });
-      //delay for toast
-      setTimeout(() => history.push("/app/categories"), 2000);
+      setIsDrawerOpen(false);
+      await fetchCategories();
     }
   };
 

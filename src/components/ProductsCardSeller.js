@@ -23,7 +23,7 @@ import tw, { styled } from "twin.macro";
 // `;
 
 const Image = styled.img`
-  ${tw`h-24 w-24 rounded-md`}
+  ${tw`h-24 w-24 rounded-md object-cover`}
 `;
 
 const ContentContainer = styled.div`

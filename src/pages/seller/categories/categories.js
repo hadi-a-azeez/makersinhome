@@ -52,15 +52,16 @@ const Categories = () => {
   const [isAddCategoryDrawerOpen, setIsAddCategoryDrawerOpen] = useState(false);
 
   useEffect(() => {
-    const getCategoriesData = async () => {
-      setIsLoading(true);
-      const response = await getCategoriesAPI();
-      setCategoriesArray(response?.data?.data);
-      setUserInfo(response?.data?.user);
-      setIsLoading(false);
-    };
-    getCategoriesData();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    setIsLoading(true);
+    const response = await getCategoriesAPI();
+    setCategoriesArray(response?.data?.data);
+    setUserInfo(response?.data?.user);
+    setIsLoading(false);
+  };
 
   const handleDeleteClick = async () => {
     const result = await deleteCategoryAPI(categoryDeleteId);
@@ -76,6 +77,7 @@ const Categories = () => {
       <AddNewCategoryDrawer
         isDrawerOpen={isAddCategoryDrawerOpen}
         setIsDrawerOpen={setIsAddCategoryDrawerOpen}
+        fetchCategories={fetchCategories}
       />
       <div className={styles.tab_parent}>
         <div

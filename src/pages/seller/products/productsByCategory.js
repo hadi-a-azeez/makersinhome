@@ -91,6 +91,8 @@ const Products = (props) => {
                   stock={item.product_stock}
                   id={item.id}
                   onStockToggle={flipProductStock}
+                  inventory_count={item.product_inventory_count}
+                  products_variants={item.products_variants}
                 />
               ))}
             {/* card one ends here */}
