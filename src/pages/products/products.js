@@ -2,6 +2,7 @@ import { Button, Skeleton } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
+import { useHeader } from "utils/useHeader";
 import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import Empty from "../../assets/empty.svg";
 import { Container } from "../../components/Container";
@@ -36,9 +37,24 @@ const ButtonContainer = styled.div`
 const Products = () => {
   const [productsArray, setProductsArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { setHeader } = useHeader();
+
   let history = useHistory();
 
   useEffect(() => {
+    setHeader({
+      title: "Products",
+      rightIcon: !isMobile && (
+        <Button
+          onClick={() => history.push("/app/add_product")}
+          bgColor="#08bd80"
+          textColor="#fff"
+          paddingY={3}
+        >
+          ADD PRODUCT
+        </Button>
+      ),
+    });
     setIsLoading(true);
     const getProductsData = async () => {
       const productsData = await getProductsApi("all");
@@ -71,21 +87,6 @@ const Products = () => {
   };
 
   return (
-    // <SellerPageLayout
-    //   label="Products"
-    //   rightIcon={
-    //     !isMobile && (
-    //       <Button
-    //         onClick={() => history.push("/app/add_product")}
-    //         bgColor="#08bd80"
-    //         textColor="#fff"
-    //         paddingY={3}
-    //       >
-    //         ADD PRODUCT
-    //       </Button>
-    //     )
-    //   }
-    // >
     <>
       <div className={styles.tab_parent}>
         <div

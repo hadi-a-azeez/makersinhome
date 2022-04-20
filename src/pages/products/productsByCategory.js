@@ -9,6 +9,7 @@ import { getProductImage, getProductPrice } from "../../utils/product.util";
 import ProductCard from "../../components/ProductsCardSeller";
 import { ProductsContainer } from "./products";
 import tw, { styled } from "twin.macro";
+import { useHeader } from "utils/useHeader";
 
 const ButtonContainer = styled.div`
   ${tw`flex flex-row justify-end items-end w-full py-2`}
@@ -23,12 +24,14 @@ const ButtonContainer = styled.div`
 
 const Products = (props) => {
   const productsCat = props.match.params.id;
-  const productsCatName = props.match.params.cat_name;
   const [productsArray, setProductsArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { setHeader } = useHeader();
+
   let history = useHistory();
 
   useEffect(() => {
+    setHeader({ title: props.match.params.cat_name, isBackButton: true });
     setIsLoading(true);
     const getProductsData = async () => {
       const productsData = await getProductsApi(productsCat);
@@ -56,47 +59,43 @@ const Products = (props) => {
   };
 
   return (
-    <>
-      <SellerPageLayout label={productsCatName} isBackButton>
-        <Container>
-          <ButtonContainer>
-            <Button
-              onClick={() => history.push("/app/add_product")}
-              bgColor="#08bd80"
-              textColor="#fff"
-              paddingY={3}
-            >
-              ADD PRODUCT
-            </Button>
-          </ButtonContainer>
-          {isLoading && (
-            <>
-              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-              <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
-            </>
-          )}
-          {/* card one */}
-          <ProductsContainer>
-            {!isLoading &&
-              productsArray.map((item, index) => (
-                <ProductCard
-                  title={item.product_name}
-                  image={getProductImage(item.products_images)}
-                  price={getProductPrice(item)}
-                  stock={item.product_stock}
-                  id={item.id}
-                  onStockToggle={flipProductStock}
-                  inventory_count={item.product_inventory_count}
-                  products_variants={item.products_variants}
-                />
-              ))}
-            {/* card one ends here */}
-          </ProductsContainer>
-          <div className={styles.blank}></div>
-        </Container>
-      </SellerPageLayout>
-    </>
+    <Container>
+      <ButtonContainer>
+        <Button
+          onClick={() => history.push("/app/add_product")}
+          bgColor="#08bd80"
+          textColor="#fff"
+          paddingY={3}
+        >
+          ADD PRODUCT
+        </Button>
+      </ButtonContainer>
+      {isLoading && (
+        <>
+          <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+          <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+          <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />
+        </>
+      )}
+      {/* card one */}
+      <ProductsContainer>
+        {!isLoading &&
+          productsArray.map((item, index) => (
+            <ProductCard
+              title={item.product_name}
+              image={getProductImage(item.products_images)}
+              price={getProductPrice(item)}
+              stock={item.product_stock}
+              id={item.id}
+              onStockToggle={flipProductStock}
+              inventory_count={item.product_inventory_count}
+              products_variants={item.products_variants}
+            />
+          ))}
+        {/* card one ends here */}
+      </ProductsContainer>
+      <div className={styles.blank}></div>
+    </Container>
   );
 };
 
