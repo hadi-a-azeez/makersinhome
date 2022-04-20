@@ -51,7 +51,7 @@ const GenPassWordLink = () => {
           mb="5px"
           onClick={() =>
             setLink(
-              `https://saav.in/password/${CryptoJS.enc.Base64.stringify(
+              `https://app.saav.in/password/${CryptoJS.enc.Base64.stringify(
                 CryptoJS.enc.Utf8.parse(phone)
               )}/${dateEncrypted}`
             )
