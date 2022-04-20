@@ -26,6 +26,8 @@ import ProductsByCategory from "./pages/products/productsByCategory";
 import Dashboard from "./pages/store/dashboard";
 import StoreInfo from "./pages/store/storeInfo";
 import { UserContextProvider } from "./utils/useUser";
+import SellerPageLayout from "layouts/Seller";
+import { HeaderContextProvider } from "utils/useHeader";
 
 const App = () => {
   useEffect(() => {
@@ -54,26 +56,33 @@ const App = () => {
         <Route path="/signup" component={Signup} />
         <Route exact path="/login" component={SignIn} />
         <UserContextProvider>
-          <Route path="/app/add_product/:catogory?" component={AddNewProduct} />
-          <Route path="/app/store_info" component={StoreInfo} />
-          <Route path="/app/products" component={Products} />
-          <Route path="/app/links" component={Links} />
-          <Route path="/app/instagram" component={InstagramImport} />
-          <Route path="/app/product_edit/:id" component={ProductEdit} />
-          <Route
-            path="/app/products_category/:cat_name/:id"
-            component={ProductsByCategory}
-          />
-          <Route path="/app/dashboard" component={Dashboard} />
-          <Route path="/app/add_category" component={AddNewCategory} />
-          <Route
-            path="/app/edit_category/:category_id"
-            component={EditCategory}
-          />
-          <Route path="/app/categories" component={Categories} />
-          <Route path="/app/settings" component={Account} />
-          <Route path="/app/edit_account" component={EditAccount} />
-          <Route path="/app/edit_settings" component={EditSettings} />
+          <HeaderContextProvider>
+            <SellerPageLayout label="Dashboard">
+              <Route
+                path="/app/add_product/:catogory?"
+                component={AddNewProduct}
+              />
+              <Route path="/app/store_info" component={StoreInfo} />
+              <Route path="/app/products" component={Products} />
+              <Route path="/app/links" component={Links} />
+              <Route path="/app/instagram" component={InstagramImport} />
+              <Route path="/app/product_edit/:id" component={ProductEdit} />
+              <Route
+                path="/app/products_category/:cat_name/:id"
+                component={ProductsByCategory}
+              />
+              <Route path="/app/dashboard" component={Dashboard} />
+              <Route path="/app/add_category" component={AddNewCategory} />
+              <Route
+                path="/app/edit_category/:category_id"
+                component={EditCategory}
+              />
+              <Route path="/app/categories" component={Categories} />
+              <Route path="/app/settings" component={Account} />
+              <Route path="/app/edit_account" component={EditAccount} />
+              <Route path="/app/edit_settings" component={EditSettings} />
+            </SellerPageLayout>
+          </HeaderContextProvider>
         </UserContextProvider>
         <Route component={() => <p>404</p>} />
       </Switch>

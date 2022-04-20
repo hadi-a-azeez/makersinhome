@@ -1,5 +1,6 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
+import { useHeader } from "utils/useHeader";
 import LabelHeader from "../../components/labelHeader";
 import Navigation from "../../components/Navigation";
 
@@ -17,22 +18,20 @@ const RightContainer = styled.div`
   ${tw`relative h-full flex flex-col justify-center items-center`}
 `;
 
-const SellerPageLayout = ({
-  children,
-  label,
-  isBackButton,
-  rightIcon,
-  className = "",
-}) => {
+const SellerPageLayout = ({ children }) => {
+  const {
+    header: { title = "", isBackButton = false, rightIcon = null },
+  } = useHeader();
+
   return (
-    <Container className={className}>
+    <Container>
       <LeftContainer>
         <Navigation />
       </LeftContainer>
       <RightContainer>
         {/* <HeaderAdmin /> */}
         <LabelHeader
-          label={label}
+          label={title}
           isBackButton={isBackButton}
           rightIcon={rightIcon}
         />

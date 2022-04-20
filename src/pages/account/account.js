@@ -20,6 +20,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { useHeader } from "utils/useHeader";
 import { getStoreInfoAPI } from "../../api/sellerAccountAPI";
 import AboutUs from "../../assets/about_outline.svg";
 import ContactUs from "../../assets/call_outline.svg";
@@ -30,12 +31,13 @@ import SettingsIcon from "../../assets/settings-outline.svg";
 import StoreFrontIcon from "../../assets/storefront-outline.svg";
 import { Container } from "../../components/Container";
 import { profileImagesRoot } from "../../config";
-import SellerPageLayout from "../../layouts/Seller";
 import styles from "../css/account.module.css";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const { setHeader } = useHeader();
+
   const cancelRef = useRef();
 
   let history = useHistory();
@@ -46,14 +48,17 @@ const Account = () => {
   };
 
   useEffect(() => {
-    (async () => {
+    setHeader({ title: "Settings" });
+    const getData = async () => {
       const response = await getStoreInfoAPI();
       setStoreInfo(response.data.data);
-    })();
+    };
+    getData();
   }, []);
 
   return (
-    <SellerPageLayout label="Settings">
+    <>
+      {" "}
       <Container>
         <Flex direction="row" w="100%" mt="3" mb="3">
           <Image
@@ -183,7 +188,7 @@ const Account = () => {
           </AlertDialog>
         </div>
       </Container>
-    </SellerPageLayout>
+    </>
   );
 };
 

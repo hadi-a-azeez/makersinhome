@@ -19,6 +19,7 @@ import {
 import SellerPageLayout from "../../layouts/Seller";
 import tw, { styled } from "twin.macro";
 import { Container } from "../../components/Container";
+import { useHeader } from "utils/useHeader";
 
 const AddNewCategory = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
@@ -27,10 +28,14 @@ const AddNewCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isValidated, setIsValidated] = useState(true);
+
+  const { setHeader } = useHeader();
+
   let history = useHistory();
   const toast = useToast();
 
   useEffect(() => {
+    setHeader({ title: "Add Category", isBackButton: true });
     const getCategoriesData = async () => {
       const Data = await getParentCategoriesApi();
       console.log(Data);
@@ -78,69 +83,65 @@ const AddNewCategory = () => {
   };
 
   return (
-    <>
-      <SellerPageLayout label="Add Category" isBackButton={true}>
-        <Container>
-          {!isValidated && (
-            <Box
-              borderRadius="md"
-              bg="tomato"
-              color="white"
-              p="3"
-              w="90%"
-              mb="3"
-              mt="4"
-            >
-              {errorMessage}
-            </Box>
-          )}
-          <FormControl isRequired w="90%" mt="4">
-            <FormLabel>Parent category</FormLabel>
-            <Select
-              name="parent category"
-              id="parentcategory"
-              variant="filled"
-              size="lg"
-              defaultValue={"DEFAULT"}
-              onChange={(e) => handleCategoryClick(e.target.value)}
-            >
-              <option value="DEFAULT" disabled>
-                parent category
-              </option>
-              {categoriesArray.map((item, index) => (
-                <option value={item.id} key={index}>
-                  {item.cat_name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl isRequired w="90%" mt="4">
-            <FormLabel>Category Name</FormLabel>
-            <Input
-              type="text"
-              variant="filled"
-              size="lg"
-              placeholder="Category name"
-              onChange={(e) => setNewCategory(e.target.value)}
-            />
-          </FormControl>
-          <Button
-            backgroundColor="#08bd80"
-            colorScheme="green"
-            color="white"
-            mt="4"
-            size="lg"
-            w="90%"
-            isLoading={isLoading}
-            onClick={handleSubmit}
-          >
-            ADD CATEGORY
-          </Button>
+    <Container>
+      {!isValidated && (
+        <Box
+          borderRadius="md"
+          bg="tomato"
+          color="white"
+          p="3"
+          w="90%"
+          mb="3"
+          mt="4"
+        >
+          {errorMessage}
+        </Box>
+      )}
+      <FormControl isRequired w="90%" mt="4">
+        <FormLabel>Parent category</FormLabel>
+        <Select
+          name="parent category"
+          id="parentcategory"
+          variant="filled"
+          size="lg"
+          defaultValue={"DEFAULT"}
+          onChange={(e) => handleCategoryClick(e.target.value)}
+        >
+          <option value="DEFAULT" disabled>
+            parent category
+          </option>
+          {categoriesArray.map((item, index) => (
+            <option value={item.id} key={index}>
+              {item.cat_name}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl isRequired w="90%" mt="4">
+        <FormLabel>Category Name</FormLabel>
+        <Input
+          type="text"
+          variant="filled"
+          size="lg"
+          placeholder="Category name"
+          onChange={(e) => setNewCategory(e.target.value)}
+        />
+      </FormControl>
+      <Button
+        backgroundColor="#08bd80"
+        colorScheme="green"
+        color="white"
+        mt="4"
+        size="lg"
+        w="90%"
+        isLoading={isLoading}
+        onClick={handleSubmit}
+      >
+        ADD CATEGORY
+      </Button>
 
-          <div className={styles.blank}></div>
-        </Container>
-      </SellerPageLayout>
-    </>
+      <div className={styles.blank}></div>
+    </Container>
   );
 };
 

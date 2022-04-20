@@ -1,21 +1,21 @@
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import { Box, SimpleGrid, Stack, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import { getUserInfo } from "../../api/sellerAccountAPI";
-import { getCountAPI } from "../../api/sellerProductAPI";
-import MessagesIcon from "../../assets/chatbubble-ellipses.svg";
-import VisibleIcon from "../../assets/eye.svg";
-import CategoriesIcon from "../../assets/gridFilled.svg";
-import ProductsIcon from "../../assets/layersFilled.svg";
-import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-import copyText from "../../utils/copyText";
-import MetricsCard from "../../components/MetricsCard";
-import Nux from "../../components/nux/index";
-import PwaInstall from "../../components/PwaInstall";
-import SellerPageLayout from "../../layouts/Seller";
+import { getUserInfo } from "api/sellerAccountAPI";
+import { getCountAPI } from "api/sellerProductAPI";
+import MessagesIcon from "assets/chatbubble-ellipses.svg";
+import VisibleIcon from "assets/eye.svg";
+import CategoriesIcon from "assets/gridFilled.svg";
+import ProductsIcon from "assets/layersFilled.svg";
+import WhatsappLogo from "assets/logo-whatsapp.svg";
+import MetricsCard from "components/MetricsCard";
+import Nux from "components/nux/index";
+import PwaInstall from "components/PwaInstall";
+import SellerPageLayout from "layouts/Seller";
+import copyText from "utils/copyText";
 import styles from "../css/dashboard.module.css";
+import { useHeader } from "utils/useHeader";
 
 const Container = styled.div`
   ${tw`flex flex-col items-center w-full bg-white`}
@@ -25,9 +25,8 @@ const Container = styled.div`
 const Dashboard = () => {
   const [countData, setCountData] = useState({});
   const [userInfo, setUserInfo] = useState({ account_store_status: true });
-  const [isLoading, setIsLoading] = useState(true);
   const [isTasksCompleted, setIsTasksCompleted] = useState(true);
-  const history = useHistory();
+  const { setHeader } = useHeader();
   const toast = useToast();
 
   const shareToWhatsapp = () => {
@@ -37,7 +36,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    setHeader({ title: "Dashboard" });
     const getDataAll = async () => {
       //get count of products and catgories of the current user
       const responseCount = await getCountAPI();
@@ -53,15 +52,13 @@ const Dashboard = () => {
       ) {
         setIsTasksCompleted(false);
       } else setIsTasksCompleted(true);
-      setIsLoading(false);
     };
     getDataAll();
   }, []);
   return (
     <>
-      <SellerPageLayout label="Home">
-        <Container>
-          {/* <Box
+      <Container>
+        {/* <Box
             className={styles.topdiv}
             shadow="md"
             d="flex"
@@ -90,150 +87,149 @@ const Dashboard = () => {
               </Flex>
             </Flex>
           </Box> */}
-          <PwaInstall />
+        <PwaInstall />
+        {!isTasksCompleted && (
+          <Nux
+            storeImage={userInfo?.account_store_image}
+            notifToken={userInfo?.account_notif_token}
+            productCount={countData?.products_count}
+            catCount={countData?.cat_count}
+          />
+        )}
+        <Box
+          mt="30px"
+          w="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+        >
           {!isTasksCompleted && (
-            <Nux
-              storeImage={userInfo?.account_store_image}
-              notifToken={userInfo?.account_notif_token}
-              productCount={countData?.products_count}
-              catCount={countData?.cat_count}
-            />
+            <Stack
+              direction="column"
+              backgroundColor="#fff"
+              justifyContent="center"
+              alignItems="center"
+              h="120px"
+              borderRadius="10px"
+              p="10px"
+              w="60%"
+              position="absolute"
+              zIndex="2"
+              boxShadow="rgba(180, 181, 187, 0.2) 0px 8px 24px"
+            >
+              <LockIcon boxSize="40px" />
+              <Text textAlign="center" fontFamily="elemen">
+                Please Complete all tasks to unlock user data.
+              </Text>
+            </Stack>
           )}
-          <Box
-            mt="30px"
-            w="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
+          <SimpleGrid
+            position="relative"
+            columns={2}
+            spacing={3}
+            w="90%"
+            zIndex="1"
+            filter={isTasksCompleted ? "" : "blur(4px)"}
           >
-            {!isTasksCompleted && (
-              <Stack
-                direction="column"
-                backgroundColor="#fff"
-                justifyContent="center"
-                alignItems="center"
-                h="120px"
-                borderRadius="10px"
-                p="10px"
-                w="60%"
-                position="absolute"
-                zIndex="2"
-                boxShadow="rgba(180, 181, 187, 0.2) 0px 8px 24px"
-              >
-                <LockIcon boxSize="40px" />
-                <Text textAlign="center" fontFamily="elemen">
-                  Please Complete all tasks to unlock user data.
-                </Text>
+            <MetricsCard
+              title="Store visits"
+              value={countData?.store_views || 0}
+              icon={VisibleIcon}
+              link=""
+            />
+
+            <MetricsCard
+              title="Messages Started"
+              value={countData?.message_clicks || 0}
+              icon={MessagesIcon}
+              link=""
+            />
+
+            <MetricsCard
+              title="Products"
+              value={countData?.products_count}
+              icon={ProductsIcon}
+              link=""
+            />
+
+            <MetricsCard
+              title="Categories"
+              value={countData?.cat_count}
+              icon={CategoriesIcon}
+              link=""
+            />
+          </SimpleGrid>
+        </Box>
+        <div className={styles.cardPlain}>
+          <h1 className={styles.cardPlainHeading}>
+            Share link on Social Media
+          </h1>
+          <h1 className={styles.cardPlainSubHeading}>
+            Your customers can visit your online store and see your products
+            from this link
+          </h1>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            ml="6px"
+            alignItems="center"
+          >
+            <Text
+              color="#028ccc"
+              textTransform="lowercase"
+              onClick={() =>
+                window.open(
+                  `https://saav.in/store/${userInfo?.account_store_link}`
+                )
+              }
+            >
+              saav.in/store/{userInfo?.account_store_link}
+            </Text>
+            {userInfo?.account_store_link && (
+              <Stack direction="row" alignItems="center">
+                <CopyIcon
+                  boxSize="25px"
+                  onClick={() => {
+                    copyText(
+                      `https://saav.in/store/${userInfo?.account_store_link}`
+                    );
+                    toast({
+                      position: "bottom",
+                      duration: 1000,
+                      render: () => (
+                        <Box
+                          color="white"
+                          p={3}
+                          mb="80px"
+                          ml="30%"
+                          bg="green.500"
+                          borderRadius="30px"
+                          textAlign="center"
+                          width="140px"
+                        >
+                          Copied
+                        </Box>
+                      ),
+                    });
+                  }}
+                />
+                <button
+                  className={styles.btn_whatsapp}
+                  onClick={shareToWhatsapp}
+                >
+                  <img
+                    src={WhatsappLogo}
+                    alt="w"
+                    className={styles.whatsappicon}
+                  />
+                  Share
+                </button>
               </Stack>
             )}
-            <SimpleGrid
-              position="relative"
-              columns={2}
-              spacing={3}
-              w="90%"
-              zIndex="1"
-              filter={isTasksCompleted ? "" : "blur(4px)"}
-            >
-              <MetricsCard
-                title="Store visits"
-                value={countData?.store_views || 0}
-                icon={VisibleIcon}
-                link=""
-              />
-
-              <MetricsCard
-                title="Messages Started"
-                value={countData?.message_clicks || 0}
-                icon={MessagesIcon}
-                link=""
-              />
-
-              <MetricsCard
-                title="Products"
-                value={countData?.products_count}
-                icon={ProductsIcon}
-                link=""
-              />
-
-              <MetricsCard
-                title="Categories"
-                value={countData?.cat_count}
-                icon={CategoriesIcon}
-                link=""
-              />
-            </SimpleGrid>
-          </Box>
-          <div className={styles.cardPlain}>
-            <h1 className={styles.cardPlainHeading}>
-              Share link on Social Media
-            </h1>
-            <h1 className={styles.cardPlainSubHeading}>
-              Your customers can visit your online store and see your products
-              from this link
-            </h1>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              ml="6px"
-              alignItems="center"
-            >
-              <Text
-                color="#028ccc"
-                textTransform="lowercase"
-                onClick={() =>
-                  window.open(
-                    `https://saav.in/store/${userInfo?.account_store_link}`
-                  )
-                }
-              >
-                saav.in/store/{userInfo?.account_store_link}
-              </Text>
-              {userInfo?.account_store_link && (
-                <Stack direction="row" alignItems="center">
-                  <CopyIcon
-                    boxSize="25px"
-                    onClick={() => {
-                      copyText(
-                        `https://saav.in/store/${userInfo?.account_store_link}`
-                      );
-                      toast({
-                        position: "bottom",
-                        duration: 1000,
-                        render: () => (
-                          <Box
-                            color="white"
-                            p={3}
-                            mb="80px"
-                            ml="30%"
-                            bg="green.500"
-                            borderRadius="30px"
-                            textAlign="center"
-                            width="140px"
-                          >
-                            Copied
-                          </Box>
-                        ),
-                      });
-                    }}
-                  />
-                  <button
-                    className={styles.btn_whatsapp}
-                    onClick={shareToWhatsapp}
-                  >
-                    <img
-                      src={WhatsappLogo}
-                      alt="w"
-                      className={styles.whatsappicon}
-                    />
-                    Share
-                  </button>
-                </Stack>
-              )}
-            </Stack>
-          </div>
-        </Container>
-      </SellerPageLayout>
+          </Stack>
+        </div>
+      </Container>
     </>
   );
 };

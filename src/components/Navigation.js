@@ -31,7 +31,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: rgb(243, 244, 246);
+    background: #f4f5f6;
   }
 `;
 
@@ -49,8 +49,8 @@ const NavContainer = styled.div`
     bottom: auto;
     display: flex;
     flex-direction: column;
-    gap: 1.8rem;
     height: 100%;
+    gap: 5px;
   }
 `;
 
@@ -60,6 +60,12 @@ const Item = styled.div`
     display: grid;
     grid-template-columns: 30px 1fr;
     gap: 1rem;
+    width: 250px;
+    padding: 1rem;
+    :hover {
+      background-color: #ebebeb;
+      border-radius: 10px;
+    }
   }
 `;
 
@@ -68,6 +74,21 @@ const Icon = styled.img`
   height: 27px;
   filter: invert(14%) sepia(49%) saturate(0%) hue-rotate(236deg) brightness(91%)
     contrast(94%);
+  animation: scale-in-center 0.2s ease-in;
+
+  @keyframes scale-in-center {
+    0% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
   ${({ selected }) =>
     selected &&
     `filter: invert(50%) sepia(100%) saturate(746%) hue-rotate(117deg)
@@ -123,7 +144,7 @@ const NavItem = ({
   if (isMobile && smHidden) return null;
   return (
     <Link to={to}>
-      <Item>
+      <Item selected={selected}>
         <Icon src={selected ? iconFilled : icon} selected={selected} />
         <Text selected={selected}>{label}</Text>
       </Item>
@@ -134,7 +155,7 @@ const NavItem = ({
 const Navigation = () => {
   const { user } = useUser();
   const pathname = useLocation().pathname.split("/")[2];
-  const nav = [
+  const navItems = [
     {
       to: "/app/dashboard",
       icon: HomeIcon,
@@ -190,7 +211,7 @@ const Navigation = () => {
         </h1>
       </ProfileContainer>
       <NavContainer>
-        {nav.map((item) => (
+        {navItems.map((item) => (
           <NavItem {...item} />
         ))}
       </NavContainer>

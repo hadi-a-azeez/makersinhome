@@ -71,21 +71,22 @@ const Products = () => {
   };
 
   return (
-    <SellerPageLayout
-      label="Products"
-      rightIcon={
-        !isMobile && (
-          <Button
-            onClick={() => history.push("/app/add_product")}
-            bgColor="#08bd80"
-            textColor="#fff"
-            paddingY={3}
-          >
-            ADD PRODUCT
-          </Button>
-        )
-      }
-    >
+    // <SellerPageLayout
+    //   label="Products"
+    //   rightIcon={
+    //     !isMobile && (
+    //       <Button
+    //         onClick={() => history.push("/app/add_product")}
+    //         bgColor="#08bd80"
+    //         textColor="#fff"
+    //         paddingY={3}
+    //       >
+    //         ADD PRODUCT
+    //       </Button>
+    //     )
+    //   }
+    // >
+    <>
       <div className={styles.tab_parent}>
         <div
           onClick={() => history.push("/app/products")}
@@ -149,7 +150,7 @@ const Products = () => {
         )}
         <div className={styles.blank}></div>
       </Container>
-    </SellerPageLayout>
+    </>
   );
 };
 
