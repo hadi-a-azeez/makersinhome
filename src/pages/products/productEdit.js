@@ -39,18 +39,18 @@ import { v4 as uuidv4 } from "uuid";
 import {
   deleteProductImageDO,
   uploadProductImageDO,
-} from "../../../api/imageUploadAPI";
-import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
+} from "../../api/imageUploadAPI";
+import { getCategoriesAPI } from "../../api/sellerCategoryAPI";
 import {
   deleteProductAPI,
   getProductAPI,
   updateProductAPI,
-} from "../../../api/sellerProductAPI";
-import { Container } from "../../../components/Container";
-import { useForm } from "../../../components/useForm";
-import { productImagesRoot } from "../../../config";
-import SellerPageLayout from "../../../layouts/Seller";
-import { productImageCompresser } from "../../../utils/imageCompresser";
+} from "../../api/sellerProductAPI";
+import { Container } from "../../components/Container";
+import { useForm } from "../../components/useForm";
+import { productImagesRoot } from "../../config";
+import SellerPageLayout from "../../layouts/Seller";
+import { productImageCompresser } from "../../utils/imageCompresser";
 import AddNewCategoryDrawer from "../categories/addCategoryModel";
 import styles from "../css/productDetailed.module.css";
 

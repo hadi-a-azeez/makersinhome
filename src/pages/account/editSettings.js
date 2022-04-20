@@ -8,10 +8,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { getStoreInfoAPI, updateSettings } from "../../../api/sellerAccountAPI";
-import { Container } from "../../../components/Container";
-import LabelHeader from "../../../components/labelHeader";
-import SellerPageLayout from "../../../layouts/Seller";
+import { getStoreInfoAPI, updateSettings } from "../../api/sellerAccountAPI";
+import { Container } from "../../components/Container";
+import LabelHeader from "../../components/labelHeader";
+import SellerPageLayout from "../../layouts/Seller";
 import styles from "../css/editAccount.module.css";
 
 const EditAccount = () => {

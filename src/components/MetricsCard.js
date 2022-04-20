@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import styles from "../pages/seller/css/dashboard.module.css";
+import styles from "../pages/css/dashboard.module.css";
 
 const MetricsCard = ({ title, value, icon, link }) => {
   const history = useHistory();

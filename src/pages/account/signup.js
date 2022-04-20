@@ -12,11 +12,11 @@ import {
   InputGroup,
   InputLeftAddon,
 } from "@chakra-ui/react";
-import { useForm } from "../../../components/useForm";
-import { apiRoot } from "../../../config";
+import { useForm } from "../../components/useForm";
+import { apiRoot } from "../../config";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import AuthPageLayout from "../../../layouts/Auth/Login";
+import AuthPageLayout from "../../layouts/Auth/Login";
 import tw, { styled } from "twin.macro";
 
 const Container = styled.div`

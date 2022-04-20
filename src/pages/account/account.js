@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../css/account.module.css";
 import { Link, useHistory } from "react-router-dom";
-import LabelHeader from "../../../components/labelHeader";
-import { getStoreInfoAPI } from "../../../api/sellerAccountAPI";
-import Placeholder from "../../../assets/placeholder.png";
-import { profileImagesRoot } from "../../../config";
+import { getStoreInfoAPI } from "../../api/sellerAccountAPI";
+import Placeholder from "../../assets/placeholder.png";
+import { profileImagesRoot } from "../../config";
 
 import {
   Button,
@@ -24,20 +23,20 @@ import {
   Text,
   IconButton,
 } from "@chakra-ui/react";
-import WhatsappLogo from "../../../assets/logo-whatsapp.svg";
-import StoreFrontIcon from "../../../assets/storefront-outline.svg";
-import SettingsIcon from "../../../assets/settings-outline.svg";
+import WhatsappLogo from "../../assets/logo-whatsapp.svg";
+import StoreFrontIcon from "../../assets/storefront-outline.svg";
+import SettingsIcon from "../../assets/settings-outline.svg";
 
-import ContactUs from "../../../assets/call_outline.svg";
-import AboutUs from "../../../assets/about_outline.svg";
-import LogOut from "../../../assets/logout_outline.svg";
+import ContactUs from "../../assets/call_outline.svg";
+import AboutUs from "../../assets/about_outline.svg";
+import LogOut from "../../assets/logout_outline.svg";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import { CloseIcon } from "@chakra-ui/icons";
 import FocusLock from "@chakra-ui/focus-lock";
-import SellerPageLayout from "../../../layouts/Seller";
-import tw, { styled } from "twin.macro";
-import { Container } from "../../../components/Container";
+import SellerPageLayout from "../../layouts/Seller";
+
+import { Container } from "../../components/Container";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});

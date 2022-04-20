@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/signup.module.css";
 import { useHistory } from "react-router-dom";
-import { signinUserAPI } from "../../../api/sellerAccountAPI";
+import { signinUserAPI } from "../../api/sellerAccountAPI";
 import {
   FormControl,
   FormLabel,
@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import AuthPageLayout from "../../../layouts/Auth/Login";
+import AuthPageLayout from "../../layouts/Auth/Login";
 import tw, { styled } from "twin.macro";
 
 const Container = styled.div`

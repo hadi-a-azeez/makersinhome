@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/products.module.css";
 import { useHistory } from "react-router-dom";
-import {
-  getProductsApi,
-  updateProductStock,
-} from "../../../api/sellerProductAPI";
+import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import { Button, Skeleton } from "@chakra-ui/react";
-import SellerPageLayout from "../../../layouts/Seller";
-import { Container } from "../../../components/Container";
-import { getProductImage, getProductPrice } from "../../../utils/product.util";
-import ProductCard from "../../../components/ProductsCardSeller";
+import SellerPageLayout from "../../layouts/Seller";
+import { Container } from "../../components/Container";
+import { getProductImage, getProductPrice } from "../../utils/product.util";
+import ProductCard from "../../components/ProductsCardSeller";
 import { ProductsContainer } from "./products";
 import tw, { styled } from "twin.macro";
 

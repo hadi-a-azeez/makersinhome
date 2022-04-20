@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "../pages/seller/css/dashboard.module.css";
+import styles from "../pages/css/dashboard.module.css";
 import { Stack } from "@chakra-ui/react";
 import WhatsappLogo from "../assets/logo-whatsapp.svg";
 import ReactGA from "react-ga";

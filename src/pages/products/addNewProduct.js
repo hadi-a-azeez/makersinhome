@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "../css/addNewProduct.module.css";
-import { getCategoriesAPI } from "../../../api/sellerCategoryAPI";
+import { getCategoriesAPI } from "../../api/sellerCategoryAPI";
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../../../components/labelHeader";
-import { productImageCompresser } from "../../../utils/imageCompresser";
-import { useForm } from "../../../components/useForm";
+import LabelHeader from "../../components/labelHeader";
+import { productImageCompresser } from "../../utils/imageCompresser";
+import { useForm } from "../../components/useForm";
 import {
   Badge,
   Box,
@@ -14,9 +14,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import { addProductAPI } from "../../../api/sellerProductAPI";
+import { addProductAPI } from "../../api/sellerProductAPI";
 import { SmallCloseIcon, AddIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
-import SellerPageLayout from "../../../layouts/Seller";
+import SellerPageLayout from "../../layouts/Seller";
 import {
   Input,
   Textarea,
@@ -33,9 +33,9 @@ import {
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import FocusLock from "@chakra-ui/focus-lock";
-import { uploadProductImageDO } from "../../../api/imageUploadAPI";
+import { uploadProductImageDO } from "../../api/imageUploadAPI";
 import tw, { styled } from "twin.macro";
-import { Container } from "../../../components/Container";
+import { Container } from "../../components/Container";
 import AddNewCategoryDrawer from "../categories/addCategoryModel";
 
 const AddNewProduct = (props) => {

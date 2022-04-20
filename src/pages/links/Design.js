@@ -8,8 +8,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { updateSettings } from "../../../api/sellerAccountAPI";
-import { getLinksAPI } from "../../../api/sellerLinksAPI";
+import { updateSettings } from "../../api/sellerAccountAPI";
+import { getLinksAPI } from "../../api/sellerLinksAPI";
 
 const Design = () => {
   const [selectedTheme, setSelectedTheme] = useState("");

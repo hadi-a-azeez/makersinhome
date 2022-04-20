@@ -14,11 +14,11 @@ import tw, { styled } from "twin.macro";
 import {
   deleteCategoryAPI,
   getCategoriesAPI,
-} from "../../../api/sellerCategoryAPI";
+} from "../../api/sellerCategoryAPI";
 import CategoryCard from "./CategoryCard";
-import SellerPageLayout from "../../../layouts/Seller";
+import SellerPageLayout from "../../layouts/Seller";
 import styles from "../css/categories.module.css";
-import { Container } from "../../../components/Container";
+import { Container } from "../../components/Container";
 import AddNewCategoryDrawer from "./addCategoryModel";
 
 const CategoriesContainer = styled.div`

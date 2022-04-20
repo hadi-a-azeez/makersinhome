@@ -9,8 +9,8 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
-import { deleteLinkAPI, updateLinkAPI } from "../../../api/sellerLinksAPI";
-import DrawerMain from "../../../components/DrawerMain";
+import { deleteLinkAPI, updateLinkAPI } from "../../api/sellerLinksAPI";
+import DrawerMain from "../../components/DrawerMain";
 
 const Drawers = ({
   setIsEditDrawer,

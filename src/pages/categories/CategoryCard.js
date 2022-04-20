@@ -1,7 +1,7 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
 import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
-import Ellipse from "../../../assets/ellipse_outline.svg";
+import Ellipse from "../../assets/ellipse_outline.svg";
 import { useHistory } from "react-router-dom";
 
 const Card = styled.div`

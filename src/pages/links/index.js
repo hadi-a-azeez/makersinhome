@@ -1,7 +1,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import React from "react";
-import { Container } from "../../../components/Container";
-import SellerPageLayout from "../../../layouts/Seller";
+import { Container } from "../../components/Container";
+import SellerPageLayout from "../../layouts/Seller";
 import Design from "./Design";
 import Links from "./Links";
 const LinksMain = () => {

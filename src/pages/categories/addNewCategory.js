@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "../css/addNewCategory.module.css";
 
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../../../components/labelHeader";
+import LabelHeader from "../../components/labelHeader";
 import {
-  updateCatogoriesAPI,
+  addCatogoriesAPI,
   getParentCategoriesApi,
-  getSingleCategoryAPI,
-} from "../../../api/sellerCategoryAPI";
+} from "../../api/sellerCategoryAPI";
 import {
   Input,
   Button,
@@ -17,41 +16,40 @@ import {
   Select,
   Box,
 } from "@chakra-ui/react";
-import { useForm } from "../../../components/useForm";
-import SellerPageLayout from "../../../layouts/Seller";
+import SellerPageLayout from "../../layouts/Seller";
 import tw, { styled } from "twin.macro";
-import { Container } from "../../../components/Container";
+import { Container } from "../../components/Container";
 
-const AddNewCategory = (props) => {
-  const [parentCategoriesData, setparentCategoriesData] = useState([]);
-  const [singleCategoryData, setSingleCategoryData, updateSingleCategory] =
-    useForm({});
-
+const AddNewCategory = () => {
+  const [categoriesArray, setCategoriesArray] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [newCategory, setNewCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isValidated, setIsValidated] = useState(true);
   let history = useHistory();
   const toast = useToast();
-  const categoryId = props.match.params.category_id;
 
   useEffect(() => {
     const getCategoriesData = async () => {
-      const responseParentCategory = await getParentCategoriesApi();
-      setparentCategoriesData(responseParentCategory.data.data);
-      const responseSingleCategory = await getSingleCategoryAPI(categoryId);
-      console.log("cat Data", responseSingleCategory);
-      setSingleCategoryData(responseSingleCategory.data.data);
+      const Data = await getParentCategoriesApi();
+      console.log(Data);
+      setCategoriesArray(Data.data.data);
     };
     getCategoriesData();
   }, []);
 
+  const handleCategoryClick = (id) => {
+    setSelected(id);
+  };
+
   const validation = () => {
-    if (singleCategoryData.cat_parent.length === 0) {
+    if (selected.length === 0) {
       setErrorMessage("Select a parent category");
       setIsValidated(false);
       return false;
     }
-    if (singleCategoryData.cat_name.length === 0) {
+    if (newCategory.length === 0) {
       setErrorMessage("Enter a category name");
       setIsValidated(false);
       return false;
@@ -64,11 +62,11 @@ const AddNewCategory = (props) => {
     let isValidate = validation();
     if (isValidate) {
       setIsLoading(true);
-      const response = await updateCatogoriesAPI(singleCategoryData);
+      const response = await addCatogoriesAPI(newCategory, selected);
       setIsLoading(false);
       toast({
-        title: "Category Updated.",
-        description: "Category updated successfully.",
+        title: "New Category added.",
+        description: "Category added successfully.",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -81,7 +79,7 @@ const AddNewCategory = (props) => {
 
   return (
     <>
-      <SellerPageLayout label="Edit Category" isBackButton={true}>
+      <SellerPageLayout label="Add Category" isBackButton={true}>
         <Container>
           {!isValidated && (
             <Box
@@ -99,16 +97,17 @@ const AddNewCategory = (props) => {
           <FormControl isRequired w="90%" mt="4">
             <FormLabel>Parent category</FormLabel>
             <Select
-              name="cat_parent"
+              name="parent category"
+              id="parentcategory"
               variant="filled"
               size="lg"
-              value={singleCategoryData.cat_parent || ""}
-              onChange={updateSingleCategory}
+              defaultValue={"DEFAULT"}
+              onChange={(e) => handleCategoryClick(e.target.value)}
             >
               <option value="DEFAULT" disabled>
                 parent category
               </option>
-              {parentCategoriesData.map((item, index) => (
+              {categoriesArray.map((item, index) => (
                 <option value={item.id} key={index}>
                   {item.cat_name}
                 </option>
@@ -121,10 +120,8 @@ const AddNewCategory = (props) => {
               type="text"
               variant="filled"
               size="lg"
-              name="cat_name"
-              value={singleCategoryData.cat_name || ""}
               placeholder="Category name"
-              onChange={updateSingleCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
             />
           </FormControl>
           <Button
@@ -137,7 +134,7 @@ const AddNewCategory = (props) => {
             isLoading={isLoading}
             onClick={handleSubmit}
           >
-            UPDATE CATEGORY
+            ADD CATEGORY
           </Button>
 
           <div className={styles.blank}></div>

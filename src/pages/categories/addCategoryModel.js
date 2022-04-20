@@ -11,8 +11,8 @@ import React, { useEffect, useState } from "react";
 import {
   addCatogoriesAPI,
   getParentCategoriesApi,
-} from "../../../api/sellerCategoryAPI";
-import DrawerMain from "../../../components/DrawerMain";
+} from "../../api/sellerCategoryAPI";
+import DrawerMain from "../../components/DrawerMain";
 import styles from "../css/addNewCategory.module.css";
 
 const AddNewCategoryDrawer = ({

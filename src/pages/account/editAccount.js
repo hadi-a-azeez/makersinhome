@@ -14,13 +14,13 @@ import { v4 as uuidv4 } from "uuid";
 import {
   getStoreInfoAPI,
   uploadProfileImageAPI,
-} from "../../../api/sellerAccountAPI";
-import { updateStoreAPI } from "../../../api/sellerStoreAPI";
-import { Container } from "../../../components/Container";
-import { useForm } from "../../../components/useForm";
-import { profileImagesRoot } from "../../../config";
-import SellerPageLayout from "../../../layouts/Seller";
-import { compressSingleImage } from "../../../utils/imageCompresser";
+} from "../../api/sellerAccountAPI";
+import { updateStoreAPI } from "../../api/sellerStoreAPI";
+import { Container } from "../../components/Container";
+import { useForm } from "../../components/useForm";
+import { profileImagesRoot } from "../../config";
+import SellerPageLayout from "../../layouts/Seller";
+import { compressSingleImage } from "../../utils/imageCompresser";
 import styles from "../css/editAccount.module.css";
 
 const EditAccount = () => {

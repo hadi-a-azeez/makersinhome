@@ -9,22 +9,22 @@ import {
 import GenPassWordLink from "./pages/client/genPasswordLink";
 import PasswordReset from "./pages/client/password";
 import Payment from "./pages/payment";
-import Account from "./pages/seller/account/account";
-import EditAccount from "./pages/seller/account/editAccount";
-import EditSettings from "./pages/seller/account/editSettings";
-import SignIn from "./pages/seller/account/signin";
-import Signup from "./pages/seller/account/signup";
-import AddNewCategory from "./pages/seller/categories/addNewCategory";
-import Categories from "./pages/seller/categories/categories";
-import EditCategory from "./pages/seller/categories/editCategory";
-import Links from "./pages/seller/links";
-import AddNewProduct from "./pages/seller/products/addNewProduct";
-import InstagramImport from "./pages/seller/products/instagramImport";
-import ProductEdit from "./pages/seller/products/productEdit";
-import Products from "./pages/seller/products/products";
-import ProductsByCategory from "./pages/seller/products/productsByCategory";
-import Dashboard from "./pages/seller/store/dashboard";
-import StoreInfo from "./pages/seller/store/storeInfo";
+import Account from "./pages/account/account";
+import EditAccount from "./pages/account/editAccount";
+import EditSettings from "./pages/account/editSettings";
+import SignIn from "./pages/account/signin";
+import Signup from "./pages/account/signup";
+import AddNewCategory from "./pages/categories/addNewCategory";
+import Categories from "./pages/categories/categories";
+import EditCategory from "./pages/categories/editCategory";
+import Links from "./pages/links";
+import AddNewProduct from "./pages/products/addNewProduct";
+import InstagramImport from "./pages/products/instagramImport";
+import ProductEdit from "./pages/products/productEdit";
+import Products from "./pages/products/products";
+import ProductsByCategory from "./pages/products/productsByCategory";
+import Dashboard from "./pages/store/dashboard";
+import StoreInfo from "./pages/store/storeInfo";
 import { UserContextProvider } from "./utils/useUser";
 
 const App = () => {
