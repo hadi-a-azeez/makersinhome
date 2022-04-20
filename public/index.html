@@ -3,26 +3,29 @@
 
 <head>
   <meta charset="utf-8" />
-<!-- Primary Meta Tags -->
-<title>Saav - Create Your FREE Web Store</title>
-<meta name="title" content="Saav - Create Your FREE Web Store">
-<meta name="description" content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
-<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192apple.png" />
+  <!-- Primary Meta Tags -->
+  <title>Saav - Create Your FREE Web Store</title>
+  <meta name="title" content="Saav - Create Your FREE Web Store">
+  <meta name="description"
+    content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192apple.png" />
 
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://app.saav.in/">
-<meta property="og:title" content="Saav - Create Your FREE Web Store">
-<meta property="og:description" content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
-<meta property="og:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://app.saav.in/">
+  <meta property="og:title" content="Saav - Create Your FREE Web Store">
+  <meta property="og:description"
+    content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
+  <meta property="og:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://app.saav.in/">
-<meta property="twitter:title" content="Saav - Create Your FREE Web Store">
-<meta property="twitter:description" content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
-<meta property="twitter:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://app.saav.in/">
+  <meta property="twitter:title" content="Saav - Create Your FREE Web Store">
+  <meta property="twitter:description"
+    content="Saav is a simple app that lets you create your own online store easily. Launch your online store and start receive orders today for free.">
+  <meta property="twitter:image" content="https://i.ibb.co/BBjTHRx/Saav-1.png">
 
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -60,19 +63,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        console.log(window.location.pathname.startsWith('/app'),"path")
-        if(window.location.pathname.startsWith('/app')||window.location.pathname.startsWith('/login' )){
+  <script>
+    if ('serviceWorker' in navigator) {
+      if (window.location.pathname.startsWith('/app') || window.location.pathname.startsWith('/login')) {
         window.addEventListener('load', () => {
-          console.log(window.location.pathname)
           navigator.serviceWorker.register('https://app.saav.in/sw.js')
             .then((reg) => console.log('Success: ', reg.scope))
             .catch((err) => console.log('Failure: ', err));
         })
       }
-      }
-    </script>
+    }
+  </script>
 </body>
 
 </html>
