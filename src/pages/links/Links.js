@@ -16,7 +16,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { addLink, getLinksAPI, reorderLinks } from "../../api/sellerLinksAPI";
 import EmptyLinksImage from "../../assets/empty_links.png";
 import { Container } from "../../components/Container";
-import copyText from "../../components/copyText";
+import copyText from "../../utils/copyText";
 import LinkItem from "../../components/LinkItem";
 import Drawers from "./Drawers";
 

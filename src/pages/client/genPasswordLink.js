@@ -2,11 +2,11 @@ import { Button } from "@chakra-ui/button";
 import { FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Heading, Stack } from "@chakra-ui/layout";
-import React, { useState, useEffect } from "react";
-import Header from "../../components/header";
 import CryptoJS from "crypto-js";
-import copyText from "../../components/copyText";
 import date from "date-and-time";
+import React, { useState } from "react";
+import copyText from "../../utils/copyText";
+import Header from "../../components/header";
 
 const GenPassWordLink = () => {
   const [phone, setPhone] = useState();

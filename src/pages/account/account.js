@@ -1,42 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "../css/account.module.css";
-import { Link, useHistory } from "react-router-dom";
-import { getStoreInfoAPI } from "../../api/sellerAccountAPI";
-import Placeholder from "../../assets/placeholder.png";
-import { profileImagesRoot } from "../../config";
-
+import FocusLock from "@chakra-ui/focus-lock";
+import { CloseIcon } from "@chakra-ui/icons";
 import {
-  Button,
   AlertDialog,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogContent,
   AlertDialogOverlay,
-  Stack,
-  Image,
+  Button,
   Flex,
-  SkeletonCircle,
-  SkeletonText,
-  Box,
   Heading,
-  Text,
   IconButton,
+  Image,
+  SkeletonText,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
-import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-import StoreFrontIcon from "../../assets/storefront-outline.svg";
-import SettingsIcon from "../../assets/settings-outline.svg";
-
-import ContactUs from "../../assets/call_outline.svg";
-import AboutUs from "../../assets/about_outline.svg";
-import LogOut from "../../assets/logout_outline.svg";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { CloseIcon } from "@chakra-ui/icons";
-import FocusLock from "@chakra-ui/focus-lock";
-import SellerPageLayout from "../../layouts/Seller";
-
+import { getStoreInfoAPI } from "../../api/sellerAccountAPI";
+import AboutUs from "../../assets/about_outline.svg";
+import ContactUs from "../../assets/call_outline.svg";
+import WhatsappLogo from "../../assets/logo-whatsapp.svg";
+import LogOut from "../../assets/logout_outline.svg";
+import Placeholder from "../../assets/placeholder.png";
+import SettingsIcon from "../../assets/settings-outline.svg";
+import StoreFrontIcon from "../../assets/storefront-outline.svg";
 import { Container } from "../../components/Container";
+import { profileImagesRoot } from "../../config";
+import SellerPageLayout from "../../layouts/Seller";
+import styles from "../css/account.module.css";
 
 const Account = () => {
   const [storeInfo, setStoreInfo] = useState({});

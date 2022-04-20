@@ -10,7 +10,7 @@ import VisibleIcon from "../../assets/eye.svg";
 import CategoriesIcon from "../../assets/gridFilled.svg";
 import ProductsIcon from "../../assets/layersFilled.svg";
 import WhatsappLogo from "../../assets/logo-whatsapp.svg";
-import copyText from "../../components/copyText";
+import copyText from "../../utils/copyText";
 import MetricsCard from "../../components/MetricsCard";
 import Nux from "../../components/nux/index";
 import PwaInstall from "../../components/PwaInstall";
