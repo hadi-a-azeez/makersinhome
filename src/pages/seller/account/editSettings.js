@@ -3,12 +3,11 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Spinner,
   Switch,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Loader from "react-loader-spinner";
-import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { getStoreInfoAPI, updateSettings } from "../../../api/sellerAccountAPI";
 import { Container } from "../../../components/Container";
 import LabelHeader from "../../../components/labelHeader";
@@ -62,12 +61,11 @@ const EditAccount = () => {
       <Container>
         {isLoading ? (
           <div className={styles.loaderwraper}>
-            <Loader
-              type="Oval"
-              color="#00b140"
-              height={50}
-              width={50}
-              visible={isLoading}
+            <Spinner
+              thickness="5px"
+              emptyColor="gray.200"
+              color="green.500"
+              size="xl"
             />
           </div>
         ) : (

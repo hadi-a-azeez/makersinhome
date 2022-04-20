@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/editAccount.module.css";
-import Loader from "react-loader-spinner";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Spinner,
+  Switch,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import LabelHeader from "../../../components/labelHeader";
-import { useForm } from "../../../components/useForm";
-import { updateStoreAPI } from "../../../api/sellerStoreAPI";
-import { profileImagesRoot } from "../../../config";
 import {
   getStoreInfoAPI,
   uploadProfileImageAPI,
 } from "../../../api/sellerAccountAPI";
-import {
-  Input,
-  Textarea,
-  Button,
-  FormControl,
-  FormLabel,
-  Box,
-  useToast,
-  Switch,
-} from "@chakra-ui/react";
-import { compressSingleImage } from "../../../utils/imageCompresser";
-import SellerPageLayout from "../../../layouts/Seller";
-import tw, { styled } from "twin.macro";
+import { updateStoreAPI } from "../../../api/sellerStoreAPI";
 import { Container } from "../../../components/Container";
+import { useForm } from "../../../components/useForm";
+import { profileImagesRoot } from "../../../config";
+import SellerPageLayout from "../../../layouts/Seller";
+import { compressSingleImage } from "../../../utils/imageCompresser";
+import styles from "../css/editAccount.module.css";
 
 const EditAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -99,12 +96,11 @@ const EditAccount = () => {
       <Container>
         {isLoading ? (
           <div className={styles.loaderwraper}>
-            <Loader
-              type="Oval"
-              color="#00b140"
-              height={50}
-              width={50}
-              visible={isLoading}
+            <Spinner
+              thickness="5px"
+              emptyColor="gray.200"
+              color="green.500"
+              size="xl"
             />
           </div>
         ) : (

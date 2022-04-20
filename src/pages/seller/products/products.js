@@ -1,6 +1,5 @@
 import { Button, Skeleton } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 import {

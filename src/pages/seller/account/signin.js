@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "../css/signup.module.css";
 import { useHistory } from "react-router-dom";
 import { signinUserAPI } from "../../../api/sellerAccountAPI";
-import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {
   FormControl,
   FormLabel,

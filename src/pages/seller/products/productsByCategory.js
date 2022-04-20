@@ -5,7 +5,6 @@ import {
   getProductsApi,
   updateProductStock,
 } from "../../../api/sellerProductAPI";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Button, Skeleton } from "@chakra-ui/react";
 import SellerPageLayout from "../../../layouts/Seller";
 import { Container } from "../../../components/Container";

@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import "../../../../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {
   deleteCategoryAPI,
   getCategoriesAPI,

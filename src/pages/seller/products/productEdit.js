@@ -23,6 +23,7 @@ import {
   Image,
   Input,
   Select,
+  Spinner,
   Stack,
   Switch,
   Text,
@@ -30,8 +31,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -285,12 +284,11 @@ const ProductEdit = (props) => {
         {testCompress !== "" && <img src={testCompress} />}
         {isLoading ? (
           <div className={styles.loaderwraper}>
-            <Loader
-              type="Oval"
-              color="#00b140"
-              height={50}
-              width={50}
-              visible={isLoading}
+            <Spinner
+              thickness="5px"
+              emptyColor="gray.200"
+              color="green.500"
+              size="xl"
             />
           </div>
         ) : (
