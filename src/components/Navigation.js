@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import tw, { styled } from "twin.macro";
+import LinkInBioIcon from "../assets/albums-outline.svg";
+import LinkInBioIconFilled from "../assets/albums.svg";
+import CategoriesIcon from "../assets/grid-outline.svg";
+import CategoriesIconFilled from "../assets/gridFilled.svg";
 import HomeIcon from "../assets/home-outline.svg";
 import HomeIconFilled from "../assets/homeFilled.svg";
 import ProductsIcon from "../assets/layers-outline.svg";
 import ProductsIconFilled from "../assets/layersFilled.svg";
-import CategoriesIcon from "../assets/grid-outline.svg";
-import CategoriesIconFilled from "../assets/gridFilled.svg";
+import Placeholder from "../assets/person-outline.svg";
 import SettingsIcon from "../assets/settings-outline.svg";
 import SettingsIconFilled from "../assets/settings.svg";
-import { useUser } from "../utils/useUser";
 import { profileImagesRoot } from "../config";
-import Placeholder from "../assets/person-outline.svg";
-import LinkInBioIcon from "../assets/albums-outline.svg";
-import LinkInBioIconFilled from "../assets/albums.svg";
+import { useUser } from "../utils/useUser";
 
 const Container = styled.div`
   ${tw`w-full bg-white lg:min-h-screen sm:h-auto z-10 border-t `}
@@ -69,25 +69,21 @@ const Item = styled.div`
   }
 `;
 
+const IconContainer = styled.div`
+  width: 27px;
+  height: 27px;
+  position: relative;
+  @media (min-width: 768px) {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
 const Icon = styled.img`
   width: 27px;
   height: 27px;
   filter: invert(14%) sepia(49%) saturate(0%) hue-rotate(236deg) brightness(91%)
     contrast(94%);
-  animation: scale-in-center 0.2s ease-in;
-
-  @keyframes scale-in-center {
-    0% {
-      -webkit-transform: scale(0);
-      transform: scale(0);
-      opacity: 1;
-    }
-    100% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
 
   ${({ selected }) =>
     selected &&
@@ -146,6 +142,7 @@ const NavItem = ({
     <Link to={to}>
       <Item selected={selected}>
         <Icon src={selected ? iconFilled : icon} selected={selected} />
+
         <Text selected={selected}>{label}</Text>
       </Item>
     </Link>

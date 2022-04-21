@@ -29,7 +29,6 @@ const SellerPageLayout = ({ children }) => {
         <Navigation />
       </LeftContainer>
       <RightContainer>
-        {/* <HeaderAdmin /> */}
         <LabelHeader
           label={title}
           isBackButton={isBackButton}
