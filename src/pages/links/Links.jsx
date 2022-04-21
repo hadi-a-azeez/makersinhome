@@ -13,11 +13,11 @@ import {
 import { produce } from "immer";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { addLink, getLinksAPI, reorderLinks } from "api/sellerLinksAPI";
-import EmptyLinksImage from "assets/empty_links.png";
-import { Container } from "components/Container";
-import copyText from "utils/copyText";
-import LinkItem from "components/LinkItem";
+import { addLink, getLinksAPI, reorderLinks } from "@/api/sellerLinksAPI";
+import EmptyLinksImage from "@/assets/empty_links.png";
+import { Container } from "@/components/Container";
+import copyText from "@/utils/copyText";
+import LinkItem from "@/components/LinkItem";
 import Drawers from "./Drawers";
 
 const Links = () => {

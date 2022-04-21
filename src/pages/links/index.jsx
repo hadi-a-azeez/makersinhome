@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs";
 import React, { useEffect } from "react";
-import { useHeader } from "utils/useHeader";
+import { useHeader } from "@/utils/useHeader";
 import Design from "./Design";
 import Links from "./Links";
 const LinksMain = () => {

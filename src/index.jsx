@@ -6,7 +6,6 @@ import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 
 import App from "./App";
-import GlobalStyles from "./utils/GlobalStyles";
 
 Sentry.init({
   dsn: "https://175078a56e314a2a8624dc83e3ea199b@o975312.ingest.sentry.io/5931292",
@@ -18,7 +17,6 @@ Sentry.init({
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <GlobalStyles />
       <App />
     </ChakraProvider>
   </React.StrictMode>,
