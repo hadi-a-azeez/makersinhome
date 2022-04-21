@@ -5,6 +5,10 @@ export const HeadingContext = createContext();
 export const HeaderContextProvider = ({ children }) => {
   const [header, setHeader] = useState({});
 
+  useEffect(() => {
+    document.title = `Saav | ${header.title}` || "Saav | App";
+  }, [header.title]);
+
   const values = {
     header,
     setHeader,

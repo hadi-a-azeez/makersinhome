@@ -13,7 +13,7 @@ import PwaInstall from "@/components/PwaInstall";
 import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
 import copyText from "@/utils/copyText";
-import { useHeader } from "@/utils/useHeader";
+import { useHeader } from "@/utils/hooks/useHeader";
 import styles from "../css/dashboard.module.css";
 
 const Container = styled.div`

@@ -25,9 +25,9 @@ import Products from "./pages/products/products";
 import ProductsByCategory from "./pages/products/productsByCategory";
 import Dashboard from "./pages/store/dashboard";
 import StoreInfo from "./pages/store/storeInfo";
-import { UserContextProvider } from "./utils/useUser";
+import { UserContextProvider } from "@/utils/hooks/useUser";
 import SellerPageLayout from "@/layouts/Seller";
-import { HeaderContextProvider } from "@/utils/useHeader";
+import { HeaderContextProvider } from "@/utils/hooks/useHeader";
 
 const App = () => {
   useEffect(() => {

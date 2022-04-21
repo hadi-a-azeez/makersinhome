@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getUserInfo } from "../api/sellerAccountAPI";
+import { getUserInfo } from "@/api/sellerAccountAPI";
 
 export const UserContext = createContext();
 

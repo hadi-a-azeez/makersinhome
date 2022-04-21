@@ -30,7 +30,7 @@ import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import tw, { styled } from "twin.macro";
-import { useHeader } from "@/utils/useHeader";
+import { useHeader } from "@/utils/hooks/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import {
   deleteProductImageDO,
@@ -43,7 +43,7 @@ import {
   updateProductAPI,
 } from "../../api/sellerProductAPI";
 import { Container } from "../../components/Container";
-import { useForm } from "../../components/useForm";
+import { useForm } from "../../utils/hooks/useForm";
 import { productImagesRoot } from "../../config";
 import { productImageCompresser } from "../../utils/imageCompresser";
 import AddNewCategoryDrawer from "../categories/addCategoryModel";

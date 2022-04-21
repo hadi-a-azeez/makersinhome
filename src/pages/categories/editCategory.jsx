@@ -9,14 +9,14 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useHeader } from "@/utils/useHeader";
+import { useHeader } from "@/utils/hooks/useHeader";
 import {
   getParentCategoriesApi,
   getSingleCategoryAPI,
   updateCatogoriesAPI,
 } from "../../api/sellerCategoryAPI";
 import { Container } from "../../components/Container";
-import { useForm } from "../../components/useForm";
+import { useForm } from "../../utils/hooks/useForm";
 import styles from "../css/addNewCategory.module.css";
 
 const AddNewCategory = (props) => {

@@ -12,7 +12,7 @@ import {
   InputGroup,
   InputLeftAddon,
 } from "@chakra-ui/react";
-import { useForm } from "../../components/useForm";
+import { useForm } from "../../utils/hooks/useForm";
 import { apiRoot } from "../../config";
 import axios from "axios";
 import { useHistory } from "react-router-dom";

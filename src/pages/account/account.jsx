@@ -20,7 +20,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { useHeader } from "@/utils/useHeader";
+import { useHeader } from "@/utils/hooks/useHeader";
 import { getStoreInfoAPI } from "../../api/sellerAccountAPI";
 import AboutUs from "../../assets/about_outline.svg";
 import ContactUs from "../../assets/call_outline.svg";

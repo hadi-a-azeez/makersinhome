@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useHeader } from "@/utils/useHeader";
+import { useHeader } from "@/utils/hooks/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import {
   getStoreInfoAPI,
@@ -18,7 +18,7 @@ import {
 } from "../../api/sellerAccountAPI";
 import { updateStoreAPI } from "../../api/sellerStoreAPI";
 import { Container } from "../../components/Container";
-import { useForm } from "../../components/useForm";
+import { useForm } from "../../utils/hooks/useForm";
 import { profileImagesRoot } from "../../config";
 import { compressSingleImage } from "../../utils/imageCompresser";
 import styles from "../css/editAccount.module.css";
