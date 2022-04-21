@@ -30,14 +30,14 @@
 }
 
 .product-card {
-  /* ${tw`w-full grid bg-gray-100 rounded-lg p-4 gap-2 cursor-pointer`} */
   width: "100%";
   display: grid;
-  background-color: rgb(243, 244, 246);
+  /* background-color: rgb(243, 244, 246); */
   border-radius: 7px;
+  /* border:1px solid #d4d4d4; */
   padding: 10px;
   cursor: pointer;
   gap: 10px;
   height: "auto;";
   grid-template-columns: 100px 1fr;
-}
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;}

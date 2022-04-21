@@ -1,13 +1,8 @@
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { IconButton } from "@chakra-ui/react";
 import React from "react";
-import styles from "./labelHeader.module.css";
-import {
-  ChevronLeftIcon,
-  ArrowBackIcon,
-  CloseIcon,
-  DeleteIcon,
-} from "@chakra-ui/icons";
-import { IconButton, Button, Box } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import styles from "./labelHeader.module.css";
 
 const LabelHeader = ({ label, isBackButton, rightIcon = null }) => {
   const history = useHistory();

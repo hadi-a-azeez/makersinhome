@@ -31,7 +31,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: #f4f5f6;
+    background: #f7f7f7e4;
+    /* border-right: 1.5px solid #d4d4d4; */
+    box-shadow: rgba(224, 224, 224, 0.2) -10px 0px 24px inset;
   }
 `;
 
