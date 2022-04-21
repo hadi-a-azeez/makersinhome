@@ -1,10 +1,5 @@
 import FocusLock from "@chakra-ui/focus-lock";
-import {
-  AddIcon,
-  DeleteIcon,
-  EditIcon,
-  SmallCloseIcon,
-} from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -35,6 +30,7 @@ import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import tw, { styled } from "twin.macro";
+import { useHeader } from "utils/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import {
   deleteProductImageDO,
@@ -49,11 +45,9 @@ import {
 import { Container } from "../../components/Container";
 import { useForm } from "../../components/useForm";
 import { productImagesRoot } from "../../config";
-import SellerPageLayout from "../../layouts/Seller";
 import { productImageCompresser } from "../../utils/imageCompresser";
 import AddNewCategoryDrawer from "../categories/addCategoryModel";
 import styles from "../css/productDetailed.module.css";
-import { useHeader } from "utils/useHeader";
 
 const ImageGrid = styled.div`
   ${tw`grid gap-2 mb-2`}

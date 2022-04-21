@@ -11,15 +11,15 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
+import { useHeader } from "utils/useHeader";
 import {
   deleteCategoryAPI,
   getCategoriesAPI,
 } from "../../api/sellerCategoryAPI";
-import CategoryCard from "./CategoryCard";
-import SellerPageLayout from "../../layouts/Seller";
-import styles from "../css/categories.module.css";
 import { Container } from "../../components/Container";
+import styles from "../css/categories.module.css";
 import AddNewCategoryDrawer from "./addCategoryModel";
+import CategoryCard from "./CategoryCard";
 
 const CategoriesContainer = styled.div`
   ${tw`w-full grid gap-4`}
@@ -49,8 +49,10 @@ const Categories = () => {
   const [categoryDeleteId, setCategoryDeleteId] = useState(); //for accessing category id in modal
   const cancelRef = useRef();
   const [isAddCategoryDrawerOpen, setIsAddCategoryDrawerOpen] = useState(false);
+  const { setHeader } = useHeader();
 
   useEffect(() => {
+    setHeader({ title: "Categories" });
     fetchCategories();
   }, []);
 
@@ -72,7 +74,7 @@ const Categories = () => {
   };
 
   return (
-    <SellerPageLayout label="Categories">
+    <>
       <AddNewCategoryDrawer
         isDrawerOpen={isAddCategoryDrawerOpen}
         setIsDrawerOpen={setIsAddCategoryDrawerOpen}
@@ -154,7 +156,7 @@ const Categories = () => {
           </AlertDialogOverlay>
         </AlertDialog>
       </Container>
-    </SellerPageLayout>
+    </>
   );
 };
 

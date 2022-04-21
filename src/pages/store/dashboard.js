@@ -1,7 +1,5 @@
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import { Box, SimpleGrid, Stack, Text, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import tw, { styled } from "twin.macro";
 import { getUserInfo } from "api/sellerAccountAPI";
 import { getCountAPI } from "api/sellerProductAPI";
 import MessagesIcon from "assets/chatbubble-ellipses.svg";
@@ -12,10 +10,11 @@ import WhatsappLogo from "assets/logo-whatsapp.svg";
 import MetricsCard from "components/MetricsCard";
 import Nux from "components/nux/index";
 import PwaInstall from "components/PwaInstall";
-import SellerPageLayout from "layouts/Seller";
+import React, { useEffect, useState } from "react";
+import tw, { styled } from "twin.macro";
 import copyText from "utils/copyText";
-import styles from "../css/dashboard.module.css";
 import { useHeader } from "utils/useHeader";
+import styles from "../css/dashboard.module.css";
 
 const Container = styled.div`
   ${tw`flex flex-col items-center w-full bg-white`}
@@ -150,14 +149,14 @@ const Dashboard = () => {
               title="Products"
               value={countData?.products_count}
               icon={ProductsIcon}
-              link=""
+              link="/app/products"
             />
 
             <MetricsCard
               title="Categories"
               value={countData?.cat_count}
               icon={CategoriesIcon}
-              link=""
+              link="/app/categories"
             />
           </SimpleGrid>
         </Box>

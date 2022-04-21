@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/addNewCategory.module.css";
-
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import LabelHeader from "../../components/labelHeader";
+import { useHeader } from "utils/useHeader";
 import {
   addCatogoriesAPI,
   getParentCategoriesApi,
 } from "../../api/sellerCategoryAPI";
-import {
-  Input,
-  Button,
-  FormControl,
-  FormLabel,
-  useToast,
-  Select,
-  Box,
-} from "@chakra-ui/react";
-import SellerPageLayout from "../../layouts/Seller";
-import tw, { styled } from "twin.macro";
 import { Container } from "../../components/Container";
-import { useHeader } from "utils/useHeader";
+import styles from "../css/addNewCategory.module.css";
 
 const AddNewCategory = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);

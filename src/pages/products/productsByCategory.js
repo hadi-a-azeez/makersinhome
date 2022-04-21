@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/products.module.css";
-import { useHistory } from "react-router-dom";
-import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import { Button, Skeleton } from "@chakra-ui/react";
-import SellerPageLayout from "../../layouts/Seller";
-import { Container } from "../../components/Container";
-import { getProductImage, getProductPrice } from "../../utils/product.util";
-import ProductCard from "../../components/ProductsCardSeller";
-import { ProductsContainer } from "./products";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 import { useHeader } from "utils/useHeader";
+import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
+import { Container } from "../../components/Container";
+import ProductCard from "../../components/ProductsCardSeller";
+import { getProductImage, getProductPrice } from "../../utils/product.util";
+import styles from "../css/products.module.css";
+import { ProductsContainer } from "./products";
 
 const ButtonContainer = styled.div`
   ${tw`flex flex-row justify-end items-end w-full py-2`}

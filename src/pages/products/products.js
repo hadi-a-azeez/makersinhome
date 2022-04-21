@@ -7,7 +7,6 @@ import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import Empty from "../../assets/empty.svg";
 import { Container } from "../../components/Container";
 import ProductCard from "../../components/ProductsCardSeller";
-import SellerPageLayout from "../../layouts/Seller";
 import isMobile from "../../utils/isMobile";
 import { getProductImage, getProductPrice } from "../../utils/product.util";
 import styles from "../css/products.module.css";

@@ -1,26 +1,23 @@
-import React, { useState, useEffect } from "react";
-import styles from "../css/addNewCategory.module.css";
-
-import { useHistory } from "react-router-dom";
-import LabelHeader from "../../components/labelHeader";
 import {
-  updateCatogoriesAPI,
-  getParentCategoriesApi,
-  getSingleCategoryAPI,
-} from "../../api/sellerCategoryAPI";
-import {
-  Input,
+  Box,
   Button,
   FormControl,
   FormLabel,
-  useToast,
+  Input,
   Select,
-  Box,
+  useToast,
 } from "@chakra-ui/react";
-import { useForm } from "../../components/useForm";
-import SellerPageLayout from "../../layouts/Seller";
-import tw, { styled } from "twin.macro";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useHeader } from "utils/useHeader";
+import {
+  getParentCategoriesApi,
+  getSingleCategoryAPI,
+  updateCatogoriesAPI,
+} from "../../api/sellerCategoryAPI";
 import { Container } from "../../components/Container";
+import { useForm } from "../../components/useForm";
+import styles from "../css/addNewCategory.module.css";
 
 const AddNewCategory = (props) => {
   const [parentCategoriesData, setparentCategoriesData] = useState([]);
@@ -32,9 +29,11 @@ const AddNewCategory = (props) => {
   const [isValidated, setIsValidated] = useState(true);
   let history = useHistory();
   const toast = useToast();
+  const { setHeader } = useHeader();
   const categoryId = props.match.params.category_id;
 
   useEffect(() => {
+    setHeader({ title: "Edit Category", isBackButton: true });
     const getCategoriesData = async () => {
       const responseParentCategory = await getParentCategoriesApi();
       setparentCategoriesData(responseParentCategory.data.data);
@@ -80,70 +79,66 @@ const AddNewCategory = (props) => {
   };
 
   return (
-    <>
-      <SellerPageLayout label="Edit Category" isBackButton={true}>
-        <Container>
-          {!isValidated && (
-            <Box
-              borderRadius="md"
-              bg="tomato"
-              color="white"
-              p="3"
-              w="90%"
-              mb="3"
-              mt="4"
-            >
-              {errorMessage}
-            </Box>
-          )}
-          <FormControl isRequired w="90%" mt="4">
-            <FormLabel>Parent category</FormLabel>
-            <Select
-              name="cat_parent"
-              variant="filled"
-              size="lg"
-              value={singleCategoryData.cat_parent || ""}
-              onChange={updateSingleCategory}
-            >
-              <option value="DEFAULT" disabled>
-                parent category
-              </option>
-              {parentCategoriesData.map((item, index) => (
-                <option value={item.id} key={index}>
-                  {item.cat_name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl isRequired w="90%" mt="4">
-            <FormLabel>Category Name</FormLabel>
-            <Input
-              type="text"
-              variant="filled"
-              size="lg"
-              name="cat_name"
-              value={singleCategoryData.cat_name || ""}
-              placeholder="Category name"
-              onChange={updateSingleCategory}
-            />
-          </FormControl>
-          <Button
-            backgroundColor="#08bd80"
-            colorScheme="green"
-            color="white"
-            mt="4"
-            size="lg"
-            w="90%"
-            isLoading={isLoading}
-            onClick={handleSubmit}
-          >
-            UPDATE CATEGORY
-          </Button>
+    <Container>
+      {!isValidated && (
+        <Box
+          borderRadius="md"
+          bg="tomato"
+          color="white"
+          p="3"
+          w="90%"
+          mb="3"
+          mt="4"
+        >
+          {errorMessage}
+        </Box>
+      )}
+      <FormControl isRequired w="90%" mt="4">
+        <FormLabel>Parent category</FormLabel>
+        <Select
+          name="cat_parent"
+          variant="filled"
+          size="lg"
+          value={singleCategoryData.cat_parent || ""}
+          onChange={updateSingleCategory}
+        >
+          <option value="DEFAULT" disabled>
+            parent category
+          </option>
+          {parentCategoriesData.map((item, index) => (
+            <option value={item.id} key={index}>
+              {item.cat_name}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl isRequired w="90%" mt="4">
+        <FormLabel>Category Name</FormLabel>
+        <Input
+          type="text"
+          variant="filled"
+          size="lg"
+          name="cat_name"
+          value={singleCategoryData.cat_name || ""}
+          placeholder="Category name"
+          onChange={updateSingleCategory}
+        />
+      </FormControl>
+      <Button
+        backgroundColor="#08bd80"
+        colorScheme="green"
+        color="white"
+        mt="4"
+        size="lg"
+        w="90%"
+        isLoading={isLoading}
+        onClick={handleSubmit}
+      >
+        UPDATE CATEGORY
+      </Button>
 
-          <div className={styles.blank}></div>
-        </Container>
-      </SellerPageLayout>
-    </>
+      <div className={styles.blank}></div>
+    </Container>
   );
 };
 

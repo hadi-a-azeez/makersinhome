@@ -258,6 +258,7 @@ const AddNewProduct = (props) => {
           <Text
             color="green.500"
             fontWeight="bold"
+            cursor="pointer"
             onClick={() => setIsCategoryModalOpen(true)}
           >
             Add Category
