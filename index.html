@@ -65,6 +65,9 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   <script>
+    if (global === undefined) {
+      var global = window;
+    }
     if ('serviceWorker' in navigator) {
       if (window.location.pathname.startsWith('/app') || window.location.pathname.startsWith('/login')) {
         window.addEventListener('load', () => {
