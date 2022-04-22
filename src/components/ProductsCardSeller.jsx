@@ -79,7 +79,7 @@ const ProductCard = ({
   };
 
   return (
-    <Link key={id} to={`/app/product_edit/${id}`} className="product-card">
+    <Link key={id} to={`/app/products/${id}`} className="product-card">
       <Image src={image} alt="product" />
       <ContentContainer>
         <Title>{title}</Title>
@@ -113,11 +113,11 @@ const ProductCard = ({
             }}
           />
           <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
-            <FocusLock />
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent w="80%">
               <ModalHeader>Select Type</ModalHeader>
               <Stack direction="column" pl="15px" pr="15px" pb="15px">
+                <FocusLock />
                 <Button
                   leftIcon={<ViewOffIcon />}
                   variant="outline"

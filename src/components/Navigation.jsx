@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import LinkInBioIcon from "../assets/albums-outline.svg";
-import LinkInBioIconFilled from "../assets/albums.svg";
-import CategoriesIcon from "../assets/grid-outline.svg";
-import CategoriesIconFilled from "../assets/gridFilled.svg";
-import HomeIcon from "../assets/home-outline.svg";
-import HomeIconFilled from "../assets/homeFilled.svg";
-import ProductsIcon from "../assets/layers-outline.svg";
-import ProductsIconFilled from "../assets/layersFilled.svg";
-import Placeholder from "../assets/person-outline.svg";
-import SettingsIcon from "../assets/settings-outline.svg";
-import SettingsIconFilled from "../assets/settings.svg";
+import SaavLogoSVG from "assets/ssav_logo.png";
+import LinkInBioIcon from "assets/albums-outline.svg";
+import LinkInBioIconFilled from "assets/albums.svg";
+import CategoriesIcon from "assets/grid-outline.svg";
+import CategoriesIconFilled from "assets/gridFilled.svg";
+import HomeIcon from "assets/home-outline.svg";
+import HomeIconFilled from "assets/homeFilled.svg";
+import ProductsIcon from "assets/layers-outline.svg";
+import ProductsIconFilled from "assets/layersFilled.svg";
+import Placeholder from "assets/person-outline.svg";
+import SettingsIcon from "assets/settings-outline.svg";
+import SettingsIconFilled from "assets/settings.svg";
 import { profileImagesRoot } from "../config";
 import { useUser } from "utils/hooks/useUser";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   ${tw`w-full bg-white lg:min-h-screen sm:h-auto z-10 border-t `}
@@ -46,10 +48,10 @@ const NavContainer = styled.div`
   @media (min-width: 768px) {
     place-items: start;
     width: auto;
-    padding: 1.5rem;
     position: relative;
     bottom: auto;
     display: flex;
+    padding-left: 2rem;
     flex-direction: column;
     height: 100%;
     gap: 5px;
@@ -107,16 +109,39 @@ const Text = styled.h1`
 `;
 
 const ProfileContainer = styled.div`
-  ${tw`w-full flex flex-row  items-center p-4 gap-3 hidden`}
+  ${tw`w-full flex flex-row  items-center pl-12  pb-10 gap-3 hidden`}
   @media (min-width: 768px) {
     display: flex;
   }
+  img {
+    ${tw`bg-white rounded-full `}
+    width: 40px;
+    height: 40px;
+  }
+  h1 {
+    ${tw`font-medium`}
+  }
 `;
 
-const ProfilePicture = styled.img`
-  ${tw`bg-white rounded-full `}
-  width: 40px;
-  height: 40px;
+const SaavLogo = styled.div`
+  cursor: pointer;
+  margin-left: 3rem;
+  padding-bottom: 3rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  img {
+    height: auto;
+    width: 35px;
+  }
+  h2 {
+    padding-left: 8px;
+    font-size: 28px;
+    font-weight: 500;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const NavItem = ({
@@ -129,6 +154,7 @@ const NavItem = ({
 }) => {
   //checking the device
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+
   function handleWindowSizeChange() {
     if (window.innerWidth < 600) setIsMobile(true);
   }
@@ -144,7 +170,6 @@ const NavItem = ({
     <Link to={to}>
       <Item selected={selected}>
         <Icon src={selected ? iconFilled : icon} selected={selected} />
-
         <Text selected={selected}>{label}</Text>
       </Item>
     </Link>
@@ -154,6 +179,7 @@ const NavItem = ({
 const Navigation = () => {
   const { user } = useUser();
   const pathname = useLocation().pathname.split("/")[2];
+  const history = useHistory();
   const navItems = [
     {
       to: "/app/dashboard",
@@ -196,8 +222,17 @@ const Navigation = () => {
 
   return (
     <Container>
+      <SaavLogo onClick={() => history.push("/app/dashboard")}>
+        <img src={SaavLogoSVG} />
+        <h2>Saav</h2>
+      </SaavLogo>
+      <NavContainer>
+        {navItems.map((item) => (
+          <NavItem {...item} key={item.to} />
+        ))}
+      </NavContainer>
       <ProfileContainer>
-        <ProfilePicture
+        <img
           src={
             user?.account_store_image
               ? `${profileImagesRoot}/${user.account_store_image}`
@@ -205,15 +240,8 @@ const Navigation = () => {
           }
           alt="profile"
         />
-        <h1 className="text-base font-normal text-gray-500">
-          {user?.account_store}
-        </h1>
+        <h1>{user?.account_store}</h1>
       </ProfileContainer>
-      <NavContainer>
-        {navItems.map((item) => (
-          <NavItem {...item} key={item.to} />
-        ))}
-      </NavContainer>
     </Container>
   );
 };

@@ -7,7 +7,6 @@ import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import Empty from "../../assets/empty.svg";
 import { Container } from "../../components/Container";
 import ProductCard from "../../components/ProductsCardSeller";
-import isMobile from "../../utils/isMobile";
 import { getProductImage, getProductPrice } from "../../utils/product.util";
 import styles from "../css/products.module.css";
 
@@ -19,17 +18,14 @@ export const ProductsContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   ${tw`flex flex-row justify-end items-end w-full py-2 `}
   @media (max-width: 768px) {
     position: fixed;
-    bottom: 100px;
+    bottom: 75px;
     width: 100%;
     ${tw`justify-center`}
-    z-index: 1000;
-  }
-  @media (min-width: 768px) {
-    display: none;
+    left: 0px;
   }
 `;
 
@@ -43,15 +39,19 @@ const Products = () => {
   useEffect(() => {
     setHeader({
       title: "Products",
-      rightIcon: !isMobile && (
-        <Button
-          onClick={() => history.push("/app/add_product")}
-          bgColor="#08bd80"
-          textColor="#fff"
-          paddingY={3}
-        >
-          ADD PRODUCT
-        </Button>
+      rightIcon: (
+        <ButtonContainer>
+          <Button
+            onClick={() => history.push("/app/products/add")}
+            bgColor="#08bd80"
+            textColor="#fff"
+            paddingY={3}
+            height={{ base: "50px", lg: "40px" }}
+            width={{ base: "90%" }}
+          >
+            ADD PRODUCT
+          </Button>
+        </ButtonContainer>
       ),
     });
     setIsLoading(true);
@@ -105,17 +105,6 @@ const Products = () => {
         </div>
       </div>
       <Container>
-        <ButtonContainer>
-          <Button
-            onClick={() => history.push("/app/add_product")}
-            bgColor="#08bd80"
-            textColor="#fff"
-            paddingY={3}
-          >
-            ADD PRODUCT
-          </Button>
-        </ButtonContainer>
-
         <ProductsContainer>
           {!isLoading ? (
             productsArray.map((item) => (

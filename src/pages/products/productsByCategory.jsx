@@ -1,25 +1,13 @@
 import { Button, Skeleton } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import tw, { styled } from "twin.macro";
 import { useHeader } from "utils/hooks/useHeader";
 import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import { Container } from "../../components/Container";
 import ProductCard from "../../components/ProductsCardSeller";
 import { getProductImage, getProductPrice } from "../../utils/product.util";
 import styles from "../css/products.module.css";
-import { ProductsContainer } from "./products";
-
-const ButtonContainer = styled.div`
-  ${tw`flex flex-row justify-end items-end w-full py-2`}
-  @media (max-width: 768px) {
-    position: fixed;
-    bottom: 100px;
-    width: 100%;
-    ${tw`justify-center`}
-    z-index: 1000;
-  }
-`;
+import { ButtonContainer, ProductsContainer } from "./products";
 
 const Products = (props) => {
   const productsCat = props.match.params.id;
@@ -30,7 +18,22 @@ const Products = (props) => {
   let history = useHistory();
 
   useEffect(() => {
-    setHeader({ title: props.match.params.cat_name, isBackButton: true });
+    setHeader({
+      title: props.match.params.cat_name,
+      isBackButton: true,
+      rightIcon: (
+        <ButtonContainer>
+          <Button
+            onClick={() => history.push("/app/products/add")}
+            bgColor="#08bd80"
+            textColor="#fff"
+            paddingY={3}
+          >
+            ADD PRODUCT
+          </Button>
+        </ButtonContainer>
+      ),
+    });
     setIsLoading(true);
     const getProductsData = async () => {
       const productsData = await getProductsApi(productsCat);
@@ -59,16 +62,6 @@ const Products = (props) => {
 
   return (
     <Container>
-      <ButtonContainer>
-        <Button
-          onClick={() => history.push("/app/add_product")}
-          bgColor="#08bd80"
-          textColor="#fff"
-          paddingY={3}
-        >
-          ADD PRODUCT
-        </Button>
-      </ButtonContainer>
       {isLoading && (
         <>
           <Skeleton height="100px" w="90%" mt="3" borderRadius="9" />

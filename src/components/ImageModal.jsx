@@ -1,17 +1,15 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalBody,
-  Flex,
-  ModalContent,
-  Img,
-  ModalCloseButton,
-  Stack,
   Box,
+  Img,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  Stack,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
-import LazyLoad from "react-lazyload";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import React from "react";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 const ImageModal = ({ image, isImageOpen, onImageClose }) => {
   return (

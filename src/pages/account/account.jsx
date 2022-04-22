@@ -88,13 +88,13 @@ const Account = () => {
         </Flex>
         <hr style={{ height: "1px", width: "80%" }} />
         <div className={styles.nav_container}>
-          <Link to="/app/edit_account" className={styles.link}>
+          <Link to="/app/settings/edit-store-info" className={styles.link}>
             <div className={styles.nav_item}>
               <img src={StoreFrontIcon} alt="w" />
               <h1>Edit Store Info</h1>
             </div>
           </Link>
-          <Link to="/app/edit_settings" className={styles.link}>
+          <Link to="/app/settings/edit" className={styles.link}>
             <div className={styles.nav_item}>
               <img src={SettingsIcon} alt="w" />
               <h1>Store Settings</h1>

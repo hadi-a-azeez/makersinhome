@@ -8,6 +8,7 @@ import {
   Button,
   Skeleton,
 } from "@chakra-ui/react";
+import { ButtonContainer } from "pages/products/products";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
@@ -29,17 +30,6 @@ const CategoriesContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  ${tw`flex flex-row justify-end items-end w-full py-2`}
-  @media (max-width: 768px) {
-    position: fixed;
-    bottom: 100px;
-    width: 100%;
-    ${tw`justify-center`}
-    z-index: 1000;
-  }
-`;
-
 const Categories = () => {
   const [categoriesArray, setCategoriesArray] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +42,23 @@ const Categories = () => {
   const { setHeader } = useHeader();
 
   useEffect(() => {
-    setHeader({ title: "Categories" });
+    setHeader({
+      title: "Categories",
+      rightIcon: (
+        <ButtonContainer>
+          <Button
+            onClick={() => setIsAddCategoryDrawerOpen(true)}
+            bgColor="#08bd80"
+            textColor="#fff"
+            paddingY={3}
+            height={{ base: "50px", lg: "40px" }}
+            width={{ base: "90%" }}
+          >
+            ADD CATEGORY
+          </Button>
+        </ButtonContainer>
+      ),
+    });
     fetchCategories();
   }, []);
 
@@ -99,17 +105,6 @@ const Categories = () => {
         </div>
       </div>
       <Container>
-        <ButtonContainer>
-          <Button
-            onClick={() => setIsAddCategoryDrawerOpen(true)}
-            bgColor="#08bd80"
-            textColor="#fff"
-            paddingY={3}
-          >
-            ADD CATEGORY
-          </Button>
-        </ButtonContainer>
-
         <CategoriesContainer>
           {!isLoading ? (
             categoriesArray.length > 0 &&

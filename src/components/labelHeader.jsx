@@ -8,20 +8,20 @@ const LabelHeader = ({ label, isBackButton, rightIcon = null }) => {
   const history = useHistory();
   return (
     <div className={styles.header}>
-      {isBackButton && (
-        <IconButton
-          aria-label="BackButton"
-          position="absolute"
-          left="20px"
-          colorScheme="white"
-          color="black"
-          onClick={() => history.goBack()}
-          icon={<ArrowBackIcon w={8} h={8} />}
-        />
-      )}
-
-      <h1 className={styles.label}>{label}</h1>
-      <div style={{ position: "absolute", right: "15px" }}> {rightIcon}</div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {isBackButton && (
+          <IconButton
+            marginRight="5px"
+            aria-label="BackButton"
+            colorScheme="white"
+            color="black"
+            onClick={() => history.goBack()}
+            icon={<ArrowBackIcon w={8} h={8} />}
+          />
+        )}
+        <h1 className={styles.label}>{label}</h1>
+      </div>
+      <div> {rightIcon}</div>
     </div>
   );
 };

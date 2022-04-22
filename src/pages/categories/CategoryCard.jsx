@@ -32,7 +32,7 @@ const CategoryCard = ({ item, setIsOpen, setCategoryDeleteId, userInfo }) => {
   return (
     <Card
       key={category}
-      onClick={() => history.push(`/app/products_category/${category}/${id}`)}
+      onClick={() => history.push(`/app/categories/products/${category}/${id}`)}
     >
       <ContentContainer>
         <Title>{category}</Title>

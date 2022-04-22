@@ -22,7 +22,7 @@ const Nux = ({ storeImage, notifToken, productCount, catCount }) => {
           }}
           subHeading="Your store image will be visible to your viewers"
           btnText="Add store image"
-          onClick={() => history.push("/app/edit_account")}
+          onClick={() => history.push("/app/settings/edit-store-info")}
         />
         <Task
           isLine={true}

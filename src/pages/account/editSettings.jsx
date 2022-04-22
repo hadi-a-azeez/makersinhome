@@ -8,6 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useHeader } from "utils/hooks/useHeader";
 import { getStoreInfoAPI, updateSettings } from "../../api/sellerAccountAPI";
 import { Container } from "../../components/Container";
 import styles from "../css/editAccount.module.css";
@@ -18,6 +19,7 @@ const EditAccount = () => {
   const [isFormError, setIsFormError] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
   const toast = useToast();
+  const { setHeader } = useHeader();
 
   const validateFields = (formAction) => {
     setIsFormError(false);
@@ -25,8 +27,7 @@ const EditAccount = () => {
   };
 
   useEffect(() => {
-    // setHeading("Edit Settings");
-    // setIsBackButton(true);
+    setHeader({ title: "Edit Settings", isBackButton: true });
     const getStoreInfo = async () => {
       setIsLoading(true);
       let {
