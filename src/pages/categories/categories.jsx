@@ -115,6 +115,7 @@ const Categories = () => {
             categoriesArray.length > 0 &&
             categoriesArray.map((item, index) => (
               <CategoryCard
+                key={item.id}
                 item={item}
                 setIsOpen={setIsOpen}
                 setCategoryDeleteId={setCategoryDeleteId}

@@ -211,7 +211,7 @@ const Navigation = () => {
       </ProfileContainer>
       <NavContainer>
         {navItems.map((item) => (
-          <NavItem {...item} />
+          <NavItem {...item} key={item.to} />
         ))}
       </NavContainer>
     </Container>
