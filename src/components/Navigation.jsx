@@ -13,7 +13,7 @@ import Placeholder from "../assets/person-outline.svg";
 import SettingsIcon from "../assets/settings-outline.svg";
 import SettingsIconFilled from "../assets/settings.svg";
 import { profileImagesRoot } from "../config";
-import { useUser } from "@/utils/hooks/useUser";
+import { useUser } from "utils/hooks/useUser";
 
 const Container = styled.div`
   ${tw`w-full bg-white lg:min-h-screen sm:h-auto z-10 border-t `}

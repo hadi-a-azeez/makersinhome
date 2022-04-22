@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import { useHeader } from "@/utils/hooks/useHeader";
+import { useHeader } from "utils/hooks/useHeader";
 import {
   deleteCategoryAPI,
   getCategoriesAPI,

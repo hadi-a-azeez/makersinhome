@@ -1,19 +1,19 @@
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
 import { Box, SimpleGrid, Stack, Text, useToast } from "@chakra-ui/react";
-import { getUserInfo } from "@/api/sellerAccountAPI";
-import { getCountAPI } from "@/api/sellerProductAPI";
-import MessagesIcon from "@/assets/chatbubble-ellipses.svg";
-import VisibleIcon from "@/assets/eye.svg";
-import CategoriesIcon from "@/assets/gridFilled.svg";
-import ProductsIcon from "@/assets/layersFilled.svg";
-import WhatsappLogo from "@/assets/logo-whatsapp.svg";
-import MetricsCard from "@/components/MetricsCard";
-import Nux from "@/components/nux/index";
-import PwaInstall from "@/components/PwaInstall";
+import { getUserInfo } from "api/sellerAccountAPI";
+import { getCountAPI } from "api/sellerProductAPI";
+import MessagesIcon from "assets/chatbubble-ellipses.svg";
+import VisibleIcon from "assets/eye.svg";
+import CategoriesIcon from "assets/gridFilled.svg";
+import ProductsIcon from "assets/layersFilled.svg";
+import WhatsappLogo from "assets/logo-whatsapp.svg";
+import MetricsCard from "components/MetricsCard";
+import Nux from "components/nux/index";
+import PwaInstall from "components/PwaInstall";
 import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
-import copyText from "@/utils/copyText";
-import { useHeader } from "@/utils/hooks/useHeader";
+import copyText from "utils/copyText";
+import { useHeader } from "utils/hooks/useHeader";
 import styles from "../css/dashboard.module.css";
 
 const Container = styled.div`

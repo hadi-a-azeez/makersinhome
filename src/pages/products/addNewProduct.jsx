@@ -23,7 +23,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import { useHeader } from "@/utils/hooks/useHeader";
+import { useHeader } from "utils/hooks/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import { uploadProductImageDO } from "../../api/imageUploadAPI";
 import { getCategoriesAPI } from "../../api/sellerCategoryAPI";

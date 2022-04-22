@@ -2,7 +2,7 @@ import { Button, Skeleton } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import { useHeader } from "@/utils/hooks/useHeader";
+import { useHeader } from "utils/hooks/useHeader";
 import { getProductsApi, updateProductStock } from "../../api/sellerProductAPI";
 import Empty from "../../assets/empty.svg";
 import { Container } from "../../components/Container";

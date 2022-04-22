@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useHeader } from "@/utils/hooks/useHeader";
+import { useHeader } from "utils/hooks/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import {
   getStoreInfoAPI,

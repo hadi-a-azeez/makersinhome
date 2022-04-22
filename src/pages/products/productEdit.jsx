@@ -30,7 +30,7 @@ import { useHistory } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import tw, { styled } from "twin.macro";
-import { useHeader } from "@/utils/hooks/useHeader";
+import { useHeader } from "utils/hooks/useHeader";
 import { v4 as uuidv4 } from "uuid";
 import {
   deleteProductImageDO,
