@@ -31,7 +31,6 @@ const AddNewCategoryDrawer = ({
   useEffect(() => {
     const getCategoriesData = async () => {
       const Data = await getParentCategoriesApi();
-      console.log(Data);
       setCategoriesArray(Data.data.data);
     };
     getCategoriesData();

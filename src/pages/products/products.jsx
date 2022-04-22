@@ -58,7 +58,6 @@ const Products = () => {
     const getProductsData = async () => {
       const productsData = await getProductsApi("all");
       setProductsArray(productsData?.data?.data);
-      console.log(productsData);
       setIsLoading(false);
     };
     getProductsData();
@@ -121,6 +120,7 @@ const Products = () => {
           {!isLoading ? (
             productsArray.map((item) => (
               <ProductCard
+                key={item.id}
                 title={item.product_name}
                 image={getProductImage(item.products_images)}
                 price={getProductPrice(item)}
