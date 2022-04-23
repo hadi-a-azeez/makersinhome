@@ -60,14 +60,14 @@ const App = () => {
               <Route path="/app/dashboard" component={Dashboard} />
 
               <Route exact path="/app/products" component={Products} />
-              <Route path="/app/products/:id" component={ProductEdit} />
-              <Route
+              <Route exact path="/app/products/:id" component={ProductEdit} />
+              <Route exact
                 path="/app/products/add/:catogory?"
                 component={AddNewProduct}
               />
               <Route path="/app/links" component={Links} />
               <Route path="/app/instagram" component={InstagramImport} />
-              <Route
+              <Route exact
                 path="/app/categories/products/:cat_name/:id"
                 component={ProductsByCategory}
               />
