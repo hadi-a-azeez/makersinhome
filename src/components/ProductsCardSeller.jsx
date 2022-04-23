@@ -79,7 +79,7 @@ const ProductCard = ({
   };
 
   return (
-    <Link key={id} to={`/app/products/${id}`} className="product-card">
+    <Link key={id} to={`/app/products/edit/${id}`} className="product-card">
       <Image src={image} alt="product" />
       <ContentContainer>
         <Title>{title}</Title>
