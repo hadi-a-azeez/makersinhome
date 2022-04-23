@@ -62,7 +62,7 @@ const App = () => {
               <Route exact path="/app/products" component={Products} />
             <Route exact
 
-                path="/app/products/add/:catogory?"
+                path="/app/add_product/:catogory?"
 
                 component={AddNewProduct}
 
