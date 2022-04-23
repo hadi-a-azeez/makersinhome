@@ -42,7 +42,7 @@ const Products = () => {
       rightIcon: (
         <ButtonContainer>
           <Button
-            onClick={() => history.push("/app/products/add")}
+            onClick={() => history.push("/app/add_product")}
             bgColor="#08bd80"
             textColor="#fff"
             paddingY={3}
