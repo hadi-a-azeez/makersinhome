@@ -274,7 +274,7 @@ const ProductEdit = (props) => {
     await deleteProductAPI(productId);
     setIsLoading(false);
     await deleteProductImageDO(product.products_images);
-    history.push("/app/products/All%20Products/all");
+    history.push("/app/products");
   };
 
   return (
