@@ -156,7 +156,7 @@ const AddNewProduct = (props) => {
       position: "bottom",
     });
     //add delay to model Completed product adding
-    setTimeout(() => history.push("/app/products/All%20Products/all"), 2000);
+    setTimeout(() => history.push("/app/products"), 2000);
   };
 
   const compressImage = async (event) => {
