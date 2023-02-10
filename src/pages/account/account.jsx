@@ -104,7 +104,7 @@ const Account = () => {
             className={styles.nav_item}
             onClick={() =>
               window.location.replace(
-                `https://api.whatsapp.com/send?phone=916282672467&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
+                `https://api.whatsapp.com/send?phone=917012179326&text=Hi%20i%20have%20some%20doubts%20about%20Saav%20%E2%9C%8B`
               )
             }
           >
@@ -113,7 +113,7 @@ const Account = () => {
           </div>
           <div
             className={styles.nav_item}
-            onClick={() => (window.location = "tel:9496742190")}
+            onClick={() => (window.location = "tel:7012179326")}
           >
             <img src={ContactUs} alt="w" />
             <h1>Call Us</h1>
