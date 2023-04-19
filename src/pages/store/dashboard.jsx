@@ -1,5 +1,20 @@
 import { CopyIcon, LockIcon } from "@chakra-ui/icons";
-import { Box, SimpleGrid, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Alert,
+  Box,
+  SimpleGrid,
+  Stack,
+  Text,
+  useToast,
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalOverlay,
+} from "@chakra-ui/react";
 import { getUserInfo } from "api/sellerAccountAPI";
 import { getCountAPI } from "api/sellerProductAPI";
 import MessagesIcon from "assets/chatbubble-ellipses.svg";
@@ -27,10 +42,18 @@ const Dashboard = () => {
   const [isTasksCompleted, setIsTasksCompleted] = useState(true);
   const { setHeader } = useHeader();
   const toast = useToast();
+  const premiumStores = [76, 438, 468];
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const shareToWhatsapp = () => {
     window.location.replace(
       `https://api.whatsapp.com/send?text=%F0%9F%91%8B%20Hello%0AWe%20have%20launched%20our%20online%20store%20${userInfo.account_store}.%20Now%20you%20can%20order%20products%20from%20us%20using%20this%20link%3A%20%0Ahttps://saav.in/store/${userInfo.account_store_link}%0A%0AFeel%20free%20to%20contact%20us%20for%20any%20help %20at%20${userInfo.account_whatsapp}.%20%0AThank%20You%F0%9F%98%8D%0A%0Amade%20using%20Saav.in`
+    );
+  };
+
+  const contactSupport = () => {
+    window.location.replace(
+      `https://api.whatsapp.com/send/?phone=917012179326&text=Hi,%20I%20need%20to%20make%20my%20account%20premium%20in%20saav.`
     );
   };
 
@@ -51,6 +74,7 @@ const Dashboard = () => {
       ) {
         setIsTasksCompleted(false);
       } else setIsTasksCompleted(true);
+      console.log(responseUser?.data?.data);
     };
     getDataAll();
   }, []);
@@ -228,6 +252,87 @@ const Dashboard = () => {
             )}
           </Stack>
         </div>
+        {!premiumStores.includes(userInfo?.id) && (
+          <>
+            <Alert status="error" w="90%" marginTop={6}>
+              <Box>
+                <p
+                  style={{
+                    margin: 0,
+                    fontWeight: 600,
+                  }}
+                >
+                  Attention Users!!
+                </p>
+                <p
+                  style={{
+                    margin: 0,
+                  }}
+                >
+                  Starting next week, your products will no longer be visible on
+                  the platform unless you subscribe to our paid plan. The
+                  subscription fee for the platform is INR 1188/- per year.
+                  Please make sure to pay your subscription fee before next week
+                  to continue using Saav. Thank you for your understanding and
+                  support. For subscribing or for any support query contact our
+                  support
+                </p>
+                <button
+                  className={styles.btn_whatsapp}
+                  onClick={contactSupport}
+                  style={{ marginTop: "5px" }}
+                >
+                  <img
+                    src={WhatsappLogo}
+                    alt="w"
+                    className={styles.whatsappicon}
+                  />
+                  Contact Us
+                </button>
+              </Box>
+            </Alert>
+            <Modal
+              isCentered
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <ModalOverlay
+                bg="blackAlpha.300"
+                backdropFilter="blur(10px) hue-rotate(90deg)"
+              />
+              <ModalContent w="95%">
+                <ModalHeader>Attention Users!</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Text>
+                    Starting next week, your products will no longer be visible
+                    on the platform unless you subscribe to our paid plan. The
+                    subscription fee for the platform is INR 1188/- per year.
+                    Please make sure to pay your subscription fee before next
+                    week to continue using Saav. Thank you for your
+                    understanding and support. For subscribing or for any
+                    support query contact us.
+                  </Text>
+                </ModalBody>
+                <ModalFooter>
+                  <button
+                    className={styles.btn_whatsapp}
+                    onClick={contactSupport}
+                    style={{ marginRight: "5px" }}
+                  >
+                    <img
+                      src={WhatsappLogo}
+                      alt="w"
+                      className={styles.whatsappicon}
+                    />
+                    Contact Us
+                  </button>
+                  <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </>
+        )}
       </Container>
     </>
   );
