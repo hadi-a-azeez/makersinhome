@@ -42,7 +42,7 @@ const Dashboard = () => {
   const [isTasksCompleted, setIsTasksCompleted] = useState(true);
   const { setHeader } = useHeader();
   const toast = useToast();
-  const premiumStores = [76, 438, 468];
+  const premiumStores = [76, 438, 468, 462];
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const shareToWhatsapp = () => {
