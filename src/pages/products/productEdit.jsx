@@ -845,7 +845,6 @@ const ProductEdit = (props) => {
                   <Stack direction="row" mt="10px">
                     <Box>
                       <FormLabel>Price</FormLabel>
-
                       <Input
                         type="number"
                         value={newVariantPrice}
@@ -868,7 +867,7 @@ const ProductEdit = (props) => {
                       </Box>
                     )}
                   </Stack>
-                  <FormLabel> Stock Count</FormLabel>
+                  <FormLabel>Stock Count</FormLabel>
                   <Input
                     mb="10px"
                     type="number"
